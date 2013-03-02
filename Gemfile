@@ -3,5 +3,6 @@ source 'https://rubygems.org'
 gem "guard-ruby"
 gem 'rb-fsevent'
 
+gem "cocoapods-core"
 gem "cocoapods-downloader"
-gem "aws-sdk"
+gem 'aws-s3'
