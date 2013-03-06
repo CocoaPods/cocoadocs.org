@@ -24,21 +24,38 @@ def command command_to_run
   system command_to_run
 end
 
+# A rough function for getting the contributors
+
+def contributors_to_spec spec
+  return spec.authors if spec.authors.is_a? String
+  return spec.authors.join(" ") if spec.authors.is_a? Array
+  return spec.authors.keys.join(" ") if spec.authors.is_a? Hash
+end
+
 # Create a docset based on the spec
 
 def create_docset_for_spec spec, from, to  
-  docset_command = []
-  docset_command << %Q[appledoc  --create-html --keep-intermediate-files]
-  docset_command << "--project-name #{spec.name}"
-  docset_command << "--project-company test"
-  docset_command << "--no-install-docset"
-  docset_command << "--company-id com.#{spec.name.downcase}.#{spec.version.to_s.downcase}"
-  docset_command << "--output #{to}"
-  docset_command << "--templates ./appledoc_templates"
-  docset_command << "--verbose 6"
-  docset_command << from
+  version = spec.version.to_s.downcase
+  id = spec.name.downcase
+  
+  docset_command = [
+    "appledoc",
+    "--create-html --keep-intermediate-files",
+    "--project-name #{spec.name}",
+    "--project-company '#{contributors_to_spec(spec)}'", 
+    "--no-install-docset", 
+    "--company-id com.#{id}.#{version}",
+    "--output #{to}",
+    "--templates ./appledoc_templates",
+    "--verbose 3",
+    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{version}/ATOM.xml",
+    "--docset-feed-name #{spec.name}",
+    from
+  ]
+
   command docset_command.join(' ')
-  puts docset_command.join(' ')
+#  puts docset_command.join(' ')
+
 end
 
 # Upload the docsets folder to s3

@@ -39,7 +39,7 @@ a:hover, a:hover code {
 }
 
 h2 {
-	border-bottom: 1px solid #8391A8;
+	border-bottom: 1px solid #a87571;
 	color: #5e3e00;
 	font-size: 187%;
 	font-weight: normal;
@@ -182,7 +182,7 @@ th {
 
 #top_header #title {
 	background: url("../img/title_background.png") repeat-x 0 0 #8A98A9;
-	border-bottom: 1px solid #B6B6B6;
+	border-bottom: 1px solid #a47123;
 	height: 25px;
 	overflow: hidden;
 }
@@ -258,7 +258,7 @@ li#jumpto_button select {
 }
 
 #tocContainer {
-	background-color: #f6f7d9;
+	background-color: #F6F7EC;
 	border-top: 1px solid #4f3f21;
 	bottom: 0;
 	display: none;
@@ -399,8 +399,8 @@ li#jumpto_button select {
 .subtitle {
 	font-weight: normal;
 	font-size: 180%;
-	color: #3C4C6C;
-	border-bottom: 1px solid #5088C5;
+	color: #723d2a;
+	border-bottom: 1px solid #ca8a29;
 }
 
 .subsubtitle {
@@ -410,14 +410,14 @@ li#jumpto_button select {
 }
 
 .note {
-	border: 1px solid #5088C5;
+	border: 1px solid #ca8a29;
 	background-color: white;
 	margin: 1.667em 0 1.75em 0;
 	padding: 0 .667em .083em .750em;
 }
 
 .warning {
-	border: 1px solid #5088C5;
+	border: 1px solid #c5864b;
 	background-color: #F0F3F7;
 	margin-bottom: 0.5em;
 	padding: 0.3em 0.8em;
@@ -425,13 +425,13 @@ li#jumpto_button select {
 
 .bug {
 	border: 1px solid #000;
-	background-color: #ffffcc;
+	background-color: #ffc;
 	margin-bottom: 0.5em;
 	padding: 0.3em 0.8em;
 }
 
 .deprecated {
-	color: #F60425;
+	color: #f63c29;
 }
 
 /* @end */
@@ -454,12 +454,12 @@ li#jumpto_button select {
 
 .section-specification table {
     margin-bottom: 0em;
-	border-top: 1px solid #d6e0e5;
+	border-top: 1px solid #e5d7d9;
 }
 
 .section-specification td {
 	vertical-align: top;
-	border-bottom: 1px solid #d6e0e5;
+	border-bottom: 1px solid #e5ccd2;
 	border-left-width: 0px;
 	border-right-width: 0px;
 	border-top-width: 0px;
@@ -495,7 +495,7 @@ span.tooltip span.tooltip {
 	display: none;
 	padding: 0.3em;
 	border: 1px solid #aaa;
-	background-color: #fdfec8;
+	background-color: #feebc5;
 	color: #000;
 	text-align: left;
 }
