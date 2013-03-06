@@ -7,22 +7,12 @@ require "fileutils"
 require 'aws/s3'
 
 
-puts "\n started"
-
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
-@log_all_terminal_commands = true;
+@log_all_terminal_commands = false;
 
 #constrain all downloads etc into one subfolder
 @active_folder_name = "activity"
 @active_folder = @current_dir + "/" + @active_folder_name
-
-def command command_to_run
-  if @log_all_terminal_commands
-    puts command_to_run
-  end
-  
-  system command_to_run
-end
 
 # A rough function for getting the contributors
 
@@ -40,22 +30,23 @@ def create_docset_for_spec spec, from, to
   
   docset_command = [
     "appledoc",
-    "--create-html --keep-intermediate-files",
-    "--project-name #{spec.name}",
-    "--project-company '#{contributors_to_spec(spec)}'", 
-    "--no-install-docset", 
-    "--company-id com.#{id}.#{version}",
-    "--output #{to}",
-    "--templates ./appledoc_templates",
-    "--verbose 3",
+    "--create-html",                                      # ensure we have a version for hosting
+    "--keep-intermediate-files",                          # won't delete HTML
+    "--project-name #{spec.name}",                        # name in top left
+    "--project-company '#{contributors_to_spec(spec)}'",  # name in top right
+    "--project-version #{version}",                       # project version
+    "--no-install-docset",                                # don't make a duplicate
+    "--publish-docset",                                   # create an ATOM file??
+    "--company-id com.#{id}.#{version}",                  # the id for the 
+    "--templates ./appledoc_templates",                   # use the custom template
+    "--verbose 3",                                        # give some useful logs
     "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{version}/ATOM.xml",
     "--docset-feed-name #{spec.name}",
+    "--output #{to}",                                     # where should we throw stuff
     from
   ]
 
   command docset_command.join(' ')
-#  puts docset_command.join(' ')
-
 end
 
 # Upload the docsets folder to s3
@@ -104,8 +95,7 @@ def update_specs_repo
   unless File.exists? repo
     command "git clone git@github.com:CocoaPods/Specs.git"
   else
-    # whilst offline
-#    run_git_command_in_specs "pull origin master"
+    run_git_command_in_specs "pull origin master"
   end  
 end
 
@@ -121,6 +111,8 @@ def specs_for_git_diff start_commit, end_commit
   end.join
 end
 
+# We have to run commands from a different git root if we want to do anything in the Specs repo
+
 def run_git_command_in_specs git_command
    `git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}`
 end
@@ -130,19 +122,31 @@ end
 def handle_webhook webhook_payload
   before = webhook_payload["before"]
   after = webhook_payload["after"]
-  get_diff_log before, after
+  updated_specs = specs_for_git_diff before, after
+
+  updated_specs.lines.each do |spec_filepath|
+    create_and_upload_spec "/Specs/" + spec_filepath.strip
+  end
+  
+  puts "updated ---- \n" + updated_specs
 end
+
+# allow logging of terminal commands
+
+def command command_to_run
+  if @log_all_terminal_commands
+    puts command_to_run
+  end
+  
+  system command_to_run
+end
+
+# -------------------------------------------------------------------------------------------------
+# App example data. Instead of using the webhook, here's two 
 
 puts ""
-
-update_specs_repo
-updated_specs = specs_for_git_diff "dbaa76f854357f73934ec609965dbd77022c30ac", "f09ff7dcb2ef3265f1560563583442f99d5383de"
-
-updated_specs.lines.each do |spec_filepath|
-  create_and_upload_spec "/Specs/" + spec_filepath.strip
-end
+handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # choo choo
 # upload_docsets_to_s3
 
-puts "updated ---- \n" + updated_specs
