@@ -6,22 +6,39 @@ require 'json'
 require "fileutils"
 require 'aws/s3'
 
+
 puts "\n started"
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
+@log_all_terminal_commands = true;
+
+#constrain all downloads etc into one subfolder
+@active_folder_name = "activity"
+@active_folder = @current_dir + "/" + @active_folder_name
+
+def command command_to_run
+  if @log_all_terminal_commands
+    puts command_to_run
+  end
+  
+  system command_to_run
+end
 
 # Create a docset based on the spec
 
-def create_docset_for_spec spec, location  
+def create_docset_for_spec spec, from, to  
   docset_command = []
   docset_command << %Q[appledoc  --create-html --keep-intermediate-files]
   docset_command << "--project-name #{spec.name}"
   docset_command << "--project-company test"
   docset_command << "--no-install-docset"
   docset_command << "--company-id com.#{spec.name.downcase}.#{spec.version.to_s.downcase}"
-  docset_command << "--output #{ location.clone.sub "download", "docsets" }"
-  docset_command << location
-  system docset_command.join(' ')
+  docset_command << "--output #{to}"
+  docset_command << "--templates ./appledoc_templates"
+  docset_command << "--verbose 6"
+  docset_command << from
+  command docset_command.join(' ')
+  puts docset_command.join(' ')
 end
 
 # Upload the docsets folder to s3
@@ -33,7 +50,7 @@ def upload_docsets_to_s3
   upload_command << "s3cmd sync"
   upload_command << "--recursive --skip-existing  --acl-public"
   upload_command << "docsets s3://cocoadocs.org/"
-  system upload_command.join(' ')
+  command upload_command.join(' ')
 end
 
 # Use CocoaPods Downloader to download to the download folder
@@ -48,42 +65,47 @@ end
 # then upload to s3
 
 def create_and_upload_spec filepath
-  @spec = eval File.open(@current_dir + filepath).read 
+  @spec = eval File.open(@active_folder + filepath).read 
   
-  download_location = @current_dir + "/download/#{@spec.name}/#{@spec.version}/"
-  docset_location = @current_dir + "/docsets/#{@spec.name}/#{@spec.version}/"
-  cache_path = @current_dir + "/download_cache"
+  download_location = @active_folder + "/download/#{@spec.name}/#{@spec.version}/"
+  docset_location = @active_folder + "/docsets/#{@spec.name}/#{@spec.version}/"
+  cache_path = @active_folder + "/download_cache"
   
   unless File.directory? download_location
     download_podfile_files @spec, download_location, cache_path
   end
 
   unless File.directory? docset_location
-    create_docset_for_spec @spec, download_location
+    create_docset_for_spec @spec, download_location, docset_location
   end
 end
 
-# Update or clone  
+# Update or clone Cocoapods/Specs
 
 def update_specs_repo
-  repo = @current_dir + "/Specs"
+  repo = @active_folder + "/Specs"
   unless File.exists? repo
-    `git clone git@github.com:CocoaPods/Specs.git`
+    command "git clone git@github.com:CocoaPods/Specs.git"
   else
-    `git --git-dir=./Specs/.git pull origin master;`
+    # whilst offline
+#    run_git_command_in_specs "pull origin master"
   end  
 end
 
 # returns an array from the diff log for the commit changes
 
-def get_diff_log start_commit, end_commit
-  diff_log = `git --git-dir=./Specs/.git diff --name-status #{start_commit} #{end_commit}`
+def specs_for_git_diff start_commit, end_commit
+  diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
   diff_log.lines.map do |line|
 
     line.slice!(0).strip!
     line.gsub! /\t/, ''
 
   end.join
+end
+
+def run_git_command_in_specs git_command
+   `git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}`
 end
 
 # get started from a webhook
@@ -96,17 +118,14 @@ end
 
 puts ""
 
-podfile_file_path = @current_dir + "/example/AFNetworking.podspec"
-
-# create_and_upload_spec podfile_file_path
 update_specs_repo
-updated_specs = get_diff_log "dbaa76f854357f73934ec609965dbd77022c30ac", "f09ff7dcb2ef3265f1560563583442f99d5383de"
+updated_specs = specs_for_git_diff "dbaa76f854357f73934ec609965dbd77022c30ac", "f09ff7dcb2ef3265f1560563583442f99d5383de"
 
 updated_specs.lines.each do |spec_filepath|
   create_and_upload_spec "/Specs/" + spec_filepath.strip
 end
 
-upload_docsets_to_s3
+# choo choo
+# upload_docsets_to_s3
 
-puts updated_specs
-puts "done"
+puts "updated ---- \n" + updated_specs
