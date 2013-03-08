@@ -1,10 +1,11 @@
 require 'cocoapods-downloader'
 require 'cocoapods-core'
+require 'cocoapods'
+
 require 'ostruct'
 require 'yaml'
 require 'json'
 require "fileutils"
-require 'aws/s3'
 
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
@@ -57,8 +58,9 @@ def upload_docsets_to_s3
   upload_command = []
   upload_command << "s3cmd sync"
   upload_command << "--recursive --skip-existing  --acl-public"
-  upload_command << "docsets s3://cocoadocs.org/"
-  command upload_command.join(' ')
+  upload_command << "#{@active_folder_name}/docsets/ s3://cocoadocs.org/"
+
+  puts upload_command.join(' ')
 end
 
 # Use CocoaPods Downloader to download to the download folder
@@ -83,9 +85,22 @@ def create_and_upload_spec filepath
     download_podfile_files @spec, download_location, cache_path
   end
 
-  unless File.directory? docset_location
-    create_docset_for_spec @spec, download_location, docset_location
-  end
+  #unless File.directory? docset_location
+    apply_podfile_cropping @spec, download_location
+ #   create_docset_for_spec @spec, download_location, docset_location
+#  end
+end
+
+
+def apply_podfile_cropping spec, download_location
+  
+  sandbox = Pod::Sandbox.new( download_location )
+  pathlist = Pod::Sandbox::PathList.new(Pathname.new(download_location))
+  
+  
+  documentation = Pod::Generator::Documentation.new( sandbox, spec, pathlist)
+  
+  puts documentation.public_headers
 end
 
 # Update or clone Cocoapods/Specs
@@ -128,7 +143,7 @@ def handle_webhook webhook_payload
     create_and_upload_spec "/Specs/" + spec_filepath.strip
   end
   
-  puts "updated ---- \n" + updated_specs
+ # puts "updated ---- \n" + updated_specs
 end
 
 # allow logging of terminal commands
@@ -148,5 +163,4 @@ puts ""
 handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # choo choo
-# upload_docsets_to_s3
-
+upload_docsets_to_s3

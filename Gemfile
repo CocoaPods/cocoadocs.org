@@ -5,4 +5,4 @@ gem 'rb-fsevent'
 
 gem "cocoapods-core"
 gem "cocoapods-downloader"
-gem 'aws-s3'
+gem "cocoapods", "0.17.0.rc2"
