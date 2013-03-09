@@ -8,6 +8,9 @@ require 'json'
 require "fileutils"
 require "shellwords"
 
+require 'tilt'
+require "slim"
+
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 @log_all_terminal_commands = false;
 
@@ -61,7 +64,8 @@ def create_docset_for_spec spec, from, to
   system docset_command.join(' ')
 
   # Move the html out of the Documents folder into one called html
-  system `cp -R #{to}docset/Contents/Resources/Documents #{to}html`
+  docset_location = "#{to}/#{cocoadocs_id}.#{spec.name}.docset"
+  system `cp -R #{docset_location}/Contents/Resources/Documents #{to}html`
 end
 
 # Upload the docsets folder to s3
@@ -181,11 +185,53 @@ def command command_to_run
   system command_to_run
 end
 
+
+def create_index_page
+   specs = create_docsets_array
+   
+   template = Tilt.new('views/index.slim')
+   html = template.render( :specs => specs )
+   index_path = "#{@active_folder}/html/index.html"
+   
+   FileUtils.mkdir_p(File.dirname(index_path))
+   if File.exists? index_path
+     File.unlink index_path
+   end
+
+   File.open(index_path, "wb") { |f| f.write html }
+end
+
+def create_docsets_array
+  specs = []
+  docsets_dir = "#{@active_folder}/docsets/"
+  
+  Dir.foreach docsets_dir do |podspec_folder|
+    next if podspec_folder == '.' or podspec_folder == '..'    
+   
+    spec = { :versions => []}
+    
+    
+    Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
+      next if version == '.' or version == '..'
+      spec[:versions] << version
+    end
+    
+    podspec_path = "/Specs/#{podspec_folder}/#{spec[:versions].first}/#{podspec_folder}.podspec"
+    podspec = eval File.open(@active_folder + podspec_path).read 
+    spec[:spec] = podspec
+    
+    specs << spec
+  end
+  specs
+end
+
 # -------------------------------------------------------------------------------------------------
 # App example data. Instead of using the webhook, here's two 
 
-puts ""
-handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
+puts "\n\n\n"
+#handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # choo choo
 # upload_docsets_to_s3
+
+create_index_page
