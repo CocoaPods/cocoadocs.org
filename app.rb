@@ -28,6 +28,7 @@ end
 def create_docset_for_spec spec, from, to  
   version = spec.version.to_s.downcase
   id = spec.name.downcase
+  cocoadocs_id = "cocoadocs"
   
   headers = headers_for_spec_at_location spec, from
   headers.map! { |header| Shellwords.escape header }
@@ -39,9 +40,9 @@ def create_docset_for_spec spec, from, to
     "--project-version #{version}",                        # project version
     "--no-install-docset",                                 # don't make a duplicate
     "--publish-docset",                                    # create an ATOM file??
-    "--company-id com.#{id}.#{version}",                   # the id for the 
+    "--company-id #{cocoadocs_id}",                              # the id for the 
     "--templates ./appledoc_templates",                    # use the custom template
-    "--verbose 5",                                         # give some useful logs
+    "--verbose 4",                                         # give some useful logs
 
     "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
     "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
@@ -57,13 +58,10 @@ def create_docset_for_spec spec, from, to
   ]
 
   puts docset_command.join(' ')
-
   system docset_command.join(' ')
 
   # Move the html out of the Documents folder into one called html
   system `cp -R #{to}docset/Contents/Resources/Documents #{to}html`
-  
-  puts "\n\n\n"
 end
 
 # Upload the docsets folder to s3
@@ -71,12 +69,14 @@ end
 def upload_docsets_to_s3
   puts "Uploading docsets folder"
   
-  upload_command = []
-  upload_command << "s3cmd sync"
-  upload_command << "--recursive --skip-existing  --acl-public"
-  upload_command << "#{@active_folder_name}/docsets/ s3://cocoadocs.org/"
+  upload_command = [
+    "s3cmd sync",
+    "--recursive --skip-existing  --acl-public",
+    "#{@active_folder_name}/docsets s3://cocoadocs.org/"
+  ]
 
   puts upload_command.join(' ')
+  system upload_command.join(' ')
 end
 
 # Use CocoaPods Downloader to download to the download folder
@@ -91,24 +91,27 @@ end
 # then upload to s3
 
 def create_and_upload_spec filepath
-  @spec = eval File.open(@active_folder + filepath).read 
+  spec = eval File.open(@active_folder + filepath).read 
   
   puts "----------------------"
-  puts "Looking at #{@spec.name}"
+  puts "\n Looking at #{spec.name} #{spec.version} \n"
+  puts "----------------------"
   
-  download_location = @active_folder + "/download/#{@spec.name}/#{@spec.version}/"
-  docset_location = @active_folder + "/docsets/#{@spec.name}/#{@spec.version}/"
+  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/"
+  docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
   cache_path = @active_folder + "/download_cache"
   
-  unless File.directory? download_location
-    download_podfile_files @spec, download_location, cache_path
-  end
 
-  #unless File.directory? docset_location
-    create_docset_for_spec @spec, download_location, docset_location
-#  end
+  unless File.exists? download_location
+    download_podfile_files spec, download_location, cache_path
+  end
+  
+  create_docset_for_spec spec, download_location, docset_location
+
+  puts "\n\n\n"
 end
 
+# Use cocoapods to get the header files for a specific spec
 
 def headers_for_spec_at_location spec, download_location
   sandbox = Pod::Sandbox.new( download_location )
@@ -162,15 +165,10 @@ def handle_webhook webhook_payload
   before = webhook_payload["before"]
   after = webhook_payload["after"]
   updated_specs = specs_for_git_diff before, after
- 
 
   updated_specs.lines.each_with_index do |spec_filepath, index|
-    if index == 2
-      create_and_upload_spec "/Specs/" + spec_filepath.strip
-    end
+    create_and_upload_spec "/Specs/" + spec_filepath.strip
   end
-
- # puts "updated ---- \n" + updated_specs
 end
 
 # allow logging of terminal commands
@@ -190,4 +188,4 @@ puts ""
 handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # choo choo
-upload_docsets_to_s3
+# upload_docsets_to_s3
