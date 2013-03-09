@@ -6,7 +6,7 @@ require 'ostruct'
 require 'yaml'
 require 'json'
 require "fileutils"
-
+require "shellwords"
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 @log_all_terminal_commands = false;
@@ -29,25 +29,41 @@ def create_docset_for_spec spec, from, to
   version = spec.version.to_s.downcase
   id = spec.name.downcase
   
+  headers = headers_for_spec_at_location spec, from
+  headers.map! { |header| Shellwords.escape header }
+  
   docset_command = [
     "appledoc",
-    "--create-html",                                      # ensure we have a version for hosting
-    "--keep-intermediate-files",                          # won't delete HTML
-    "--project-name #{spec.name}",                        # name in top left
-    "--project-company '#{contributors_to_spec(spec)}'",  # name in top right
-    "--project-version #{version}",                       # project version
-    "--no-install-docset",                                # don't make a duplicate
-    "--publish-docset",                                   # create an ATOM file??
-    "--company-id com.#{id}.#{version}",                  # the id for the 
-    "--templates ./appledoc_templates",                   # use the custom template
-    "--verbose 3",                                        # give some useful logs
-    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{version}/ATOM.xml",
-    "--docset-feed-name #{spec.name}",
-    "--output #{to}",                                     # where should we throw stuff
-    from
+    "--project-name #{spec.name}",                         # name in top left
+    "--project-company '#{contributors_to_spec(spec)}'",   # name in top right
+    "--project-version #{version}",                        # project version
+    "--no-install-docset",                                 # don't make a duplicate
+    "--publish-docset",                                    # create an ATOM file??
+    "--company-id com.#{id}.#{version}",                   # the id for the 
+    "--templates ./appledoc_templates",                    # use the custom template
+    "--verbose 5",                                         # give some useful logs
+
+    "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
+    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
+    "--docset-feed-name #{spec.name}",                    
+
+    "--keep-undocumented-objects",                         # not everyone will be documenting
+    "--keep-undocumented-members",                         # so we should at least show something
+    "--search-undocumented-doc",
+    
+    "--index-desc #{from}/#{spec.name}/README.md",                      # if there's a readme, throw it in
+    "--output #{to}",                                      # where should we throw stuff
+    *headers
   ]
 
-  command docset_command.join(' ')
+  puts docset_command.join(' ')
+
+  system docset_command.join(' ')
+
+  # Move the html out of the Documents folder into one called html
+  system `cp -R #{to}docset/Contents/Resources/Documents #{to}html`
+  
+  puts "\n\n\n"
 end
 
 # Upload the docsets folder to s3
@@ -77,6 +93,9 @@ end
 def create_and_upload_spec filepath
   @spec = eval File.open(@active_folder + filepath).read 
   
+  puts "----------------------"
+  puts "Looking at #{@spec.name}"
+  
   download_location = @active_folder + "/download/#{@spec.name}/#{@spec.version}/"
   docset_location = @active_folder + "/docsets/#{@spec.name}/#{@spec.version}/"
   cache_path = @active_folder + "/download_cache"
@@ -86,21 +105,26 @@ def create_and_upload_spec filepath
   end
 
   #unless File.directory? docset_location
-    apply_podfile_cropping @spec, download_location
- #   create_docset_for_spec @spec, download_location, docset_location
+    create_docset_for_spec @spec, download_location, docset_location
 #  end
 end
 
 
-def apply_podfile_cropping spec, download_location
-  
+def headers_for_spec_at_location spec, download_location
   sandbox = Pod::Sandbox.new( download_location )
-  pathlist = Pod::Sandbox::PathList.new(Pathname.new(download_location))
+  pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
+
+  headers = []
   
+  spec.available_platforms.each do |platform|
+    installer = Pod::Installer::PodSourceInstaller.new(sandbox, {platform => [spec]} )
+    sources = installer.send(:used_files).delete_if do |path|
+        !path.include? ".h"
+    end
+    headers += sources
+  end
   
-  documentation = Pod::Generator::Documentation.new( sandbox, spec, pathlist)
-  
-  puts documentation.public_headers
+  headers.uniq
 end
 
 # Update or clone Cocoapods/Specs
@@ -138,11 +162,14 @@ def handle_webhook webhook_payload
   before = webhook_payload["before"]
   after = webhook_payload["after"]
   updated_specs = specs_for_git_diff before, after
+ 
 
-  updated_specs.lines.each do |spec_filepath|
-    create_and_upload_spec "/Specs/" + spec_filepath.strip
+  updated_specs.lines.each_with_index do |spec_filepath, index|
+    if index == 2
+      create_and_upload_spec "/Specs/" + spec_filepath.strip
+    end
   end
-  
+
  # puts "updated ---- \n" + updated_specs
 end
 
