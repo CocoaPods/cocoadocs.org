@@ -153,6 +153,8 @@ def specs_for_git_diff start_commit, end_commit
 
     line.slice!(0).strip!
     line.gsub! /\t/, ''
+    
+    puts line
 
   end.join
 end
@@ -160,6 +162,7 @@ end
 # We have to run commands from a different git root if we want to do anything in the Specs repo
 
 def run_git_command_in_specs git_command
+  puts "git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}"
    `git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}`
 end
 
@@ -168,6 +171,8 @@ end
 def handle_webhook webhook_payload
   before = webhook_payload["before"]
   after = webhook_payload["after"]
+  
+  update_specs_repo
   updated_specs = specs_for_git_diff before, after
 
   updated_specs.lines.each_with_index do |spec_filepath, index|
@@ -201,6 +206,12 @@ def create_index_page
    File.open(index_path, "wb") { |f| f.write html }
 end
 
+def move_public_items
+  resources_dir = "#{@active_folder}/html/resources/"
+  `rm #{resources_dir}/*`
+  `cp public/* #{resources_dir}`
+end
+
 def create_docsets_array
   specs = []
   docsets_dir = "#{@active_folder}/docsets/"
@@ -209,7 +220,6 @@ def create_docsets_array
     next if podspec_folder == '.' or podspec_folder == '..'    
    
     spec = { :versions => []}
-    
     
     Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
       next if version == '.' or version == '..'
@@ -229,9 +239,15 @@ end
 # App example data. Instead of using the webhook, here's two 
 
 puts "\n\n\n"
-#handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
+
+# short!
+# handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
+
+# not short!
+handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
 
 # choo choo
 # upload_docsets_to_s3
 
 create_index_page
+move_public_items
