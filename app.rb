@@ -33,7 +33,7 @@ def create_docset_for_spec spec, from, to
   id = spec.name.downcase
   cocoadocs_id = "cocoadocs"
   
-  headers = headers_for_spec_at_location spec, from
+  headers = headers_for_spec_at_location spec
   headers.map! { |header| Shellwords.escape header }
   
   docset_command = [
@@ -45,7 +45,7 @@ def create_docset_for_spec spec, from, to
     "--publish-docset",                                    # create an ATOM file??
     "--company-id #{cocoadocs_id}",                              # the id for the 
     "--templates ./appledoc_templates",                    # use the custom template
-    "--verbose 4",                                         # give some useful logs
+    "--verbose 3",                                         # give some useful logs
 
     "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
     "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
@@ -94,18 +94,17 @@ end
 # Take a spec path and download details, create the docset
 # then upload to s3
 
-def create_and_upload_spec filepath
-  spec = eval File.open(@active_folder + filepath).read 
+def create_and_document_spec filepath  
+  spec = eval File.open(filepath).read 
   
   puts "----------------------"
   puts "\n Looking at #{spec.name} #{spec.version} \n"
   puts "----------------------"
   
-  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/"
+  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
   docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
   cache_path = @active_folder + "/download_cache"
   
-
   unless File.exists? download_location
     download_podfile_files spec, download_location, cache_path
   end
@@ -117,7 +116,9 @@ end
 
 # Use cocoapods to get the header files for a specific spec
 
-def headers_for_spec_at_location spec, download_location
+def headers_for_spec_at_location spec
+  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/"
+    
   sandbox = Pod::Sandbox.new( download_location )
   pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
 
@@ -153,8 +154,6 @@ def specs_for_git_diff start_commit, end_commit
 
     line.slice!(0).strip!
     line.gsub! /\t/, ''
-    
-    puts line
 
   end.join
 end
@@ -162,8 +161,9 @@ end
 # We have to run commands from a different git root if we want to do anything in the Specs repo
 
 def run_git_command_in_specs git_command
-  puts "git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}"
-   `git --git-dir=./#{@active_folder_name}/Specs/.git #{git_command}`
+  Dir.chdir("#{@active_folder_name}/Specs") do
+   `git #{git_command}`  
+  end
 end
 
 # get started from a webhook
@@ -176,7 +176,15 @@ def handle_webhook webhook_payload
   updated_specs = specs_for_git_diff before, after
 
   updated_specs.lines.each_with_index do |spec_filepath, index|
-    create_and_upload_spec "/Specs/" + spec_filepath.strip
+    spec_path = @active_folder + "/Specs/" + spec_filepath.strip
+    next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+    
+    puts "-#{spec_path}-"
+    begin
+      create_and_document_spec spec_path
+    rescue
+    
+    end
   end
 end
 
@@ -238,16 +246,18 @@ end
 # -------------------------------------------------------------------------------------------------
 # App example data. Instead of using the webhook, here's two 
 
-puts "\n\n\n"
+puts "\n - It starts. "
 
 # short!
 # handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # not short!
-handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
+# handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
 
 # choo choo
 # upload_docsets_to_s3
 
 create_index_page
 move_public_items
+
+puts "- It Ends. "
