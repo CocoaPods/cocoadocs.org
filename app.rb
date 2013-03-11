@@ -11,6 +11,8 @@ require "shellwords"
 require 'tilt'
 require "slim"
 
+require_relative "classes/spec_extensions.rb"
+
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 @log_all_terminal_commands = false;
 
@@ -65,7 +67,10 @@ def create_docset_for_spec spec, from, to
 
   # Move the html out of the Documents folder into one called html
   docset_location = "#{to}/#{cocoadocs_id}.#{spec.name}.docset"
-  system `cp -R #{docset_location}/Contents/Resources/Documents #{to}html`
+  `cp -R #{docset_location}/Contents/Resources/Documents #{to}html`
+
+  #remove to add back docsets
+  `rm -Rf #{docset_location}`
 end
 
 # Upload the docsets folder to s3
@@ -73,14 +78,21 @@ end
 def upload_docsets_to_s3
   puts "Uploading docsets folder"
   
+  upload_folder "docsets", ""
+  upload_folder "html/*", ""
+end
+
+def upload_folder from, to
+  
   upload_command = [
     "s3cmd sync",
-    "--recursive --skip-existing  --acl-public",
-    "#{@active_folder_name}/docsets s3://cocoadocs.org/"
+    "--recursive  --acl-public",
+    "#{@active_folder_name}/#{from} s3://cocoadocs.org/#{to}"
   ]
 
   puts upload_command.join(' ')
   system upload_command.join(' ')
+  
 end
 
 # Use CocoaPods Downloader to download to the download folder
@@ -231,6 +243,8 @@ def create_docsets_array
     
     Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
       next if version == '.' or version == '..'
+
+      spec[:main_version] = version
       spec[:versions] << version
     end
     
@@ -252,12 +266,14 @@ puts "\n - It starts. "
 # handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
 
 # not short!
-# handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
+handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
 
 # choo choo
-# upload_docsets_to_s3
+
 
 create_index_page
 move_public_items
+
+upload_docsets_to_s3
 
 puts "- It Ends. "

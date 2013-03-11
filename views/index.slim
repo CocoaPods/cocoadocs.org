@@ -1,7 +1,6 @@
-erb:
-  <!DOCTYPE HTML>
-  <html>
-  <head>
+<!DOCTYPE HTML>
+<html>
+<head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>Cocoadocs</title>
   <!-- 09 mar 2011 -->
@@ -9,155 +8,41 @@ erb:
   <meta name="title" content="Cocoadoc.org" /> 
   <meta name="description" content="Cocoa library documentation" /> 
   <meta name="keywords" content="cocoapods, cocoa, ios, objective C" /> 
-  <meta name="robots" content="all,follow"/> 
+  <meta name="robots" content="all, follow"/> 
+    
   <script src="https://raw.github.com/joshaven/string_score/master/string_score.js"></script>
-  </head>
-  
-  <style type="text/css" media="screen">
-  html, body{ 
-  margin:0;
-  padding:0;
-  }
-  
-  body {
-  font-family:Helvetica, Arial, sans-serif;
-  color:#452e00;
-  background:#401600;
-  }
-  
-  a {
-  color:#ca8a29;
-  font-weight:bold;
-  text-decoration:none;
-  }
-  
-  a:hover {
-  color:darken(#CA8A29, 10%);
-  }
-  
-  #content {
-  margin:0 auto;
-  width: 800px;
-  background-color:#fcf3e5;
-  }
-  
-  #masthead {
-  text-align:center;
-  }
-  
-  input#pod_search {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  clear: both;
-  background: white url(http://cocoapods.org/images/searchlens.png) 8px 7px no-repeat;
-  border: 3px solid #E6A33C;
-  width: 600px;
-  font-size: 24px;
-  font-family: inherit;
-  font-weight: bold;
-  padding: 6px 36px 6px 40px;
-  margin: 10px auto;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-border-radius: 23px;
-  -moz-border-radius: 23px;
-  -ms-border-radius: 23px;
-  -o-border-radius: 23px;
-  border-radius: 23px;
-  }
-  
-  input#pod_search:focus {
-  outline:none;
-  -webkit-box-shadow: 0px 0px 10px rgba(230, 165, 50, 1);
-  -moz-box-shadow:    0px 0px 10px rgba(230, 165, 50, 1);
-  box-shadow:         0px 0px 10px rgba(230, 165, 50, 1);  
-  }
-  
-  #items {
-    margin-top: 80px;
-  }
-  
-  .library {
-  width:160px;
-  height:200px;
-  background-color:white;
-  padding: 10px;
-  margin-bottom:20px;
-  display:block;
-  float:left;
-  margin-left:10px;
-  }
-  
-  .library h2 {
-  /* AFNetworking */
-  font-family: Helvetica-Bold;
-  font-size: 18px;
-  color: #352302;
-  line-height: 22px;
-  margin-top:0;
-  width:100%;
-  word-break: break-all;
-  }
-  
-  .library h3 {
-  /* mattt AFNetworking: */
-  font-family: Helvetica-Bold;
-  font-size: 14px;
-  color: #352302;
-  line-height: 17px;
-  padding-top:0;
-  }
-  
-  .library p {
-  /* A delightful iOS and ... */
-  font-family: Helvetica-Bold;
-  font-size: 10px;
-  color: #352302;
-  line-height: 12px;
-  }
-  
-  .library .button {
-  background: #E3D8D4;
-  width:100px;
-  margin-left:20px;
-  line-height:30px;
-  height:30px;
-  display:block;
-  text-align:center;
-  font-size:20px;
-  }
-  
-  .library .sub-button {
-  display:inline-block;
-  width:40px;
-  text-align:center;
-  margin-top:10px;
-  }  
-  </style>
+  <link href="resources/stylesheet.css" media="screen" rel="stylesheet" type="text/css">
+</head>
 
-
-
-div id="content"
-  div id="masthead"
-    h1 Cocoa<em>Docs</em>
-    p Hosted Docs for Objective-C Libraries.
-    <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name" type="search" onkeyup="searchTermChanged()">
+body
+  div id="content"
+    div id="masthead"
+      img src="resources/cocoapod.png"
+      h1 Cocoa<em>Docs</em>
+      p Hosted Docs for Objective-C Libraries.
+      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name" type="search" onkeyup="searchTermChanged()">
     
-  div id="items"
+    div id="items"
+      
+      - for spec_hash in self[:specs] do
+      - spec = spec_hash[:spec]
   
-  - for spec_hash in self[:specs] do
-  - spec = spec_hash[:spec]
-  
-    div class="library" id="#{spec.name}" 
-      h2 = spec.name
-      <h3><a class="user">MOCK</a> <a class="repo">MOCK</a</h3>
-      p = spec.summary
-      <a class="button">#{"1,1"}</a>
+        div class="library" id="#{spec.name}" 
+          div class="content"
+            <h2><a href = "#{spec.homepage}">#{spec.name}</a></h2>
+      
+            - if spec.or_is_github?
+              <h3><a href = "http://github.com/#{spec.or_user}" class="user">#{spec.or_user}</a></h3>
+            - else
+              <h3><a href = "#{spec.homepage}">#{spec.or_extensionless_homepage}</a></h2>
+      
+            p = spec.summary
+
+          <a href="/docsets/#{spec.name}/#{spec_hash[:main_version]}/html/"  class="button">#{spec_hash[:main_version]}</a>
     
-  <div style="clear:both"></div>
+    div style="clear:both"
   
-erb:
-  <script src="resources/string_score.js"></script>
-  <script src="resources/app.js"></script>
   
+  script src="resources/string_score.js"
+  script src="resources/app.js"
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
