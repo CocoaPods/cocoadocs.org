@@ -44,8 +44,8 @@ def create_docset_for_spec spec, from, to
     "--project-company '#{contributors_to_spec(spec)}'",   # name in top right
     "--project-version #{version}",                        # project version
     "--no-install-docset",                                 # don't make a duplicate
-    "--publish-docset",                                    # create an ATOM file??
-    "--company-id #{cocoadocs_id}",                              # the id for the 
+    "--pxc",                                    # create an ATOM file??
+    "--company-id #{cocoadocs_id}",                        # the id for the 
     "--templates ./appledoc_templates",                    # use the custom template
     "--verbose 3",                                         # give some useful logs
 
@@ -55,9 +55,9 @@ def create_docset_for_spec spec, from, to
 
     "--keep-undocumented-objects",                         # not everyone will be documenting
     "--keep-undocumented-members",                         # so we should at least show something
-    "--search-undocumented-doc",
+    "--search-undocumented-doc",                           # uh? ( no idea what this does... )
     
-    "--index-desc #{from}/#{spec.name}/README.md",                      # if there's a readme, throw it in
+    "--index-desc #{readme_path spec}",                    # if there's a readme, throw it in
     "--output #{to}",                                      # where should we throw stuff
     *headers
   ]
@@ -118,10 +118,11 @@ def create_and_document_spec filepath
   cache_path = @active_folder + "/download_cache"
   
   unless File.exists? download_location
-    download_podfile_files spec, download_location, cache_path
+  #  download_podfile_files spec, download_location, cache_path
   end
   
-  create_docset_for_spec spec, download_location, docset_location
+ # create_docset_for_spec spec, download_location, docset_location
+ puts readme_path spec
 
   puts "\n\n\n"
 end
@@ -133,7 +134,6 @@ def headers_for_spec_at_location spec
     
   sandbox = Pod::Sandbox.new( download_location )
   pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
-
   headers = []
   
   spec.available_platforms.each do |platform|
@@ -145,6 +145,17 @@ def headers_for_spec_at_location spec
   end
   
   headers.uniq
+end
+
+def readme_path spec
+  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/"
+  ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
+    potential_path = download_location + "/" + potential_name
+    if File.exists? potential_name
+      return potential_path
+    end
+  end
+  nil
 end
 
 # Update or clone Cocoapods/Specs
@@ -271,8 +282,8 @@ handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after"
 # choo choo
 
 
-create_index_page
-move_public_items
-upload_docsets_to_s3
-
+# create_index_page
+# move_public_items
+# upload_docsets_to_s3
+# 
 puts "- It Ends. "
