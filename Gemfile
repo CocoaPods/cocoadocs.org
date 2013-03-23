@@ -9,3 +9,4 @@ gem "cocoapods-downloader"
 gem "cocoapods", "0.17.0.rc2"
 
 gem "slim"
+gem "colored", "~> 1.2"

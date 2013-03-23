@@ -20,5 +20,11 @@ module Pod
         self.homepage.sub('http://', '').sub('https://', '').sub('www.', '').split("/")[0]
       end      
 
+      def or_contributors_to_spec 
+        return self.authors if self.authors.is_a? String
+        return self.authors.join(" ") if self.authors.is_a? Array
+        return self.authors.keys.join(" ") if self.authors.is_a? Hash
+      end
+
    end
 end

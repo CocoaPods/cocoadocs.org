@@ -84,6 +84,7 @@ DEPENDENCIES
   cocoapods (= 0.17.0.rc2)
   cocoapods-core
   cocoapods-downloader
+  colored (~> 1.2)
   guard-ruby
   guard-shell
   rb-fsevent

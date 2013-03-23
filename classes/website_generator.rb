@@ -1,6 +1,18 @@
 class WebsiteGenerator
   attr_accessor :active_folder
 
+  def generate
+    create_index_page
+    move_public_items
+  end
+  
+  def upload
+    puts "Uploading docsets folder"
+  
+    upload_folder "docsets", ""
+    upload_folder "html/*", ""    
+  end
+
   def create_index_page
      specs = create_docsets_array
    
@@ -27,12 +39,12 @@ class WebsiteGenerator
     docsets_dir = "#{@active_folder}/docsets/"
   
     Dir.foreach docsets_dir do |podspec_folder|
-      next if podspec_folder == '.' or podspec_folder == '..'    
+      next if podspec_folder[0] == '.'
    
       spec = { :versions => []}
     
       Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
-        next if version == '.' or version == '..'
+        next if version[0] == '.' 
 
         spec[:main_version] = version
         spec[:versions] << version
@@ -45,6 +57,19 @@ class WebsiteGenerator
       specs << spec
     end
     specs
+  end
+
+  # Upload the docsets folder to s3
+  def upload_folder from, to
+  
+    upload_command = [
+      "s3cmd sync",
+      "--recursive  --acl-public",
+      "#{@active_folder_name}/#{from} s3://cocoadocs.org/#{to}"
+    ]
+
+    puts upload_command.join(' ')
+    system upload_command.join(' ')
   end
 
 end
