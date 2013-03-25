@@ -1,4 +1,3 @@
-
 header {
 	display: none;
 }
@@ -18,6 +17,7 @@ div#overview_contents, div#contents.isShowingTOC, div#contents {
 #tocContainer.isShowingTOC {
 	display: none;
 }
+
 nav {
 	display: none;
 }

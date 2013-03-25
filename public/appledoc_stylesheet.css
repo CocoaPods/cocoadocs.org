@@ -135,11 +135,11 @@ th {
 }
 
 .open > .disclosure {
-	background-image: url("../img/disclosure_open.png");
+	background-image: url("img/disclosure_open.png");
 }
 
 .disclosure {
-	background: url("../img/disclosure.png") no-repeat scroll 0 0;
+	background: url("img/disclosure.png") no-repeat scroll 0 0;
 }
 
 .disclosure, .nodisclosure {
@@ -155,25 +155,38 @@ th {
 /* @group Header */
 
 #top_header #library {
-	background: url("../img/library_background.png") repeat-x 0 0 #485E78;
-	background-color: #ccc;
-	height: 35px;
-	font-size: 115%;
+  background-color: #fcf3e5;
+  border-bottom: 1px solid #caaf9b;
+  background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
+  background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
+  height: 36px;
+  font-size: 115%;
+  color:#8c7a73;
 }
 
-#top_header #library #libraryTitle {
-	color: #FFFFFF;
-	margin-left: 15px;
-	text-shadow: 0 -1px 0 #723d2a;
-	top: 8px;
-	position: absolute;
+#top_header #cocoapods a {
+  color: #452e00;
+}
+
+#top_header .navButton {
+  color: #723d2a;
+  float:left;
+  color: #8c7a73;
+  border-right: 1px solid #bea693;
+}
+
+#top_header .navButton a {
+  padding: 12px 12px;
+  line-height: 32px; 
+  vertical-align:middle;
 }
 
 #top_header #library #developerHome {
-	color: #92979E;
-	right: 15px;
-	top: 8px;
-	position: absolute;
+  float:right;
+}
+
+#top_header #library #developerHome a {
+	color: black;
 }
 
 #top_header #library a:hover {
@@ -181,7 +194,10 @@ th {
 }
 
 #top_header #title {
-	background: url("../img/title_background.png") repeat-x 0 0 #8A98A9;
+  background-image: -webkit-linear-gradient(top, #a86b27, #7a4d24);
+  background-image: -moz-linear-gradient(top, #a86b27, #7a4d24);
+  background-color: #a86b27;
+  color:#f0e3cf;
 	border-bottom: 1px solid #a47123;
 	height: 25px;
 	overflow: hidden;
@@ -193,13 +209,12 @@ th {
 	margin: 0;
 	padding: 3px 0 2px;
 	text-align: center;
-	text-shadow: 0 1px 0 #e5b649;
 	white-space: nowrap;
 }
 
 #headerButtons {
 	background-color: #D8D8D8;
-	background-image: url("../img/button_bar_background.png");
+	background-image: url("img/button_bar_background.png");
 	border-bottom: 1px solid #EDEDED;
 	border-top: 1px solid #2B334F;
 	font-size: 8pt;
@@ -220,6 +235,32 @@ th {
 	margin-top: 0;
 	margin-bottom: 0;
 	padding: 0;
+}
+
+#libraryVersion ul {
+	display: none;
+}
+
+#libraryVersion:hover ul {
+	display: block;
+	list-style: none;
+	position: absolute;
+  z-index:99;
+  background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
+  background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
+  margin:0;
+  padding-left:0px;
+  border-left: 1px solid #bea693;
+  border-bottom: 1px solid #bea693;
+  border-right: 1px solid #bea693;  
+}
+
+#top_header #libraryVersion ul a {
+  padding: 8px 12px;
+}
+
+#libraryVersion ul li{
+	margin-bottom: 0
 }
 
 #toc_button button {
@@ -258,7 +299,8 @@ li#jumpto_button select {
 }
 
 #tocContainer {
-	background-color: #F6F7EC;
+background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
+background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
 	border-top: 1px solid #4f3f21;
 	bottom: 0;
 	display: none;

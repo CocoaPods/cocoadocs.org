@@ -12,16 +12,16 @@ require "colored"
 require 'tilt'
 require "slim"
 
-require_relative "classes/utils.rb"
-require_relative "classes/spec_extensions.rb"
-require_relative "classes/website_generator.rb"
-
 @short_test_webhook = true
 @verbose = true
 @log_all_terminal_commands = true
-@upload_to_s3 = false
-
+@run_docset_commands = false
+@upload_to_s3 = true
 @fetch_specs = false
+
+require_relative "classes/utils.rb"
+require_relative "classes/spec_extensions.rb"
+require_relative "classes/website_generator.rb"
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 
@@ -59,6 +59,9 @@ def create_docset_for_spec spec, from, to
     "--create-html",                                       # eh, nice to have
     "--publish-docset",                                    # this should create atom
     
+    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETATOMFILENAME",
+    "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETPACKAGEFILENAME",
+    
 #    "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
 #    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
    "--docset-feed-name #{spec.name}",                    
@@ -73,7 +76,7 @@ def create_docset_for_spec spec, from, to
 
   readme = readme_path spec
   if readme
-    docset_command.insert(3, "--index-desc #{readme_path spec}")
+    docset_command.insert(3, "--index-desc #{readme}")
   end
 
 
@@ -114,7 +117,10 @@ def create_and_document_spec filepath
     download_podfile_files spec, download_location, cache_path
   end
   
-  create_docset_for_spec spec, download_location, docset_location
+  if @run_docset_commands
+    create_docset_for_spec spec, download_location, docset_location
+  end
+  
   puts "\n\n\n"
 end
 
@@ -218,9 +224,6 @@ def command command_to_run
   system command_to_run
 end
 
-def vputs text
-  puts text.green if @verbose 
-end
 
 # -------------------------------------------------------------------------------------------------
 # App example data. Instead of using the webhook, here's two 

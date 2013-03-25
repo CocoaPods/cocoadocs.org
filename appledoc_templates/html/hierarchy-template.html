@@ -3,15 +3,39 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>{{page/title}}</title>
-			<link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
-			<link rel="stylesheet" type="text/css" media="print" href="css/stylesPrint.css" />
+		<link rel="stylesheet" type="text/css" href="http://cocoadocs.org/assets/appledoc_stylesheet.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="http://cocoadocs.org/assets/appledoc_print.css" />
 		{{#strings/appledocData}}<meta name="generator" content="{{tool}} {{version}} (build {{build}})" />{{/strings/appledocData}}
 	</head>
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				{{#page}}<h1><a id="libraryTitle" href="index.html">{{projectName}} {{strings/objectPage/libraryTitlePostfix}}</a></h1>
-				<a id="developerHome" href="index.html">{{projectCompany}}</a>{{/page}}
+        <div id="cocoapods" class="hideInXcode navButton">
+          <h1>
+            <a href ="http://cocoadocs.org">CocoaDocs</a>
+          </h1>
+        </div>
+        
+    		<div class="hideInXcode navButton">
+          {{#page}}
+  				<h1>
+            <a id="libraryTitle" href="../index.html">{{projectName}}  {{strings/objectPage/libraryTitlePostfix}} </a>
+          </h1>
+          {{/page}}
+        </div>
+      
+  			<div id="libraryVersion" class="hideInXcode navButton">
+          <h1><a href="../index.html">1.202</a></h1>
+    			<ul>
+    				<li><a href="#">1.1</a></li>
+    				<li><a href="#">1.0.1</a></li>
+    				<li><a href="#">0.9</a></li>
+    			</ul>
+        </div>
+
+  			<div id="developerHome" class="hideInXcode navButton">
+  				<a href="../index.html">{{projectCompany}}</a>
+        </div>
 			</div>
 			
 			<div id="title" role="banner">

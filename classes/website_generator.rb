@@ -7,31 +7,36 @@ class WebsiteGenerator
   end
   
   def upload
-    puts "Uploading docsets folder"
+    vputs "Uploading docsets folder"
   
     upload_folder "docsets", ""
-    upload_folder "html/*", ""    
+    upload_folder "html/*", ""
   end
 
   def create_index_page
-     specs = create_docsets_array
-   
-     template = Tilt.new('views/index.slim')
-     html = template.render( :specs => specs )
-     index_path = "#{@active_folder}/html/index.html"
-   
-     FileUtils.mkdir_p(File.dirname(index_path))
-     if File.exists? index_path
-       File.unlink index_path
-     end
+    vputs "Creating index page"
+    
+    specs = create_docsets_array
 
-     File.open(index_path, "wb") { |f| f.write html }
+    template = Tilt.new('views/index.slim')
+    html = template.render( :specs => specs )
+    index_path = "#{@active_folder}/html/index.html"
+
+    FileUtils.mkdir_p(File.dirname(index_path))
+    if File.exists? index_path
+       File.unlink index_path
+    end
+    
+    vputs "Writing index"
+    File.open(index_path, "wb") { |f| f.write html }
   end
 
   def move_public_items
-    resources_dir = "#{@active_folder}/html/resources/"
-    `rm #{resources_dir}/*`
-    `cp public/* #{resources_dir}`
+    resources_dir = "#{@active_folder}/html/assets/"
+
+    command "rm -rf #{resources_dir}"
+    command "mkdir #{resources_dir}"
+    command "cp -R public/* #{resources_dir}"
   end
 
   def create_docsets_array
@@ -61,15 +66,17 @@ class WebsiteGenerator
 
   # Upload the docsets folder to s3
   def upload_folder from, to
-  
+    vputs "Uploading #{from} to #{to} on s3"
+    
     upload_command = [
       "s3cmd sync",
       "--recursive  --acl-public",
-      "#{@active_folder_name}/#{from} s3://cocoadocs.org/#{to}"
+      "--no-check-md5",
+      "--verbose --human-readable-sizes",
+      "#{@active_folder}/#{from} s3://cocoadocs.org/#{to}"
     ]
 
-    puts upload_command.join(' ')
-    system upload_command.join(' ')
+    command upload_command.join(' ')
   end
 
 end
