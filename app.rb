@@ -15,13 +15,14 @@ require "slim"
 @short_test_webhook = true
 @verbose = true
 @log_all_terminal_commands = true
-@run_docset_commands = false
-@upload_to_s3 = true
+@run_docset_commands = true
+@upload_to_s3 = false
 @fetch_specs = false
 
 require_relative "classes/utils.rb"
 require_relative "classes/spec_extensions.rb"
 require_relative "classes/website_generator.rb"
+require_relative "classes/docset_fixer.rb"
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 
@@ -79,15 +80,11 @@ def create_docset_for_spec spec, from, to
     docset_command.insert(3, "--index-desc #{readme}")
   end
 
-
   command docset_command.join(' ')
-
-  # Move the html out of the Documents folder into one called html
-#  docset_location = "#{to}/#{cocoadocs_id}.#{spec.name}.docset"
- # `cp -R #{docset_location}/Contents/Resources/Documents #{to}html`
-
-  #remove to add back docsets
-  #`rm -Rf #{docset_location}`
+  
+  fixer = DocsetFixer.new
+  fixer.docset_path = to
+  fixer.fix
 end
 
 # Use CocoaPods Downloader to download to the download folder
@@ -208,8 +205,9 @@ def handle_webhook webhook_payload
     
     begin
       create_and_document_spec spec_path
-    rescue
-    
+    rescue Exception => e  
+      puts e.message  
+      puts e.backtrace.inspect
     end
   end
 end
