@@ -29,7 +29,7 @@ body
   
         div class="library" id="#{spec.name}" 
           div class="content"
-            <h2><a href = "#{spec.homepage}">#{spec.name}</a></h2>
+            <h2><a href = "/docsets/#{spec.name}/#{spec_hash[:main_version]}/">#{spec.name}</a></h2>
       
             - if spec.or_is_github?
               <h3><a href = "http://github.com/#{spec.or_user}" class="user">#{spec.or_user}</a></h3>
@@ -38,7 +38,7 @@ body
       
             p = spec.summary
 
-          <a href="/docsets/#{spec.name}/#{spec_hash[:main_version]}/html/"  class="button">#{spec_hash[:main_version]}</a>
+          <a href="/docsets/#{spec.name}/#{spec_hash[:main_version]}/"  class="button">#{spec_hash[:main_version]}</a>
     
     div style="clear:both"
   

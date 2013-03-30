@@ -118,7 +118,33 @@ def create_and_document_spec filepath
     create_docset_for_spec spec, download_location, docset_location
   end
   
+  generate_json_metadata_for_spec spec
+  
   puts "\n\n\n"
+end
+
+def generate_json_metadata_for_spec spec
+  filepath = @active_folder + "/docsets/" + spec.name
+
+  versions = []
+  Dir.foreach filepath do |version|
+    next if version[0] == '.'
+    next if version == "metadata.json"
+    versions << version
+  end
+  
+  hash_string = {
+    
+    :spec_homepage => spec.homepage,
+    :versions => versions,
+    :license => spec.or_license
+    
+  }.to_json.to_s
+  
+  function_wrapped = "setup(#{hash_string})"
+  json_filepath = @active_folder + "/docsets/" + spec.name + "/metadata.json"
+
+  File.open(json_filepath, "wb") { |f| f.write function_wrapped }
 end
 
 # Use cocoapods to get the header files for a specific spec
@@ -212,18 +238,7 @@ def handle_webhook webhook_payload
   end
 end
 
-# allow logging of terminal commands
 
-def command command_to_run
-  if @log_all_terminal_commands 
-    puts command_to_run.yellow
-  end
-  
-  system command_to_run
-end
-
-
-# -------------------------------------------------------------------------------------------------
 # App example data. Instead of using the webhook, here's two 
 
 puts "\n - It starts. "

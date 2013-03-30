@@ -22,9 +22,14 @@ module Pod
 
       def or_contributors_to_spec 
         return self.authors if self.authors.is_a? String
-        return self.authors.join(" ") if self.authors.is_a? Array
-        return self.authors.keys.join(" ") if self.authors.is_a? Hash
+        return self.authors.listify if self.authors.is_a? Array
+        return self.authors.keys.listify if self.authors.is_a? Hash
       end
 
+      def or_license 
+        return self.license if self.license.is_a? String
+        return self.license[:type] if self.license.is_a? Hash
+        return "Unknown License"
+      end
    end
 end

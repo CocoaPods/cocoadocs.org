@@ -50,6 +50,7 @@ class WebsiteGenerator
     
       Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
         next if version[0] == '.' 
+        next if version == "metadata.json"
 
         spec[:main_version] = version
         spec[:versions] << version
