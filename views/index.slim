@@ -11,7 +11,7 @@
   <meta name="robots" content="all, follow"/> 
     
   <script src="https://raw.github.com/joshaven/string_score/master/string_score.js"></script>
-  <link href="assets/stylesheet.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 
 body
@@ -20,29 +20,19 @@ body
       img src="assets/cocoapod.png"
       h1 Cocoa<em>Docs</em>
       p Hosted Docs for Objective-C Libraries.
-      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name" type="search" onkeyup="searchTermChanged()">
+      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..." type="search" onkeyup="searchTermChanged()">
     
     div id="items"
-      
-      - for spec_hash in self[:specs] do
-      - spec = spec_hash[:spec]
-  
-        div class="library" id="#{spec.name}" 
-          div class="content"
-            <h2><a href = "/docsets/#{spec.name}/#{spec_hash[:main_version]}/">#{spec.name}</a></h2>
-      
-            - if spec.or_is_github?
-              <h3><a href = "http://github.com/#{spec.or_user}" class="user">#{spec.or_user}</a></h3>
-            - else
-              <h3><a href = "#{spec.homepage}">#{spec.or_extensionless_homepage}</a></h2>
-      
-            p = spec.summary
 
-          <a href="/docsets/#{spec.name}/#{spec_hash[:main_version]}/"  class="button">#{spec_hash[:main_version]}</a>
+    div id="loading" style="display:none"
+      p Loading...
+      
+    div id="no_results" style="display:none"    
+      p No results found
     
     div style="clear:both"
   
-  
   script src="assets/string_score.js"
   script src="assets/app.js"
+  script src="documents.jsonp"
   <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

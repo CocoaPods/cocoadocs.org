@@ -1,39 +1,48 @@
+// This is for the front page
+
 function searchTermChanged() {
+  if(!window.specs) return
+  
   var query = document.getElementById("pod_search").value
+  var filtered_results = [];
+  var results = specs;
   
   if (query.length){
-    for ( var i = 0; i < library_names.length; i++ ){
+    for ( var i = 0; i < specs.length; i++ ){
   
-      var library = library_names[i];
-      var score = library.score(query);
-      var library_cell = document.getElementById(library)
-  
+      var library_name = specs[i]["name"];
+      var score = library_name.score(query);
+      
       if (score > 0.2){
-      	library_cell.style.display = 'inline-block'
-      } else {
-        library_cell.style.display = 'none'
-      }
+        specs[i]["score"] = score
+      	filtered_results.push( specs[i] )
+      } 
     }
-  } else {
-  
-    for ( var i = 0; i < library_names.length; i++ ){
-      var library = library_names[i];
-      var library_cell = document.getElementById(library)
-      library_cell.style.display = 'inline-block'
-    }
-  }
-}
 
-function getLibraries(){
-  var libraries = document.getElementsByClassName("library")
-  var all_selectors = []
+    // sort by score
+    results = filtered_results.sort(function(a, b){
+      return a["score"] - b["score"]
+    })
+    
+    var showNotFound = (results.length != 0) ? "none" : "block"
+    document.getElementById("no_results").style.display = showNotFound
+  }
+
+
   
-  for ( var i = 0; i < libraries.length; i++ ){
-    var library = libraries[i]
-    all_selectors.push(library.id)
+  var documents = ""
+  for ( var i = 0; i < results.length; i++ ){
+    var spec = results[i]
+    documents += "<div class='library'><div class ='content'>"
+    
+    documents += "<h2><a href='" + spec["doc_url"] + "'>" + spec["name"] + "</a></h2>"
+    documents += "<h3><a href='" + spec["homepage"] + "'>" + spec["user"] + "</a></h3>"
+    documents += "<p>" + spec["summary"] + "</p>"
+    documents += "<a href='" + spec["doc_url"] + "' class='button'>" + spec["main_version"] + "</a>"
+    
+    documents += "</div></div>"    
   }
   
-  return all_selectors;
+  document.getElementById("loading").style.display = "none"
+  document.getElementById("items").innerHTML = documents   
 }
-
-var library_names = getLibraries();

@@ -16,7 +16,7 @@ require "slim"
 @verbose = true
 @log_all_terminal_commands = true
 @run_docset_commands = true
-@upload_to_s3 = false
+@upload_to_s3 = true
 @fetch_specs = false
 
 require_relative "classes/utils.rb"
@@ -29,8 +29,6 @@ require_relative "classes/docset_fixer.rb"
 #constrain all downloads etc into one subfolder
 @active_folder_name = "activity"
 @active_folder = @current_dir + "/" + @active_folder_name
-
-# A rough function for getting the contributors
 
 # Create a docset based on the spec
 

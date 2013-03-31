@@ -17,18 +17,33 @@ class WebsiteGenerator
     vputs "Creating index page"
     
     specs = create_docsets_array
+    create_specs_json specs
 
     template = Tilt.new('views/index.slim')
-    html = template.render( :specs => specs )
+    html = template.render
     index_path = "#{@active_folder}/html/index.html"
 
-    FileUtils.mkdir_p(File.dirname(index_path))
-    if File.exists? index_path
-       File.unlink index_path
-    end
-    
     vputs "Writing index"
-    File.open(index_path, "wb") { |f| f.write html }
+    seve_file html, index_path
+  end
+
+  def create_specs_json specs
+    array_string = specs.to_json.to_s
+  
+    function_wrapped = "var specs = #{array_string}; searchTermChanged()"
+    json_filepath = @active_folder + "/html/documents.jsonp"
+
+    vputs "Writing JSON"
+    seve_file function_wrapped, json_filepath
+  end
+  
+  def seve_file file, path
+    FileUtils.mkdir_p(File.dirname(path))
+    if File.exists? path
+       File.unlink path
+    end
+
+    File.open(path, "wb") { |f| f.write file }    
   end
 
   def move_public_items
@@ -51,15 +66,20 @@ class WebsiteGenerator
       Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
         next if version[0] == '.' 
         next if version == "metadata.json"
-
         spec[:main_version] = version
         spec[:versions] << version
       end
     
-      podspec_path = "/Specs/#{podspec_folder}/#{spec[:versions].first}/#{podspec_folder}.podspec"
+      podspec_path = "/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
       podspec = eval File.open(@active_folder + podspec_path).read 
-      spec[:spec] = podspec
-    
+
+      spec[:doc_url] = "/docsets/#{podspec.name}/#{spec[:main_version]}/"
+      spec[:user] = podspec.or_user
+      spec[:homepage] = podspec.homepage
+      spec[:homepage_host] = podspec.or_extensionless_homepage
+      spec[:name] = podspec.name
+      spec[:summary] = podspec.summary
+      
       specs << spec
     end
     specs
