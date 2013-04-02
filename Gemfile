@@ -6,7 +6,10 @@ gem "rb-fsevent"
 
 gem "cocoapods-core"
 gem "cocoapods-downloader"
-gem "cocoapods", "0.17.0.rc2"
+gem "cocoapods", "0.17.1"
 
+gem "octokit"
+
+gem "exceptio-ruby"
 gem "slim"
 gem "colored", "~> 1.2"

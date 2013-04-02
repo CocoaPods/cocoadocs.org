@@ -1,10 +1,14 @@
 class DocsetFixer
   attr_accessor :docset_path
+  attr_accessor :readme_path
   
   def fix
-    fix_images
+#    fix_images
+    move_gfm_readme_in
     remove_html_folder
   end
+  
+  
   
   def fix_images
     # !<a href="https://raw.github.com/zhigang1992/ZGParallelView/master/ScreenShotA.png">img</a>
@@ -24,5 +28,17 @@ class DocsetFixer
     `cp -Rf #{@docset_path}/html/* #{@docset_path}/`
     `rm -Rf #{@docset_path}/html`
     
+  end
+  
+  def move_gfm_readme_in
+    return unless File.exists? @readme_path
+    
+    readme = File.read @readme_path
+
+    ['html/index.html', 'docset/Contents/Resources/Documents/index.html'].each do |path|      
+      html = File.open(@docset_path + path).read
+      html.sub!("</THISISTOBEREMOVED>", readme)
+      File.open(@docset_path + path, 'w') { |f| f.write(html) }
+    end 
   end
 end

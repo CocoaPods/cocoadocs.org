@@ -2,9 +2,9 @@ module Pod
     class Specification
 
       def or_is_github?
-        self.homepage.include? "github.com"
+        self.homepage.include?("github.com") || (self.source[:git] && self.source[:git].include?("github.com"))
       end
-
+      
       def or_user
         return nil unless self.or_is_github?
         self.homepage.split("/")[-2]

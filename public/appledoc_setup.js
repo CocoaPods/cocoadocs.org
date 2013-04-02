@@ -5,7 +5,7 @@ function setup(spec) {
   // set the title to the current foldername
   url = window.location.pathname.split("/")
   navTitle = document.getElementById("libraryVersionTitle")
-  navTitle.textContent = url[url.length -2]
+  navTitle.textContent = url[3]
   
   document.getElementById("developerHomepageLink").href = spec.spec_homepage
   

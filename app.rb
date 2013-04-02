@@ -6,11 +6,13 @@ require 'ostruct'
 require 'yaml'
 require 'json'
 require "fileutils"
+require "octokit"
 require "shellwords"
 require "colored"
 
 require 'tilt'
 require "slim"
+require 'exceptio-ruby'
 
 @short_test_webhook = true
 @verbose = true
@@ -32,7 +34,7 @@ require_relative "classes/docset_fixer.rb"
 
 # Create a docset based on the spec
 
-def create_docset_for_spec spec, from, to
+def create_docset_for_spec spec, from, to, readme_location
   vputs "Creating docset"
   
   version = spec.version.to_s.downcase
@@ -42,6 +44,10 @@ def create_docset_for_spec spec, from, to
   headers = headers_for_spec_at_location spec
   headers.map! { |header| Shellwords.escape header }
   vputs "Found #{headers.count} header files"
+  
+  if headers.count == 0
+    headers = [from] 
+  end
   
   docset_command = [
     "appledoc",
@@ -56,14 +62,14 @@ def create_docset_for_spec spec, from, to
 
     "--keep-intermediate-files",                           # space for now is OK
     "--create-html",                                       # eh, nice to have
-    "--publish-docset",                                    # this should create atom
+ #   "--publish-docset",                                    # this should create atom
     
-    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETATOMFILENAME",
-    "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETPACKAGEFILENAME",
+#    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETATOMFILENAME",
+ #   "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETPACKAGEFILENAME",
     
 #    "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
 #    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
-   "--docset-feed-name #{spec.name}",                    
+#   "--docset-feed-name #{spec.name}",                    
 
     "--keep-undocumented-objects",                         # not everyone will be documenting
     "--keep-undocumented-members",                         # so we should at least show something
@@ -73,15 +79,15 @@ def create_docset_for_spec spec, from, to
     *headers
   ]
 
-  readme = readme_path spec
-  if readme
-    docset_command.insert(3, "--index-desc #{readme}")
+  if File.exists? readme_location
+    docset_command.insert(3, "--index-desc resources/overwritten_index.html")
   end
 
   command docset_command.join(' ')
   
   fixer = DocsetFixer.new
   fixer.docset_path = to
+  fixer.readme_path = readme_location
   fixer.fix
 end
 
@@ -106,6 +112,7 @@ def create_and_document_spec filepath
   
   download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
   docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+  readme_location = @active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
   cache_path = @active_folder + "/download_cache"
   
   unless File.exists? download_location
@@ -113,12 +120,38 @@ def create_and_document_spec filepath
   end
   
   if @run_docset_commands
-    create_docset_for_spec spec, download_location, docset_location
+    create_gfm_readme spec, readme_location
+    create_docset_for_spec spec, download_location, docset_location, readme_location
   end
   
   generate_json_metadata_for_spec spec
   
   puts "\n\n\n"
+end
+
+def create_gfm_readme spec, readme_location
+    spec_readme = readme_path spec
+    return unless spec_readme
+    
+    readme_folder = readme_location.split("/")[0...-1].join("/")
+    `mkdir -p '#{readme_folder}'`
+
+    context = nil
+    context = "#{spec.or_user}/#{spec.or_repo}" if spec.or_is_github?
+    markdown = Octokit.markdown(File.read(spec_readme), :mode => "gfm", :context => context)
+    
+    File.open(readme_location, 'w') { |f| f.write(markdown) }
+end
+
+def readme_path spec
+  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+  ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
+    potential_path = download_location + "/" + potential_name
+    if File.exists? potential_path
+      return potential_path
+    end
+  end
+  nil
 end
 
 def generate_json_metadata_for_spec spec
@@ -163,17 +196,6 @@ def headers_for_spec_at_location spec
   end
   
   headers.uniq
-end
-
-def readme_path spec
-  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-  ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
-    potential_path = download_location + "/" + potential_name
-    if File.exists? potential_path
-      return potential_path
-    end
-  end
-  nil
 end
 
 # Update or clone Cocoapods/Specs
@@ -230,24 +252,26 @@ def handle_webhook webhook_payload
     begin
       create_and_document_spec spec_path
     rescue Exception => e  
-      puts e.message  
-      puts e.backtrace.inspect
+      puts "---------------------------".red
+      puts e.message.red
+      puts "------"
+      puts e.backtrace.inspect.red
     end
   end
 end
-
 
 # App example data. Instead of using the webhook, here's two 
 
 puts "\n - It starts. "
 
 if @short_test_webhook
-  handle_webhook({ "before" => "dbaa76f854357f73934ec609965dbd77022c30ac", "after" => "f09ff7dcb2ef3265f1560563583442f99d5383de" })
+  handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
 else
   handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
 end
 
-# choo choo
+# choo choo its the exception train
+ExceptIO::Client.configure "orta-cocoadocs ", "2abd82e35f6d0140"
 
 @generator = WebsiteGenerator.new
 @generator.active_folder = @active_folder
