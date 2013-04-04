@@ -18,7 +18,7 @@ require 'exceptio-ruby'
 @verbose = true
 @log_all_terminal_commands = true
 @run_docset_commands = true
-@upload_to_s3 = true
+@upload_to_s3 = false
 @fetch_specs = false
 
 require_relative "classes/utils.rb"
@@ -36,6 +36,8 @@ require_relative "classes/docset_fixer.rb"
 
 def create_docset_for_spec spec, from, to, readme_location
   vputs "Creating docset"
+  
+  FileUtils.rmdir(to) if Dir.exists?(to)
   
   version = spec.version.to_s.downcase
   id = spec.name.downcase
@@ -138,7 +140,11 @@ def create_gfm_readme spec, readme_location
 
     context = nil
     context = "#{spec.or_user}/#{spec.or_repo}" if spec.or_is_github?
-    markdown = Octokit.markdown(File.read(spec_readme), :mode => "gfm", :context => context)
+    
+    # this is just an empty github app that does nothing
+    Octokit.client_id = '52019dadd0bc010084c4'
+    Octokit.client_secret = 'c529632d7aa3ceffe3d93b589d8d2599ca7733e8'
+    markdown = Octokit.markdown(File.read(spec_readme), :mode => "markdown", :context => context)
     
     File.open(readme_location, 'w') { |f| f.write(markdown) }
 end
@@ -251,11 +257,20 @@ def handle_webhook webhook_payload
     
     begin
       create_and_document_spec spec_path
-    rescue Exception => e  
-      puts "---------------------------".red
+    rescue Exception => e
+      
+      open('error_log.txt', 'a') { |f|
+        f.puts "\n\n\n\n\n --------------#{spec_path}-------------"
+        f.puts e.message
+        f.puts "------"
+        f.puts e.backtrace.inspect
+      }
+
+      puts "--------------#{spec_path}-------------".red
       puts e.message.red
       puts "------"
       puts e.backtrace.inspect.red
+      
     end
   end
 end
@@ -267,7 +282,7 @@ puts "\n - It starts. "
 if @short_test_webhook
   handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
 else
-  handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "e30ed9b1346700b2164e40f9744bed22d621dba5" })
+  handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
 end
 
 # choo choo its the exception train

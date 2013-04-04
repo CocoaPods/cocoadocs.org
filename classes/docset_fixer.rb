@@ -4,8 +4,8 @@ class DocsetFixer
   
   def fix
 #    fix_images
-    move_gfm_readme_in
     remove_html_folder
+    move_gfm_readme_in
   end
   
   
@@ -25,7 +25,9 @@ class DocsetFixer
     # the structure is normally /POD/version/html/index.html
     # make it /POD/version/index.html
     
-    `cp -Rf #{@docset_path}/html/* #{@docset_path}/`
+    return unless Dir.exists? @docset_path + "html/"
+    
+    `cp -Rf #{@docset_path}html/* #{@docset_path}/`
     `rm -Rf #{@docset_path}/html`
     
   end
@@ -35,7 +37,7 @@ class DocsetFixer
     
     readme = File.read @readme_path
 
-    ['html/index.html', 'docset/Contents/Resources/Documents/index.html'].each do |path|      
+    ['index.html', 'docset/Contents/Resources/Documents/index.html'].each do |path|      
       html = File.open(@docset_path + path).read
       html.sub!("</THISISTOBEREMOVED>", readme)
       File.open(@docset_path + path, 'w') { |f| f.write(html) }

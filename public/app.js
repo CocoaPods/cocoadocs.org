@@ -21,7 +21,7 @@ function searchTermChanged() {
 
     // sort by score
     results = filtered_results.sort(function(a, b){
-      return a["score"] - b["score"]
+      return b["score"] - a["score"]
     })
     
     var showNotFound = (results.length != 0) ? "none" : "block"

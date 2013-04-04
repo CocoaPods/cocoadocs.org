@@ -52,6 +52,10 @@
 						<h1 class="title title-header">{{page/title}}</h1>
 					</div>		
 				</div>
+				{{#indexDescription}}
+          <div id="has_index">
+        {{/indexDescription}}
+        
 				<div id="container">
 					{{#indexDescription}}
 					<div class="section section-overview index-overview">
@@ -63,17 +67,17 @@
 					</div>
 					{{/indexDescription}}
                         
-                    {{#hasDocs}}
-                        <div class="index-column">
-						<h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
-						<ul>
-                        {{#docs}}
-                        <li><a href="{{href}}">{{title}}</a></li>
-                        {{/docs}}
-						</ul>
-                        </div>
-                    {{/hasDocs}}
-					
+          {{#hasDocs}}
+          <div class="index-column">
+               <h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
+               <ul>
+            {{#docs}}
+                <li><a href="{{href}}">{{title}}</a></li>
+            {{/docs}}
+            </ul>
+          </div>
+          {{/hasDocs}}</
+
 					{{#hasClasses}}
 					<div class="index-column">
 						<h2 class="index-title">{{strings/indexPage/classesTitle}}</h2>
@@ -109,6 +113,12 @@
 				<div class="main-navigation navigation-bottom">
 					{{>Navigation}}
 				</div>
+				
+				{{#indexDescription}}
+        </div>
+        {{/indexDescription}}
+
+        
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">

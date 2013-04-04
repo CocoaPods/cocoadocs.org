@@ -623,3 +623,18 @@ span.tooltip:hover span.tooltip {
 }
 
 /* GFM support */
+
+
+/* support prettier index pages */
+
+#has_index .section {
+  margin-top:0px;
+  float: right;
+  width: 78%;
+}
+
+#has_index .index-column {
+  margin-top: 20px;
+  float: left;
+  width: 20%;
+}
