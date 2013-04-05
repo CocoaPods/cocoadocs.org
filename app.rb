@@ -14,7 +14,7 @@ require 'tilt'
 require "slim"
 require 'exceptio-ruby'
 
-@short_test_webhook = true
+@short_test_webhook = false
 @verbose = true
 @log_all_terminal_commands = true
 @run_docset_commands = true

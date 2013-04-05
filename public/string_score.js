@@ -16,6 +16,7 @@
  *  'Hello World'.score('he');     //=> 0.5931818181818181
  *  'Hello World'.score('Hello');  //=> 0.7318181818181818
  */
+ 
 String.prototype.score = function(abbreviation, fuzziness) {
   // If the string is equal to the abbreviation, perfect match.
   if (this == abbreviation) {return 1;}

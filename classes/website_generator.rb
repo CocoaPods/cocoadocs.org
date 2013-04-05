@@ -74,7 +74,7 @@ class WebsiteGenerator
       podspec = eval File.open(@active_folder + podspec_path).read 
 
       spec[:doc_url] = "/docsets/#{podspec.name}/#{spec[:main_version]}/"
-      spec[:user] = podspec.or_user
+      spec[:user] = podspec.or_contributors_to_spec
       spec[:homepage] = podspec.homepage
       spec[:homepage_host] = podspec.or_extensionless_homepage
       spec[:name] = podspec.name
