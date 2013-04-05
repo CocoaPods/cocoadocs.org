@@ -14,12 +14,27 @@ require 'tilt'
 require "slim"
 require 'exceptio-ruby'
 
-@short_test_webhook = false
+
 @verbose = true
 @log_all_terminal_commands = true
-@run_docset_commands = true
-@upload_to_s3 = false
+
+# these are built to be all true when
+# the app is doing everything
+
+# Kick start everything from webhooks
+@short_test_webhook = false
+@use_webhook = false
+
+# Download and document
 @fetch_specs = false
+@run_docset_commands = false
+
+# Generate site site & json
+@generate_website = true
+@generate_json = false
+
+# Upload html / docsets
+@upload_to_s3 = false
 
 require_relative "classes/utils.rb"
 require_relative "classes/spec_extensions.rb"
@@ -279,19 +294,20 @@ end
 
 puts "\n - It starts. "
 
-if @short_test_webhook
-  handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
-else
-  handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
+if @use_webhook
+  if @short_test_webhook
+    handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
+  else
+    handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
+  end
 end
 
 # choo choo its the exception train
 ExceptIO::Client.configure "orta-cocoadocs ", "2abd82e35f6d0140"
 
-@generator = WebsiteGenerator.new
-@generator.active_folder = @active_folder
-@generator.generate
+@generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json, :verbose => @verbose)
 
+@generator.generate if @generate_website
 @generator.upload if @upload_to_s3
   
 puts "- It Ends. "

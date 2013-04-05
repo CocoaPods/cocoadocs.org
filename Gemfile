@@ -12,4 +12,5 @@ gem "octokit"
 
 gem "exceptio-ruby"
 gem "slim"
+gem "sass"
 gem "colored", "~> 1.2"

@@ -1,8 +1,11 @@
 class WebsiteGenerator
-  attr_accessor :active_folder
+  include HashInit
+  
+  attr_accessor :active_folder, :generate_json, :verbose
 
   def generate
     create_index_page
+    create_stylesheet
     move_public_items
   end
   
@@ -16,15 +19,23 @@ class WebsiteGenerator
   def create_index_page
     vputs "Creating index page"
     
-    specs = create_docsets_array
-    create_specs_json specs
-
+    if @generate_json
+      specs = create_docsets_array
+      create_specs_json specs
+    end
+    
     template = Tilt.new('views/index.slim')
     html = template.render
     index_path = "#{@active_folder}/html/index.html"
 
     vputs "Writing index"
     seve_file html, index_path
+  end
+  
+  def create_stylesheet
+    vputs "Creating sass stylesheets"
+    `sass views/app_stylesheet.scss:#{@active_folder}/html/assets/app_stylesheet.css`
+    `sass views/appledoc_stylesheet.scss:#{@active_folder}/html/assets/appledoc_stylesheet.css`
   end
 
   def create_specs_json specs

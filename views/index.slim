@@ -16,14 +16,17 @@
 
 body
   div id="content"
-    div id="masthead"
-      img src="assets/cocoapod.png"
-      h1 Cocoa<em>Docs</em>
-      p Hosted Docs for Objective-C Libraries.
-      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..." type="search" onkeyup="searchTermChanged()">
+    h1 Cocoa<em>Docs</em>
+    h2 Hosted Docs for Objective-C Libraries.
     
-    div id="items"
-
+    div id="command_bar"
+      a
+        img style="background-color:red" height=32 width=32
+        
+      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..." type="search" onkeyup="searchTermChanged()">
+      a href="http://cocoapods.org"
+        img style="background-color:red" height=32 width=32
+  
     div id="loading" style="display:none"
       p Loading...
       
@@ -35,4 +38,5 @@ body
   script src="assets/string_score.js"
   script src="assets/app.js"
   script src="documents.jsonp"
+  
   <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
