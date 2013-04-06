@@ -1,0 +1,186 @@
+$pale_orange: #FCF3E5;
+$dark_brown:  #5E2E20;
+$bold_orange: #DE922F;
+$pale_bold_orange: #CA8A29;
+$egg_white:   #FDF9F1;
+
+html {
+  margin: 0;
+  padding: 0;
+  
+  /* The search results will nearly *always* go past the fold
+     so we should pre-empt it.                                */
+
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-vertical;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #452e00;
+  background-color: $pale_orange;
+}
+
+a {
+  color: $dark_brown;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#content {
+  margin: 0 auto;
+  width: 600px;
+  padding: 32px;
+}
+
+#masthead {
+  h1 {
+    /* CocoaDocs: */
+    font-weight: bold;
+    font-size: 44px;
+    color: $dark_brown;
+    margin: 0;
+    margin-left:48px;
+    margin-right:12px;
+    display:inline-block;
+  }
+  
+  h2 {
+    /* Hosted Docs for Obje: */
+    font-weight: bold;
+    font-size: 13px;
+    color: #352302;
+    margin-top: 10px;
+    width:160px;
+    display:inline-block;
+  }
+  
+  em {
+    color: $bold_orange;
+    font-style: normal;
+  }
+}
+
+#command_bar {
+  clear:both;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 2px solid #E6A33C;
+  height: 44px;
+  
+  a#search_indicator {
+    float:left;
+    padding:6px;
+    width:32px;
+  }
+  
+  a#about_link {
+    float:right;
+    width:44px;
+    padding:6px;
+    width:32px;
+  }
+
+  input#pod_search::selection, input#pod_search::-moz-selection {
+  	background: $bold_orange;
+  }
+
+  input#pod_search {
+    float:left;
+    border-top:none;
+    border-bottom:none;
+    border-left: 2px solid #E6A33C;
+    border-right: 2px solid #E6A33C;
+    width: 508px;
+    height: 44px;
+    
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: bold;
+    padding: 6px 14px 6px 6px;
+    margin: 0px auto;
+    color: $dark_brown;
+    
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+ul#results {
+
+  padding: 0 48px;
+  margin-top: -2px;
+
+  li:nth-child(odd) {
+    background: $egg_white;
+  }
+  
+  li {
+    background: white;
+    list-style-type: none;
+    padding:14px;
+    color:$dark_brown;
+  }
+  
+  li.active, li:hover {
+    background: $bold_orange;
+    cursor:pointer;
+    h2, h3, p {
+      color:white;
+    }
+  }
+
+  h2 {
+    /* AFNetworking */
+    font-weight: bold;
+    font-size: 14px;
+    color: #352302;
+    line-height: 22px;
+    padding:0;
+    margin: 0 0 8px 0 ;
+    text-overflow: ellipsis;
+    width:420px;
+    float:left;
+  }
+
+  h3 {
+    /* 1.0 */
+    font-weight: bold;
+    font-size:14px;
+    line-height: 22px;
+    padding:0;
+    margin:0;
+    float:right;
+    width:40px;
+    text-align:right;
+  }
+
+  p {
+    /* A delightful iOS and ... */
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 14px;
+    clear:left;
+    color: $pale_bold_orange;
+    width:420px;
+  }
+}
+
+#footer_pod {
+  display:block;
+  text-align:center;
+  margin:48px;
+}
+
+#loading, #no_results {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 48px;
+}

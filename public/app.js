@@ -5,7 +5,7 @@ function searchTermChanged() {
   
   var query = document.getElementById("pod_search").value
   var filtered_results = [];
-  var results = specs;
+  var results;
   
   if (query.length){
     for ( var i = 0; i < specs.length; i++ ){
@@ -31,18 +31,82 @@ function searchTermChanged() {
 
   
   var documents = ""
-  for ( var i = 0; i < results.length; i++ ){
-    var spec = results[i]
-    documents += "<div class='library'><div class ='content'>"
+  if(results) {
+    for ( var i = 0; i < results.length; i++ ){
+      var spec = results[i]
+      if(i == 0){
+        documents += "<li class='selected'>"
+        
+      }else if(i == 1){
+        documents += "<li class='next'>"
+        
+      } else {
+        documents += "<li>"
+      }
+
+      documents += "<a href='" + spec["doc_url"] + "'>"
     
-    documents += "<h2><a href='" + spec["doc_url"] + "'>" + spec["name"] + "</a></h2>"
-    documents += "<h3><a href='" + spec["homepage"] + "'>" + spec["user"] + "</a></h3>"
-    documents += "<p>" + spec["summary"] + "</p>"
-    documents += "<a href='" + spec["doc_url"] + "' class='button'>" + spec["main_version"] + "</a>"
+      documents += "<h2>" + spec["name"] + "</h2>"
+      documents += "<h3>" + spec["main_version"] + "</h3>"
+      documents += "<p>" + spec["summary"] + "</p>"
     
-    documents += "</div></div>"    
-  }
+      documents += "</a></li>"    
+    }
+  }  
   
   document.getElementById("loading").style.display = "none"
-  document.getElementById("items").innerHTML = documents   
+  document.getElementById("results").innerHTML = documents   
+}
+
+document.onclick = function(){ document.getElementById('pod_search').focus(); }
+
+el = document.body;
+if (typeof el.addEventListener != "undefined") {
+    el.addEventListener("keydown", function(evt) {
+        doThis(evt.keyCode);
+    }, false);
+} else if (typeof el.attachEvent != "undefined") {
+    el.attachEvent("onkeydown", function(evt) {
+        doThis(evt.keyCode);
+    });
+}
+
+function doThis(key) {
+    switch (key) {
+        // Enter
+        case 13:
+            openCurrentSelection()
+            break;
+        // Escape
+        case 27:
+            resetSelection()
+            break;
+        // Up
+        case 38:
+            openNextSelection()
+            break;
+        // Down
+        case 40:
+            alert('down pressed');
+            break;
+    }
+}
+
+function openNextSelection(){
+}
+
+function resetSelection(){
+  var input = document.getElementById('pod_search')
+  input["value"] = ""
+  input.focus()
+}
+
+function openCurrentSelection(){
+  var selectedItemArray = document.getElementsByClassName("selected")
+
+  if (selectedItemArray.length) {
+    var item = selectedItemArray[0]
+    var link = item.childNodes[0]
+    window.document.location.href = link.href;
+  }
 }

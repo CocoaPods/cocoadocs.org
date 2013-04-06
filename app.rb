@@ -34,7 +34,8 @@ require 'exceptio-ruby'
 @generate_json = false
 
 # Upload html / docsets
-@upload_to_s3 = false
+@upload_docsets_to_s3 = false
+@upload_site_to_s3 = true
 
 require_relative "classes/utils.rb"
 require_relative "classes/spec_extensions.rb"
@@ -308,6 +309,7 @@ ExceptIO::Client.configure "orta-cocoadocs ", "2abd82e35f6d0140"
 @generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json, :verbose => @verbose)
 
 @generator.generate if @generate_website
-@generator.upload if @upload_to_s3
+@generator.upload_docset if @upload_docsets_to_s3
+@generator.upload_site if @upload_site_to_s3
   
 puts "- It Ends. "

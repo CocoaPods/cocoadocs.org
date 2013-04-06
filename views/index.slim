@@ -10,22 +10,26 @@
   <meta name="keywords" content="cocoapods, cocoa, ios, objective C" /> 
   <meta name="robots" content="all, follow"/> 
     
-  <script src="https://raw.github.com/joshaven/string_score/master/string_score.js"></script>
+  <script src="assets/string_score.js"></script>
   <link href="assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 
 body
   div id="content"
-    h1 Cocoa<em>Docs</em>
-    h2 Hosted Docs for Objective-C Libraries.
+    header id="masthead"
+      h1 Cocoa<em>Docs</em>
+      h2 Hosted Docs for Objective-C Libraries.
     
     div id="command_bar"
-      a
+      a href="#" id="search_indicator"
         img style="background-color:red" height=32 width=32
         
       <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..." type="search" onkeyup="searchTermChanged()">
-      a href="http://cocoapods.org"
+
+      a id="about_link" href="http://cocoapods.org"
         img style="background-color:red" height=32 width=32
+    
+    ul id="results"
   
     div id="loading" style="display:none"
       p Loading...
@@ -33,10 +37,11 @@ body
     div id="no_results" style="display:none"    
       p No results found
     
-    div style="clear:both"
+    div id="footer_pod"
+      a href="http://cocoapods.org" 
+        img src="assets/img/cocoapods.png"
+      
   
   script src="assets/string_score.js"
   script src="assets/app.js"
   script src="documents.jsonp"
-  
-  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

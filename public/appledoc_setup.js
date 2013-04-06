@@ -13,9 +13,12 @@ function setup(spec) {
   if(spec.versions.length > 1) {
     libraryVersionList = document.getElementById("libraryVersionList")
     innerHTML = ""
-    for (var i = 0; i < spec.versions.length; i++) {
+
+    i = spec.versions.length; 
+    while(i--) {
       innerHTML += "<li><a href='../" + spec.versions[i] + "'>"+ spec.versions[i] + "</a></li>"
     }
+    
     libraryVersionList.innerHTML = innerHTML
   } 
 }

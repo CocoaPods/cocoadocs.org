@@ -5,17 +5,10 @@ class WebsiteGenerator
 
   def generate
     create_index_page
-    create_stylesheet
     move_public_items
+    create_stylesheet
   end
   
-  def upload
-    vputs "Uploading docsets folder"
-  
-    upload_folder "docsets", ""
-    upload_folder "html/*", ""
-  end
-
   def create_index_page
     vputs "Creating index page"
     
@@ -34,7 +27,7 @@ class WebsiteGenerator
   
   def create_stylesheet
     vputs "Creating sass stylesheets"
-    `sass views/app_stylesheet.scss:#{@active_folder}/html/assets/app_stylesheet.css`
+    `sass views/homepage_stylesheet.scss:#{@active_folder}/html/assets/homepage_stylesheet.css`
     `sass views/appledoc_stylesheet.scss:#{@active_folder}/html/assets/appledoc_stylesheet.css`
   end
 
@@ -95,17 +88,30 @@ class WebsiteGenerator
     end
     specs
   end
+  
+  # do the *long* check for changes?
+  def upload_docset
+    vputs "Uploading docsets folder"
+    upload_folder "docsets", "sync"
+  end
+  
+  # just dumbly send the html assets over
+  def upload_site
+    vputs "Uploading site folder"
+    upload_folder "html/*", "put"
+  end
+  
 
   # Upload the docsets folder to s3
-  def upload_folder from, to
-    vputs "Uploading #{from} to #{to} on s3"
+  def upload_folder from, command
+    vputs "Uploading #{from} with #{command} on s3"
     
     upload_command = [
-      "s3cmd sync",
+      "s3cmd #{command}",
       "--recursive  --acl-public",
       "--no-check-md5",
       "--verbose --human-readable-sizes",
-      "#{@active_folder}/#{from} s3://cocoadocs.org/#{to}"
+      "#{@active_folder}/#{from} s3://cocoadocs.org/"
     ]
 
     command upload_command.join(' ')
