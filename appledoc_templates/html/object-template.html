@@ -11,6 +11,7 @@
 		{{#strings/appledocData}}<meta name="generator" content="{{tool}} {{version}} (build {{build}})" />{{/strings/appledocData}}
 	</head>
 	<body>
+        
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
         <div id="cocoapods" class="hideInXcode navButton">
@@ -63,7 +64,7 @@
 				</div>
 				<div id="header">
 					<div class="section-header">
-						<h1 class="title title-header">{{page/title}}</h1>
+						<h1 class="title title-header">{{page/title}} <span class="hover-only"><a href="https://github.com/search?q={{object/nameOfClass}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-32.png"></a></span></h1>
 					</div>		
 				</div>
 				<div id="container">	
@@ -258,7 +259,7 @@
 Section Method
 <div class="section-method">
 	<a name="{{htmlReferenceName}}" title="{{methodSelector}}"></a>
-	<h3 class="subsubtitle method-title">{{methodSelector}}</h3>
+	<h3 class="subsubtitle method-title">{{methodSelector}} <span class="hover-only"><a href="https://github.com/search?q={{methodSelector}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-16.png"></a></span></h3>
 	
 	{{#comment}}
 	{{#hasShortDescription}}

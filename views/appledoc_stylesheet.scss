@@ -643,3 +643,17 @@ span.tooltip {
     width: 20%;
   }
 }
+
+/* Add github icon */
+
+h3 .hover-only, h1 .hover-only {
+  display:none;
+}
+
+h3:hover .hover-only, h1:hover .hover-only {
+  display:inline;
+}
+
+h1:hover .hover-only img {
+  vertical-align: top; 
+}

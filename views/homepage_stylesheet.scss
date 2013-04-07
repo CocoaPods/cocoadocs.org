@@ -36,13 +36,16 @@ a {
 }
 
 #masthead {
+  margin-top:80px;
+  margin-bottom:0px;
+
   h1 {
     /* CocoaDocs: */
     font-weight: bold;
     font-size: 44px;
     color: $dark_brown;
     margin: 0;
-    margin-left:48px;
+    margin-left:111px;
     margin-right:12px;
     display:inline-block;
   }
@@ -128,7 +131,7 @@ ul#results {
     color:$dark_brown;
   }
   
-  li.active, li:hover {
+  li.selected, li:hover {
     background: $bold_orange;
     cursor:pointer;
     h2, h3, p {

@@ -22,8 +22,8 @@ require 'exceptio-ruby'
 # the app is doing everything
 
 # Kick start everything from webhooks
-@short_test_webhook = false
 @use_webhook = false
+@short_test_webhook = true
 
 # Download and document
 @fetch_specs = false
@@ -57,7 +57,7 @@ def create_docset_for_spec spec, from, to, readme_location
   
   version = spec.version.to_s.downcase
   id = spec.name.downcase
-  cocoadocs_id = "cocoadocs"
+  cocoadocs_id = "cocoadocs.#{spec.name.downcase}"
   
   headers = headers_for_spec_at_location spec
   headers.map! { |header| Shellwords.escape header }
