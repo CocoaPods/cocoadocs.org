@@ -16,7 +16,11 @@ function setup(spec) {
 
     i = spec.versions.length; 
     while(i--) {
-      innerHTML += "<li><a href='../" + spec.versions[i] + "'>"+ spec.versions[i] + "</a></li>"
+	    if(window.location.pathname.split("/").length ==6) {
+     	  innerHTML += "<li><a href='../../" + spec.versions[i] + "'>"+ spec.versions[i] + "</a></li>"
+      }else {
+        innerHTML += "<li><a href='../" + spec.versions[i] + "'>"+ spec.versions[i] + "</a></li>"
+      }
     }
     
     libraryVersionList.innerHTML = innerHTML

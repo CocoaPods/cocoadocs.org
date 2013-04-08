@@ -13,6 +13,8 @@ function searchTermChanged() {
   var results
   
   if (query.length){
+    document.getElementById("about").style.display = "none"
+    
     for ( var i = 0; i < specs.length; i++ ){
   
       var library_name = specs[i]["name"];

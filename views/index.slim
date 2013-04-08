@@ -17,17 +17,18 @@
 body
   div id="content"
     header id="masthead"
-      h1 Cocoa<em>Docs</em>
-      h2 Hosted Docs for Objective-C Libraries.
+      a href="http://cocoadocs.org"
+        h1 Cocoa<em>Docs</em>
+        h2 Hosted Docs for Objective-C Libraries.
     
     div id="command_bar"
       a href="#" id="search_indicator"
         img height=32 width=32 src="assets/img/search_glass.png"
         
-      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..." type="search" onkeyup="searchTermChanged()">
+      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..."  onkeyup="searchTermChanged()">
 
       a id="about_link" href="#"
-        img src="assets/img/question_mark.png" height=32 width=32
+        img src="assets/img/question_mark.png" height=32 width=32 onclick="    document.getElementById('about').style.display = 'block';"
     
     ul id="results"
   
@@ -36,6 +37,9 @@ body
       
     div id="no_results" style="display:none"    
       p No results found
+
+    div id="about" style="display:none"
+      p Cocoadocs is a project from <a href="http://twitter.com/cocoapods">@cocoapods</a> by <a href="http://twitter.com/cocoapods">@orta</a> - more info coming soon.
     
     div id="footer_pod"
       a href="http://cocoapods.org" 
@@ -45,3 +49,5 @@ body
   script src="assets/string_score.js"
   script src="assets/app.js"
   script src="documents.jsonp"
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-5057919-11', 'cocoadocs.org');ga('send', 'pageview');
+</script>

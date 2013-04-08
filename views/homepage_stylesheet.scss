@@ -90,14 +90,18 @@ a {
   	background: $bold_orange;
   }
 
+  input#pod_search[type="search"]::-webkit-search-cancel-button {
+    display:none;
+  }
+
   input#pod_search {
     float:left;
     border-top:none;
     border-bottom:none;
     border-left: 2px solid #E6A33C;
     border-right: 2px solid #E6A33C;
-    width: 508px;
-    height: 44px;
+    width: 484px;
+    height: 32px;
     
     font-size: 24px;
     font-family: inherit;
@@ -131,9 +135,15 @@ ul#results {
     color:$dark_brown;
   }
   
-  li.selected, li:hover {
+  li:hover {
+    background: lighten($bold_orange, 20%);
+    h2, h3, p {
+      color:black;
+    }
+  }
+  
+  li.selected {
     background: $bold_orange;
-    cursor:pointer;
     h2, h3, p {
       color:white;
     }
@@ -173,6 +183,10 @@ ul#results {
     color: $pale_bold_orange;
     width:420px;
   }
+}
+
+#about {
+  text-align:center;
 }
 
 #footer_pod {

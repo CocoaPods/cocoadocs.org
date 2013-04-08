@@ -17,12 +17,17 @@ class WebsiteGenerator
       create_specs_json specs
     end
     
-    template = Tilt.new('views/index.slim')
-    html = template.render
-    index_path = "#{@active_folder}/html/index.html"
 
-    vputs "Writing index"
-    seve_file html, index_path
+    save_slim "views/index.slim", "#{@active_folder}/html/index.html"
+    save_slim "views/404.slim", "#{@active_folder}/html/404.html"
+  end
+  
+  def save_slim slim_filepath, to_filepath
+    template = Tilt.new slim_filepath
+    html = template.render
+
+    vputs "Writing slim_filepath"
+    seve_file html, to_filepath  
   end
   
   def create_stylesheet
@@ -64,18 +69,23 @@ class WebsiteGenerator
   
     Dir.foreach docsets_dir do |podspec_folder|
       next if podspec_folder[0] == '.'
-   
+      index_exists = false
       spec = { :versions => []}
     
       Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
         next if version[0] == '.' 
         next if version == "metadata.json"
+
+        index_exists = File.exists?("#{docsets_dir}/#{podspec_folder}/#{version}/index.html")
         spec[:main_version] = version
         spec[:versions] << version
       end
-    
-      podspec_path = "/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
-      podspec = eval File.open(@active_folder + podspec_path).read 
+      next unless index_exists
+      
+      podspec_path = "#{@active_folder}/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
+      next unless File.exists? podspec_path
+      
+      podspec = eval File.open(podspec_path).read 
 
       spec[:doc_url] = "/docsets/#{podspec.name}/#{spec[:main_version]}/"
       spec[:user] = podspec.or_contributors_to_spec
