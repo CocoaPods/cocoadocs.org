@@ -14,7 +14,6 @@ require 'tilt'
 require "slim"
 require 'exceptio-ruby'
 
-
 @verbose = true
 @log_all_terminal_commands = true
 
@@ -22,12 +21,13 @@ require 'exceptio-ruby'
 # the app is doing everything
 
 # Kick start everything from webhooks
-@use_webhook = false
+@use_webhook = true
 @short_test_webhook = true
 
 # Download and document
 @fetch_specs = false
-@run_docset_commands = false
+@run_docset_commands = true
+@overwrite_existing_source_files = false
 
 # Generate site site & json
 @generate_website = true
@@ -35,12 +35,17 @@ require 'exceptio-ruby'
 
 # Upload html / docsets
 @upload_docsets_to_s3 = false
-@upload_site_to_s3 = true
+@upload_site_to_s3 = false
+
+@delete_activity_folder = false
 
 require_relative "classes/utils.rb"
 require_relative "classes/spec_extensions.rb"
 require_relative "classes/website_generator.rb"
+require_relative "classes/docset_generator.rb"
 require_relative "classes/docset_fixer.rb"
+require_relative "classes/readme_generator.rb"
+require_relative "classes/source_downloader.rb"
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 
@@ -48,133 +53,12 @@ require_relative "classes/docset_fixer.rb"
 @active_folder_name = "activity"
 @active_folder = @current_dir + "/" + @active_folder_name
 
-# Create a docset based on the spec
-
-def create_docset_for_spec spec, from, to, readme_location
-  vputs "Creating docset"
-  
-  FileUtils.rmdir(to) if Dir.exists?(to)
-  
-  version = spec.version.to_s.downcase
-  id = spec.name.downcase
-  cocoadocs_id = "cocoadocs.#{spec.name.downcase}"
-  
-  headers = headers_for_spec_at_location spec
-  headers.map! { |header| Shellwords.escape header }
-  vputs "Found #{headers.count} header files"
-  
-  if headers.count == 0
-    headers = [from] 
-  end
-  
-  docset_command = [
-    "appledoc",
-    "--project-name #{spec.name}",                         # name in top left
-    "--project-company '#{spec.or_contributors_to_spec}'",   # name in top right
-    "--project-version #{version}",                        # project version
-    "--no-install-docset",                                 # don't make a duplicate
-
-    "--company-id #{cocoadocs_id}",                        # the id for the 
-    "--templates ./appledoc_templates",                    # use the custom template
-    "--verbose 3",                                         # give some useful logs
-
-    "--keep-intermediate-files",                           # space for now is OK
-    "--create-html",                                       # eh, nice to have
- #   "--publish-docset",                                    # this should create atom
-    
-#    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETATOMFILENAME",
- #   "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETPACKAGEFILENAME",
-    
-#    "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
-#    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
-#   "--docset-feed-name #{spec.name}",                    
-
-    "--keep-undocumented-objects",                         # not everyone will be documenting
-    "--keep-undocumented-members",                         # so we should at least show something
-    "--search-undocumented-doc",                           # uh? ( no idea what this does... )
-    
-    "--output #{to}",                                      # where should we throw stuff
-    *headers
-  ]
-
-  if File.exists? readme_location
-    docset_command.insert(3, "--index-desc resources/overwritten_index.html")
-  end
-
-  command docset_command.join(' ')
-  
-  fixer = DocsetFixer.new
-  fixer.docset_path = to
-  fixer.readme_path = readme_location
-  fixer.fix
-end
-
-# Use CocoaPods Downloader to download to the download folder
-
-def download_podfile_files spec, filepath, cache_path
-  vputs "Downloading files for podspec #{spec.name} v #{spec.version}"
-  downloader = Pod::Downloader.for_target(filepath, spec.source)
-  downloader.cache_root = cache_path
-  downloader.download
-end
-
 # Take a spec path and download details, create the docset
 # then upload to s3
-
-def create_and_document_spec filepath
-  spec = eval File.open(filepath).read 
-  
-  puts "\n ----------------------"
-  puts "\n Looking at #{spec.name} #{spec.version} \n".bold.blue
-
-  
-  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-  docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-  readme_location = @active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
-  cache_path = @active_folder + "/download_cache"
-  
-  unless File.exists? download_location
-    download_podfile_files spec, download_location, cache_path
-  end
-  
-  if @run_docset_commands
-    create_gfm_readme spec, readme_location
-    create_docset_for_spec spec, download_location, docset_location, readme_location
-  end
-  
-  generate_json_metadata_for_spec spec
-  
-  puts "\n\n\n"
+def spec_from_path path
+  eval File.open(path).read 
 end
 
-def create_gfm_readme spec, readme_location
-    spec_readme = readme_path spec
-    return unless spec_readme
-    
-    readme_folder = readme_location.split("/")[0...-1].join("/")
-    `mkdir -p '#{readme_folder}'`
-
-    context = nil
-    context = "#{spec.or_user}/#{spec.or_repo}" if spec.or_is_github?
-    
-    # this is just an empty github app that does nothing
-    Octokit.client_id = '52019dadd0bc010084c4'
-    Octokit.client_secret = 'c529632d7aa3ceffe3d93b589d8d2599ca7733e8'
-    markdown = Octokit.markdown(File.read(spec_readme), :mode => "markdown", :context => context)
-    
-    File.open(readme_location, 'w') { |f| f.write(markdown) }
-end
-
-def readme_path spec
-  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-  ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
-    potential_path = download_location + "/" + potential_name
-    if File.exists? potential_path
-      return potential_path
-    end
-  end
-  nil
-end
 
 def generate_json_metadata_for_spec spec
   filepath = @active_folder + "/docsets/" + spec.name
@@ -198,26 +82,6 @@ def generate_json_metadata_for_spec spec
   json_filepath = @active_folder + "/docsets/" + spec.name + "/metadata.json"
 
   File.open(json_filepath, "wb") { |f| f.write function_wrapped }
-end
-
-# Use cocoapods to get the header files for a specific spec
-
-def headers_for_spec_at_location spec
-  download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/"
-    
-  sandbox = Pod::Sandbox.new( download_location )
-  pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
-  headers = []
-  
-  spec.available_platforms.each do |platform|
-    installer = Pod::Installer::PodSourceInstaller.new(sandbox, {platform => [spec]} )
-    sources = installer.send(:used_files).delete_if do |path|
-        !path.include? ".h"
-    end
-    headers += sources
-  end
-  
-  headers.uniq
 end
 
 # Update or clone Cocoapods/Specs
@@ -272,7 +136,29 @@ def handle_webhook webhook_payload
     next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
     begin
-      create_and_document_spec spec_path
+      spec = spec_from_path spec_path
+      
+      download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+      docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+      readme_location = @active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+  
+      if @run_docset_commands
+        
+        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :active_folder => @active_folder, :overwrite => @overwrite_existing_source_files})
+        downloader.download_pod_source_files
+        
+        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :active_folder => @active_folder })
+        readme.create_readme
+
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location,  :active_folder => @active_folder  })
+        generator.create_docset
+        
+        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location })
+        fixer.fix
+      end
+  
+      generate_json_metadata_for_spec spec
+      
     rescue Exception => e
       
       open('error_log.txt', 'a') { |f|
@@ -302,9 +188,6 @@ if @use_webhook
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
   end
 end
-
-# choo choo its the exception train
-ExceptIO::Client.configure "orta-cocoadocs ", "2abd82e35f6d0140"
 
 @generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json, :verbose => @verbose)
 
