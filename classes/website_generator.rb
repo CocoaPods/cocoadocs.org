@@ -1,7 +1,7 @@
 class WebsiteGenerator
   include HashInit
   
-  attr_accessor :active_folder, :generate_json
+  attr_accessor :generate_json
 
   def generate
     create_index_page
@@ -18,8 +18,8 @@ class WebsiteGenerator
     end
     
 
-    save_slim "views/index.slim", "#{@active_folder}/html/index.html"
-    save_slim "views/404.slim", "#{@active_folder}/html/404.html"
+    save_slim "views/index.slim", "#{$active_folder}/html/index.html"
+    save_slim "views/404.slim", "#{$active_folder}/html/404.html"
   end
   
   def save_slim slim_filepath, to_filepath
@@ -32,15 +32,15 @@ class WebsiteGenerator
   
   def create_stylesheet
     vputs "Creating sass stylesheets"
-    `sass views/homepage_stylesheet.scss:#{@active_folder}/html/assets/homepage_stylesheet.css`
-    `sass views/appledoc_stylesheet.scss:#{@active_folder}/html/assets/appledoc_stylesheet.css`
+    `sass views/homepage_stylesheet.scss:#{$active_folder}/html/assets/homepage_stylesheet.css`
+    `sass views/appledoc_stylesheet.scss:#{$active_folder}/html/assets/appledoc_stylesheet.css`
   end
 
   def create_specs_json specs
     array_string = specs.to_json.to_s
   
     function_wrapped = "var specs = #{array_string}; searchTermChanged()"
-    json_filepath = @active_folder + "/html/documents.jsonp"
+    json_filepath = $active_folder + "/html/documents.jsonp"
 
     vputs "Writing JSON"
     seve_file function_wrapped, json_filepath
@@ -56,7 +56,7 @@ class WebsiteGenerator
   end
 
   def move_public_items
-    resources_dir = "#{@active_folder}/html/assets/"
+    resources_dir = "#{$active_folder}/html/assets/"
 
     command "rm -rf #{resources_dir}"
     command "mkdir #{resources_dir}"
@@ -65,7 +65,7 @@ class WebsiteGenerator
 
   def create_docsets_array
     specs = []
-    docsets_dir = "#{@active_folder}/docsets/"
+    docsets_dir = "#{$active_folder}/docsets/"
   
     Dir.foreach docsets_dir do |podspec_folder|
       next if podspec_folder[0] == '.'
@@ -82,7 +82,7 @@ class WebsiteGenerator
       end
       next unless index_exists
       
-      podspec_path = "#{@active_folder}/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
+      podspec_path = "#{$active_folder}/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
       next unless File.exists? podspec_path
       
       podspec = eval File.open(podspec_path).read 
@@ -121,10 +121,9 @@ class WebsiteGenerator
       "--recursive  --acl-public",
       "--no-check-md5",
       "--verbose --human-readable-sizes",
-      "#{@active_folder}/#{from} s3://cocoadocs.org/"
+      "#{$active_folder}/#{from} s3://cocoadocs.org/"
     ]
 
     command upload_command.join(' ')
   end
-
 end

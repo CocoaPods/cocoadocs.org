@@ -1,14 +1,12 @@
 class SourceDownloader
   include HashInit
-  
-  attr_accessor :spec, :download_location, :active_folder, :overwrite
+  attr_accessor :spec, :download_location, :overwrite
 
-  def download_pod_source_files
-  
+  def download_pod_source_files  
     puts "\n ----------------------"
     puts "\n Looking at #{@spec.name} #{@spec.version} \n".bold.blue
  
-    cache_path = @active_folder + "/download_cache"
+    cache_path = $active_folder + "/download_cache"
   
     if Dir.exists? @download_location
       if @overwrite

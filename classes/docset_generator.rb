@@ -1,7 +1,7 @@
 class DocsetGenerator
   include HashInit
   
-  attr_accessor :spec, :from, :to, :readme_location, :active_folder
+  attr_accessor :spec, :from, :to, :readme_location
   
   def create_docset
     vputs "Creating docset"
@@ -60,7 +60,7 @@ class DocsetGenerator
   # Use cocoapods to get the header files for a specific spec
 
   def headers_for_spec_at_location spec
-    download_location = @active_folder + "/download/#{@spec.name}/#{@spec.version}/"
+    download_location = $active_folder + "/download/#{@spec.name}/#{@spec.version}/"
     
     sandbox = Pod::Sandbox.new( download_location )
     pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  

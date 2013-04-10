@@ -21,7 +21,7 @@ class ReadmeGenerator
   end
 
   def readme_path spec
-    download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+    download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
     ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
       potential_path = download_location + "/" + potential_name
       if File.exists? potential_path

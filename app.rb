@@ -27,7 +27,7 @@ $start_sinatra_server = false
 
 # Download and document
 @fetch_specs = false
-@run_docset_commands = false
+@run_docset_commands = true
 @overwrite_existing_source_files = false
 
 # Generate site site & json
@@ -40,51 +40,19 @@ $start_sinatra_server = false
 
 @delete_activity_folder = false
 
-require_relative "classes/utils.rb"
-require_relative "classes/spec_extensions.rb"
-require_relative "classes/website_generator.rb"
-require_relative "classes/docset_generator.rb"
-require_relative "classes/docset_fixer.rb"
-require_relative "classes/readme_generator.rb"
-require_relative "classes/source_downloader.rb"
+Dir["./classes/*.rb"].each {|file| require_relative file }
 
 @current_dir = File.dirname(File.expand_path(__FILE__)) 
 
 #constrain all downloads etc into one subfolder
 @active_folder_name = "activity"
-@active_folder = @current_dir + "/" + @active_folder_name
+$active_folder = @current_dir + "/" + @active_folder_name
 
-# Take a spec path and download details, create the docset
-# then upload to s3
-
-def generate_json_metadata_for_spec spec
-  filepath = @active_folder + "/docsets/" + spec.name
-
-  versions = []
-  Dir.foreach filepath do |version|
-    next if version[0] == '.'
-    next if version == "metadata.json"
-    versions << version
-  end
-  
-  hash_string = {
-    
-    :spec_homepage => spec.homepage,
-    :versions => versions,
-    :license => spec.or_license
-    
-  }.to_json.to_s
-  
-  function_wrapped = "setup(#{hash_string})"
-  json_filepath = @active_folder + "/docsets/" + spec.name + "/metadata.json"
-
-  File.open(json_filepath, "wb") { |f| f.write function_wrapped }
-end
 
 # Update or clone Cocoapods/Specs
 
 def update_specs_repo
-  repo = @active_folder + "/Specs"
+  repo = $active_folder + "/Specs"
   unless File.exists? repo
     vputs "Creating Specs Repo"
     command "git clone git@github.com:CocoaPods/Specs.git #{repo}"
@@ -129,32 +97,33 @@ def handle_webhook webhook_payload
   vputs "Looking at #{updated_specs.lines.count}"
   
   updated_specs.lines.each_with_index do |spec_filepath, index|
-    spec_path = @active_folder + "/Specs/" + spec_filepath.strip
+    spec_path = $active_folder + "/Specs/" + spec_filepath.strip
     next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
     begin
       spec = eval(File.open(spec_path).read)
       
-      download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-      docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-      readme_location = @active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+      download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+      docset_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+      readme_location = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
   
       if @run_docset_commands
         
-        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :active_folder => @active_folder, :overwrite => @overwrite_existing_source_files})
+        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => @overwrite_existing_source_files })
         downloader.download_pod_source_files
         
-        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :active_folder => @active_folder })
+        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme
 
-        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location,  :active_folder => @active_folder  })
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
         generator.create_docset
         
         fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location })
         fixer.fix
+      
+        spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
+        spec_metadata.generate        
       end
-  
-      generate_json_metadata_for_spec spec
       
     rescue Exception => e
       
@@ -173,7 +142,7 @@ def handle_webhook webhook_payload
     end
   end
 
-  @generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json)
+  @generator = WebsiteGenerator.new(:generate_json => @generate_json)
 
   @generator.generate if @generate_website
   @generator.upload_docset if @upload_docsets_to_s3
@@ -181,7 +150,6 @@ def handle_webhook webhook_payload
 end
 
 # App example data. Instead of using the webhook, here's two 
-
 
 if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. "
