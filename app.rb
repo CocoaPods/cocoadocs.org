@@ -12,10 +12,11 @@ require "colored"
 
 require 'tilt'
 require "slim"
-require 'exceptio-ruby'
+require 'sinatra'
 
 $verbose = true
 $log_all_terminal_commands = true
+$start_sinatra_server = false
 
 # these are built to be all true when
 # the app is doing everything
@@ -26,7 +27,7 @@ $log_all_terminal_commands = true
 
 # Download and document
 @fetch_specs = false
-@run_docset_commands = true
+@run_docset_commands = false
 @overwrite_existing_source_files = false
 
 # Generate site site & json
@@ -35,7 +36,7 @@ $log_all_terminal_commands = true
 
 # Upload html / docsets
 @upload_docsets_to_s3 = false
-@upload_site_to_s3 = false
+@upload_site_to_s3 = true
 
 @delete_activity_folder = false
 
@@ -55,10 +56,6 @@ require_relative "classes/source_downloader.rb"
 
 # Take a spec path and download details, create the docset
 # then upload to s3
-def spec_from_path path
-  eval File.open(path).read 
-end
-
 
 def generate_json_metadata_for_spec spec
   filepath = @active_folder + "/docsets/" + spec.name
@@ -136,7 +133,7 @@ def handle_webhook webhook_payload
     next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
     begin
-      spec = spec_from_path spec_path
+      spec = eval(File.open(spec_path).read)
       
       download_location = @active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location = @active_folder + "/docsets/#{spec.name}/#{spec.version}/"
@@ -162,7 +159,7 @@ def handle_webhook webhook_payload
     rescue Exception => e
       
       open('error_log.txt', 'a') { |f|
-        f.puts "\n\n\n\n\n --------------#{spec_path}-------------"
+        f.puts "\n\n\n\n\n--------------#{spec_path}-------------"
         f.puts e.message
         f.puts "------"
         f.puts e.backtrace.inspect
@@ -175,24 +172,35 @@ def handle_webhook webhook_payload
       
     end
   end
+
+  @generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json)
+
+  @generator.generate if @generate_website
+  @generator.upload_docset if @upload_docsets_to_s3
+  @generator.upload_site if @upload_site_to_s3
 end
 
 # App example data. Instead of using the webhook, here's two 
 
-puts "\n - It starts. "
 
-if @use_webhook
+if @use_webhook and !$start_sinatra_server
+  puts "\n - It starts. "
+  
   if @short_test_webhook
     handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
   end
+  
+  puts "- It Ends. "
 end
 
-@generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json)
+# --------------------------
+# Sinatra stuff
+# we want the script to launch a webhook responding sinatra app
 
-@generator.generate if @generate_website
-@generator.upload_docset if @upload_docsets_to_s3
-@generator.upload_site if @upload_site_to_s3
-  
-puts "- It Ends. "
+set :run, $start_sinatra_server
+
+post "/webhook" do
+  handle_webhook JSON.parse(params[:payload])
+end

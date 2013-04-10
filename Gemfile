@@ -10,7 +10,7 @@ gem "cocoapods", "0.17.1"
 
 gem "octokit"
 
-gem "exceptio-ruby"
 gem "slim"
 gem "sass"
 gem "colored", "~> 1.2"
+gem "sinatra"

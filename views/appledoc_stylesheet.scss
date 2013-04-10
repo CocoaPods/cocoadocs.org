@@ -111,6 +111,12 @@ th {
   padding-right: 2em;
   padding-top: 1em;
   min-width: 550px;
+  
+  p {
+    max-width: 700px !important;
+    line-height: 18px;
+    font-size: 13px;
+  }
 }
 
 #contents.isShowingTOC {
@@ -538,11 +544,12 @@ ul#toc > li > ul > li {
 
 span.tooltip {
   span.tooltip {
+    border-radius: 4px;
+    background-color:  rgba(254, 235, 197, 0.8);
     font-size: 1.0em;
     display: none;
     padding: 0.3em;
-    border: 1px solid #aaa;
-    background-color: #feebc5;
+    border: 1px solid hsl(40, 97%, 40%);
     color: #000;
     text-align: left;
   }
