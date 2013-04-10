@@ -1,7 +1,7 @@
 class WebsiteGenerator
   include HashInit
   
-  attr_accessor :active_folder, :generate_json, :verbose
+  attr_accessor :active_folder, :generate_json
 
   def generate
     create_index_page

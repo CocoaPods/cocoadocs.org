@@ -66,6 +66,8 @@ class DocsetGenerator
     pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
     headers = []
   
+#    headers = Pod::Generator::Documentation.new( sandbox, spec, pathlist).public_headers
+
     @spec.available_platforms.each do |platform|
       installer = Pod::Installer::PodSourceInstaller.new(sandbox, {platform => [@spec]} )
       sources = installer.send(:used_files).delete_if do |path|

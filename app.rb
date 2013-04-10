@@ -14,8 +14,8 @@ require 'tilt'
 require "slim"
 require 'exceptio-ruby'
 
-@verbose = true
-@log_all_terminal_commands = true
+$verbose = true
+$log_all_terminal_commands = true
 
 # these are built to be all true when
 # the app is doing everything
@@ -189,7 +189,7 @@ if @use_webhook
   end
 end
 
-@generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json, :verbose => @verbose)
+@generator = WebsiteGenerator.new(:active_folder => @active_folder, :generate_json => @generate_json)
 
 @generator.generate if @generate_website
 @generator.upload_docset if @upload_docsets_to_s3
