@@ -281,7 +281,6 @@ th {
 }
 
 #toc_button button {
-  border-color: #ACACAC;
   border-style: none solid none none;
   border-width: 0 1px 0 0;
   height: 28px;
@@ -289,6 +288,8 @@ th {
   padding-left: 30px;
   text-align: left;
   width: 230px;
+  background-color: transparent;
+  background-image: url(http://cocoadocs.org/docsets/AFNetworking/1.2.0/Classes/img/button_bar_background.png);
 }
 
 li#jumpto_button {
@@ -549,14 +550,19 @@ span.tooltip {
     font-size: 1.0em;
     display: none;
     padding: 0.3em;
-    border: 1px solid hsl(40, 97%, 40%);
     color: #000;
     text-align: left;
+    border: 1px solid hsl(40, 97%, 40%);
+    background-color: hsla(40, 97%, 88%, 0.88);
+    border-radius: 4px;
   }
   &:hover span.tooltip {
     display: block;
     position: absolute;
     margin-left: 2em;
+  }
+  p {
+    margin: 13px;
   }
 }
 
@@ -588,6 +594,10 @@ span.tooltip {
   code {
     font: 14px Courier, Consolas, monospace;
     color: #000;
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: hsl(37, 79%, 94%);
   }
 }
 
