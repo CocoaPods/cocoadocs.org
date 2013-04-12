@@ -34,7 +34,7 @@ class DocsetFixer
     Dir.foreach @pod_root do |version|
       next if version[0] == '.'
       next if version == "metadata.json"
-      next if version == "index.json"
+      next if version == "index.html"
       
       versions << version
     end
@@ -44,7 +44,8 @@ class DocsetFixer
     version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
 
     from = @pod_root + "/index.html"
-    to = "docset/#{spec.name}/#{version}"
+    from_server = "docsets/#{spec.name}/index.html"
+    to = "docsets/#{spec.name}/#{version}"
     command "touch #{from}"
     
     redirect_command = [
@@ -52,8 +53,8 @@ class DocsetFixer
       "--acl-public",
       "--no-check-md5",
       "--verbose --human-readable-sizes --reduced-redundancy",
-      "--add-header='x-amz-website-redirect-location:/#{to}/'",
-      "#{$active_folder}/#{from} s3://cocoadocs.org/"
+      "--add-header='x-amz-website-redirect-location:/#{to}'",
+      "#{from} s3://cocoadocs.org/#{from_server}"
     ]
 
     command redirect_command.join(' ')
