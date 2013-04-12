@@ -422,11 +422,16 @@ ul#toc > li > ul > li {
   width: 30%;
   min-width: 200px;
   font-size: 11px;
+
   ul {
     margin: 8px 0 0 0;
     padding: 0;
     list-style: none;
+
     li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin: 0 0 3px 0;
       padding: 0;
     }
