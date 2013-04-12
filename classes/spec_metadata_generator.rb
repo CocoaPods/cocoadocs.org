@@ -9,6 +9,7 @@ class SpecMetadataGenerator
     Dir.foreach filepath do |version|
       next if version[0] == '.'
       next if version == "metadata.json"
+      next if version == "index.html"
       versions << version
     end
 

@@ -1,6 +1,5 @@
 class WebsiteGenerator
   include HashInit
-  
   attr_accessor :generate_json
 
   def generate
@@ -16,7 +15,6 @@ class WebsiteGenerator
       specs = create_docsets_array
       create_specs_json specs
     end
-    
 
     save_slim "views/index.slim", "#{$active_folder}/html/index.html"
     save_slim "views/404.slim", "#{$active_folder}/html/404.html"
@@ -120,7 +118,7 @@ class WebsiteGenerator
       "s3cmd #{command}",
       "--recursive  --acl-public",
       "--no-check-md5",
-      "--verbose --human-readable-sizes",
+      "--verbose --human-readable-sizes --reduced-redundancy",
       "#{$active_folder}/#{from} s3://cocoadocs.org/"
     ]
 

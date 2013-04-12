@@ -37,6 +37,7 @@ $start_sinatra_server = false
 # Upload html / docsets
 @upload_docsets_to_s3 = false
 @upload_site_to_s3 = true
+@upload_redirects_for_spec_index = true
 
 @delete_activity_folder = false
 
@@ -104,9 +105,9 @@ def handle_webhook webhook_payload
       spec = eval(File.open(spec_path).read)
       
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-      docset_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-      readme_location = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
-  
+      docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+      readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+      pod_root_location = $active_folder + "/docsets/#{spec.name}/"
       if @run_docset_commands
         
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => @overwrite_existing_source_files })
@@ -118,8 +119,9 @@ def handle_webhook webhook_payload
         generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
         generator.create_docset
         
-        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location })
+        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
         fixer.fix
+        fixer.add_redirect_to_latest_to_pod if @upload_redirects_for_spec_index
       
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate        
