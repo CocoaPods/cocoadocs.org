@@ -10,7 +10,7 @@ class DocsetGenerator
   
     version = @spec.version.to_s.downcase
     id = @spec.name.downcase
-    cocoadocs_id = "cocoadocs.#{spec.name.downcase}"
+    cocoadocs_id = "com.cocoadocs.#{spec.name.downcase}"
   
     headers = headers_for_spec_at_location @spec
     headers.map! { |header| Shellwords.escape header }
@@ -24,24 +24,26 @@ class DocsetGenerator
       "appledoc",
       "--project-name #{@spec.name}",                         # name in top left
       "--project-company '#{@spec.or_contributors_to_spec}'",   # name in top right
+      "--company-id #{cocoadocs_id}",                        # the id for the 
+
       "--project-version #{version}",                        # project version
       "--no-install-docset",                                 # don't make a duplicate
 
-      "--company-id #{cocoadocs_id}",                        # the id for the 
       "--templates ./appledoc_templates",                    # use the custom template
       "--verbose 3",                                         # give some useful logs
 
       "--keep-intermediate-files",                           # space for now is OK
       "--create-html",                                       # eh, nice to have
-   #   "--publish-docset",                                    # this should create atom
+      "--publish-docset",                                    # this should create atom
     
-  #    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETATOMFILENAME",
-   #   "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/%DOCSETPACKAGEFILENAME",
-    
-  #    "--docset-atom-filename '#{to}../#{spec.name}.atom' ",
-  #    "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.xml",
-  #   "--docset-feed-name #{spec.name}",                    
+      "--docset-feed-url http://cocoadocs.org/docsets/#{spec.name}/xcode-docset.atom",
+      "--docset-atom-filename xcode-docset.atom",
 
+      "--docset-package-url http://cocoadocs.org/docsets/#{spec.name}/docset.xar",
+      "--docset-package-filename docset", 
+    
+      "--docset-fallback-url http://cocoadocs.org/docsets/#{spec.name}",
+      "--docset-feed-name #{spec.name}",                    
       "--keep-undocumented-objects",                         # not everyone will be documenting
       "--keep-undocumented-members",                         # so we should at least show something
       "--search-undocumented-doc",                           # uh? ( no idea what this does... )

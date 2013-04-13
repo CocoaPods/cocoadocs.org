@@ -3,9 +3,25 @@ class DocsetFixer
   attr_accessor :docset_path, :readme_path, :pod_root, :spec
   
   def fix
+    get_latest_version_in_folder
     remove_html_folder
     move_gfm_readme_in
   end
+
+  def get_latest_version_in_folder
+    versions = []
+    Dir.foreach @pod_root do |version|
+      next if version[0] == '.'
+      next unless File.directory? "#{@pod_root}/#{version}"
+      
+      versions << version
+    end
+
+    #semantically order them as they're in unix's order ATM
+    # we convert them to Versions, then get the last  string
+    @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last    
+  end
+  
   
   def remove_html_folder
     # the structure is normally /POD/version/html/index.html
@@ -29,23 +45,26 @@ class DocsetFixer
     end 
   end
   
-  def add_redirect_to_latest_to_pod
-    versions = []
-    Dir.foreach @pod_root do |version|
-      next if version[0] == '.'
-      next if version == "metadata.json"
-      next if version == "index.html"
-      
-      versions << version
-    end
-
-    #semantically order them as they're in unix's order ATM
-    # we convert them to Versions, then get the last  string
-    version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
-
+  def add_index_redirect_to_latest_to_pod
     from = @pod_root + "/index.html"
     from_server = "docsets/#{spec.name}/index.html"
-    to = "docsets/#{spec.name}/#{version}"
+    to = "docsets/#{spec.name}/#{@version}"
+    redirect_command from, from_server, to
+  end
+  
+  def add_docset_redirects
+    from = @pod_root + "/docset.xar"
+    from_server = "docsets/#{spec.name}/docset.xar"
+    to = "docsets/#{spec.name}/#{@version}/publish/docset.xar"
+    redirect_command from, from_server, to
+    
+    from = @pod_root + "/xcode-docset.atom"
+    from_server = "docsets/#{spec.name}/xcode-docset.atom"
+    to = "docsets/#{spec.name}/#{@version}/publish/xcode-docset.atom"
+    redirect_command from, from_server, to
+  end
+  
+  def redirect_command from, from_server, to
     command "touch #{from}"
     
     redirect_command = [
@@ -58,5 +77,6 @@ class DocsetFixer
     ]
 
     command redirect_command.join(' ')
+    
   end
 end

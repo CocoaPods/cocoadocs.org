@@ -29,6 +29,7 @@ $start_sinatra_server = false
 @fetch_specs = false
 @run_docset_commands = true
 @overwrite_existing_source_files = false
+@delete_source_after_docset_creation = false
 
 # Generate site site & json
 @generate_website = true
@@ -36,8 +37,9 @@ $start_sinatra_server = false
 
 # Upload html / docsets
 @upload_docsets_to_s3 = false
-@upload_site_to_s3 = true
-@upload_redirects_for_spec_index = true
+@upload_site_to_s3 = false
+@upload_redirects_for_spec_index = false
+@upload_redirects_for_docsets = true
 
 @delete_activity_folder = false
 
@@ -121,10 +123,13 @@ def handle_webhook webhook_payload
         
         fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
         fixer.fix
-        fixer.add_redirect_to_latest_to_pod if @upload_redirects_for_spec_index
-      
+        fixer.add_index_redirect_to_latest_to_pod if @upload_redirects_for_spec_index
+        fixer.add_docset_redirects if @upload_redirects_for_docsets
+        
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
-        spec_metadata.generate        
+        spec_metadata.generate
+        
+        command "rm -rf #{docset_location}" if @delete_source_after_docset_creation
       end
       
     rescue Exception => e
@@ -157,7 +162,7 @@ if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. "
   
   if @short_test_webhook
-    handle_webhook({ "before" => "b20c7bf50407a9d21ada700d262ec88a89a405ac", "after" => "d9403181ad800bfac95fcb889c8129cc5dc033e5" })
+    handle_webhook({ "before" => "9485cde", "after" => "13759aa" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
   end

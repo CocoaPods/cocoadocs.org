@@ -8,8 +8,8 @@ class SpecMetadataGenerator
     versions = []
     Dir.foreach filepath do |version|
       next if version[0] == '.'
-      next if version == "metadata.json"
-      next if version == "index.html"
+      next unless File.directory? "#{@pod_root}/#{version}"
+
       versions << version
     end
 
