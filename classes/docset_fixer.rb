@@ -5,6 +5,8 @@ class DocsetFixer
   def fix
     get_latest_version_in_folder
     remove_html_folder
+    delete_extra_docset_folder
+    fix_relative_links_in_gfm
     move_gfm_readme_in
     create_dash_data
   end
@@ -30,16 +32,24 @@ class DocsetFixer
     
     return unless Dir.exists? @docset_path + "html/"
     
-    `cp -Rf #{@docset_path}html/* #{@docset_path}/`
-    `rm -Rf #{@docset_path}/html`
+    command "cp -Rf #{@docset_path}html/* #{@docset_path}/"
+    command "rm -Rf #{@docset_path}/html"
+  end
+  
+  def delete_extra_docset_folder
+    command "rm -Rf #{@docset_path}/docset"    
+  end
+  
+  def fix_relative_links_in_gfm
+    
   end
   
   def move_gfm_readme_in
     return unless File.exists? @readme_path
     
     readme = File.read @readme_path
-
-    ['index.html', 'docset/Contents/Resources/Documents/index.html'].each do |path|      
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|      
       html = File.open(@docset_path + path).read
       html.sub!("</THISISTOBEREMOVED>", readme)
       File.open(@docset_path + path, 'w') { |f| f.write(html) }
@@ -47,52 +57,65 @@ class DocsetFixer
   end
   
   def create_dash_data
+    # create the tgz file for the xcode docset using our GFM index
+    version_folder = "#{@pod_root}/#{@version}"
+    publish_folder = "#{version_folder}/publish"
+    
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    Dir.chdir(version_folder) do
+      command "xar -cf 'publish/docset.xar' '#{docset}'"
+    end
+    
     # the Dash XML
-    xml_path = "#{@pod_root}/#{version}/publish/#{spec.name}.xml"
+    xml_path = "#{publish_folder}/#{@spec.name}.xml"
     File.open(xml_path, "wb") do |file|
        file.write("
        <entry>
           <version>#{@version}</version>
-          <url>http://cocoadocs.org/docsets/#{spec.name}/#{spec.name}.tgz</url>
+          <url>http://cocoadocs.org/docsets/#{@spec.name}/#{@spec.name}.tgz</url>
         </entry>")
     end
 
     # the dash docset tgz
-    to = "docsets/#{spec.name}/#{@version}/publish/#{spec.name}.tgz"
-    from = "docsets/#{spec.name}com.cocoadocs.*"
-    command "tar --exclude='.DS_Store' -cvzf #{to} #{from}"
+    to = "publish/#{@spec.name}.tgz"
+    from = docset
+    
+    Dir.chdir(version_folder) do
+      command "tar --exclude='.DS_Store' -cvzf #{to} #{from}"
+    end
+    
   end
   
   def add_index_redirect_to_latest_to_pod
     from = @pod_root + "/index.html"
-    from_server = "docsets/#{spec.name}/index.html"
-    to = "docsets/#{spec.name}/#{@version}"
+    from_server = "docsets/#{@spec.name}/index.html"
+    to = "docsets/#{@spec.name}/#{@version}"
     redirect_command from, from_server, to
   end
   
   def add_docset_redirects
     # this is a xar'd (???) version of the docset
     from = @pod_root + "/docset.xar"
-    from_server = "docsets/#{spec.name}/docset.xar"
-    to = "docsets/#{spec.name}/#{@version}/publish/docset.xar"
+    from_server = "docsets/#{@spec.name}/docset.xar"
+    to = "docsets/#{@spec.name}/#{@version}/publish/docset.xar"
     redirect_command from, from_server, to
     
     # this atom feed contains all the metadata for xcode
     from = @pod_root + "/xcode-docset.atom"
     from_server = "docsets/#{spec.name}/xcode-docset.atom"
-    to = "docsets/#{spec.name}/#{@version}/publish/xcode-docset.atom"
+    to = "docsets/#{@spec.name}/#{@version}/publish/xcode-docset.atom"
     redirect_command from, from_server, to
     
     # this xml feed contains all the metadata for dash
-    from = "#{@pod_root}/#{@version}/publish/#{spec.name}.xml"
-    from_server = "docsets/#{spec.name}/#{spec.name}.xml"
-    to = "docsets/#{spec.name}/#{@version}/publish/#{spec.name}.xml"
+    from = "#{@pod_root}/#{@version}/publish/#{@spec.name}.xml"
+    from_server = "docsets/#{@spec.name}/#{@spec.name}.xml"
+    to = "docsets/#{@spec.name}/#{@version}/publish/#{@spec.name}.xml"
     redirect_command from, from_server, to
 
     # this is the tgz for dash
-    from = "#{@pod_root}/#{@version}/publish/#{spec.name}.tgz"
-    from_server = "docsets/#{spec.name}/#{spec.name}.tgz"
-    to = "docsets/#{spec.name}/#{@version}/publish/#{spec.name}.tgz"
+    from = "#{@pod_root}/#{@version}/publish/#{@spec.name}.tgz"
+    from_server = "docsets/#{@spec.name}/#{@spec.name}.tgz"
+    to = "docsets/#{@spec.name}/#{@version}/publish/#{@spec.name}.tgz"
     redirect_command from, from_server, to
   end
   

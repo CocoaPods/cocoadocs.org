@@ -162,7 +162,7 @@ if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. "
   
   if @short_test_webhook
-    handle_webhook({ "before" => "9485cde", "after" => "13759aa" })
+    handle_webhook({ "before" => "e025c9f", "after" => "b0053ac017b63401c770a70750cf8b5833950b1e" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
   end
