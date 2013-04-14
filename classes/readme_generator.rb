@@ -11,6 +11,8 @@ class ReadmeGenerator
 
       context = nil
       context = "#{@spec.or_user}/#{@spec.or_repo}" if @spec.or_is_github?
+
+      puts context
     
       # this is just an empty github app that does nothing
       Octokit.client_id = '52019dadd0bc010084c4'

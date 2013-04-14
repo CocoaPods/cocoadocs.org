@@ -9,7 +9,7 @@ gem "cocoapods-downloader"
 gem "cocoapods", "0.17.1"
 
 gem "octokit"
-
+gem "nokogiri"
 gem "slim"
 gem "sass"
 gem "colored", "~> 1.2"

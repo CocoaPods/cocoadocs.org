@@ -13,6 +13,7 @@ require "colored"
 require 'tilt'
 require "slim"
 require 'sinatra'
+require "nokogiri"
 
 $verbose = true
 $log_all_terminal_commands = true

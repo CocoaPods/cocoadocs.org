@@ -41,7 +41,17 @@ class DocsetFixer
   end
   
   def fix_relative_links_in_gfm
+    return unless @spec.or_is_github?
     
+    doc = Nokogiri::HTML(File.read @readme_path)
+    doc.css("a").each do |link|
+      link_string = link.attributes["href"].value
+      next if link_string.start_with? "#"
+      next if link_string.start_with? "http"
+      next if link_string.include? "@"
+      link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/#{CGI.escape link.attributes["href"].value}"
+    end
+    doc.write_to(open(@readme_path, 'w'))
   end
   
   def move_gfm_readme_in
@@ -57,6 +67,8 @@ class DocsetFixer
   end
   
   def create_dash_data
+    # Dash requires a different format for the docset and the xml data
+    
     # create the tgz file for the xcode docset using our GFM index
     version_folder = "#{@pod_root}/#{@version}"
     publish_folder = "#{version_folder}/publish"
