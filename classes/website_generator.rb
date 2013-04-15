@@ -31,7 +31,7 @@ class WebsiteGenerator
   def create_stylesheet
     vputs "Creating sass stylesheets"
     command "sass views/homepage_stylesheet.scss:#{$active_folder}/html/assets/homepage_stylesheet.css"
-    command "sass views/appledoc_stylesheet.scss:#{$active_folder}/html/assets/appledoc_stylesheet.css --trace"
+    command "sass views/appledoc_stylesheet.scss:#{$active_folder}/html/assets/appledoc_stylesheet.css"
   end
 
   def create_specs_json specs

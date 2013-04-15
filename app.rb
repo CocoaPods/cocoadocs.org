@@ -27,20 +27,20 @@ $start_sinatra_server = false
 @short_test_webhook = true
 
 # Download and document
-@fetch_specs = false
+@fetch_specs = true
 @run_docset_commands = true
-@overwrite_existing_source_files = false
-@delete_source_after_docset_creation = false
+@overwrite_existing_source_files = true
+@delete_source_after_docset_creation = true
 
 # Generate site site & json
 @generate_website = true
-@generate_json = false
+@generate_json = true
 
 # Upload html / docsets
-@upload_docsets_to_s3 = true
-@upload_site_to_s3 = true
+@upload_docsets_to_s3 = false
+@upload_site_to_s3 = false
 @upload_redirects_for_spec_index = false
-@upload_redirects_for_docsets = true
+@upload_redirects_for_docsets = false
 
 @delete_activity_folder = false
 
@@ -59,7 +59,7 @@ def update_specs_repo
   repo = $active_folder + "/Specs"
   unless File.exists? repo
     vputs "Creating Specs Repo"
-    command "git clone git@github.com:CocoaPods/Specs.git #{repo}"
+    command "git clone git://github.com/CocoaPods/Specs.git #{repo}"
   else
     if @fetch_specs
       vputs "Updating Specs Repo"
@@ -133,7 +133,7 @@ def handle_webhook webhook_payload
         @generator = WebsiteGenerator.new(:generate_json => @generate_json, :spec => spec)
         @generator.upload_docset if @upload_docsets_to_s3
                 
-        command "rm -rf #{docset_location}" if @delete_source_after_docset_creation
+        command "rm -rf #{download_location}" if @delete_source_after_docset_creation
 
       end
       
@@ -168,7 +168,7 @@ if @use_webhook and !$start_sinatra_server
   if @short_test_webhook
     handle_webhook({ "before" => "e025c9f", "after" => "b0053ac017b63401c770a70750cf8b5833950b1e" })
   else
-    handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "ff2988950bedeef6809d525078986900cdd3f093" })
+    handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
   end
   
   puts "- It Ends. "

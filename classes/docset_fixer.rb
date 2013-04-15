@@ -1,6 +1,6 @@
 class DocsetFixer
   include HashInit
-  attr_accessor :docset_path, :readme_path, :pod_root, :spec
+  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path
   
   def fix
     get_latest_version_in_folder
@@ -8,6 +8,7 @@ class DocsetFixer
     delete_extra_docset_folder
     fix_relative_links_in_gfm
     move_gfm_readme_in
+    move_css_in
     create_dash_data
   end
 
@@ -37,7 +38,7 @@ class DocsetFixer
   end
   
   def delete_extra_docset_folder
-    command "rm -Rf #{@docset_path}/docset"    
+    command "rm -Rf #{@docset_path}/docset"
   end
   
   def fix_relative_links_in_gfm
@@ -64,6 +65,12 @@ class DocsetFixer
       html.sub!("</THISISTOBEREMOVED>", readme)
       File.open(@docset_path + path, 'w') { |f| f.write(html) }
     end 
+  end
+  
+  def move_css_in
+    # dash only supports local css
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    command "sass views/appledoc_stylesheet.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
   end
   
   def create_dash_data
