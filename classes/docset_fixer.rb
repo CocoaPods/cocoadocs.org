@@ -58,7 +58,7 @@ class DocsetFixer
   
   def move_docset_icon_in
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
-    command "cp public/favicon.ico #{@docset_path}/#{docset}/icon.png"
+    command "cp resources/docset_icon.png #{@docset_path}/#{docset}/icon.png"
   end
   
   def move_gfm_readme_in
