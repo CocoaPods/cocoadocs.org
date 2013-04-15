@@ -43,6 +43,22 @@
 			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">{{page/title}}</h1>
+        
+        <!-- add support for dash / xcode -->
+        <a id="dash_img" alt="Add Docset to Dash" onmouseover="document.getElementById('dash').style.display='block';document.getElementById('xcode').style.display='none';"  href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2F{{projectName}}.xml"><img src="/assets/img/dash_tiny.png"></a>
+      
+        <a href="#" id="xcode_img" onmouseover="document.getElementById('xcode').style.display='block';document.getElementById('dash').style.display='none';" alt="Add Docset to Xcode"><img src="/assets/img/xcode_tiny.png"></a>
+     
+        <div id="dropdown">
+          <div id="dash" style="display:none;">
+            <p>Click to add to Dash</p>
+          </div>
+          <div id="xcode" style="display:none;">
+            <p>Copy &amp; Paste into Xcode's Prefs</p>
+            <input readonly id="xcode_input" value="http://cocoadocs.org/docsets/{{projectName}}/xcode-docset.atom"></input>
+          </div>
+        </div>
+        
 			</div>
 			<ul id="headerButtons" role="toolbar">
 				<li id="toc_button">

@@ -7,7 +7,7 @@ function setup(spec) {
   navTitle = document.getElementById("libraryVersionTitle")
   navTitle.textContent = url[3]
   
-  document.getElementById("developerHomepageLink").href = spec.spec_homepage
+  document.getElementById("developerHomepageLink").href = spec.spec_homepage  
   
   // add the dropdown
   if(spec.versions.length > 1) {
