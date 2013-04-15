@@ -1,6 +1,6 @@
 class WebsiteGenerator
   include HashInit
-  attr_accessor :generate_json
+  attr_accessor :generate_json, :spec
 
   def generate
     create_index_page
@@ -97,21 +97,20 @@ class WebsiteGenerator
     specs
   end
   
-  # do the *long* check for changes?
   def upload_docset
     vputs "Uploading docsets folder"
-    upload_folder "docsets", "sync"
+    upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/docsets/#{@spec.name}/#{@spec.version}/", "put"
+    upload_folder "docsets/#{@spec.name}/metadata.json", "/docsets/#{@spec.name}/", "put"
   end
   
-  # just dumbly send the html assets over
   def upload_site
     vputs "Uploading site folder"
-    upload_folder "html/*", "put"
+    upload_folder "html/*", "/", "put"
   end
   
 
   # Upload the docsets folder to s3
-  def upload_folder from, command
+  def upload_folder from, to, command
     vputs "Uploading #{from} with #{command} on s3"
     
     upload_command = [
@@ -119,7 +118,7 @@ class WebsiteGenerator
       "--recursive  --acl-public",
       "--no-check-md5",
       "--verbose --human-readable-sizes --reduced-redundancy",
-      "#{$active_folder}/#{from} s3://cocoadocs.org/"
+      "#{$active_folder}/#{from} s3://cocoadocs.org#{to}"
     ]
 
     command upload_command.join(' ')

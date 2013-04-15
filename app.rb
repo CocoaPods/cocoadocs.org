@@ -37,7 +37,7 @@ $start_sinatra_server = false
 @generate_json = false
 
 # Upload html / docsets
-@upload_docsets_to_s3 = false
+@upload_docsets_to_s3 = true
 @upload_site_to_s3 = true
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = true
@@ -130,7 +130,11 @@ def handle_webhook webhook_payload
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate
         
+        @generator = WebsiteGenerator.new(:generate_json => @generate_json, :spec => spec)
+        @generator.upload_docset if @upload_docsets_to_s3
+                
         command "rm -rf #{docset_location}" if @delete_source_after_docset_creation
+
       end
       
     rescue Exception => e
@@ -153,7 +157,6 @@ def handle_webhook webhook_payload
   @generator = WebsiteGenerator.new(:generate_json => @generate_json)
 
   @generator.generate if @generate_website
-  @generator.upload_docset if @upload_docsets_to_s3
   @generator.upload_site if @upload_site_to_s3
 end
 
