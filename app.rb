@@ -28,7 +28,7 @@ $start_sinatra_server = false
 
 # Download and document
 @fetch_specs = true
-@run_docset_commands = true
+@run_docset_commands = false
 @overwrite_existing_source_files = true
 @delete_source_after_docset_creation = true
 
@@ -38,7 +38,7 @@ $start_sinatra_server = false
 
 # Upload html / docsets
 @upload_docsets_to_s3 = true
-@upload_site_to_s3 = false
+@upload_site_to_s3 = true
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = false
 
@@ -166,7 +166,7 @@ if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. "
   
   if @short_test_webhook
-    handle_webhook({ "before" => "e025c9f", "after" => "b0053ac017b63401c770a70750cf8b5833950b1e" })
+    handle_webhook({ "before" => "4f2a96f3369b82faf42c9e2c802daa66eebd45df", "after" => "abb95c1ec71dc5b255c7736ebc0a345a66cdbbe3" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
   end

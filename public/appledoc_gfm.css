@@ -159,7 +159,7 @@ dl dd > :last-child {
 }
 
 #GFM .highlight pre, pre {
-	background-color: #f8f8f8;
+	background-color: #FFFCF5;
 	border: 1px solid #ccc;
 	font-size: 13px;
 	line-height: 19px;
