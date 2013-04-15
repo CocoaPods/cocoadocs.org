@@ -9,6 +9,7 @@ class DocsetFixer
     fix_relative_links_in_gfm
     move_gfm_readme_in
     move_css_in
+    move_docset_icon_in
     create_dash_data
   end
 
@@ -55,6 +56,11 @@ class DocsetFixer
     doc.write_to(open(@readme_path, 'w'))
   end
   
+  def move_docset_icon_in
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    command "cp public/favicon.ico #{@docset_path}/#{docset}/icon.png"
+  end
+  
   def move_gfm_readme_in
     return unless File.exists? @readme_path
     
@@ -71,6 +77,7 @@ class DocsetFixer
     # dash only supports local css
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     command "sass views/appledoc_stylesheet.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
+    command "cp public/appledoc_gfm.css #{@docset_path}/#{docset}/Contents/Resources/Documents/"
   end
   
   def create_dash_data

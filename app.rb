@@ -37,7 +37,7 @@ $start_sinatra_server = false
 @generate_json = true
 
 # Upload html / docsets
-@upload_docsets_to_s3 = false
+@upload_docsets_to_s3 = true
 @upload_site_to_s3 = false
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = false
