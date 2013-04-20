@@ -7,6 +7,8 @@ require 'yaml'
 require 'json'
 require "fileutils"
 require "octokit"
+require 'open-uri'
+require 'net/http'
 require "shellwords"
 require "colored"
 
@@ -24,11 +26,11 @@ $start_sinatra_server = false
 
 # Kick start everything from webhooks
 @use_webhook = true
-@short_test_webhook = true
+@short_test_webhook = false
 
 # Download and document
 @fetch_specs = true
-@run_docset_commands = false
+@run_docset_commands = true
 @overwrite_existing_source_files = true
 @delete_source_after_docset_creation = true
 
@@ -39,10 +41,8 @@ $start_sinatra_server = false
 # Upload html / docsets
 @upload_docsets_to_s3 = true
 @upload_site_to_s3 = true
-@upload_redirects_for_spec_index = false
-@upload_redirects_for_docsets = false
-
-@delete_activity_folder = false
+@upload_redirects_for_spec_index = true
+@upload_redirects_for_docsets = true
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
@@ -89,6 +89,14 @@ def run_git_command_in_specs git_command
   end
 end
 
+def remote_file_exists?(url)
+  url = URI.parse(url)
+  Net::HTTP.start(url.host, url.port) do |http|
+    return http.head(url.request_uri).code == "200"
+  end
+end
+
+
 # get started from a webhook
 
 def handle_webhook webhook_payload
@@ -106,7 +114,7 @@ def handle_webhook webhook_payload
     
     begin
       spec = eval(File.open(spec_path).read)
-      
+
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
@@ -166,7 +174,7 @@ if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. "
   
   if @short_test_webhook
-    handle_webhook({ "before" => "4f2a96f3369b82faf42c9e2c802daa66eebd45df", "after" => "abb95c1ec71dc5b255c7736ebc0a345a66cdbbe3" })
+    handle_webhook({ "before" => "93b46a8e5ed100b1ee89aa6c291328333beac4fc", "after" => "705f4583ffb1b25a14275aab24c061c31a62196e" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
   end
