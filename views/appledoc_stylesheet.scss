@@ -248,9 +248,10 @@ th {
     #dash_img:hover ~ #dropdown {
       display:block;
     }
-     #xcode_img:hover ~ #dropdown {
+    
+    #xcode_img:hover ~ #dropdown {
        display:block;
-     }
+    }
 
     #dash_img:hover ~ #dropdown #dash {
       display:block;
@@ -307,7 +308,7 @@ th {
   padding: 0;
   position: absolute;
   right: 0;
-  top: 61px;
+  top: 62px;
   li {
     background-repeat: no-repeat;
     display: inline;
