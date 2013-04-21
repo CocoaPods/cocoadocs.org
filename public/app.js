@@ -1,17 +1,24 @@
-// This is for the front page
+// set the query based on the q=X syntax
+var query_bits = window.location.search.split("q=")
+if(query_bits.length > 1){
+  var search_term = query_bits[1]
+  document.getElementById("pod_search").value = search_term
+}
 
+var url = [location.protocol, '//', location.host].join('');
 var old_query;
-
 function searchTermChanged() {
-  
+
   var query = document.getElementById("pod_search").value
-  if(query == old_query) return
   old_query = query
   
   var filtered_results = []
   var results
+
   
   if (query.length) {
+    window.history.replaceState( {} , 'CocoaDocs', url '?q=' + query );
+    
     document.getElementById("about").style.display = "none"
 
     if(window.specs) {
@@ -47,6 +54,8 @@ function searchTermChanged() {
           }
         }
       }
+    } else {
+      window.history.replaceState( {} , 'CocoaDocs', url);
     }
 
     // sort by score
@@ -67,26 +76,25 @@ function searchTermChanged() {
         class_name += "selected"
       }
 
-      // its an doc by apple if it has url
-      if (spec["url"]){
-        documents += "<li class='apple " + class_name + "'>"
-        documents += "<a href='https://developer.apple.com/library/ios/navigation/" + spec["url"] + "'>"
-  
-        documents += "<h2>" + spec["name"] + "</h2>"
-        documents += "<h3>" + spec["framework"] + "</h3>"
-        documents += "</a><div style='clear:both'></div></li>"
+      var is_apple = spec["url"] 
       
-      } else {
-      
-        documents += "<li class='" + class_name + "'>"
-        documents += "<a href='" + spec["doc_url"] + "'>"
-    
-        documents += "<h2>" + spec["name"] + "</h2>"
-        documents += "<h3>" + spec["main_version"] + "</h3>"
-        documents += "<p>" + spec["summary"] + "</p>"
-    
-        documents += "</a><div style='clear:both'></div></li>"
+      if (is_apple) {
+        class_name += " apple"
       }
+      
+      var url = is_apple? "https://developer.apple.com/library/ios/navigation/" + spec["url"] : spec["doc_url"]
+      var heading = spec["name"]
+      var side_heading = is_apple? spec["framework"] : spec["main_version"]
+      var body = is_apple? spec["type"] : spec["summary"]
+      
+      documents += "<li class='" + class_name + "'>"
+      documents += "<a href='" + url + "'>"
+  
+      documents += "<h2>" + heading + "</h2>"
+      documents += "<h3>" + side_heading + "</h3>"
+      documents += "<p>" + body + "</p>"
+  
+      documents += "</a><div style='clear:both'></div></li>"
     }
   }  
   
@@ -180,4 +188,4 @@ function openCurrentSelection(){
     var link = item.childNodes[0]
     window.document.location.href = link.href;
   }
-} 
+}

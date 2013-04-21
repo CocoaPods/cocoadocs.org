@@ -12,16 +12,22 @@ class AppleJSONParser
     column_index_framework = json["columns"]["framework"]
     column_index_name = json["columns"]["name"]
     column_index_url = json["columns"]["url"]
+    column_index_type = json["columns"]["type"]
     
     @frameworks_array = json["topics"].select do |topic|
       topic["name"] == "Frameworks"
+    end.first["contents"]
+    
+    @topics_array = json["topics"].select do |topic|
+      topic["name"] == "Resource Types"
     end.first["contents"]
     
     cocoadocs_json = json["documents"].map do |document|
       { 
         "url" => document[column_index_url],
         "name" => document[column_index_name],
-        "framework" => framework_with_id(document[column_index_framework])
+        "framework" => framework_with_id(document[column_index_framework]),
+        "type" => type_with_id(document[column_index_type])
       }
     end
 
@@ -42,4 +48,13 @@ class AppleJSONParser
 
     item["name"]
   end
+  
+  def type_with_id id 
+    item = @topics_array.select do |topic|
+      topic["key"] == id.to_s
+    end.first
+
+    item["name"]
+  end
+  
 end

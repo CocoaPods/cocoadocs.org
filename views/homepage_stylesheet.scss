@@ -4,6 +4,8 @@ $bold_orange: #DE922F;
 $pale_bold_orange: #CA8A29;
 $egg_white:   #FDF9F1;
 
+$apple_slate_blue: #08C;
+
 html {
   margin: 0;
   padding: 0;
@@ -100,13 +102,13 @@ a {
     border-bottom:none;
     border-left: 2px solid #E6A33C;
     border-right: 2px solid #E6A33C;
-    width: 484px;
+    width: 476px;
     height: 32px;
     
     font-size: 24px;
     font-family: inherit;
     font-weight: bold;
-    padding: 6px 14px 6px 6px;
+    padding: 6px 14px 6px 14px;
     margin: 0px auto;
     color: $dark_brown;
     
@@ -183,6 +185,10 @@ ul#results {
     clear:left;
     color: $pale_bold_orange;
     width:420px;
+  }
+  
+  li.apple p {
+    color: $apple_slate_blue;  
   }
 }
 

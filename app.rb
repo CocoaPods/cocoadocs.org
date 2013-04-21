@@ -44,7 +44,7 @@ $start_sinatra_server = false
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = false
 
-@upload_site_to_s3 = false
+@upload_site_to_s3 = true
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
@@ -162,13 +162,13 @@ def handle_webhook webhook_payload
     end
   end
 
+  @parser = AppleJSONParser.new
+  @parser.generate if @generate_apple_json
+
   @generator = WebsiteGenerator.new(:generate_json => @generate_docset_json)
 
   @generator.generate if @generate_website
   @generator.upload_site if @upload_site_to_s3
-  
-  @parser = AppleJSONParser.new
-  @parser.generate if @generate_apple_json
 end
 
 # App example data. Instead of using the webhook, here's two 

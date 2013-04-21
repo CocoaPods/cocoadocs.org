@@ -85,7 +85,7 @@ class DocsetFixer
     # Dash requires a different format for the docset and the xml data
     
     # create the tgz file for the xcode docset using our GFM index
-    version_folder = "#{@pod_root}/#{@version}"
+    version_folder = "#{@pod_root}/#{@spec.version  }"
     publish_folder = "#{version_folder}/publish"
     
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
