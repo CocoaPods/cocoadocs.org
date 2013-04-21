@@ -3,7 +3,6 @@
 var old_query;
 
 function searchTermChanged() {
-  if(!window.specs) return
   
   var query = document.getElementById("pod_search").value
   if(query == old_query) return
@@ -12,18 +11,42 @@ function searchTermChanged() {
   var filtered_results = []
   var results
   
-  if (query.length){
+  if (query.length) {
     document.getElementById("about").style.display = "none"
+
+    if(window.specs) {
+      for ( var i = 0; i < specs.length; i++ ){
+        var library_name = specs[i]["name"];
+        var score = library_name.score(query);
     
-    for ( var i = 0; i < specs.length; i++ ){
-  
-      var library_name = specs[i]["name"];
-      var score = library_name.score(query);
-      
-      if (score > 0.2){
-        specs[i]["score"] = score
-      	filtered_results.push( specs[i] )
-      } 
+        if (score > 0.2){
+          specs[i]["score"] = score
+        	filtered_results.push( specs[i] )
+        } 
+      }
+    }
+
+    if(window.appledocs) {
+      for ( var i = 0; i < appledocs.length; i++ ){
+        var doc_name = appledocs[i]["name"];
+        var score = doc_name.score(query);
+
+        // Look in the titles
+        if (score > 0.4){
+          appledocs[i]["score"] = score - (0.3)
+        	filtered_results.push( appledocs[i] )
+        
+        } else {
+
+          // Also do a per-framework search
+          var doc_name = appledocs[i]["framework"];
+          var score = doc_name.score(query);
+          if (score > 0.4) {
+            appledocs[i]["score"] = score - (0.3)
+        	  filtered_results.push( appledocs[i] )
+          }
+        }
+      }
     }
 
     // sort by score
@@ -39,19 +62,31 @@ function searchTermChanged() {
   if(results) {
     for ( var i = 0; i < results.length; i++ ){
       var spec = results[i]
+      var class_name = ""
       if(i == 0){
-        documents += "<li class='selected'>"
-      } else {
-        documents += "<li>"
+        class_name += "selected"
       }
 
-      documents += "<a href='" + spec["doc_url"] + "'>"
+      // its an doc by apple if it has url
+      if (spec["url"]){
+        documents += "<li class='apple " + class_name + "'>"
+        documents += "<a href='https://developer.apple.com/library/ios/navigation/" + spec["url"] + "'>"
+  
+        documents += "<h2>" + spec["name"] + "</h2>"
+        documents += "<h3>" + spec["framework"] + "</h3>"
+        documents += "</a><div style='clear:both'></div></li>"
+      
+      } else {
+      
+        documents += "<li class='" + class_name + "'>"
+        documents += "<a href='" + spec["doc_url"] + "'>"
     
-      documents += "<h2>" + spec["name"] + "</h2>"
-      documents += "<h3>" + spec["main_version"] + "</h3>"
-      documents += "<p>" + spec["summary"] + "</p>"
+        documents += "<h2>" + spec["name"] + "</h2>"
+        documents += "<h3>" + spec["main_version"] + "</h3>"
+        documents += "<p>" + spec["summary"] + "</p>"
     
-      documents += "</a></li>"    
+        documents += "</a><div style='clear:both'></div></li>"
+      }
     }
   }  
   

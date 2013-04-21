@@ -61,12 +61,12 @@ class DocsetFixer
     command "cp resources/docset_icon.png #{@docset_path}/#{docset}/icon.png"
   end
   
-  def move_gfm_readme_in
-    return unless File.exists? @readme_path
-    
+  def move_gfm_readme_in    
     readme = File.read @readme_path
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
-    ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|      
+    ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
+      next unless File.exists? @docset_path + path
+      
       html = File.open(@docset_path + path).read
       html.sub!("</THISISTOBEREMOVED>", readme)
       File.open(@docset_path + path, 'w') { |f| f.write(html) }
@@ -81,6 +81,7 @@ class DocsetFixer
   end
   
   def create_dash_data
+    vputs "Creating dash data"
     # Dash requires a different format for the docset and the xml data
     
     # create the tgz file for the xcode docset using our GFM index

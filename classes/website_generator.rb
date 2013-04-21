@@ -12,6 +12,7 @@ class WebsiteGenerator
     vputs "Creating index page"
     
     if @generate_json
+      vputs "Creating JSON for all docsets"
       specs = create_docsets_array
       create_specs_json specs
     end
@@ -40,7 +41,7 @@ class WebsiteGenerator
     function_wrapped = "var specs = #{array_string}; searchTermChanged()"
     json_filepath = $active_folder + "/html/documents.jsonp"
 
-    vputs "Writing JSON"
+    vputs "Writing JSON for docsets"
     seve_file function_wrapped, json_filepath
   end
   
@@ -72,8 +73,8 @@ class WebsiteGenerator
     
       Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
         next if version[0] == '.' 
-        next if version == "metadata.json"
-
+        next unless File.directory? "#{docsets_dir}/#{podspec_folder}/#{version}"
+        
         index_exists = File.exists?("#{docsets_dir}/#{podspec_folder}/#{version}/index.html")
         spec[:main_version] = version
         spec[:versions] << version
@@ -85,7 +86,7 @@ class WebsiteGenerator
       
       podspec = eval File.open(podspec_path).read 
 
-      spec[:doc_url] = "/docsets/#{podspec.name}/#{spec[:main_version]}/"
+      spec[:doc_url] = "http://cocoadocs.org/docsets/#{podspec.name}/"
       spec[:user] = podspec.or_contributors_to_spec
       spec[:homepage] = podspec.homepage
       spec[:homepage_host] = podspec.or_extensionless_homepage

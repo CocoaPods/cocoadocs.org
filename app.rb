@@ -26,35 +26,35 @@ $start_sinatra_server = false
 
 # Kick start everything from webhooks
 @use_webhook = true
-@short_test_webhook = false
+@short_test_webhook = true
 
 # Download and document
-@fetch_specs = true
-@run_docset_commands = true
+@fetch_specs = false
+@run_docset_commands = false
 @overwrite_existing_source_files = true
 @delete_source_after_docset_creation = true
 
 # Generate site site & json
 @generate_website = true
-@generate_json = true
+@generate_docset_json = true
+@generate_apple_json = true
 
 # Upload html / docsets
-@upload_docsets_to_s3 = true
-@upload_site_to_s3 = true
-@upload_redirects_for_spec_index = true
-@upload_redirects_for_docsets = true
+@upload_docsets_to_s3 = false
+@upload_redirects_for_spec_index = false
+@upload_redirects_for_docsets = false
+
+@upload_site_to_s3 = false
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
-@current_dir = File.dirname(File.expand_path(__FILE__)) 
-
 #constrain all downloads etc into one subfolder
 @active_folder_name = "activity"
+@current_dir = File.dirname(File.expand_path(__FILE__)) 
 $active_folder = @current_dir + "/" + @active_folder_name
 
 
 # Update or clone Cocoapods/Specs
-
 def update_specs_repo
   repo = $active_folder + "/Specs"
   unless File.exists? repo
@@ -138,7 +138,7 @@ def handle_webhook webhook_payload
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate
         
-        @generator = WebsiteGenerator.new(:generate_json => @generate_json, :spec => spec)
+        @generator = WebsiteGenerator.new(:generate_json => @generate_docset_json, :spec => spec)
         @generator.upload_docset if @upload_docsets_to_s3
                 
         command "rm -rf #{download_location}" if @delete_source_after_docset_creation
@@ -162,16 +162,19 @@ def handle_webhook webhook_payload
     end
   end
 
-  @generator = WebsiteGenerator.new(:generate_json => @generate_json)
+  @generator = WebsiteGenerator.new(:generate_json => @generate_docset_json)
 
   @generator.generate if @generate_website
   @generator.upload_site if @upload_site_to_s3
+  
+  @parser = AppleJSONParser.new
+  @parser.generate if @generate_apple_json
 end
 
 # App example data. Instead of using the webhook, here's two 
 
 if @use_webhook and !$start_sinatra_server
-  puts "\n - It starts. "
+  puts "\n - It starts. ".red_on_yellow
   
   if @short_test_webhook
     handle_webhook({ "before" => "93b46a8e5ed100b1ee89aa6c291328333beac4fc", "after" => "705f4583ffb1b25a14275aab24c061c31a62196e" })
@@ -179,7 +182,7 @@ if @use_webhook and !$start_sinatra_server
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
   end
   
-  puts "- It Ends. "
+  puts "- It Ends. ".red_on_yellow
 end
 
 # --------------------------

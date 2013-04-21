@@ -133,6 +133,7 @@ ul#results {
     list-style-type: none;
     padding:14px;
     color:$dark_brown;
+    min-height: 24px;
   }
   
   li:hover {
@@ -158,7 +159,7 @@ ul#results {
     padding:0;
     margin: 0 0 8px 0 ;
     text-overflow: ellipsis;
-    width:420px;
+    width:350px;
     float:left;
   }
 
@@ -170,7 +171,7 @@ ul#results {
     padding:0;
     margin:0;
     float:right;
-    width:40px;
+    width:100px;
     text-align:right;
   }
 
