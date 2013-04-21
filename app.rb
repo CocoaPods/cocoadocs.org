@@ -30,21 +30,21 @@ $start_sinatra_server = false
 
 # Download and document
 @fetch_specs = false
-@run_docset_commands = false
+@run_docset_commands = true
 @overwrite_existing_source_files = true
-@delete_source_after_docset_creation = true
+@delete_source_after_docset_creation = false
 
 # Generate site site & json
 @generate_website = true
-@generate_docset_json = true
-@generate_apple_json = true
+@generate_docset_json = false
+@generate_apple_json = false
 
 # Upload html / docsets
 @upload_docsets_to_s3 = false
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = false
 
-@upload_site_to_s3 = true
+@upload_site_to_s3 = false
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
@@ -177,7 +177,7 @@ if @use_webhook and !$start_sinatra_server
   puts "\n - It starts. ".red_on_yellow
   
   if @short_test_webhook
-    handle_webhook({ "before" => "93b46a8e5ed100b1ee89aa6c291328333beac4fc", "after" => "705f4583ffb1b25a14275aab24c061c31a62196e" })
+    handle_webhook({ "before" => "70e1a63", "after" => "49a7594b647670b8886466e7643a1556c2ff7889" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
   end

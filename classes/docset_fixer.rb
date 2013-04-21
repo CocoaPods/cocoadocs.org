@@ -51,9 +51,12 @@ class DocsetFixer
       next if link_string.start_with? "#"
       next if link_string.start_with? "http"
       next if link_string.include? "@"
+      
       link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/#{CGI.escape link.attributes["href"].value}"
     end
-    doc.write_to(open(@readme_path, 'w'))
+
+    `rm #{@readme_path}`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
   
   def move_docset_icon_in
@@ -62,13 +65,14 @@ class DocsetFixer
   end
   
   def move_gfm_readme_in    
-    readme = File.read @readme_path
+    readme_text = File.open(@readme_path).read
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    
     ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
       next unless File.exists? @docset_path + path
       
       html = File.open(@docset_path + path).read
-      html.sub!("</THISISTOBEREMOVED>", readme)
+      html.sub!("</THISISTOBEREMOVED>", readme_text)
       File.open(@docset_path + path, 'w') { |f| f.write(html) }
     end 
   end

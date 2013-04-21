@@ -5,7 +5,6 @@ if(query_bits.length > 1){
   document.getElementById("pod_search").value = search_term
 }
 
-var url = [location.protocol, '//', location.host].join('');
 var old_query;
 function searchTermChanged() {
 
@@ -17,7 +16,7 @@ function searchTermChanged() {
 
   
   if (query.length) {
-    window.history.replaceState( {} , 'CocoaDocs', url '?q=' + query );
+    window.history.replaceState( {} , 'CocoaDocs', 'http://cocoadocs.org/?q=' + query );
     
     document.getElementById("about").style.display = "none"
 
@@ -55,7 +54,7 @@ function searchTermChanged() {
         }
       }
     } else {
-      window.history.replaceState( {} , 'CocoaDocs', url);
+      window.history.replaceState( {} , 'CocoaDocs', "http://cocoadocs.org");
     }
 
     // sort by score
