@@ -81,7 +81,7 @@ function searchTermChanged() {
         class_name += " apple"
       }
       
-      var url = is_apple? "https://developer.apple.com/library/ios/navigation/" + spec["url"] : spec["doc_url"]
+      var url = is_apple? spec["url"] : spec["doc_url"]
       var heading = spec["name"]
       var side_heading = is_apple? spec["framework"] : spec["main_version"]
       var body = is_apple? spec["type"] : spec["summary"]

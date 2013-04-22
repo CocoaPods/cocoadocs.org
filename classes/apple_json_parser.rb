@@ -24,7 +24,7 @@ class AppleJSONParser
     
     cocoadocs_json = json["documents"].map do |document|
       { 
-        "url" => document[column_index_url],
+        "url" => apple_url(document[column_index_url]),
         "name" => document[column_index_name],
         "framework" => framework_with_id(document[column_index_framework]),
         "type" => type_with_id(document[column_index_type])
@@ -40,6 +40,11 @@ class AppleJSONParser
     
     File.open(json_path, 'wb') { |f| f.write(function_wrapped) }
   end  
+  
+  def apple_url url 
+    return url if url.start_with? "http"
+    return "https://developer.apple.com/library/ios/navigation/" + url
+  end
   
   def framework_with_id id
     item = @frameworks_array.select do |framework|

@@ -30,21 +30,21 @@ $start_sinatra_server = false
 
 # Download and document
 @fetch_specs = false
-@run_docset_commands = true
+@run_docset_commands = false
 @overwrite_existing_source_files = true
 @delete_source_after_docset_creation = false
 
 # Generate site site & json
 @generate_website = true
 @generate_docset_json = false
-@generate_apple_json = false
+@generate_apple_json = true
 
 # Upload html / docsets
 @upload_docsets_to_s3 = false
 @upload_redirects_for_spec_index = false
 @upload_redirects_for_docsets = false
 
-@upload_site_to_s3 = false
+@upload_site_to_s3 = true
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
@@ -84,7 +84,7 @@ end
 # We have to run commands from a different git root if we want to do anything in the Specs repo
 
 def run_git_command_in_specs git_command
-  Dir.chdir("#{@active_folder_name}/Specs") do
+  Dir.chdir("activity/Specs") do
    `git #{git_command}`  
   end
 end
