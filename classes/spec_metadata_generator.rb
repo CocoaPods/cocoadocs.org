@@ -3,13 +3,15 @@ class SpecMetadataGenerator
   attr_accessor :spec
   
   def generate
+    vputs "Generateing the Specs version metadata and all that"
     filepath = $active_folder + "/docsets/" + @spec.name
 
     versions = []
     Dir.foreach filepath do |version|
+      puts  "#{filepath}/#{version}"
       next if version[0] == '.'
-      next unless File.directory? "#{@pod_root}/#{version}"
-
+      next unless File.directory? "#{filepath}/#{version}/"
+      
       versions << version
     end
 
