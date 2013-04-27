@@ -25,33 +25,33 @@ $start_sinatra_server = false
 # the app is doing everything
 
 # Kick start everything from webhooks
-@use_webhook = true
-@short_test_webhook = true
+$use_webhook = true
+$short_test_webhook = true
 
 # Download and document
-@fetch_specs = false
-@run_docset_commands = false
-@overwrite_existing_source_files = true
-@delete_source_after_docset_creation = false
+$fetch_specs = false
+$run_docset_commands = false
+$overwrite_existing_source_files = true
+$delete_source_after_docset_creation = false
 
 # Generate site site & json
-@generate_website = true
-@generate_docset_json = false
-@generate_apple_json = true
+$generate_website = true
+$generate_docset_json = false
+$generate_apple_json = true
 
 # Upload html / docsets
-@upload_docsets_to_s3 = false
-@upload_redirects_for_spec_index = false
-@upload_redirects_for_docsets = false
+$upload_docsets_to_s3 = false
+$upload_redirects_for_spec_index = false
+$upload_redirects_for_docsets = false
 
-@upload_site_to_s3 = true
+$upload_site_to_s3 = true
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
 #constrain all downloads etc into one subfolder
-@active_folder_name = "activity"
-@current_dir = File.dirname(File.expand_path(__FILE__)) 
-$active_folder = @current_dir + "/" + @active_folder_name
+$active_folder_name = "activity"
+$current_dir = File.dirname(File.expand_path(__FILE__)) 
+$active_folder = $current_dir + "/" + $active_folder_name
 
 
 # Update or clone Cocoapods/Specs
@@ -61,7 +61,7 @@ def update_specs_repo
     vputs "Creating Specs Repo"
     command "git clone git://github.com/CocoaPods/Specs.git #{repo}"
   else
-    if @fetch_specs
+    if $fetch_specs
       vputs "Updating Specs Repo"
       run_git_command_in_specs "stash"
       run_git_command_in_specs "pull origin master"
@@ -119,9 +119,9 @@ def handle_webhook webhook_payload
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
-      if @run_docset_commands
+      if $run_docset_commands
         
-        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => @overwrite_existing_source_files })
+        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
         downloader.download_pod_source_files
         
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
@@ -132,16 +132,16 @@ def handle_webhook webhook_payload
         
         fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
         fixer.fix
-        fixer.add_index_redirect_to_latest_to_pod if @upload_redirects_for_spec_index
-        fixer.add_docset_redirects if @upload_redirects_for_docsets
+        fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
+        fixer.add_docset_redirects if $upload_redirects_for_docsets
         
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate
         
-        @generator = WebsiteGenerator.new(:generate_json => @generate_docset_json, :spec => spec)
-        @generator.upload_docset if @upload_docsets_to_s3
+        $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
+        $generator.upload_docset if $upload_docsets_to_s3
                 
-        command "rm -rf #{download_location}" if @delete_source_after_docset_creation
+        command "rm -rf #{download_location}" if $delete_source_after_docset_creation
 
       end
       
@@ -162,21 +162,21 @@ def handle_webhook webhook_payload
     end
   end
 
-  @parser = AppleJSONParser.new
-  @parser.generate if @generate_apple_json
+  $parser = AppleJSONParser.new
+  $parser.generate if $generate_apple_json
 
-  @generator = WebsiteGenerator.new(:generate_json => @generate_docset_json)
+  $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
 
-  @generator.generate if @generate_website
-  @generator.upload_site if @upload_site_to_s3
+  $generator.generate if $generate_website
+  $generator.upload_site if $upload_site_to_s3
 end
 
 # App example data. Instead of using the webhook, here's two 
 
-if @use_webhook and !$start_sinatra_server
+if $use_webhook and !$start_sinatra_server
   puts "\n - It starts. ".red_on_yellow
   
-  if @short_test_webhook
+  if $short_test_webhook
     handle_webhook({ "before" => "70e1a63", "after" => "49a7594b647670b8886466e7643a1556c2ff7889" })
   else
     handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
