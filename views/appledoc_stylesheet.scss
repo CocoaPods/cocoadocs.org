@@ -384,6 +384,7 @@ li#jumpto_button {
     overflow-y: auto;
     padding: 0;
   }
+  
   background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
   background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
   border-top: 1px solid #4f3f21;
@@ -617,7 +618,13 @@ ul#toc > li > ul > li {
   margin-left: 0.5em;
 }
 
-.tooltip {
+span.tooltip:hover span.tooltip {
+  display: block;
+  position: absolute;
+  margin: 13px;
+}  
+
+span.tooltip span.tooltip {
   border-radius: 4px;
   background-color:  rgba(254, 235, 197, 0.8);
   font-size: 1.0em;
@@ -628,18 +635,8 @@ ul#toc > li > ul > li {
   border: 1px solid hsl(40, 97%, 40%);
   background-color: hsla(40, 97%, 88%, 0.88);
   border-radius: 4px;
-
-  &:hover {
-    display: block;
-    position: absolute;
-    margin-left: 2em;
-  }
-
-  p {
-    margin: 13px;
-  }
 }
-  
+
 /* @end */
 
 /* @group Method section */

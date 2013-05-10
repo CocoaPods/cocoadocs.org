@@ -112,7 +112,7 @@ def handle_webhook webhook_payload
     next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
     begin
-      document_spec_at_path path
+      document_spec_at_path spec_path
       
     rescue Exception => e
       
@@ -174,7 +174,7 @@ def document_spec_at_path spec_path
 end
 
 # support app.rb ABGetMe
-if ARGV.length
+if ARGV.length > 0
   name = ARGV[0].strip
   spec_path = $active_folder + "/Specs/" + name
   update_specs_repo
