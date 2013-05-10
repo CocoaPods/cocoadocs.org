@@ -63,9 +63,6 @@ class DocsetGenerator
 
   def headers_for_spec_at_location spec
     download_location = $active_folder + "/download/#{@spec.name}/#{@spec.version}/#{@spec.name}"
-
-    puts download_location
-    sandbox = Pod::Sandbox.new( download_location )
     pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
     headers = []
 
