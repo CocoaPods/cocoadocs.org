@@ -112,7 +112,7 @@ class DocsetFixer
     from = docset
     
     Dir.chdir(version_folder) do
-      command "tar --exclude='.DS_Store' -cvzf #{to} #{from}"
+      command "tar --exclude='.DS_Store' -czf #{to} #{from}"
     end
     
   end

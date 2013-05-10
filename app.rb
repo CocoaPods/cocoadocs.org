@@ -30,13 +30,13 @@ $short_test_webhook = true
 
 # Download and document
 $fetch_specs = false
-$run_docset_commands = false
+$run_docset_commands = true
 $overwrite_existing_source_files = true
 $delete_source_after_docset_creation = false
 
 # Generate site site & json
 $generate_website = true
-$generate_docset_json = false
+$generate_docset_json = true
 $generate_apple_json = true
 
 # Upload html / docsets
@@ -44,7 +44,7 @@ $upload_docsets_to_s3 = false
 $upload_redirects_for_spec_index = false
 $upload_redirects_for_docsets = false
 
-$upload_site_to_s3 = true
+$upload_site_to_s3 = false
 
 Dir["./classes/*.rb"].each {|file| require_relative file }
 
@@ -52,7 +52,6 @@ Dir["./classes/*.rb"].each {|file| require_relative file }
 $active_folder_name = "activity"
 $current_dir = File.dirname(File.expand_path(__FILE__)) 
 $active_folder = $current_dir + "/" + $active_folder_name
-
 
 # Update or clone Cocoapods/Specs
 def update_specs_repo
@@ -113,37 +112,7 @@ def handle_webhook webhook_payload
     next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
     begin
-      spec = eval(File.open(spec_path).read)
-
-      download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-      docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-      readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
-      pod_root_location = $active_folder + "/docsets/#{spec.name}/"
-      if $run_docset_commands
-        
-        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
-        downloader.download_pod_source_files
-        
-        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
-        readme.create_readme
-
-        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
-        generator.create_docset
-        
-        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
-        fixer.fix
-        fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
-        fixer.add_docset_redirects if $upload_redirects_for_docsets
-        
-        spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
-        spec_metadata.generate
-        
-        $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
-        $generator.upload_docset if $upload_docsets_to_s3
-                
-        command "rm -rf #{download_location}" if $delete_source_after_docset_creation
-
-      end
+      document_spec_at_path path
       
     rescue Exception => e
       
@@ -171,8 +140,56 @@ def handle_webhook webhook_payload
   $generator.upload_site if $upload_site_to_s3
 end
 
-# App example data. Instead of using the webhook, here's two 
+def document_spec_at_path spec_path
+  spec = eval(File.open(spec_path).read)
 
+  download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+  docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+  readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+  pod_root_location = $active_folder + "/docsets/#{spec.name}/"
+  if $run_docset_commands
+    
+    downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+    downloader.download_pod_source_files
+    
+    readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
+    readme.create_readme
+
+    generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
+    generator.create_docset
+    
+    fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
+    fixer.fix
+    fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
+    fixer.add_docset_redirects if $upload_redirects_for_docsets
+    
+    spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
+    spec_metadata.generate
+    
+    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
+    $generator.upload_docset if $upload_docsets_to_s3
+            
+    command "rm -rf #{download_location}" if $delete_source_after_docset_creation
+  end  
+end
+
+# support app.rb ABGetMe
+if ARGV.length
+  name = ARGV[0].strip
+  spec_path = $active_folder + "/Specs/" + name
+  update_specs_repo
+  
+  if Dir.exists? spec_path
+    version = Dir.entries(spec_path).last
+    document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
+    Process.exit
+  else
+    puts "Could not find #{spec_path}"
+  end
+end
+
+
+# App example data. Instead of using the webhook, here's two 
 if $use_webhook and !$start_sinatra_server
   puts "\n - It starts. ".red_on_yellow
   

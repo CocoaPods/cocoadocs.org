@@ -62,22 +62,28 @@ class DocsetGenerator
   # Use cocoapods to get the header files for a specific spec
 
   def headers_for_spec_at_location spec
-    download_location = $active_folder + "/download/#{@spec.name}/#{@spec.version}/"
-    
+    download_location = $active_folder + "/download/#{@spec.name}/#{@spec.version}/#{@spec.name}"
+
+    puts download_location
     sandbox = Pod::Sandbox.new( download_location )
     pathlist = Pod::Sandbox::PathList.new( Pathname.new(download_location) )  
     headers = []
-  
-#    headers = Pod::Generator::Documentation.new( sandbox, spec, pathlist).public_headers
 
-    @spec.available_platforms.each do |platform|
-      installer = Pod::Installer::PodSourceInstaller.new(sandbox, {platform => [@spec]} )
-      sources = installer.send(:used_files).delete_if do |path|
-          !path.include? ".h"
+    # https://github.com/CocoaPods/cocoadocs.org/issues/35
+    [@spec, *@spec.subspecs].each do |internal_spec|
+
+      if internal_spec.attributes_hash["source_files"]
+        internal_spec.available_platforms.each do |platform|
+          consumer = Pod::Specification::Consumer.new(internal_spec, platform)
+          accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
+          
+          headers += accessor.public_headers.map{ |filepath| filepath.to_s }
+        end
+      else
+        puts "Skipping headers for #{internal_spec}".blue
       end
-      headers += sources
     end
-  
+
     headers.uniq
   end
   
