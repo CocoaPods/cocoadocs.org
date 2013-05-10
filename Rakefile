@@ -9,8 +9,8 @@ task :setup do
   puts "Installing s3cmd"
   `brew install s3cmd`
   
-  puts "Configuring s3cmd"
-  `s3cmd --configure`
+  puts "You will need to configure s3cmd"
+  puts "s3cmd --configure"
   
   puts "Installing appledoc"
   `brew install appledoc`

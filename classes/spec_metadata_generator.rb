@@ -3,7 +3,7 @@ class SpecMetadataGenerator
   attr_accessor :spec
   
   def generate
-    vputs "Generateing the Specs version metadata and all that"
+    vputs "Generating the Specs version metadata and all that"
     filepath = $active_folder + "/docsets/" + @spec.name
 
     versions = []

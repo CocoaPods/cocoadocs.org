@@ -1,10 +1,5 @@
 Cocoadocs.org
 -------
 
-Hello there! A better README, and a bunch of real documentation is coming soon. Just not right here, right now.
+Hello there! Cocoadocs is a Cocoapods sister-project that exists to document every cocoapod. This includes all the different versions so its easy to get older information too. On top of that it provides self updating docsets for Dash & Xcode.
 
-Cocoadocs is a hold-all for objc documentation.
-
-Currently it's ran from your computer, bundle install will install all the gems. But you probably don't have access to my s3 account so you'll want to disable that bit.
-
-Infact it's currently very inelegant but it does the job of getting somewhere.

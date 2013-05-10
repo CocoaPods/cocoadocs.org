@@ -44,6 +44,7 @@ class DocsetFixer
   
   def fix_relative_links_in_gfm
     return unless @spec.or_is_github?
+    return unless File.exists? @readme_path
     
     doc = Nokogiri::HTML(File.read @readme_path)
     doc.css("a").each do |link|
@@ -64,7 +65,8 @@ class DocsetFixer
     command "cp resources/docset_icon.png #{@docset_path}/#{docset}/icon.png"
   end
   
-  def move_gfm_readme_in    
+  def move_gfm_readme_in
+    return unless File.exists? @readme_path
     readme_text = File.open(@readme_path).read
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     
@@ -89,7 +91,7 @@ class DocsetFixer
     # Dash requires a different format for the docset and the xml data
     
     # create the tgz file for the xcode docset using our GFM index
-    version_folder = "#{@pod_root}/#{@spec.version  }"
+    version_folder = "#{@pod_root}/#{@spec.version}"
     publish_folder = "#{version_folder}/publish"
     
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
