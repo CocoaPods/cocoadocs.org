@@ -5,6 +5,17 @@ if(query_bits.length > 1){
   document.getElementById("pod_search").value = search_term
 }
 
+// This gets called form the keyboard
+// we check here to ensure arrow keys don't trigger 
+// data refreshed
+
+function podSearchHasChanged() {
+  var query = document.getElementById("pod_search").value
+  if (old_query != query) {
+    searchTermChanged();
+  }  
+}
+
 var old_query;
 function searchTermChanged() {
 
@@ -37,7 +48,8 @@ function searchTermChanged() {
         var doc_name = appledocs[i]["name"];
         var score = doc_name.score(query);
 
-        // Look in the titles
+        // Look in the titles of apples docs, but reduce their score
+        // to put spec libraries first 
         if (score > 0.4){
           appledocs[i]["score"] = score - (0.3)
         	filtered_results.push( appledocs[i] )

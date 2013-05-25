@@ -95,12 +95,14 @@ class DocsetFixer
     publish_folder = "#{version_folder}/publish"
     
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    
     Dir.chdir(version_folder) do
       command "xar -cf 'publish/docset.xar' '#{docset}'"
     end
     
     # the Dash XML
     xml_path = "#{publish_folder}/#{@spec.name}.xml"
+    
     File.open(xml_path, "wb") do |file|
        file.write("
        <entry>

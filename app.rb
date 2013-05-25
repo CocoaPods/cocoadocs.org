@@ -30,7 +30,7 @@ $short_test_webhook = true
 
 # Download and document
 $fetch_specs = false
-$run_docset_commands = true
+$run_docset_commands = false
 $overwrite_existing_source_files = true
 $delete_source_after_docset_creation = false
 
@@ -166,12 +166,13 @@ def document_spec_at_path spec_path
     spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
     spec_metadata.generate
     
-    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
-    $generator.upload_docset if $upload_docsets_to_s3
-            
+    
     command "rm -rf #{download_location}" if $delete_source_after_docset_creation
-  end  
-end
+  end
+  
+  $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
+  $generator.upload_docset if $upload_docsets_to_s3
+end 
 
 # support app.rb ABGetMe
 if ARGV.length > 0
