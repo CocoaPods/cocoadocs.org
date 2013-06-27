@@ -14,201 +14,314 @@ require "colored"
 
 require 'tilt'
 require "slim"
-require 'sinatra'
 require "nokogiri"
 
-$verbose = true
-$log_all_terminal_commands = true
-$start_sinatra_server = false
+class CocoaDocs < Object
 
-# these are built to be all true when
-# the app is doing everything
+  $specs_repo = "CocoaPods/Specs"
+  $s3_bucket = "cocoadocs.org"
+  $website_home = "http://cocoadocs.org/"
+  $cocoadocs_specs_name = "CocoaDocsSpecs"
 
-# Kick start everything from webhooks
-$use_webhook = true
-$short_test_webhook = true
+  $verbose = false
+  $log_all_terminal_commands = false
+  $start_sinatra_server = false
 
-# Download and document
-$fetch_specs = false
-$run_docset_commands = false
-$overwrite_existing_source_files = true
-$delete_source_after_docset_creation = false
+  # Download and document
+  $fetch_specs = true
+  $run_docset_commands = true
+  $overwrite_existing_source_files = true
+  $delete_source_after_docset_creation = true
 
-# Generate site site & json
-$generate_website = true
-$generate_docset_json = true
-$generate_apple_json = true
+  # Generate site site & json
+  $generate_website = false
+  $generate_docset_json = false
+  $generate_apple_json = false
 
-# Upload html / docsets
-$upload_docsets_to_s3 = false
-$upload_redirects_for_spec_index = false
-$upload_redirects_for_docsets = false
+  # Upload html / docsets
+  $upload_docsets_to_s3 = false
+  $upload_redirects_for_spec_index = false
+  $upload_redirects_for_docsets = false
 
-$upload_site_to_s3 = false
+  $upload_site_to_s3 = false
 
-Dir["./classes/*.rb"].each {|file| require_relative file }
+  Dir["./classes/*.rb"].each {|file| require_relative file }
 
-#constrain all downloads etc into one subfolder
-$active_folder_name = "activity"
-$current_dir = File.dirname(File.expand_path(__FILE__)) 
-$active_folder = $current_dir + "/" + $active_folder_name
+  # Constrain all downloads and data into one subfolder
+  $active_folder_name = "activity"
+  $current_dir = File.dirname(File.expand_path(__FILE__)) 
+  $active_folder = $current_dir + "/" + $active_folder_name
 
-# Update or clone Cocoapods/Specs
-def update_specs_repo
-  repo = $active_folder + "/Specs"
-  unless File.exists? repo
-    vputs "Creating Specs Repo"
-    command "git clone git://github.com/CocoaPods/Specs.git #{repo}"
-  else
-    if $fetch_specs
-      vputs "Updating Specs Repo"
-      run_git_command_in_specs "stash"
-      run_git_command_in_specs "pull origin master"
-    end
-  end  
-end
+  # command line parsing
 
-# returns an array from the diff log for the commit changes
+  def initialize(args)
 
-def specs_for_git_diff start_commit, end_commit
-  diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
-  diff_log.lines.map do |line|
-
-    line.slice!(0).strip!
-    line.gsub! /\t/, ''
-
-  end.join
-end
-
-# We have to run commands from a different git root if we want to do anything in the Specs repo
-
-def run_git_command_in_specs git_command
-  Dir.chdir("activity/Specs") do
-   `git #{git_command}`  
-  end
-end
-
-def remote_file_exists?(url)
-  url = URI.parse(url)
-  Net::HTTP.start(url.host, url.port) do |http|
-    return http.head(url.request_uri).code == "200"
-  end
-end
-
-
-# get started from a webhook
-
-def handle_webhook webhook_payload
-  before = webhook_payload["before"]
-  after = webhook_payload["after"]
-  vputs "Got a webhook notification for #{before} to #{after}"
-  
-  update_specs_repo
-  updated_specs = specs_for_git_diff before, after
-  vputs "Looking at #{updated_specs.lines.count}"
-  
-  updated_specs.lines.each_with_index do |spec_filepath, index|
-    spec_path = $active_folder + "/Specs/" + spec_filepath.strip
-    next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+    if ARGV.length > 0
+      setup_options ARGV
     
-    begin
-      document_spec_at_path spec_path
-      
-    rescue Exception => e
-      
-      open('error_log.txt', 'a') { |f|
-        f.puts "\n\n\n\n\n--------------#{spec_path}-------------"
-        f.puts e.message
-        f.puts "------"
-        f.puts e.backtrace.inspect
-      }
-
-      puts "--------------#{spec_path}-------------".red
-      puts e.message.red
-      puts "------"
-      puts e.backtrace.inspect.red
-      
+      command = ARGV[0].gsub(/-/, '_').to_sym rescue :help
+      @params = ARGV[1..-1]
+      commands.include?(command.to_sym) ? send(command.to_sym) : help
+    else
+      help
     end
   end
 
-  $parser = AppleJSONParser.new
-  $parser.generate if $generate_apple_json
+  #    parse all docs and upload to s3
+  #    cocoadocs create --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  def create
+    filepath = $active_folder + "/#{$cocoadocs_specs_name}/"
 
-  $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
-
-  $generator.generate if $generate_website
-  $generator.upload_site if $upload_site_to_s3
-end
-
-def document_spec_at_path spec_path
-  spec = eval(File.open(spec_path).read)
-
-  download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-  docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-  readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
-  pod_root_location = $active_folder + "/docsets/#{spec.name}/"
-  if $run_docset_commands
-    
-    downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
-    downloader.download_pod_source_files
-    
-    readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
-    readme.create_readme
-
-    generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
-    generator.create_docset
-    
-    fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
-    fixer.fix
-    fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
-    fixer.add_docset_redirects if $upload_redirects_for_docsets
-    
-    spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
-    spec_metadata.generate
-    
-    
-    command "rm -rf #{download_location}" if $delete_source_after_docset_creation
+    Dir.foreach filepath do |pod|
+      next if pod[0] == '.'
+      next unless File.directory? "#{filepath}/#{pod}/"
+      
+      Dir.foreach filepath + "/#{pod}" do |version|
+        next if version[0] == '.'
+        next unless File.directory? "#{filepath}/#{pod}/#{version}/"
+        
+        document_spec_at_path("#{filepath}/#{pod}/#{version}/#{pod}.podspec")
+        
+      end
+    end
   end
   
-  $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
-  $generator.upload_docset if $upload_docsets_to_s3
-end 
+  #    start webhook server for incremental building
+  #    cocoadocs webhook-server "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  def webhook_server
+    $start_sinatra_server = true
+  end
 
-# support app.rb ABGetMe
-if ARGV.length > 0
-  name = ARGV[0].strip
-  spec_path = $active_folder + "/Specs/" + name
-  update_specs_repo
+  #    just parse ARAnalytics and put the docset in the activity folder
+  #    cocoadocs doc "CocoaPods/Specs" "ARAnalytics"
   
-  if Dir.exists? spec_path
-    version = Dir.entries(spec_path).last
-    document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
-    Process.exit
-  else
-    puts "Could not find #{spec_path}"
+  def doc
+    name = @params[0]
+    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/" + name
+    update_specs_repo
+    
+    if Dir.exists? spec_path
+      version = Dir.entries(spec_path).last
+      document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
+      Process.exit
+    else
+      puts "Could not find #{name} at #{spec_path}"
+    end
+  end
+
+  def help
+    puts "\n" +                                                                  
+    "    CocoaDocs command line                                                    \n" +
+    "                                                                              \n" +
+    "     app.rb create                                                            \n" +
+    "     app.rb webhook                                                           \n" +
+    "     app.rb doc                                                               \n" +
+    "                                                                              \n" +
+    "     Options:                                                                 \n" +
+    "                                                                              \n" +
+    "       --verbose                                                              \n" +
+    "       --skip-fetch                                                           \n" +
+    "       --dont-delete-source                                                   \n" +
+    "       --create-website \"http://example.com\"                                \n" +
+    "       --specs-repo \"name/repo\"                                             \n" +
+    "       --data-folder \"activity\"                                             \n" +
+    "       --s3-bucket \"bucketname\"                                             \n" +
+    "                                                                              \n" +
+    "     CocoaDocs Command Examples:                                              \n" +
+    "                                                                              \n" +
+    "      Start webhook server for incremental building                           \n" +
+    "      app.rb webhook-server                                                   \n" +
+    "                                                                              \n" +
+    "      Parse all docs and upload to s3 on the cocoapods.org bucket             \n" +
+    "      app.rb create --s3-bucket cocoapods.org                                 \n" +
+    "                                                                              \n" +
+    "      just parse ARAnalytics and put the docset in the activity folder        \n" +
+    "      app.rb doc \"ARAnalytics\"                                              \n\n"
+  end
+  
+  private
+
+  def setup_options options
+    
+    if options.find_index("--verbose") != nil
+      $verbose = true
+      $log_all_terminal_commands = true
+      puts "OK"
+    end
+    
+    if options.find_index("--skip-fetch") != nil
+      $fetch_specs = false
+    end
+
+    if options.find_index("--dont-delete-source") != nil
+      $delete_source_after_docset_creation = false
+    end
+
+    if options.find_index("--create-website") != nil
+      $generate_website = true
+      $generate_docset_json = true
+      $generate_apple_json = true
+    end
+  
+    index = options.find_index("--upload-s3")
+    if index != nil
+      $upload_docsets_to_s3 = true
+      $upload_redirects_for_spec_index = true
+      $upload_redirects_for_docsets = true
+      $upload_site_to_s3 = true
+      $s3_bucket = options[index + 1] if index != nil
+    end
+  
+    index = options.find_index "--create-website"    
+    $website_home = options[index + 1] if index != nil
+
+    index = options.find_index "--specs-repo"    
+    $specs_repo = options[index + 1] if index != nil
+    
+    index = options.find_index "--data-folder"    
+    $active_folder_name = options[index + 1] if index != nil
+    $active_folder = $current_dir + "/" + $active_folder_name
+  end
+
+  # Update or clone Cocoapods/Specs
+  def update_specs_repo
+    repo = $active_folder + "/CocoadocsSpecs"
+    unless File.exists? repo
+      vputs "Creating Specs Repo for #{$specs_repo}"
+      command "git clone git://github.com/#{$specs_repo}.git #{repo}"
+    else
+      if $fetch_specs
+        vputs "Updating Specs Repo"
+        run_git_command_in_specs "stash"
+        run_git_command_in_specs "pull origin master"
+      end
+    end  
+  end
+
+  # returns an array from the diff log for the commit changes
+
+  def specs_for_git_diff start_commit, end_commit
+    diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
+    diff_log.lines.map do |line|
+
+      line.slice!(0).strip!
+      line.gsub! /\t/, ''
+
+    end.join
+  end
+
+  # We have to run commands from a different git root if we want to do anything in the Specs repo
+
+  def run_git_command_in_specs git_command
+    Dir.chdir("activity/Specs") do
+     `git #{git_command}`  
+    end
+  end
+
+  # Take a webhook, look at the commits inbetween the before & after
+  # and then document each spec.
+
+  def handle_webhook webhook_payload
+    before = webhook_payload["before"]
+    after = webhook_payload["after"]
+    vputs "Got a webhook notification for #{before} to #{after}"
+  
+    update_specs_repo
+    updated_specs = specs_for_git_diff before, after
+    vputs "Looking at #{updated_specs.lines.count}"
+  
+    updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_path = $active_folder + "/Specs/" + spec_filepath.strip
+      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+    
+        document_spec_at_path spec_path
+        
+    end
+
+    $parser = AppleJSONParser.new
+    $parser.generate if $generate_apple_json
+
+    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
+
+    $generator.generate if $generate_website
+    $generator.upload_site if $upload_site_to_s3
+  end
+
+  # generate the documentation for the pod
+
+  def document_spec_at_path spec_path
+    begin 
+      spec = eval(File.open(spec_path).read)
+
+      download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+      docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+      readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+      pod_root_location = $active_folder + "/docsets/#{spec.name}/"
+      
+      if $run_docset_commands
+    
+        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+        downloader.download_pod_source_files
+    
+        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
+        readme.create_readme
+
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
+        generator.create_docset
+    
+        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
+        fixer.fix
+        fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
+        fixer.add_docset_redirects if $upload_redirects_for_docsets
+    
+        spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
+        spec_metadata.generate
+    
+    
+        command "rm -rf #{download_location}" if $delete_source_after_docset_creation
+      end
+  
+      $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
+      $generator.upload_docset if $upload_docsets_to_s3
+    end 
+  
+  rescue Exception => e
+  
+    open('error_log.txt', 'a') { |f|
+      f.puts "\n\n\n\n\n--------------#{spec_path}-------------"
+      f.puts e.message
+      f.puts "------"
+      f.puts e.backtrace.inspect
+    }
+
+    puts "--------------#{spec_path}-------------".red
+    puts e.message.red
+    puts "------"
+    puts e.backtrace.inspect.red
+  
+  end
+
+  def commands
+    (public_methods - Object.public_methods).map{ |c| c.to_sym}
   end
 end
 
-
-# App example data. Instead of using the webhook, here's two 
-if $use_webhook and !$start_sinatra_server
-  puts "\n - It starts. ".red_on_yellow
-  
-  if $short_test_webhook
-    handle_webhook({ "before" => "70e1a63", "after" => "49a7594b647670b8886466e7643a1556c2ff7889" })
-  else
-    handle_webhook({ "before" => "d5355543f7693409564eec237c2082b73f2260f8", "after" => "head" })
-  end
-  
-  puts "- It Ends. ".red_on_yellow
-end
+CocoaDocs.new(ARGV)
 
 # --------------------------
 # Sinatra stuff
-# we want the script to launch a webhook responding sinatra app
+# Sinatra hooks into Kernel for the run setting, so it should be done post CocoaDocs.new
 
-set :run, $start_sinatra_server
-
-post "/webhook" do
-  handle_webhook JSON.parse(params[:payload])
+if $start_sinatra_server
+  require 'sinatra'
+  
+  post "/webhook" do
+    handle_webhook JSON.parse(params[:payload])
+  end
+  
+  get "/info/:pod/:version" do
+    # get error infor for a pod
+  end
+  
+  
 end

@@ -107,7 +107,7 @@ class DocsetFixer
        file.write("
        <entry>
           <version>#{@version}</version>
-          <url>http://cocoadocs.org/docsets/#{@spec.name}/#{@spec.name}.tgz</url>
+          <url>#{$website_home}/docsets/#{@spec.name}/#{@spec.name}.tgz</url>
         </entry>")
     end
 

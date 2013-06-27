@@ -86,7 +86,7 @@ class WebsiteGenerator
       
       podspec = eval File.open(podspec_path).read 
 
-      spec[:doc_url] = "http://cocoadocs.org/docsets/#{podspec.name}/"
+      spec[:doc_url] = "#{$website_home}/docsets/#{podspec.name}/"
       spec[:user] = podspec.or_contributors_to_spec
       spec[:homepage] = podspec.homepage
       spec[:homepage_host] = podspec.or_extensionless_homepage
