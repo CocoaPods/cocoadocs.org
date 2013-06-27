@@ -69,7 +69,7 @@ class CocoaDocs < Object
 
   #    parse all docs and upload to s3
   #    cocoadocs create --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
-  def create
+  def all
     filepath = $active_folder + "/#{$cocoadocs_specs_name}/"
 
     Dir.foreach filepath do |pod|
@@ -88,7 +88,7 @@ class CocoaDocs < Object
   
   #    start webhook server for incremental building
   #    cocoadocs webhook-server "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
-  def webhook_server
+  def webhook
     $start_sinatra_server = true
   end
 
@@ -113,9 +113,9 @@ class CocoaDocs < Object
     puts "\n" +                                                                  
     "    CocoaDocs command line                                                    \n" +
     "                                                                              \n" +
-    "     app.rb create                                                            \n" +
-    "     app.rb webhook                                                           \n" +
+    "     app.rb all                                                               \n" +
     "     app.rb doc                                                               \n" +
+    "     app.rb webhook                                                           \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
@@ -133,7 +133,7 @@ class CocoaDocs < Object
     "      app.rb webhook-server                                                   \n" +
     "                                                                              \n" +
     "      Parse all docs and upload to s3 on the cocoapods.org bucket             \n" +
-    "      app.rb create --s3-bucket cocoapods.org                                 \n" +
+    "      app.rb all --s3-bucket cocoapods.org                                    \n" +
     "                                                                              \n" +
     "      just parse ARAnalytics and put the docset in the activity folder        \n" +
     "      app.rb doc \"ARAnalytics\"                                              \n\n"
@@ -146,7 +146,6 @@ class CocoaDocs < Object
     if options.find_index("--verbose") != nil
       $verbose = true
       $log_all_terminal_commands = true
-      puts "OK"
     end
     
     if options.find_index("--skip-fetch") != nil
@@ -180,6 +179,7 @@ class CocoaDocs < Object
     
     index = options.find_index "--data-folder"    
     $active_folder_name = options[index + 1] if index != nil
+    
     $active_folder = $current_dir + "/" + $active_folder_name
   end
 
@@ -250,6 +250,7 @@ class CocoaDocs < Object
   # generate the documentation for the pod
 
   def document_spec_at_path spec_path
+    spec = nil
     begin 
       spec = eval(File.open(spec_path).read)
 
@@ -286,6 +287,13 @@ class CocoaDocs < Object
     end 
   
   rescue Exception => e
+    
+    error_path = "errors/#{spec.name}/#{spec.version}/error.json"
+    FileUtils.mkdir_p(File.dirname(error_path))
+    open(error_path, 'a'){ |f| 
+      report = { "message" => e.message , "trace" => e.backtrace }
+      f.puts report.to_json.to_s
+    }
   
     open('error_log.txt', 'a') { |f|
       f.puts "\n\n\n\n\n--------------#{spec_path}-------------"
@@ -319,9 +327,12 @@ if $start_sinatra_server
     handle_webhook JSON.parse(params[:payload])
   end
   
-  get "/info/:pod/:version" do
-    # get error infor for a pod
+  get "/error/:pod/:version" do
+    # get error info for a pod
+     error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
+     if File.exists? error_json_path
+       return "report_error(" + File.read(error_json_path) + ")"
+     end
   end
-  
   
 end
