@@ -98,7 +98,7 @@ th {
 
   p {
     width:100%;
-    max-width:100%;
+    max-width:100% !important;
   }
 }
 
@@ -735,11 +735,12 @@ span.tooltip span.tooltip {
 /* Add github icon */
 
 h3 .hover-only, h1 .hover-only {
-  display:none;
+    display:inline;
+	opacity:0.2;
 }
 
 h3:hover .hover-only, h1:hover .hover-only {
-  display:inline;
+	opacity:1;
 }
 
 h1:hover .hover-only img {
