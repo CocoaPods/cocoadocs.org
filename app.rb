@@ -290,6 +290,7 @@ class CocoaDocs < Object
     
     error_path = "errors/#{spec.name}/#{spec.version}/error.json"
     FileUtils.mkdir_p(File.dirname(error_path))
+    FileUtils.rm(error_path)
     open(error_path, 'a'){ |f| 
       report = { "message" => e.message , "trace" => e.backtrace }
       f.puts report.to_json.to_s

@@ -56,7 +56,11 @@ class DocsetGenerator
       docset_command.insert(3, "--index-desc resources/overwritten_index.html")
     end
 
-    command docset_command.join ' '
+    report_appledoc_error unless command docset_command.join ' '
+  end
+  
+  def report_appledoc_error
+    raise 'Appledoc has crashed'
   end
   
   # Use cocoapods to get the header files for a specific spec
