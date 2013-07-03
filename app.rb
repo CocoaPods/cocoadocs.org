@@ -68,8 +68,9 @@ class CocoaDocs < Object
   end
 
   #    parse all docs and upload to s3
-  #    cocoadocs create --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  #    cocoadocs all --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   def all
+    update_specs_repo
     filepath = $active_folder + "/#{$cocoadocs_specs_name}/"
 
     Dir.foreach filepath do |pod|
@@ -213,7 +214,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir("activity/Specs") do
+    Dir.chdir("activity/" + $cocoadocs_specs_name) do
      `git #{git_command}`  
     end
   end
@@ -231,7 +232,7 @@ class CocoaDocs < Object
     vputs "Looking at #{updated_specs.lines.count}"
   
     updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_path = $active_folder + "/Specs/" + spec_filepath.strip
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
       next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
         document_spec_at_path spec_path
@@ -278,8 +279,10 @@ class CocoaDocs < Object
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate
     
-    
-        command "rm -rf #{download_location}" if $delete_source_after_docset_creation
+        if $delete_source_after_docset_creation       
+          vputs "Deleting source files"
+          command "rm -rf #{download_location}" 
+        end
       end
   
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
@@ -290,7 +293,8 @@ class CocoaDocs < Object
     
     error_path = "errors/#{spec.name}/#{spec.version}/error.json"
     FileUtils.mkdir_p(File.dirname(error_path))
-    FileUtils.rm(error_path)
+    FileUtils.rm(error_path) if File.exists? error_path
+   
     open(error_path, 'a'){ |f| 
       report = { "message" => e.message , "trace" => e.backtrace }
       f.puts report.to_json.to_s

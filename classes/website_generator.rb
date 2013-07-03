@@ -81,7 +81,7 @@ class WebsiteGenerator
       end
       next unless index_exists
       
-      podspec_path = "#{$active_folder}/Specs/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
+      podspec_path = "#{$active_folder}/#{$cocoadocs_specs_name}/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
       next unless File.exists? podspec_path
       
       podspec = eval File.open(podspec_path).read 

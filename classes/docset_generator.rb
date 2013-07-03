@@ -56,7 +56,11 @@ class DocsetGenerator
       docset_command.insert(3, "--index-desc resources/overwritten_index.html")
     end
 
-    report_appledoc_error unless command docset_command.join ' '
+     command docset_command.join(' ')
+     
+     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
+     raise "Appledoc not generate HTML for this project." unless File.exists? to + "/index.html"
+     
   end
   
   def report_appledoc_error
