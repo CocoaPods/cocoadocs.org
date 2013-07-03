@@ -19,22 +19,24 @@ class DocsetGenerator
     if headers.count == 0
       headers = [from] 
     end
+    
+    verbosity = $verbose ? "5" : "1"
   
     docset_command = [
       "appledoc",
-      "--project-name #{@spec.name}",                         # name in top left
+      "--project-name #{@spec.name}",                           # name in top left
       "--project-company '#{@spec.or_contributors_to_spec}'",   # name in top right
-      "--company-id #{cocoadocs_id}",                        # the id for the 
-
-      "--project-version #{version}",                        # project version
-      "--no-install-docset",                                 # don't make a duplicate
-
-      "--templates ./appledoc_templates",                    # use the custom template
-      "--verbose 3",                                         # give some useful logs
-
-      "--keep-intermediate-files",                           # space for now is OK
-      "--create-html",                                       # eh, nice to have
-      "--publish-docset",                                    # this should create atom
+      "--company-id #{cocoadocs_id}",                           # the id for the 
+                                                                
+      "--project-version #{version}",                           # project version
+      "--no-install-docset",                                    # don't make a duplicate
+                                                                
+      "--templates ./appledoc_templates",                       # use the custom template
+      "--verbose #{verbosity}",                                 # give some useful logs
+                                                                
+      "--keep-intermediate-files",                              # space for now is OK
+      "--create-html",                                          # eh, nice to have
+      "--publish-docset",                                       # this should create atom
     
       "--docset-feed-url #{$website_home}/docsets/#{spec.name}/xcode-docset.atom",
       "--docset-atom-filename xcode-docset.atom",
@@ -44,6 +46,8 @@ class DocsetGenerator
     
       "--docset-fallback-url #{$website_home}/docsets/#{spec.name}",
       "--docset-feed-name #{spec.name}",                    
+      
+      # http://gentlebytes.com/appledoc-docs-examples-advanced/
       "--keep-undocumented-objects",                         # not everyone will be documenting
       "--keep-undocumented-members",                         # so we should at least show something
       "--search-undocumented-doc",                           # uh? ( no idea what this does... )
@@ -59,8 +63,7 @@ class DocsetGenerator
      command docset_command.join(' ')
      
      raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
-     raise "Appledoc not generate HTML for this project." unless File.exists? to + "/index.html"
-     
+     raise "Appledoc not generate HTML for this project. Perhaps it has no classes?" unless File.exists? to + "/html/index.html"
   end
   
   def report_appledoc_error

@@ -8,14 +8,13 @@ class SpecMetadataGenerator
 
     versions = []
     Dir.foreach filepath do |version|
-      puts  "#{filepath}/#{version}"
       next if version[0] == '.'
       next unless File.directory? "#{filepath}/#{version}/"
       
       versions << version
     end
 
-    #semantically order them as they're in unix's order ATM
+    # Semantically order them as they're in unix's order ATM
     # we convert them to Versions, then back to strings
     versions = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }
 

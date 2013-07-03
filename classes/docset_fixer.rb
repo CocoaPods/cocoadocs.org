@@ -34,26 +34,32 @@ class DocsetFixer
     
     return unless Dir.exists? @docset_path + "html/"
     
+    vputs "Moving /POD/version/html/index.html to /POD/version/index.html"
     command "cp -Rf #{@docset_path}html/* #{@docset_path}/"
     command "rm -Rf #{@docset_path}/html"
   end
   
   def delete_extra_docset_folder
+    vputs "Removing redundant docset extracts"
     command "rm -Rf #{@docset_path}/docset"
   end
   
   def fix_relative_links_in_gfm
+    vputs "Fixing relative URLs in github flavoured markdown"
+    
     return unless @spec.or_is_github?
     return unless File.exists? @readme_path
     
     doc = Nokogiri::HTML(File.read @readme_path)
     doc.css("a").each do |link|
-      link_string = link.attributes["href"].value
-      next if link_string.start_with? "#"
-      next if link_string.start_with? "http"
-      next if link_string.include? "@"
+      if link.attributes["href"]
+        link_string = link.attributes["href"].value
+        next if link_string.start_with? "#"
+        next if link_string.start_with? "http"
+        next if link_string.include? "@"
       
-      link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/#{CGI.escape link.attributes["href"].value}"
+        link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/#{CGI.escape link.attributes["href"].value}"
+      end
     end
 
     `rm #{@readme_path}`
@@ -61,12 +67,15 @@ class DocsetFixer
   end
   
   def move_docset_icon_in
+    vputs "Adding Docset Icon For Dash"
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     command "cp resources/docset_icon.png #{@docset_path}/#{docset}/icon.png"
   end
   
   def move_gfm_readme_in
     return unless File.exists? @readme_path
+
+    vputs "Moving Github Markdown into index"
     readme_text = File.open(@readme_path).read
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     
@@ -81,13 +90,14 @@ class DocsetFixer
   
   def move_css_in
     # dash only supports local css
+    vputs "Generating and moving local CSS files into the DocSet"
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     command "sass views/appledoc_stylesheet.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
     command "cp public/appledoc_gfm.css #{@docset_path}/#{docset}/Contents/Resources/Documents/"
   end
   
   def create_dash_data
-    vputs "Creating dash data"
+    vputs "Creating XML for Dash"
     # Dash requires a different format for the docset and the xml data
     
     # create the tgz file for the xcode docset using our GFM index
@@ -122,6 +132,8 @@ class DocsetFixer
   end
   
   def add_index_redirect_to_latest_to_pod
+    vputs "Creating a redirect to move to the latest pod"
+    
     from = @pod_root + "/index.html"
     from_server = "docsets/#{@spec.name}/index.html"
     to = "docsets/#{@spec.name}/#{@version}"
@@ -129,6 +141,8 @@ class DocsetFixer
   end
   
   def add_docset_redirects
+    vputs "Adding redirects for the DocSets for Xcode & Dash"
+    
     # this is a xar'd (???) version of the docset
     from = @pod_root + "/docset.xar"
     from_server = "docsets/#{@spec.name}/docset.xar"

@@ -1,7 +1,7 @@
 # allow logging of terminal commands
 
 def command command_to_run
-  puts command_to_run.yellow if $log_all_terminal_commands 
+  puts " " + command_to_run.yellow if $log_all_terminal_commands 
   system command_to_run
 end
 

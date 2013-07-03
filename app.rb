@@ -21,7 +21,7 @@ class CocoaDocs < Object
   $specs_repo = "CocoaPods/Specs"
   $s3_bucket = "cocoadocs.org"
   $website_home = "http://cocoadocs.org/"
-  $cocoadocs_specs_name = "CocoaDocsSpecs"
+  $cocoadocs_specs_name = ".cocoadocs_specs"
 
   $verbose = false
   $log_all_terminal_commands = false
@@ -88,7 +88,8 @@ class CocoaDocs < Object
   end
   
   #    start webhook server for incremental building
-  #    cocoadocs webhook-server "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  #    cocoadocs webhook "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  
   def webhook
     $start_sinatra_server = true
   end
@@ -186,7 +187,7 @@ class CocoaDocs < Object
 
   # Update or clone Cocoapods/Specs
   def update_specs_repo
-    repo = $active_folder + "/CocoadocsSpecs"
+    repo = $active_folder + "/" + $cocoadocs_specs_name
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       command "git clone git://github.com/#{$specs_repo}.git #{repo}"
@@ -214,7 +215,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir("activity/" + $cocoadocs_specs_name) do
+    Dir.chdir($active_folder_name + "/" + $cocoadocs_specs_name) do
      `git #{git_command}`  
     end
   end
@@ -301,7 +302,7 @@ class CocoaDocs < Object
     }
   
     open('error_log.txt', 'a') { |f|
-      f.puts "\n\n\n\n\n--------------#{spec_path}-------------"
+      f.puts "\n\n\n --------------#{spec_path}-------------"
       f.puts e.message
       f.puts "------"
       f.puts e.backtrace.inspect
