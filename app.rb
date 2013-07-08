@@ -91,6 +91,11 @@ class CocoaDocs < Object
   #    cocoadocs webhook "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   
   def webhook
+     $upload_docsets_to_s3 = true
+      $upload_redirects_for_spec_index = true
+      $upload_redirects_for_docsets = true
+      $upload_site_to_s3 = true
+
     $start_sinatra_server = true
   end
 
@@ -127,7 +132,7 @@ class CocoaDocs < Object
     "       --create-website \"http://example.com\"                                \n" +
     "       --specs-repo \"name/repo\"                                             \n" +
     "       --data-folder \"activity\"                                             \n" +
-    "       --s3-bucket \"bucketname\"                                             \n" +
+    "       --upload-s3 \"bucketname\"                                             \n" +
     "                                                                              \n" +
     "     CocoaDocs Command Examples:                                              \n" +
     "                                                                              \n" +
@@ -139,6 +144,35 @@ class CocoaDocs < Object
     "                                                                              \n" +
     "      just parse ARAnalytics and put the docset in the activity folder        \n" +
     "      app.rb doc ARAnalytics 1.0                                              \n\n"
+  end
+  
+  # Take a webhook, look at the commits inbetween the before & after
+  # and then document each spec.
+
+  def handle_webhook webhook_payload
+    before = webhook_payload["before"]
+    after = webhook_payload["after"]
+    vputs "Got a webhook notification for #{before} to #{after}"
+  
+    update_specs_repo
+    updated_specs = specs_for_git_diff before, after
+    vputs "Looking at #{updated_specs.lines.count}"
+  
+    updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+    
+        document_spec_at_path spec_path
+        
+    end
+
+    $parser = AppleJSONParser.new
+    $parser.generate if $generate_apple_json
+
+    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
+
+    $generator.generate if $generate_website
+    $generator.upload_site if $upload_site_to_s3
   end
   
   private
@@ -220,34 +254,7 @@ class CocoaDocs < Object
     end
   end
 
-  # Take a webhook, look at the commits inbetween the before & after
-  # and then document each spec.
 
-  def handle_webhook webhook_payload
-    before = webhook_payload["before"]
-    after = webhook_payload["after"]
-    vputs "Got a webhook notification for #{before} to #{after}"
-  
-    update_specs_repo
-    updated_specs = specs_for_git_diff before, after
-    vputs "Looking at #{updated_specs.lines.count}"
-  
-    updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
-    
-        document_spec_at_path spec_path
-        
-    end
-
-    $parser = AppleJSONParser.new
-    $parser.generate if $generate_apple_json
-
-    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
-
-    $generator.generate if $generate_website
-    $generator.upload_site if $upload_site_to_s3
-  end
 
   # generate the documentation for the pod
 
@@ -291,16 +298,17 @@ class CocoaDocs < Object
     end 
   
   rescue Exception => e
-    
-    error_path = "errors/#{spec.name}/#{spec.version}/error.json"
-    FileUtils.mkdir_p(File.dirname(error_path))
-    FileUtils.rm(error_path) if File.exists? error_path
-   
-    open(error_path, 'a'){ |f| 
-      report = { "message" => e.message , "trace" => e.backtrace }
-      f.puts report.to_json.to_s
-    }
-  
+    if spec != nil
+      error_path = "errors/#{spec.name}/#{spec.version}/error.json"
+      FileUtils.mkdir_p(File.dirname(error_path))
+      FileUtils.rm(error_path) if File.exists? error_path
+     
+      open(error_path, 'a'){ |f| 
+        report = { "message" => e.message , "trace" => e.backtrace }
+        f.puts report.to_json.to_s
+      }
+    end
+
     open('error_log.txt', 'a') { |f|
       f.puts "\n\n\n --------------#{spec_path}-------------"
       f.puts e.message
@@ -320,7 +328,7 @@ class CocoaDocs < Object
   end
 end
 
-CocoaDocs.new(ARGV)
+docs = CocoaDocs.new(ARGV)
 
 # --------------------------
 # Sinatra stuff
@@ -330,7 +338,7 @@ if $start_sinatra_server
   require 'sinatra'
   
   post "/webhook" do
-    handle_webhook JSON.parse(params[:payload])
+    docs.handle_webhook JSON.parse(params[:payload])
   end
   
   get "/error/:pod/:version" do

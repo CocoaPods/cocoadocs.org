@@ -117,7 +117,7 @@ class DocsetFixer
        file.write("
        <entry>
           <version>#{@version}</version>
-          <url>#{$website_home}/docsets/#{@spec.name}/#{@spec.name}.tgz</url>
+          <url>#{$website_home}docsets/#{@spec.name}/#{@spec.name}.tgz</url>
         </entry>")
     end
 
