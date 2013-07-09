@@ -133,7 +133,7 @@ class CocoaDocs < Object
     "       --verbose                                                              \n" +
     "       --skip-fetch                                                           \n" +
     "       --dont-delete-source                                                   \n" +
-    "       --create-website \"http://example.com\"                                \n" +
+    "       --create-website \"http://example.com/\"                                \n" +
     "       --specs-repo \"name/repo\"                                             \n" +
     "       --data-folder \"activity\"                                             \n" +
     "       --upload-s3 \"bucketname\"                                             \n" +
