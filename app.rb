@@ -133,8 +133,8 @@ class CocoaDocs < Object
     "       --verbose                                                              \n" +
     "       --skip-fetch                                                           \n" +
     "       --dont-delete-source                                                   \n" +
-    "       --create-website \"http://example.com/\"                                \n" +
-    "       --specs-repo \"name/repo\"                                             \n" +
+    "       --create-website \"http://example.com/\"                               \n" +
+    "       --specs-repo \"name/repo\" or \"http://u:p@server.com/git/specs.git\"  \n" +
     "       --data-folder \"activity\"                                             \n" +
     "       --upload-s3 \"bucketname\"                                             \n" +
     "                                                                              \n" +
@@ -221,7 +221,11 @@ class CocoaDocs < Object
     repo = $active_folder + "/" + $cocoadocs_specs_name
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
-      command "git clone git://github.com/#{$specs_repo}.git #{repo}"
+      if repo.include? ".git"
+        command "git clone #{$specs_repo} #{repo}"
+      else
+        command "git clone git://github.com/#{$specs_repo}.git #{repo}"
+      end
     else
       if $fetch_specs
         vputs "Updating Specs Repo"
