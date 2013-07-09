@@ -222,9 +222,9 @@ class CocoaDocs < Object
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       if repo.include? ".git"
-        command "git clone #{$specs_repo} #{repo}"
-      else
         command "git clone git://github.com/#{$specs_repo}.git #{repo}"
+      else
+        command "git clone #{$specs_repo} #{repo}"
       end
     else
       if $fetch_specs
