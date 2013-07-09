@@ -735,14 +735,14 @@ span.tooltip span.tooltip {
 /* Add github icon */
 
 h3 .hover-only, h1 .hover-only {
-    display:inline;
-	opacity:0.2;
+  display:inline;
+  opacity:0.2;
 }
 
 h3:hover .hover-only, h1:hover .hover-only {
 	opacity:1;
 }
 
-h1:hover .hover-only img {
+h1 .hover-only img {
   vertical-align: top; 
 }
