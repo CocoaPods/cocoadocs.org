@@ -169,14 +169,6 @@ class CocoaDocs < Object
         document_spec_at_path spec_path
         
     end
-
-    $parser = AppleJSONParser.new
-    $parser.generate if $generate_apple_json
-
-    $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json)
-
-    $generator.generate if $generate_website
-    $generator.upload_site if $upload_site_to_s3
   end
   
   private
@@ -196,10 +188,12 @@ class CocoaDocs < Object
       $delete_source_after_docset_creation = false
     end
 
-    if options.find_index("--create-website") != nil
+    index = options.find_index "--create-website"
+    if index != nil
       $generate_website = true
       $generate_docset_json = true
       $generate_apple_json = true
+      $website_home = options[index + 1]
     end
   
     index = options.find_index("--upload-s3")
@@ -208,11 +202,10 @@ class CocoaDocs < Object
       $upload_redirects_for_spec_index = true
       $upload_redirects_for_docsets = true
       $upload_site_to_s3 = true
-      $s3_bucket = options[index + 1] if index != nil
+      $s3_bucket = options[index + 1]
     end
   
-    index = options.find_index "--create-website"    
-    $website_home = options[index + 1] if index != nil
+
 
     index = options.find_index "--specs-repo"    
     $specs_repo = options[index + 1] if index != nil
@@ -297,8 +290,15 @@ class CocoaDocs < Object
         end
       end
   
+      $parser = AppleJSONParser.new
+      $parser.generate if $generate_apple_json
+
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
+      
+      $generator.generate if $generate_website
+      $generator.upload_site if $upload_site_to_s3
+      
     end 
   
   rescue Exception => e
