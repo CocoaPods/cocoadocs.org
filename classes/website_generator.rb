@@ -83,17 +83,21 @@ class WebsiteGenerator
       
       podspec_path = "#{$active_folder}/#{$cocoadocs_specs_name}/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
       next unless File.exists? podspec_path
-      
-      podspec = eval File.open(podspec_path).read 
 
-      spec[:doc_url] = "#{$website_home}/docsets/#{podspec.name}/"
-      spec[:user] = podspec.or_contributors_to_spec
-      spec[:homepage] = podspec.homepage
-      spec[:homepage_host] = podspec.or_extensionless_homepage
-      spec[:name] = podspec.name
-      spec[:summary] = podspec.summary
+      begin
+        podspec = eval File.open(podspec_path).read 
+
+        spec[:doc_url] = "#{$website_home}/docsets/#{podspec.name}/"
+        spec[:user] = podspec.or_contributors_to_spec
+        spec[:homepage] = podspec.homepage
+        spec[:homepage_host] = podspec.or_extensionless_homepage
+        spec[:name] = podspec.name
+        spec[:summary] = podspec.summary
       
-      specs << spec
+        specs << spec
+      rescue
+        vputs "!!!!! Could not parse #{podspec_path}"
+      end
     end
     specs
   end
