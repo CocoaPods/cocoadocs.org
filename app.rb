@@ -147,7 +147,7 @@ class CocoaDocs < Object
     "      app.rb all --s3-bucket cocoapods.org                                    \n" +
     "                                                                              \n" +
     "      just parse ARAnalytics and put the docset in the activity folder        \n" +
-    "      app.rb doc ARAnalytics 1.0                                              \n\n"
+    "      app.rb doc ARAnalytics                                                  \n\n"
   end
   
   # Take a webhook, look at the commits inbetween the before & after
