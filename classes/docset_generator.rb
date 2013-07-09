@@ -38,13 +38,13 @@ class DocsetGenerator
       "--create-html",                                          # eh, nice to have
       "--publish-docset",                                       # this should create atom
     
-      "--docset-feed-url #{$website_home}/docsets/#{spec.name}/xcode-docset.atom",
+      "--docset-feed-url #{$website_home}docsets/#{spec.name}/xcode-docset.atom",
       "--docset-atom-filename xcode-docset.atom",
 
-      "--docset-package-url #{$website_home}/docsets/#{spec.name}/docset.xar",
+      "--docset-package-url #{$website_home}docsets/#{spec.name}/docset.xar",
       "--docset-package-filename docset", 
     
-      "--docset-fallback-url #{$website_home}/docsets/#{spec.name}",
+      "--docset-fallback-url #{$website_home}docsets/#{spec.name}",
       "--docset-feed-name #{spec.name}",                    
       
       # http://gentlebytes.com/appledoc-docs-examples-advanced/
