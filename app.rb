@@ -91,10 +91,14 @@ class CocoaDocs < Object
   #    cocoadocs webhook "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   
   def webhook
-     $upload_docsets_to_s3 = true
-      $upload_redirects_for_spec_index = true
-      $upload_redirects_for_docsets = true
-      $upload_site_to_s3 = true
+    $upload_docsets_to_s3 = true
+    $upload_redirects_for_spec_index = true
+    $upload_redirects_for_docsets = true
+    $upload_site_to_s3 = true
+    
+    $generate_website = true
+    $generate_docset_json = true
+    $generate_apple_json = true
 
     $start_sinatra_server = true
   end
