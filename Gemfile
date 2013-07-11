@@ -6,7 +6,7 @@ gem "rb-fsevent"
 
 gem "cocoapods-core"
 gem "cocoapods-downloader"
-gem "cocoapods", "0.17.1"
+gem "cocoapods"
 
 gem "octokit"
 gem "nokogiri"
