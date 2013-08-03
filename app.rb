@@ -355,6 +355,7 @@ if $start_sinatra_server
      if File.exists? error_json_path
        return "report_error(" + File.read(error_json_path) + ")"
      end
+     return "{}"
   end
   
 end
