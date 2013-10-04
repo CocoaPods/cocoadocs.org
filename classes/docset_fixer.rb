@@ -177,7 +177,7 @@ class DocsetFixer
       "--no-check-md5",
       "--verbose --human-readable-sizes --reduced-redundancy",
       "--add-header='x-amz-website-redirect-location:/#{to}'",
-      "#{from} s3://cocoadocs.org/#{from_server}"
+      "#{from} s3://#{$s3_bucket}/#{from_server}"
     ]
 
     command redirect_command.join(' ')
