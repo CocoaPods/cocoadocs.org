@@ -79,20 +79,19 @@ class DocsetGenerator
 
     # https://github.com/CocoaPods/cocoadocs.org/issues/35
     [@spec, *@spec.subspecs].each do |internal_spec|
+      internal_spec.available_platforms.each do |platform|
+        consumer = Pod::Specification::Consumer.new(internal_spec, platform)
+        accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
 
-      if internal_spec.attributes_hash["source_files"]
-        internal_spec.available_platforms.each do |platform|
-          consumer = Pod::Specification::Consumer.new(internal_spec, platform)
-          accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
-          
+        if accessor.public_headers
           headers += accessor.public_headers.map{ |filepath| filepath.to_s }
+        else
+          puts "Skipping headers for #{internal_spec} on platform #{platform} (no headers found).".blue
         end
-      else
-        puts "Skipping headers for #{internal_spec}".blue
       end
     end
 
     headers.uniq
   end
-  
 end
+
