@@ -1,6 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
@@ -41,6 +45,8 @@ GEM
     guard-shell (0.5.1)
       guard (>= 1.1.0)
     hashie (2.0.5)
+    htmlcompressor (0.0.7)
+      yui-compressor (~> 0.9.6)
     i18n (0.6.1)
     json (1.8.0)
     listen (1.2.2)
@@ -91,6 +97,8 @@ GEM
     xcodeproj (0.8.1)
       activesupport (~> 3.2.13)
       colored (~> 1.2)
+    yui-compressor (0.9.6)
+      POpen4 (>= 0.1.4)
 
 PLATFORMS
   ruby
@@ -102,6 +110,7 @@ DEPENDENCIES
   colored (~> 1.2)
   guard-ruby
   guard-shell
+  htmlcompressor
   nokogiri
   octokit
   rb-fsevent

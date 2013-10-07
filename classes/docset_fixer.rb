@@ -1,3 +1,5 @@
+require 'htmlcompressor'
+
 class DocsetFixer
   include HashInit
   attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path
@@ -11,6 +13,7 @@ class DocsetFixer
     move_css_in
     move_docset_icon_in
     create_dash_data
+    minify_html
   end
 
   def get_latest_version_in_folder
@@ -167,7 +170,23 @@ class DocsetFixer
     to = "docsets/#{@spec.name}/#{@version}/publish/#{@spec.name}.tgz"
     redirect_command from, from_server, to
   end
-  
+
+  # Minify all of the HTML files in the docset
+  #
+  # This is done to save space, with some testing, it
+  # saved 0.2MB on 1.6MB documentation
+  def minify_html
+    compressor = HtmlCompressor::Compressor.new
+
+    Dir.chdir(@pod_root) do
+      Dir.glob('**/*.html') do |filename|
+        html = File.read(filename)
+        compressed_html = compressor.compress(html)
+        File.open(filename, 'w') { |f| f.write(compressed_html) }
+      end
+    end
+  end
+
   def redirect_command from, from_server, to
     command "touch #{from}"
     
