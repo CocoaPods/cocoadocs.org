@@ -15,3 +15,5 @@ gem "sass"
 gem "colored", "~> 1.2"
 gem "sinatra"
 gem "tilt"
+gem "htmlcompressor"
+
