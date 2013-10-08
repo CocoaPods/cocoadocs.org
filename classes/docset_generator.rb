@@ -78,7 +78,7 @@ class DocsetGenerator
     headers = []
 
     # https://github.com/CocoaPods/cocoadocs.org/issues/35
-    [@spec, *@spec.subspecs].each do |internal_spec|
+    [@spec, *@spec.recursive_subspecs].each do |internal_spec|
       internal_spec.available_platforms.each do |platform|
         consumer = Pod::Specification::Consumer.new(internal_spec, platform)
         accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
