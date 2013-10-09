@@ -221,7 +221,7 @@ class CocoaDocs < Object
     repo = $active_folder + "/" + $cocoadocs_specs_name
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
-      if repo.include? ".git"
+      unless repo.include? "://"
         command "git clone git://github.com/#{$specs_repo}.git #{repo}"
       else
         command "git clone #{$specs_repo} #{repo}"
