@@ -101,6 +101,7 @@ class CocoaDocs < Object
     $generate_apple_json = true
 
     $verbose = true
+    $log_all_terminal_commands = true
 
     $start_sinatra_server = true
   end
