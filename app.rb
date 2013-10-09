@@ -111,6 +111,7 @@ class CocoaDocs < Object
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/" + name
     update_specs_repo
     
+    
     if Dir.exists? spec_path
       version = Dir.entries(spec_path).last
       document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
@@ -119,6 +120,11 @@ class CocoaDocs < Object
       puts "Could not find #{name} at #{spec_path}"
     end
   end
+
+  def index
+    $generator = WebsiteGenerator.new(:generate_json => false)    
+    $generator.generate
+  end 
 
   def help
     puts "\n" +                                                                  
@@ -141,10 +147,10 @@ class CocoaDocs < Object
     "     CocoaDocs Command Examples:                                              \n" +
     "                                                                              \n" +
     "      Start webhook server for incremental building                           \n" +
-    "      app.rb webhook-server                                                   \n" +
+    "      app.rb webhook                                                          \n" +
     "                                                                              \n" +
     "      Parse all docs and upload to s3 on the cocoapods.org bucket             \n" +
-    "      app.rb all --s3-bucket cocoapods.org                                    \n" +
+    "      app.rb all --upload-s3 cocoapods.org                                    \n" +
     "                                                                              \n" +
     "      just parse ARAnalytics and put the docset in the activity folder        \n" +
     "      app.rb doc ARAnalytics                                                  \n\n"
@@ -185,6 +191,7 @@ class CocoaDocs < Object
     end
 
     if options.find_index("--dont-delete-source") != nil
+      puts "Turning off deleting source "
       $delete_source_after_docset_creation = false
     end
 
@@ -204,8 +211,6 @@ class CocoaDocs < Object
       $upload_site_to_s3 = true
       $s3_bucket = options[index + 1]
     end
-  
-
 
     index = options.find_index "--specs-repo"    
     $specs_repo = options[index + 1] if index != nil
@@ -294,8 +299,8 @@ class CocoaDocs < Object
         end
       end
   
-      $parser = AppleJSONParser.new
-      $parser.generate if $generate_apple_json
+ #     $parser = AppleJSONParser.new
+ #     $parser.generate if $generate_apple_json
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3

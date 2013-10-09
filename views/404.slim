@@ -10,15 +10,14 @@
   <meta name="keywords" content="cocoapods, cocoa, ios, objective C" />
   <meta name="robots" content="all, follow"/> 
   <link href="/assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
-  <style>
-  pre {
-    font-size:14px;
-    text-align:left;
-    background-color: #452e00;
-    border: black 1px solid;
-    color: #fcf3e5;
-  }
-  </style>
+  css:
+    pre {
+      font-size:14px;
+      text-align:left;
+      background-color: #452e00;
+      border: black 1px solid;
+      color: #fcf3e5;
+    }
 
 </head>
 
@@ -41,39 +40,39 @@ body
         a href="http://cocoapods.org" 
           img src="/assets/img/cocoapods.png"
           
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-29866548-2', 'cocoadocs.org');ga('send', 'pageview');
+javascript:
 
-function report_error(error) {
-    var wrapper = document.getElementById("loading")
-    
-    var p = document.createElement("p");
-    var pText = document.createTextNode(error.message);
-    p.appendChild(pText);
-    p.style = " font-size:22px;"
-    wrapper.appendChild(p);
-    
-    var trace = ""
-    for (var i = 0; i < error.trace.length; i++) {
-      trace += error.trace[i] + "\n"
-    }
-    
-    var pre = document.createElement("pre");
-    var preText = document.createTextNode(trace);
-    pre.style = "font-size:14px; text-align:left;"
+  (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-29866548-2', 'cocoadocs.org');ga('send', 'pageview');
 
-    pre.appendChild(preText);
-    wrapper.appendChild(pre);
-}
+  function report_error(error) {
+      var wrapper = document.getElementById("loading")
+    
+      var p = document.createElement("p");
+      var pText = document.createTextNode(error.message);
+      p.appendChild(pText);
+      p.style = " font-size:22px;"
+      wrapper.appendChild(p);
+    
+      var trace = ""
+      for (var i = 0; i < error.trace.length; i++) {
+        trace += error.trace[i] + "\n"
+      }
+    
+      var pre = document.createElement("pre");
+      var preText = document.createTextNode(trace);
+      pre.style = "font-size:14px; text-align:left;"
 
-function get_error() {
-  var path = window.location.pathname
-  var pathbits = path.split("/")
-  if(pathbits.length == 4){
-    var script = document.createElement( "script" );
-    script.type = "text/javascript";
-    script.src = "http://199.229.252.197:4567/error/" + pathbits[2] + "/" + pathbits[3];
-    document.head.appendChild(script);
+      pre.appendChild(preText);
+      wrapper.appendChild(pre);
   }
-}
-</script>
+
+  function get_error() {
+    var path = window.location.pathname
+    var pathbits = path.split("/")
+    if(pathbits.length == 4){
+      var script = document.createElement( "script" );
+      script.type = "text/javascript";
+      script.src = "http://199.229.252.197:4567/error/" + pathbits[2] + "/" + pathbits[3];
+      document.head.appendChild(script);
+    }
+  }

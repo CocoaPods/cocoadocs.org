@@ -1,3 +1,6 @@
+// var server = "file:///Users/orta/spiel/html/cocoadocs/activity/html/index.html"
+var server = "http://cocoadocs.org"
+
 // set the query based on the q=X syntax
 var query_bits = window.location.search.split("q=")
 if(query_bits.length > 1){
@@ -17,31 +20,23 @@ function podSearchHasChanged() {
 }
 
 var old_query;
+var filtered_results;
 function searchTermChanged() {
 
   var query = document.getElementById("pod_search").value
   old_query = query
   
-  var filtered_results = []
-  var results
+  filtered_results = []
 
+  $.getJSON("http://cocoapods.org/api/v1.5/pods/search?query=" + query, function( data ) {
+    filtered_results = data.concat(filtered_results)
+    createList()
+  });
   
   if (query.length) {
-    window.history.replaceState( {} , 'CocoaDocs', 'http://cocoadocs.org/?q=' + query );
+    window.history.replaceState( {} , 'CocoaDocs', server + '/?q=' + query );
     
     document.getElementById("about").style.display = "none"
-
-    if(window.specs) {
-      for ( var i = 0; i < specs.length; i++ ){
-        var library_name = specs[i]["name"];
-        var score = library_name.score(query);
-    
-        if (score > 0.2){
-          specs[i]["score"] = score
-        	filtered_results.push( specs[i] )
-        } 
-      }
-    }
 
     if(window.appledocs) {
       for ( var i = 0; i < appledocs.length; i++ ){
@@ -66,17 +61,23 @@ function searchTermChanged() {
         }
       }
     } else {
-      window.history.replaceState( {} , 'CocoaDocs', "http://cocoadocs.org");
+      window.history.replaceState( {} , 'CocoaDocs', server);
     }
-
-    // sort by score
-    results = filtered_results.sort(function(a, b){
-      return b["score"] - a["score"]
-    })
-    
-    var showNotFound = (results.length != 0) ? "none" : "block"
-    document.getElementById("no_results").style.display = showNotFound
   }
+
+  createList()
+}
+
+function createList(){
+
+  // sort by score
+  var results = filtered_results.sort(function(a, b){
+    return b["score"] - a["score"]
+  })
+  
+  var query = document.getElementById("pod_search").value
+  var showNotFound = (results.length != 0 || query.length == 0 ) ? "none" : "block"
+  document.getElementById("no_results").style.display = showNotFound
 
   var documents = ""
   if(results) {
@@ -93,9 +94,9 @@ function searchTermChanged() {
         class_name += " apple"
       }
       
-      var url = is_apple? spec["url"] : spec["doc_url"]
-      var heading = spec["name"]
-      var side_heading = is_apple? spec["framework"] : spec["main_version"]
+      var url = is_apple? spec["url"] : "http://cocoadocs.org/docsets/" + spec["id"] + "/"
+      var heading = is_apple? spec["name"] : spec["id"]
+      var side_heading = is_apple? spec["framework"] : spec["version"]
       var body = is_apple? spec["type"] : spec["summary"]
       
       documents += "<li class='" + class_name + "'>"
@@ -110,7 +111,7 @@ function searchTermChanged() {
   }  
   
   document.getElementById("loading").style.display = "none"
-  document.getElementById("results").innerHTML = documents   
+  document.getElementById("results").innerHTML = documents
 }
 
 document.onclick = function(){ 
