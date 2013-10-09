@@ -100,6 +100,8 @@ class CocoaDocs < Object
     $generate_docset_json = true
     $generate_apple_json = true
 
+    $verbose = true
+
     $start_sinatra_server = true
   end
 
