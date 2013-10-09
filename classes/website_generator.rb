@@ -11,12 +11,6 @@ class WebsiteGenerator
   def create_index_page
     vputs "Creating index page"
     
-    if @generate_json
-      vputs "Creating JSON for all docsets"
-      specs = create_docsets_array
-      create_specs_json specs
-    end
-
     save_slim "views/index.slim", "#{$active_folder}/html/index.html"
     save_slim "views/404.slim", "#{$active_folder}/html/404.html"
   end
@@ -60,46 +54,6 @@ class WebsiteGenerator
     command "rm -rf #{resources_dir}"
     command "mkdir #{resources_dir}"
     command "cp -R public/* #{resources_dir}"
-  end
-
-  def create_docsets_array
-    specs = []
-    docsets_dir = "#{$active_folder}/docsets/"
-  
-    Dir.foreach docsets_dir do |podspec_folder|
-      next if podspec_folder[0] == '.'
-      index_exists = false
-      spec = { :versions => []}
-    
-      Dir.foreach "#{docsets_dir}/#{podspec_folder}" do |version|
-        next if version[0] == '.' 
-        next unless File.directory? "#{docsets_dir}/#{podspec_folder}/#{version}"
-        
-        index_exists = File.exists?("#{docsets_dir}/#{podspec_folder}/#{version}/index.html")
-        spec[:main_version] = version
-        spec[:versions] << version
-      end
-      next unless index_exists
-      
-      podspec_path = "#{$active_folder}/#{$cocoadocs_specs_name}/#{podspec_folder}/#{spec[:versions].last}/#{podspec_folder}.podspec"
-      next unless File.exists? podspec_path
-
-      begin
-        podspec = eval File.open(podspec_path).read 
-
-        spec[:doc_url] = "#{$website_home}docsets/#{podspec.name}/"
-        spec[:user] = podspec.or_contributors_to_spec
-        spec[:homepage] = podspec.homepage
-        spec[:homepage_host] = podspec.or_extensionless_homepage
-        spec[:name] = podspec.name
-        spec[:summary] = podspec.summary
-      
-        specs << spec
-      rescue
-        vputs "!!!!! Could not parse #{podspec_path}"
-      end
-    end
-    specs
   end
   
   def upload_docset

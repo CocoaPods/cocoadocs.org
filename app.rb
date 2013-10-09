@@ -121,11 +121,6 @@ class CocoaDocs < Object
     end
   end
 
-  def index
-    $generator = WebsiteGenerator.new(:generate_json => false)    
-    $generator.generate
-  end 
-
   def help
     puts "\n" +                                                                  
     "    CocoaDocs command line                                                    \n" +
@@ -307,7 +302,6 @@ class CocoaDocs < Object
       
       $generator.generate if $generate_website
       $generator.upload_site if $upload_site_to_s3
-      
     end 
   
   rescue Exception => e

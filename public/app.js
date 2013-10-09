@@ -1,5 +1,5 @@
-// var server = "file:///Users/orta/spiel/html/cocoadocs/activity/html/index.html"
-var server = "http://cocoadocs.org"
+var server = "file:///Users/orta/spiel/html/cocoadocs/activity/html/index.html"
+// var server = "http://cocoadocs.org"
 
 // set the query based on the q=X syntax
 var query_bits = window.location.search.split("q=")
@@ -21,6 +21,7 @@ function podSearchHasChanged() {
 
 var old_query;
 var filtered_results;
+var server_results;
 function searchTermChanged() {
 
   var query = document.getElementById("pod_search").value
@@ -29,7 +30,7 @@ function searchTermChanged() {
   filtered_results = []
 
   $.getJSON("http://cocoapods.org/api/v1.5/pods/search?query=" + query, function( data ) {
-    filtered_results = data.concat(filtered_results)
+    server_results = data;
     createList()
   });
   
@@ -71,8 +72,14 @@ function searchTermChanged() {
 function createList(){
 
   // sort by score
+  filtered_results = server_results.concat(filtered_results)
+  
   var results = filtered_results.sort(function(a, b){
     return b["score"] - a["score"]
+  })
+  
+  results = results.filter(function(elem, pos) {
+      return results.indexOf(elem) == pos;
   })
   
   var query = document.getElementById("pod_search").value
