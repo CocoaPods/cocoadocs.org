@@ -72,7 +72,7 @@ function searchTermChanged() {
 function createList(){
 
   // sort by score
-  filtered_results = server_results.concat(filtered_results)
+  if (server_results) filtered_results = server_results.concat(filtered_results)
   
   var results = filtered_results.sort(function(a, b){
     return b["score"] - a["score"]
