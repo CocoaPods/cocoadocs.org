@@ -1,5 +1,5 @@
-var server = "file:///Users/orta/spiel/html/cocoadocs/activity/html/index.html"
-// var server = "http://cocoadocs.org"
+// var server = "file:///Users/orta/spiel/html/cocoadocs/activity/html/index.html"
+var server = "http://cocoadocs.org"
 
 // set the query based on the q=X syntax
 var query_bits = window.location.search.split("q=")
