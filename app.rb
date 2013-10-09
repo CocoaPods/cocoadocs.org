@@ -294,6 +294,7 @@ class CocoaDocs < Object
         if $delete_source_after_docset_creation       
           vputs "Deleting source files"
           command "rm -rf #{download_location}" 
+          command "rm -rf #{docset_location}" 
         end
       end
   
