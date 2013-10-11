@@ -4,7 +4,7 @@ class SpecMetadataGenerator
   
   def generate
     vputs "Generating the Specs version metadata and all that"
-    filepath = $active_folder + "/docsets/" + @spec.name
+    filepath = $active_folder + "/" + $cocoadocs_specs_name +"/" + @spec.name
 
     versions = []
     Dir.foreach filepath do |version|
@@ -16,6 +16,7 @@ class SpecMetadataGenerator
 
     # Semantically order them as they're in unix's order ATM
     # we convert them to Versions, then back to strings
+    
     versions = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }
 
     hash_string = {
