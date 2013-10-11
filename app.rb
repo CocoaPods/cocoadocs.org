@@ -117,6 +117,7 @@ class CocoaDocs < Object
     
     if Dir.exists? spec_path
       version = Dir.entries(spec_path).last
+      version = "2.0.1"
       document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
       Process.exit
     else
@@ -291,11 +292,6 @@ class CocoaDocs < Object
         spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
         spec_metadata.generate
     
-        if $delete_source_after_docset_creation       
-          vputs "Deleting source files"
-          command "rm -rf #{download_location}" 
-          command "rm -rf #{docset_location}" 
-        end
       end
   
  #     $parser = AppleJSONParser.new
@@ -306,6 +302,12 @@ class CocoaDocs < Object
       
       $generator.generate if $generate_website
       $generator.upload_site if $upload_site_to_s3
+      
+      if $delete_source_after_docset_creation       
+        vputs "Deleting source files"
+        command "rm -rf #{download_location}" 
+        command "rm -rf #{docset_location}" 
+      end
     end 
   
   rescue Exception => e
