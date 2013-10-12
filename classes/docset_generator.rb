@@ -63,7 +63,7 @@ class DocsetGenerator
      command docset_command.join(' ')
      
      raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
-     raise "Appledoc not generate HTML for this project. Perhaps it has no classes?" unless File.exists? to + "/html/index.html"
+     raise "Appledoc did not generate HTML for this project. Perhaps it has no objc classes." unless File.exists? to + "/html/index.html"
   end
   
   def report_appledoc_error
