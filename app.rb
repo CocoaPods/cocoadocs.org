@@ -117,7 +117,6 @@ class CocoaDocs < Object
     
     if Dir.exists? spec_path
       version = Dir.entries(spec_path).last
-      version = "2.0.1"
       document_spec_at_path("#{spec_path}/#{version}/#{name}.podspec")
       Process.exit
     else
