@@ -61,7 +61,7 @@ class DocsetFixer
         next if link_string.start_with? "http"
         next if link_string.include? "@"
 
-        link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/blob/#{@spec.git_ref}/#{CGI.escape link.attributes["href"].value}"
+        link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/blob/#{@spec.or_git_ref}/#{CGI.escape link.attributes["href"].value}"
       end
     end
 
