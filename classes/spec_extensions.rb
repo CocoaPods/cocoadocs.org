@@ -4,7 +4,11 @@ module Pod
       def or_is_github?
         self.homepage.include?("github.com") || (self.source[:git] && self.source[:git].include?("github.com"))
       end
-      
+
+      def or_git_ref
+        self.source[:tag] || self.source[:commit] || self.source[:branch] || 'master'
+      end
+
       def or_user
         return nil unless self.or_is_github?
         self.homepage.split("/")[-2]
