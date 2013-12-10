@@ -14,6 +14,6 @@ gem "slim"
 gem "sass"
 gem "colored", "~> 1.2"
 gem "sinatra"
-gem "tilt"
+gem "tilt", "~> 1.4.1"
 gem "htmlcompressor"
 
