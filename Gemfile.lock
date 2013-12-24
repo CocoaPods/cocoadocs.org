@@ -105,7 +105,7 @@ GEM
     slop (3.4.7)
     temple (0.6.7)
     thor (0.18.1)
-    tilt (2.0.0)
+    tilt (1.4.1)
     timers (1.1.0)
     xcodeproj (0.14.1)
       activesupport (~> 3.0)
@@ -131,4 +131,4 @@ DEPENDENCIES
   sass
   sinatra
   slim
-  tilt
+  tilt (~> 1.4.1)
