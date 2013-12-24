@@ -10,10 +10,10 @@ gem "cocoapods", :git => "https://github.com/CocoaPods/CocoaPods"
 
 gem "octokit"
 gem "nokogiri"
-gem "slim"
+gem "slim", "< 2.0"
 gem "sass"
 gem "colored", "~> 1.2"
-gem "sinatra"
-gem "tilt"
+gem "sinatra", "1.3.1"
+gem "tilt", "1.4.1"
 gem "htmlcompressor"
 
