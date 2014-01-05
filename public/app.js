@@ -29,7 +29,7 @@ function searchTermChanged() {
   
   filtered_results = []
 
-  $.getJSON("http://cocoapods.org/api/v1.5/pods/search?query=name%3A" + query, function( data ) {
+  $.getJSON("http://search.cocoapods.org/api/v1.5/pods/search?query=name%3A" + query, function( data ) {
     server_results = data;
     createList()
   });
