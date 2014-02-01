@@ -21,7 +21,7 @@ class CocoaDocs < Object
   $specs_repo = "CocoaPods/Specs"
   $s3_bucket = "cocoadocs.org"
   $website_home = "http://cocoadocs.org/"
-  $cocoadocs_specs_name = ".cocoadocs_specs"
+  $cocoadocs_specs_name = "cocoadocs_specs"
 
   $verbose = false
   $log_all_terminal_commands = false
@@ -107,7 +107,7 @@ class CocoaDocs < Object
   end
 
   #    just parse ARAnalytics and put the docset in the activity folder
-  #    cocoadocs doc "CocoaPods/Specs" "ARAnalytics"
+  #    cocoadocs doc "ARAnalytics"
   
   def doc
     name = @params[0]
@@ -123,14 +123,59 @@ class CocoaDocs < Object
       puts "Could not find #{name} at #{spec_path}"
     end
   end
+  
+  def cocoadocs
+    if @params[0] == "doc"
+      cocoadocs_doc
+    elsif @params[0] == "days"
+      cocoadocs_day
+    end
+  end
+  
+  def setup_for_cocoadocs
+    
+    $generate_website = true
+    $generate_docset_json = true
+    $generate_apple_json = true
+    $website_home = "http://cocoadocs.org"
+  
+    $upload_docsets_to_s3 = true
+    $upload_redirects_for_spec_index = true
+    $upload_redirects_for_docsets = true
+    $upload_site_to_s3 = true
+    $s3_bucket = "cocoadocs.org"
+
+  end
+  
+  def cocoadocs_day
+    setup_for_cocoadocs
+    
+    updated_specs = specs_for_days_ago_diff @params[1]
+    vputs "Looking at #{updated_specs.lines.count}"
+    
+    updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+    
+      document_spec_at_path spec_path  
+    end
+  end
+  
+  def cocoadocs_doc
+    setup_for_cocoadocs
+    @params[0] = @params[1]
+    doc
+  end
 
   def help
     puts "\n" +                                                                  
     "    CocoaDocs command line                                                    \n" +
     "                                                                              \n" +
     "     app.rb all                                                               \n" +
-    "     app.rb doc                                                               \n" +
     "     app.rb webhook                                                           \n" +
+    "     app.rb doc [spec]                                                        \n" +
+    "     app.rb cocoadocs doc [spec]                                              \n" +
+    "     app.rb cocoadocs days [days]                                             \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
@@ -170,8 +215,7 @@ class CocoaDocs < Object
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
       next unless spec_filepath.include? ".podspec" and File.exists? spec_path
     
-        document_spec_at_path spec_path
-        
+      document_spec_at_path spec_path  
     end
   end
   
@@ -238,15 +282,28 @@ class CocoaDocs < Object
     end  
   end
 
-  # returns an array from the diff log for the commit changes
+  
+  # returns an array from the diff log for the last x days
+  def specs_for_days_ago_diff days_ago
+    sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
+    diff_log = run_git_command_in_specs "diff --name-status #{sha}"
+    p diff_log
+    cleanup_git_logs diff_log
+  end
 
+  # returns an array from the diff log for the commit changes
   def specs_for_git_diff start_commit, end_commit
     diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
-    diff_log.lines.map do |line|
+    cleanup_git_logs diff_log
+  end
 
+  # cleans up and removes modification notice to the diff
+  def cleanup_git_logs diff_log
+    diff_log.lines.map do |line|
+    
       line.slice!(0).strip!
       line.gsub! /\t/, ''
-
+    
     end.join
   end
 
@@ -254,7 +311,8 @@ class CocoaDocs < Object
 
   def run_git_command_in_specs git_command
     Dir.chdir($active_folder_name + "/" + $cocoadocs_specs_name) do
-     `git #{git_command}`  
+     `git #{git_command}`
+     puts "git #{git_command}"
     end
   end
 
