@@ -287,6 +287,7 @@ class CocoaDocs < Object
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
     diff_log = run_git_command_in_specs "diff --name-status #{sha}"
+    p sha
     p diff_log
     cleanup_git_logs diff_log
   end
@@ -312,12 +313,9 @@ class CocoaDocs < Object
   def run_git_command_in_specs git_command
     Dir.chdir($active_folder_name + "/" + $cocoadocs_specs_name) do
      `git #{git_command}`
-     puts "git #{git_command}"
     end
   end
-
-
-
+  
   # generate the documentation for the pod
 
   def document_spec_at_path spec_path
