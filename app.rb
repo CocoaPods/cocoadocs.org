@@ -137,7 +137,7 @@ class CocoaDocs < Object
     $generate_website = true
     $generate_docset_json = true
     $generate_apple_json = true
-    $website_home = "http://cocoadocs.org"
+    $website_home = "http://cocoadocs.org/"
   
     $upload_docsets_to_s3 = true
     $upload_redirects_for_spec_index = true
