@@ -86,7 +86,7 @@ javascript:
     if (pathbits.length == 4) {
       var script = document.createElement( "script" );
       script.type = "text/javascript";
-      script.src = "http://199.229.252.197:4567/reparse/" + pathbits[2] + "/" + pathbits[3];
+      script.src = "http://199.229.252.197:4567/redeploy/" + pathbits[2] + "/" + pathbits[3];
       document.head.appendChild(script);
 
       reparse.innerHTML = "Thanks, reparsing right now. Please give it some time and come back in 5-10 mins."
