@@ -8,7 +8,7 @@
   <meta name="title" content="CocoaDocs.org" />
   <meta name="description" content="iOS and Mac library documentation" />
   <meta name="keywords" content="cocoapods, cocoa, ios, objective C" />
-  <meta name="robots" content="all, follow"/> 
+  <meta name="robots" content="all, follow"/>
   <link href="/assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
   css:
     pre {
@@ -27,37 +27,38 @@ body
       a href="http://cocoadocs.org"
         h1 Cocoa<em>Docs</em>
         h2 Hosted Docs for Objective-C Libraries.
-  
+
     div id="loading" style="margin:0px"
       h2 style="font-size:256px;margin:20px;" 404
-	  
-      p If this is a serious omission, please make a <a href="https://github.com/CocoaPods/cocoadocs.org/issues">github issue</a> 
+
+      p If this is a serious omission, please make a <a href="https://github.com/CocoaPods/cocoadocs.org/issues">github issue</a>
       p style="font-size:14px;margin:20px" or email me at <a href="mailto:orta.therox@gmail.com">orta.therox@gmail.com</a>
-  
-      p style="font-size:12px;cursor: pointer;" onclick="get_error()" more info 
-  
+
+      p#reparse style="font-size:12px;cursor: pointer;" onclick="reparse()" Alternatively trigger a docs re-parse &amp; wait 5-10 minutes.
+      p style="font-size:12px;cursor: pointer;" onclick="get_error()" Potential error info
+
       div id="footer_pod"
-        a href="http://cocoapods.org" 
+        a href="http://cocoapods.org"
           img src="/assets/img/cocoapods.png"
-          
+
 javascript:
 
   (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-29866548-2', 'cocoadocs.org');ga('send', 'pageview');
 
   function report_error(error) {
       var wrapper = document.getElementById("loading")
-    
+
       var p = document.createElement("p");
       var pText = document.createTextNode(error.message);
       p.appendChild(pText);
       p.style = " font-size:22px;"
       wrapper.appendChild(p);
-    
+
       var trace = ""
       for (var i = 0; i < error.trace.length; i++) {
         trace += error.trace[i] + "\n"
       }
-    
+
       var pre = document.createElement("pre");
       var preText = document.createTextNode(trace);
       pre.style = "font-size:14px; text-align:left;"
@@ -69,10 +70,28 @@ javascript:
   function get_error() {
     var path = window.location.pathname
     var pathbits = path.split("/")
-    if(pathbits.length == 4){
+    if(pathbits.length == 4) {
       var script = document.createElement( "script" );
       script.type = "text/javascript";
       script.src = "http://199.229.252.197:4567/error/" + pathbits[2] + "/" + pathbits[3];
       document.head.appendChild(script);
+    }
+  }
+
+  function reparse() {
+    var path = window.location.pathname
+    var pathbits = path.split("/")
+    var reparse = document.getElementById("reparse")
+
+    if (pathbits.length == 4) {
+      var script = document.createElement( "script" );
+      script.type = "text/javascript";
+      script.src = "http://199.229.252.197:4567/reparse/" + pathbits[2] + "/" + pathbits[3];
+      document.head.appendChild(script);
+
+      reparse.innerHTML = "Thanks, reparsing right now. Please give it some time and come back in 5-10 mins."
+    } else {
+
+      reparse.innerHTML = "Could not find the Podname and version from your address, please check a docs full URL."
     }
   }

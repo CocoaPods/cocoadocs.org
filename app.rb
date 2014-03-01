@@ -433,13 +433,13 @@ if $start_sinatra_server
 
      if File.exists? podspec_path
 
-        pid = Process.spawn("ruby", "app.rb", "doc", podspec_path, :out => 'dev/null', :err => 'dev/null')
+        pid = Process.spawn("ruby", "app.rb", "doc", podspec_path)
         Process.detach pid
 
        return "{ parsing: true }"
      end
 
-     return "{ parsing: false }"
+     return "{ parsing: false } "
   end
 
 end
