@@ -427,8 +427,6 @@ if $start_sinatra_server
   end
 
   get "/redeploy/:pod/:version" do
-    docs.update_specs_repo
-
     repo_path = $active_folder + "/#{$cocoadocs_specs_name}/"
     podspec_path = repo_path + "/#{params[:pod]}/#{params[:version]}/#{params[:pod]}.podspec"
 
