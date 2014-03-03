@@ -1,15 +1,15 @@
-guard :shell, :cli => "bundle exec ruby app.rb" do 
-  
+command = "bundle exec ruby app.rb create_assets"
+guard :shell, :cli => command do
+
   watch(/app.rb/)do |m|
-    `bundle exec ruby app.rb`
+    system command
   end
-  
+
   watch(/views/) do |m|
-    `bundle exec ruby app.rb`
+    system command
   end
-  
+
   watch(/public/) do |m|
-    `bundle exec ruby app.rb`
+    system command
   end
-  
 end

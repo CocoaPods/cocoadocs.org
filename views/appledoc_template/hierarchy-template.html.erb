@@ -1,0 +1,73 @@
+<%= File.read( Dir.pwd + '/views/appledoc_template/_head.html') %>
+
+	<body>
+    
+    <%= File.read( Dir.pwd + '/views/appledoc_template/_header.html') %>
+
+
+		<article>
+			<div id="overview_contents" role="main">
+				<div class="main-navigation navigation-top">
+					{{>Navigation}}
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">{{page/title}}</h1>
+					</div>
+				</div>
+				<div id="container">
+					{{#hasClasses}}
+					<div class="index-column hierarchy-column">
+						<h2 class="index-title">{{strings/hierarchyPage/classesTitle}}</h2>
+						{{>Classes}}
+					</div>
+					{{/hasClasses}}
+
+					{{#hasProtocolsOrCategories}}
+					<div class="index-column">
+						{{#hasProtocols}}
+						<h2 class="index-title">{{strings/hierarchyPage/protocolsTitle}}</h2>
+						<ul>
+							{{#protocols}}
+							<li><a href="{{href}}">{{title}}</a></li>
+							{{/protocols}}
+						</ul>
+						{{/hasProtocols}}
+						{{#hasCategories}}
+						<h2 class="index-title">{{strings/hierarchyPage/categoriesTitle}}</h2>
+						<ul>
+							{{#categories}}
+							<li><a href="{{href}}">{{title}}</a></li>
+							{{/categories}}
+						</ul>
+						{{/hasCategories}}
+					</div>
+					{{/hasProtocolsOrCategories}}
+				</div>
+				<div class="main-navigation navigation-bottom">
+					{{>Navigation}}
+				</div>
+
+        <%= File.read( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+
+			</div>
+		</article>
+
+    <%= File.read( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+
+	</body>
+</html>
+
+Section Classes
+{{#hasClasses}}
+	<ul>
+	{{#classes}}
+		<li>{{#href}}<a href="{{href}}">{{/href}}{{name}}{{#href}}</a>{{/href}}{{>Classes}}</li>
+	{{/classes}}
+	</ul>
+{{/hasClasses}}
+EndSection
+
+Section Navigation
+<a href="index.html">Previous</a>
+EndSection

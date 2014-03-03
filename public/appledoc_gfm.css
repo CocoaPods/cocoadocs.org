@@ -1,5 +1,7 @@
 #GFM h1, #GFM h2, #GFM h3, #GFM h4, #GFM h5, #GFM h6 {
-	margin: 20px 0 10px;
+  font-family: "GT Walsheim","gt_walsheim_regular","Avant Garde Gothic ITCW01Dm","Avant Garde","Helvetica Neue","Arial";
+  text-transform: uppercase;
+  color: #290002;
 	padding: 0;
 	font-weight: bold;
 	-webkit-font-smoothing: subpixel-antialiased;
@@ -7,16 +9,16 @@
 }
 
 #GFM h1 {
-	font-size: 28px;
+	font-size: 32px;
 }
 
 #GFM h2 {
-	font-size: 24px;
+	font-size: 28px;
 	border-bottom: 1px solid #ccc;
 }
 
 #GFM h3 {
-	font-size: 18px;
+	font-size: 22px;
 }
 
 #GFM h4 {

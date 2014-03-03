@@ -30,6 +30,7 @@ class CocoaDocs < Object
   # Download and document
   $fetch_specs = true
   $run_docset_commands = true
+  $skip_source_download = false
   $overwrite_existing_source_files = true
   $delete_source_after_docset_creation = true
 
@@ -189,6 +190,7 @@ class CocoaDocs < Object
     "                                                                              \n" +
     "       --verbose                                                              \n" +
     "       --skip-fetch                                                           \n" +
+    "       --skip-source-download                                                 \n" +
     "       --dont-delete-source                                                   \n" +
     "       --create-website \"http://example.com/\"                               \n" +
     "       --specs-repo \"name/repo\" or \"http://u:p@server.com/git/specs.git\"  \n" +
@@ -226,6 +228,19 @@ class CocoaDocs < Object
       document_spec_at_path spec_path
     end
   end
+  
+  def create_assets
+    name = "AFNetworking"
+    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
+    if Dir.exists? spec_path  + name
+      version = Dir.entries(spec_path + name).last
+      spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
+    end
+    
+    spec = eval(File.open(spec_path).read)
+    generator = WebsiteGenerator.new(:spec => spec)
+    generator.generate
+  end
 
   private
 
@@ -261,6 +276,12 @@ class CocoaDocs < Object
       $upload_site_to_s3 = true
       $s3_bucket = options[index + 1]
     end
+
+    index = options.find_index("--skip-source-download")
+    if index != nil
+      $skip_source_download = true
+    end
+
 
     index = options.find_index "--specs-repo"
     $specs_repo = options[index + 1] if index != nil
@@ -337,9 +358,11 @@ class CocoaDocs < Object
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
 
       if $run_docset_commands
-
-        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
-        downloader.download_pod_source_files
+        
+        unless $skip_source_download
+          downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+          downloader.download_pod_source_files
+        end
 
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme

@@ -1,16 +1,18 @@
 body {
-  font-family: 'Lucida Grande',Geneva,Helvetica,Arial,sans-serif;
-  font-size: 13px;
+  font-family: "Helvetica Neue", "Arial", san-serif;
+  font-size: 14px;
+  padding:0;
+  margin:0;
 }
 
 code {
-  font-family: Courier, Consolas, monospace;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   font-size: 13px;
   color: #666;
 }
 
 #GFM pre {
-  font-family: Courier, Consolas, monospace;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   font-size: 13px;
   line-height: 18px;
   tab-interval: 0.5em;
@@ -30,7 +32,7 @@ li {
 
 a {
   text-decoration: none;
-  color: #ca8a29;
+  color: #F40E06;
   
   code {
     text-decoration: none;
@@ -39,7 +41,7 @@ a {
   
   &:hover {
     text-decoration: underline;
-    color: #a97322;
+    color: #A90010;
     
     code {
       text-decoration: underline;
@@ -50,11 +52,15 @@ a {
 
 h2 {
   border-bottom: 1px solid #a87571;
-  color: #5e3e00;
+  color: #A90010;
   font-size: 187%;
   font-weight: normal;
   margin-top: 1.75em;
   padding-bottom: 2px;
+}
+
+.section-overview {
+  margin-left:1%;
 }
 
 table {
@@ -81,16 +87,6 @@ th {
 
 /* @group Common page elements */
 
-#top_header {
-  height: 91px;
-  left: 0;
-  min-width: 598px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 900;
-}
-
 #footer {
   clear: both;
   padding-top: 20px;
@@ -103,19 +99,8 @@ th {
 }
 
 #contents, #overview_contents {
-  -webkit-overflow-scrolling: touch;
-  border-top: 1px solid #2B334F;
-  position: absolute;
-  top: 91px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 1em;
   min-width: 550px;
+  background-color: #F5F5F5;
   
   p {
     max-width: 800px;
@@ -181,25 +166,33 @@ th {
 /* @group Header */
 
 #top_header {
+  font-family: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+  font-size:22px;
+  
   #library {
-    background-color: #fcf3e5;
-    border-bottom: 1px solid #caaf9b;
-    background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
-    background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
-    height: 36px;
+    background-color: #C6B7B2;
+    height: 46px;
     font-size: 115%;
     color: #8c7a73;
   }
-  #cocoapods a {
-    color: #452e00;
+  
+  #cocoadocs-logo a {
+    background: url("file:///Users/orta/spiel/html/cocoadocs/public/img/cocoadocs-logo.png") no-repeat scroll 8px 5px;
+    background-size: 50px 36px;
+    display: block;
+    width: 64px;
+    height: 46px;
+    padding:0;
   }
+
   .navButton {
-    color: #723d2a;
+    color: black;
     float: left;
     color: #8c7a73;
-    border-right: 1px solid #bea693;
+    height: 46px;
+
     a {
-      padding: 12px 12px;
+      padding: 14px 12px;
       line-height: 32px;
       vertical-align: middle;
     }
@@ -218,14 +211,8 @@ th {
   }
 
   #title {
-    background-image: -webkit-linear-gradient(top, #a86b27, #7a4d24);
-    background-image: -moz-linear-gradient(top, #a86b27, #7a4d24);
-    background-color: #a86b27;
-    color: #f0e3cf;
-    -webkit-border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomleft: 4px;
-    border-bottom-left-radius: 4px;
-    height: 25px;
+    background-color: #A90010;
+    color: #F2F2F2;
     overflow: hidden;
     position:relative;
     
@@ -292,7 +279,7 @@ th {
     font-size: 115%;
     font-weight: normal;
     margin: 0;
-    padding: 3px 0 2px;
+    padding: 6px 0;
     text-align: center;
     white-space: nowrap;
   }
@@ -310,9 +297,6 @@ th {
   margin: 0;
   overflow: hidden;
   padding: 0;
-  position: absolute;
-  right: 0;
-  top: 62px;
   li {
     background-repeat: no-repeat;
     display: inline;
@@ -718,16 +702,22 @@ span.tooltip span.tooltip {
 
 /* support prettier index pages */
 
+#overview_contents {
+  .section-header {
+    display:none;
+  }
+}
+
 #has_index {
 
   .section {
     margin-top: 0px;
-    float: right;
+    float: left;
     width: 78%;
   }
   .index-column {
     margin-top: 20px;
-    float: left;
+    float: right;
     width: 20%;
   }
 }
@@ -745,4 +735,37 @@ h3:hover .hover-only, h1:hover .hover-only {
 
 h1 .hover-only img {
   vertical-align: top; 
+}
+
+
+@font-face {
+    font-family: 'gt_walsheim_regular';
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.eot');
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.eot?#iefix') format('embedded-opentype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.woff') format('woff'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.ttf') format('truetype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.svg#gt_walsheim_bold') format('svg');
+    font-weight: 700;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'gt_walsheim_bold_oblique';
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.eot');
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.eot?#iefix') format('embedded-opentype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.woff') format('woff'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.ttf') format('truetype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.svg#gt_walsheim_bold_oblique') format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'gt_walsheim_regular';
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot');
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot"?#iefix') format('embedded-opentype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.woff') format('woff'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.ttf') format('truetype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.svg#gt_walsheim_regular') format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'gt_walsheim_regular_oblique';
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.eot');
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.eot?#iefix') format('embedded-opentype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.woff') format('woff'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.ttf') format('truetype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.svg#gt_walsheim_regular') format('svg');
+    font-weight: 400;
+    font-style: italic
 }
