@@ -117,7 +117,7 @@ class CocoaDocs < Object
     name = @params[0]
     spec_path = File.join($active_folder, $cocoadocs_specs_name)
 
-    if name.include? ".podspec"
+    if name.end_with? ".podspec"
       spec_path = name
     else
       if Dir.exists? spec_path  + name
@@ -126,7 +126,7 @@ class CocoaDocs < Object
       end
     end
 
-    if spec_path.include? ".podspec"
+    if spec_path.end_with? ".podspec"
       document_spec_at_path spec_path
     else
       puts "Could not find #{name} at #{spec_path}"
@@ -165,7 +165,7 @@ class CocoaDocs < Object
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
       document_spec_at_path spec_path
     end
@@ -223,7 +223,7 @@ class CocoaDocs < Object
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
       document_spec_at_path spec_path
     end
