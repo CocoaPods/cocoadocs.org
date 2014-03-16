@@ -22,15 +22,15 @@ module Pod
       def or_extensionless_homepage
         return nil unless self.homepage
         self.homepage.sub('http://', '').sub('https://', '').sub('www.', '').split("/")[0]
-      end      
+      end
 
-      def or_contributors_to_spec 
+      def or_contributors_to_spec
         return self.authors if self.authors.is_a? String
         return self.authors.listify if self.authors.is_a? Array
         return self.authors.keys.listify if self.authors.is_a? Hash
       end
 
-      def or_license 
+      def or_license
         return self.license if self.license.is_a? String
         return self.license[:type] if self.license.is_a? Hash
         return "Unknown License"
