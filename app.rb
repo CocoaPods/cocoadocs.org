@@ -433,7 +433,7 @@ if $start_sinatra_server
      if File.exists? podspec_path
        vputs "Generating docs for #{podspec_path}"
 
-        pid = Process.spawn("ruby", "app.rb", "doc", podspec_path)
+        pid = Process.spawn("ruby", "app.rb", "cocoadocs", "doc", podspec_path)
         Process.detach pid
 
        return "{ parsing: true }"
