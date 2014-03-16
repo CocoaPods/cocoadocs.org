@@ -50,7 +50,7 @@ class CocoaDocs < Object
   # Constrain all downloads and data into one subfolder
   $active_folder_name = "activity"
   $current_dir = File.dirname(File.expand_path(__FILE__))
-  $active_folder = $current_dir + "/" + $active_folder_name
+  $active_folder = File.join($current_dir, $active_folder_name)
 
   # command line parsing
 
@@ -71,18 +71,20 @@ class CocoaDocs < Object
   #    cocoadocs all --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   def all
     update_specs_repo
-    filepath = $active_folder + "/#{$cocoadocs_specs_name}/"
+    filepath = File.join($active_folder, $cocoadocs_specs_name)
 
     Dir.foreach filepath do |pod|
       next if pod[0] == '.'
-      next unless File.directory? "#{filepath}/#{pod}/"
+      pod_path = File.join(filepath, pod)
+      next unless File.directory? pod_path
 
-      Dir.foreach filepath + "/#{pod}" do |version|
+      Dir.foreach pod_path do |version|
         next if version[0] == '.'
-        next unless File.directory? "#{filepath}/#{pod}/#{version}/"
 
-        document_spec_at_path("#{filepath}/#{pod}/#{version}/#{pod}.podspec")
+        pod_version_path = File.join(pod_path, version)
+        next unless File.directory? pod_version_path
 
+        document_spec_at_path(File.join(pod_version_path, "#{pod}.podspec"))
       end
     end
   end
@@ -113,7 +115,7 @@ class CocoaDocs < Object
     update_specs_repo
 
     name = @params[0]
-    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
+    spec_path = File.join($active_folder, $cocoadocs_specs_name)
 
     if name.include? ".podspec"
       spec_path = name
@@ -268,12 +270,12 @@ class CocoaDocs < Object
     index = options.find_index "--data-folder"
     $active_folder_name = options[index + 1] if index != nil
 
-    $active_folder = $current_dir + "/" + $active_folder_name
+    $active_folder = File.join($current_dir, $active_folder_name)
   end
 
   # Update or clone Cocoapods/Specs
   def update_specs_repo
-    repo = $active_folder + "/" + $cocoadocs_specs_name
+    repo = File.join($active_folder, $cocoadocs_specs_name)
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       unless repo.include? "://"
@@ -319,7 +321,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir($active_folder_name + "/" + $cocoadocs_specs_name) do
+    Dir.chdir(File.join($active_folder_name, $cocoadocs_specs_name)) do
      `git #{git_command}`
     end
   end
