@@ -393,12 +393,20 @@ class CocoaDocs < Object
     document_spec(spec)
   end
 
-  def document_spec_with_name(name)
+  def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
 
     if set
-      document_spec(set.specification.root)
+      set.specification.root
+    end
+  end
+
+  def document_spec_with_name(name)
+    spec = spec_with_name(name)
+
+    if spec
+      document_spec(spec)
     else
       puts "Could not find #{name}"
     end
@@ -447,4 +455,18 @@ if $start_sinatra_server
      return "{ parsing: false }"
   end
 
+  get "/redeploy/:pod" do
+    spec = spec_with_name(params[:pod])
+
+    if spec
+      vputs "Generating docs for #{spec.name}"
+
+      pid = Process.spawn("ruby", "app.rb", "cocoadocs", "doc", params[:pod])
+      Process.detach pid
+
+      "{ parsing: true }"
+    else
+      "{ parsing: false }"
+    end
+  end
 end
