@@ -330,11 +330,8 @@ class CocoaDocs < Object
 
   # generate the documentation for the pod
 
-  def document_spec_at_path spec_path
-    spec = nil
+  def document_spec(spec)
     begin
-      spec = eval(File.open(spec_path).read)
-
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
@@ -390,17 +387,32 @@ class CocoaDocs < Object
     end
 
     open('error_log.txt', 'a') { |f|
-      f.puts "\n\n\n --------------#{spec_path}-------------"
+      f.puts "\n\n\n --------------#{spec.defined_in_file}-------------"
       f.puts e.message
       f.puts "------"
       f.puts e.backtrace.inspect
     }
 
-    puts "--------------#{spec_path}-------------".red
+    puts "--------------#{spec.defined_in_file}-------------".red
     puts e.message.red
     puts "------"
     puts e.backtrace.inspect.red
 
+  end
+
+  def document_spec_at_path(spec_path)
+    spec = eval(File.open(spec_path).read)
+    document_spec(spec)
+  end
+
+  def document_spec_with_name(name)
+    set = SourcesManager.search(Dependency.new(name))
+
+    if set
+      document_spec(spec)
+    else
+      puts "Could not find #{name}"
+    end
   end
 
   def commands
