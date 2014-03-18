@@ -401,7 +401,7 @@ class CocoaDocs < Object
   end
 
   def document_spec_at_path(spec_path)
-    spec = eval(File.open(spec_path).read)
+    spec = Pod::Specification.from_file(spec_path)
     document_spec(spec)
   end
 
