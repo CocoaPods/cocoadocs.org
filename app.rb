@@ -115,23 +115,11 @@ class CocoaDocs < Object
     update_specs_repo
 
     name = @params[0]
-    spec_path = File.join($active_folder, $cocoadocs_specs_name)
 
     if name.end_with? ".podspec"
-      spec_path = name
+      document_spec_at_path(name)
     else
-      pod_directory = File.join(spec_path, name)
-      if Dir.exists?(pod_directory)
-        # TODO Correctly find the latest
-        version = Dir.entries(pod_directory).last
-        spec_path = File.join(pod_directory, "#{version}/#{name}.podspec")
-      end
-    end
-
-    if spec_path.end_with? ".podspec"
-      document_spec_at_path spec_path
-    else
-      puts "Could not find #{name} at #{spec_path}"
+      document_spec_with_name(name)
     end
   end
 
@@ -406,10 +394,11 @@ class CocoaDocs < Object
   end
 
   def document_spec_with_name(name)
-    set = SourcesManager.search(Dependency.new(name))
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
+    set = source.search(Pod::Dependency.new(name))
 
     if set
-      document_spec(spec)
+      document_spec(set.specification.root)
     else
       puts "Could not find #{name}"
     end
