@@ -47,6 +47,20 @@ class DocsetFixer
     command "rm -Rf #{@docset_path}/docset"
   end
 
+  def fix_relative_link link_string
+      if link_string.start_with? "#"
+          return link_string
+      end
+      if link_string.start_with? "http"
+          return link_string
+      end
+      if link_string.include? "@"
+          return link_string
+      end
+      
+      return "http://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+  end
+
   def fix_relative_links_in_gfm
     vputs "Fixing relative URLs in github flavoured markdown"
 
@@ -56,12 +70,13 @@ class DocsetFixer
     doc = Nokogiri::HTML(File.read @readme_path)
     doc.css("a").each do |link|
       if link.attributes["href"]
-        link_string = link.attributes["href"].value
-        next if link_string.start_with? "#"
-        next if link_string.start_with? "http"
-        next if link_string.include? "@"
+        link.attributes["href"].value = fix_relative_link link.attributes["href"].value
+      end
+    end
 
-        link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/blob/#{@spec.or_git_ref}/#{CGI.escape link.attributes["href"].value}"
+    doc.css("img").each do |img|
+      if img.attributes["src"]
+          img.attributes["src"].value = fix_relative_link img.attributes["src"].value
       end
     end
 
