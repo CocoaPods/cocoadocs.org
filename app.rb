@@ -120,9 +120,11 @@ class CocoaDocs < Object
     if name.end_with? ".podspec"
       spec_path = name
     else
-      if Dir.exists? spec_path  + name
-        version = Dir.entries(spec_path + name).last
-        spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
+      pod_directory = File.join(spec_path, name)
+      if Dir.exists?(pod_directory)
+        # TODO Correctly find the latest
+        version = Dir.entries(pod_directory).last
+        spec_path = File.join(pod_directory, "#{version}/#{name}.podspec")
       end
     end
 
