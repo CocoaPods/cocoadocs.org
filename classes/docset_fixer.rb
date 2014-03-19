@@ -54,11 +54,14 @@ class DocsetFixer
       if link_string.start_with? "http"
           return link_string
       end
+      if link_string.start_with? "https"
+          return link_string
+      end
       if link_string.include? "@"
           return link_string
       end
       
-      return "http://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+      return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
   end
 
   def fix_relative_links_in_gfm
