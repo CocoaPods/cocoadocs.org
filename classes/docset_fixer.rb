@@ -54,6 +54,9 @@ class DocsetFixer
       if link_string.start_with? "http"
           return link_string
       end
+      if link_string.start_with? "https"
+          return link_string
+      end
       if link_string.include? "@"
           return link_string
       end
