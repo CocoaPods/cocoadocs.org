@@ -83,15 +83,19 @@ javascript:
     var pathbits = path.split("/")
     var reparse = document.getElementById("reparse")
 
-    if (pathbits.length == 4) {
+    if (pathbits.length > 2) {
       var script = document.createElement( "script" );
+      var address = "http://199.229.252.197:4567/redeploy/" + pathbits[2]
+
+      if(pathbits.length > 3 && pathbits[3] != "") address += "/" + pathbits[3];
+
       script.type = "text/javascript";
-      script.src = "http://199.229.252.197:4567/redeploy/" + pathbits[2] + "/" + pathbits[3];
+      script.src = address
       document.head.appendChild(script);
 
       reparse.innerHTML = "Thanks, reparsing right now. Please give it some time and come back in 5-10 mins."
     } else {
 
-      reparse.innerHTML = "Could not find the Podname and version from your address, please check a docs full URL."
+      reparse.innerHTML = "Could not find the Podname from your address, please check a docs full URL."
     }
   }
