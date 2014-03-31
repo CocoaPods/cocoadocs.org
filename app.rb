@@ -151,9 +151,14 @@ class CocoaDocs < Object
     setup_for_cocoadocs
 
     updated_specs = specs_for_days_ago_diff @params[1]
+    
     vputs "Looking at #{updated_specs.lines.count}"
 
+    p updated_specs.lines
+    
     updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_filepath.gsub! /\n/, ''
+      
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
       next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
@@ -287,8 +292,6 @@ class CocoaDocs < Object
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
     diff_log = run_git_command_in_specs "diff --name-status #{sha}"
-    p sha
-    p diff_log
     cleanup_git_logs diff_log
   end
 
