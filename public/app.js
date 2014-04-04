@@ -13,10 +13,10 @@ if(query_bits.length > 1){
 // data refreshed
 
 function podSearchHasChanged() {
-  var query = document.getElementById("pod_search").value
+  var query = decodeURIComponent(document.getElementById("pod_search").value);
   if (old_query != query) {
     searchTermChanged();
-  }  
+  }
 }
 
 var old_query;
