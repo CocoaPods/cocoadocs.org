@@ -4,7 +4,7 @@ var server = "http://cocoadocs.org"
 // set the query based on the q=X syntax
 var query_bits = window.location.search.split("q=")
 if(query_bits.length > 1){
-  var search_term = query_bits[1]
+  var search_term = decodeURIComponent(query_bits[1]);
   document.getElementById("pod_search").value = search_term
 }
 
@@ -13,7 +13,7 @@ if(query_bits.length > 1){
 // data refreshed
 
 function podSearchHasChanged() {
-  var query = decodeURIComponent(document.getElementById("pod_search").value);
+  var query = document.getElementById("pod_search").value;
   if (old_query != query) {
     searchTermChanged();
   }
