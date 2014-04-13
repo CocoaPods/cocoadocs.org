@@ -1,25 +1,19 @@
+$gt-walsh: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+$body: "Helvetica Neue", "Arial", san-serif;
+$code: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
+
+$highlight-color:#ED0015;
+$highlight-dark-color:#A90010;
+$darker-color:#C6B7B2;
+$background-colour:#F2F2F2;
+$alt-link-color:#B7233F;
+
 body {
-  font-family: "Helvetica Neue", "Arial", san-serif;
+  font-family: $body;
   font-size: 14px;
+  line-height: 20px;
   padding:0;
   margin:0;
-}
-
-code {
-  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-  font-size: 13px;
-  color: #666;
-}
-
-#GFM pre {
-  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-  font-size: 13px;
-  line-height: 18px;
-  tab-interval: 0.5em;
-  border: 1px solid #C7CFD5;
-  background-color: #FDF9F1;
-  color: #424242;
-  padding: 0.3em 1em;
 }
 
 ul {
@@ -32,16 +26,16 @@ li {
 
 a {
   text-decoration: none;
-  color: #F40E06;
+  color: $highlight-color;
   
   code {
     text-decoration: none;
-    color: #ca8a29;
+    color: $alt-link-color;
   }
   
   &:hover {
     text-decoration: underline;
-    color: #A90010;
+    color: $highlight-dark-color;
     
     code {
       text-decoration: underline;
@@ -51,7 +45,7 @@ a {
 }
 
 h2 {
-  color: #F40E06;
+  color: $highlight-color;
   font-size: 187%;
   font-weight: normal;
   margin-top: 1.75em;
@@ -102,12 +96,6 @@ th {
 #contents, #overview_contents {
   min-width: 550px;
   background-color: #F5F5F5;
-  
-  p {
-    max-width: 800px;
-    line-height: 18px;
-    font-size: 13px;
-  }
 }
 
 #contents.isShowingTOC {
@@ -167,13 +155,26 @@ th {
 /* @group Header */
 
 header#app_header {
-  font-family: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+  font-family: $gt-walsh;
   background-color:white;
   height:162px;
   padding:28px;
  
   h1 {
     font-size:72px;
+    font-weight:normal;
+    color: $highlight-color;
+    
+    em {
+      color:$darker-color;
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    img {
+      vertical-align:middle;
+      margin-left:12px;
+    }
   }
   
   img#actions {
@@ -226,7 +227,7 @@ header#app_header {
   }
 
   #title {
-    background-color: #A90010;
+    background-color: $darker-color;
     color: #F2F2F2;
     overflow: hidden;
     position:relative;
@@ -384,8 +385,6 @@ li#jumpto_button {
     padding: 0;
   }
   
-  background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
-  background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
   border-top: 1px solid #4f3f21;
   bottom: 0;
   display: none;
@@ -509,7 +508,13 @@ ul#toc > li > ul > li {
       a {
         color:black;
         text-decoration:none;
+        
+        &:hover {
+          color:$highlight-dark-color;
+          text-decoration:underline;
+        };
       }
+      
     }
   }
 }
@@ -538,7 +543,7 @@ ul#toc > li > ul > li {
   font-weight: normal;
   font-size: 180%;
   color: #723d2a;
-  border-bottom: 1px solid #ca8a29;
+  border-bottom: 1px solid $alt-link-color;
 }
 
 .subsubtitle {
@@ -548,7 +553,6 @@ ul#toc > li > ul > li {
 }
 
 .note {
-  border: 1px solid #ca8a29;
   background-color: white;
   margin: 1.667em 0 1.75em 0;
   padding: 0 .667em .083em .750em;
@@ -725,6 +729,7 @@ span.tooltip span.tooltip {
 /* support prettier index pages */
 
 #overview_contents {
+  min-width:1080px;
   .section-header {
     display:none;
   }
