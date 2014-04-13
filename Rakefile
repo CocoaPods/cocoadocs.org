@@ -18,4 +18,3 @@ task :setup do
   puts "Installing gems"
   `bundle install`
 end
-

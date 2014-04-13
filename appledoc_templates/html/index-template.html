@@ -6,8 +6,8 @@
     <meta name="author"  content="orta; http://orta.github.com/" />
     <meta name="description" content="Documentation for {{ page/title }}" />
     
-    <link rel="stylesheet" href="file:///Users/orta/spiel/html/cocoadocs/activity/html/assets/appledoc_stylesheet.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="file:///Users/orta/spiel/html/cocoadocs/activity/html/assets/appledoc_gfm.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="file:///Users/orta/dev/html/cocoadocs/activity/html/assets/appledoc_stylesheet.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="file:///Users/orta/dev/html/cocoadocs/activity/html/assets/appledoc_gfm.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
     <!-- <link rel="stylesheet" type="text/css" href="appledoc_stylesheet.css" media="all" /> -->
     <!-- <link rel="stylesheet" type="text/css" href="http://cocoadocs.org/assets/appledoc_stylesheet.css" media="all" /> -->
@@ -22,35 +22,43 @@
 
 	<body>
 
-    <header id="top_header">
+    <header id="app_header" class="hideInXcode">
+  <img src="file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo2@2x.png" width="264" height="28" alt="CocoaDocsLogo2@2x">
+  
+  <img id="actions" src="file:///Users/orta/dev/html/cocoadocs/public/img/header_action_button.png" width="65" height="65" alt="Header Action Button">
+  
+  <h1>{{projectName}} <em>2.3.4</em><img src="file:///Users/orta/dev/html/cocoadocs/public/img/down_arrow_title@2x.png" width="30" height="21"> </h1>
+  
+</header>
+
+<!-- <header id="top_header">
   <div id="library">
     <div id="cocoadocs-logo" class="navButton">
       <a href ="http://cocoadocs.org" alt="CocoaDocs.org Home Page"></a>
     </div>
 
-		<div class="hideInXcode navButton">
+    <div class="hideInXcode navButton">
       {{#page}}
-			<h1>
+      <h1>
         <a id="libraryTitle" href="index.html">{{projectName}}  {{strings/objectPage/libraryTitlePostfix}} </a>
       </h1>
       {{/page}}
     </div>
 
-		<div id="libraryVersion" class="hideInXcode navButton">
+    <div id="libraryVersion" class="hideInXcode navButton">
       <h1><a id="libraryVersionTitle" href="index.html"></a></h1>
-			<ul id="libraryVersionList"></ul>
+      <ul id="libraryVersionList"></ul>
     </div>
 
-		<div id="developerHome" class="hideInXcode navButton">
-			<a id="developerHomepageLink" href="../index.html">{{projectCompany}}</a>
+    <div id="developerHome" class="hideInXcode navButton">
+      <a id="developerHomepageLink" href="../index.html">{{projectCompany}}</a>
     </div>
-	</div>
+  </div>
 
-	<div id="title" role="banner">
-		<h1 class="hideInXcode" id="pageTitleHeader">{{page/title}}</h1>
+  <div id="title" role="banner">
+    <h1 class="hideInXcode" id="pageTitleHeader">{{page/title}}</h1>
 
-    <!-- add support for dash / xcode -->
-    <a id="dash_img" alt="Add Docset to Dash" onmouseover="document.getElementById('dash').style.display='block';document.getElementById('xcode').style.display='none';"  href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2F{{projectName}}.xml"><img src="/assets/img/dash_tiny.png"></a>
+<a id="dash_img" alt="Add Docset to Dash" onmouseover="document.getElementById('dash').style.display='block';document.getElementById('xcode').style.display='none';"  href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2F{{projectName}}.xml"><img src="/assets/img/dash_tiny.png"></a>
 
     <a href="#" id="xcode_img" onmouseover="document.getElementById('xcode').style.display='block';document.getElementById('dash').style.display='none';" alt="Add Docset to Xcode"><img src="/assets/img/xcode_tiny.png"></a>
 
@@ -66,13 +74,14 @@
       </div>
     </div>
 
-	</div>
-	<ul id="headerButtons" role="toolbar"></ul>
-</header>
+  </div>
+  <ul id="headerButtons" role="toolbar"></ul>
+</header> -->
 
 
 		<article>
 			<div id="overview_contents" role="main">
+        
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
@@ -84,18 +93,8 @@
 				{{#indexDescription}}
           <div id="has_index">
         {{/indexDescription}}
-
-				<div id="container">
-					{{#indexDescription}}
-					<div class="section section-overview index-overview">
-						{{#comment}}
-						{{#hasLongDescription}}
-						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
-						{{/hasLongDescription}}
-						{{/comment}}
-					</div>
-					{{/indexDescription}}
-
+        
+        <div id="sidebar">
           {{#hasDocs}}
           <div class="index-column">
                <h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
@@ -119,26 +118,47 @@
 					{{/hasClasses}}
 
 					{{#hasProtocolsOrCategories}}
+
+					{{#hasProtocols}}
 					<div class="index-column">
-						{{#hasProtocols}}
 						<h2 class="index-title">{{strings/indexPage/protocolsTitle}}</h2>
 						<ul>
 							{{#protocols}}
 							<li><a href="{{href}}">{{title}}</a></li>
 							{{/protocols}}
 						</ul>
-						{{/hasProtocols}}
-						{{#hasCategories}}
+          </div>
+					{{/hasProtocols}}
+            
+					{{#hasCategories}}
+					<div class="index-column">
 						<h2 class="index-title">{{strings/indexPage/categoriesTitle}}</h2>
 						<ul>
 							{{#categories}}
 							<li><a href="{{href}}">{{title}}</a></li>
 							{{/categories}}
 						</ul>
-						{{/hasCategories}}
 					</div>
+					{{/hasCategories}}
+
+
 					{{/hasProtocolsOrCategories}}
+          
 				</div>
+        
+				<div id="container">
+					{{#indexDescription}}
+					<div class="section section-overview index-overview">
+						{{#comment}}
+						{{#hasLongDescription}}
+						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
+						{{/hasLongDescription}}
+						{{/comment}}
+					</div>
+					{{/indexDescription}}
+        </div>
+        
+        
 				<div class="main-navigation navigation-bottom">
 					{{>Navigation}}
 				</div>

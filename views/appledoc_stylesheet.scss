@@ -51,16 +51,17 @@ a {
 }
 
 h2 {
-  border-bottom: 1px solid #a87571;
-  color: #A90010;
+  color: #F40E06;
   font-size: 187%;
   font-weight: normal;
   margin-top: 1.75em;
   padding-bottom: 2px;
 }
 
-.section-overview {
-  margin-left:1%;
+.index-overview {
+  background-color: white;
+  width: 728px;
+  padding: 30px;
 }
 
 table {
@@ -165,8 +166,22 @@ th {
 
 /* @group Header */
 
-#top_header {
+header#app_header {
   font-family: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+  background-color:white;
+  height:162px;
+  padding:28px;
+ 
+  h1 {
+    font-size:72px;
+  }
+  
+  img#actions {
+    float:right;
+  }
+}
+
+#top_header {
   font-size:22px;
   
   #library {
@@ -467,16 +482,18 @@ ul#toc > li > ul > li {
 /* @group Index formatting */
 
 .index-title {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: normal;
+  margin-top: 8px;
 }
 
 .index-column {
-  float: left;
-  width: 30%;
-  min-width: 100px;
+  width: 180px;
   font-size: 11px;
-
+  background-color: white;
+  padding: 12px;
+  margin: 20px 20px;
+  
   ul {
     margin: 8px 0 0 0;
     padding: 0;
@@ -488,6 +505,11 @@ ul#toc > li > ul > li {
       text-overflow: ellipsis;
       margin: 0 0 3px 0;
       padding: 0;
+      
+      a {
+        color:black;
+        text-decoration:none;
+      }
     }
   }
 }
@@ -710,15 +732,12 @@ span.tooltip span.tooltip {
 
 #has_index {
 
-  .section {
-    margin-top: 0px;
+  #sidebar {
     float: left;
-    width: 78%;
+    margin-top:22px;
   }
-  .index-column {
-    margin-top: 20px;
-    float: right;
-    width: 20%;
+  #container {
+    float:left;
   }
 }
 

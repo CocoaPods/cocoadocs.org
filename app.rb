@@ -311,7 +311,7 @@ class CocoaDocs < Object
     end
   end
 
-
+  
   # returns an array from the diff log for the last x days
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'

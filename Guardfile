@@ -1,7 +1,9 @@
 command = "bundle exec ruby app.rb create_assets"
+
 guard :shell, :cli => command do
 
   watch(/app.rb/)do |m|
+  p "hi"
     system command
   end
 

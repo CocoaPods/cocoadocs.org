@@ -7,6 +7,7 @@
 
 		<article>
 			<div id="overview_contents" role="main">
+        
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
@@ -18,18 +19,8 @@
 				{{#indexDescription}}
           <div id="has_index">
         {{/indexDescription}}
-
-				<div id="container">
-					{{#indexDescription}}
-					<div class="section section-overview index-overview">
-						{{#comment}}
-						{{#hasLongDescription}}
-						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
-						{{/hasLongDescription}}
-						{{/comment}}
-					</div>
-					{{/indexDescription}}
-
+        
+        <div id="sidebar">
           {{#hasDocs}}
           <div class="index-column">
                <h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
@@ -53,26 +44,47 @@
 					{{/hasClasses}}
 
 					{{#hasProtocolsOrCategories}}
+
+					{{#hasProtocols}}
 					<div class="index-column">
-						{{#hasProtocols}}
 						<h2 class="index-title">{{strings/indexPage/protocolsTitle}}</h2>
 						<ul>
 							{{#protocols}}
 							<li><a href="{{href}}">{{title}}</a></li>
 							{{/protocols}}
 						</ul>
-						{{/hasProtocols}}
-						{{#hasCategories}}
+          </div>
+					{{/hasProtocols}}
+            
+					{{#hasCategories}}
+					<div class="index-column">
 						<h2 class="index-title">{{strings/indexPage/categoriesTitle}}</h2>
 						<ul>
 							{{#categories}}
 							<li><a href="{{href}}">{{title}}</a></li>
 							{{/categories}}
 						</ul>
-						{{/hasCategories}}
 					</div>
+					{{/hasCategories}}
+
+
 					{{/hasProtocolsOrCategories}}
+          
 				</div>
+        
+				<div id="container">
+					{{#indexDescription}}
+					<div class="section section-overview index-overview">
+						{{#comment}}
+						{{#hasLongDescription}}
+						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
+						{{/hasLongDescription}}
+						{{/comment}}
+					</div>
+					{{/indexDescription}}
+        </div>
+        
+        
 				<div class="main-navigation navigation-bottom">
 					{{>Navigation}}
 				</div>
