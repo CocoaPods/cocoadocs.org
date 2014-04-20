@@ -166,6 +166,9 @@ header#app_header {
   font-family: $gt-walsh;
   background-color:white;
   
+  img#logo {
+    padding:20px 0;
+  }
  
   div {
     position:relative;
@@ -208,6 +211,9 @@ header#app_header {
     font-size:32px;
     color: $darker-color;
     
+    li:last-child {
+      border-right: 2px $background-colour solid;
+    }
     > li {
       display:inline-block;
       border-left: 2px $background-colour solid;
@@ -217,8 +223,7 @@ header#app_header {
         display:block;
         float:left;
         font-size:14px;
-
-        padding-top:-12px;
+        margin-right:8px;
       }
       span.title {
         display:block;
@@ -282,6 +287,10 @@ header#app_header {
       }
     }
   }
+}
+
+h1,h2,h3,h4 {
+  font-weight:normal;
 }
 
 #headerButtons {

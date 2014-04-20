@@ -231,7 +231,8 @@ class CocoaDocs < Object
   end
   
   def create_assets
-    name = "AFNetworking"
+    
+    name = ARGV[1]
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
@@ -244,7 +245,6 @@ class CocoaDocs < Object
     $skip_source_download = true
     $overwrite_existing_source_files = true
     $delete_source_after_docset_creation = false
-    $skip_downloading_readme = true
     
     document_spec_at_path spec_path
   end
@@ -289,6 +289,10 @@ class CocoaDocs < Object
       $skip_source_download = true
     end
 
+    index = options.find_index("--skip-readme-download")
+    if index != nil
+      $skip_downloading_readme = true
+    end
 
     index = options.find_index "--specs-repo"
     $specs_repo = options[index + 1] if index != nil

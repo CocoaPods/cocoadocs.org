@@ -24,7 +24,7 @@ class DocsetFixer
     
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     stats = DocStat.process(@docset_path + docset)
-    percent = (stats["ratio"].round(2) * 100).to_s
+    percent = (stats["ratio"] * 100).round(0).to_s
     
     # How nice am I?!
     percent = "100" if (stats["ratio"] > 0.97);

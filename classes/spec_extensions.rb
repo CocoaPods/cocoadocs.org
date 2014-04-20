@@ -37,7 +37,7 @@ module Pod
       end
       
       def or_has_social_media_url?
-        self.social_media_url.length > 0
+        self.social_media_url != nil
       end
       
       def or_social_media_title
