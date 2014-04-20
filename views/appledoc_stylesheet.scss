@@ -8,10 +8,18 @@ $darker-color:#C6B7B2;
 $background-colour:#F2F2F2;
 $alt-link-color:#B7233F;
 
+article, header > div {
+  width:1080px;
+  padding:0;
+  margin:0 auto;
+  
+}
+
 body {
   font-family: $body;
   font-size: 14px;
   line-height: 20px;
+  background-color:$background-colour;
   padding:0;
   margin:0;
 }
@@ -95,7 +103,7 @@ th {
 
 #contents, #overview_contents {
   min-width: 550px;
-  background-color: #F5F5F5;
+  background-color: $background-colour;
 }
 
 #contents.isShowingTOC {
@@ -157,15 +165,25 @@ th {
 header#app_header {
   font-family: $gt-walsh;
   background-color:white;
-  height:162px;
-  padding:28px;
+  
+ 
+  div {
+    position:relative;
+    height:320px;
+    padding:28px;
+  }
  
   h1 {
     font-size:72px;
     font-weight:normal;
     color: $highlight-color;
+    position:absolute;
+    bottom:48px;
+    left:20px;
+    padding: 0;
     
     em {
+      font-size:48px;
       color:$darker-color;
       font-weight:normal;
       font-style:normal;
@@ -180,124 +198,76 @@ header#app_header {
   img#actions {
     float:right;
   }
-}
-
-#top_header {
-  font-size:22px;
   
-  #library {
-    background-color: #C6B7B2;
-    height: 46px;
-    font-size: 115%;
-    color: #8c7a73;
-  }
-  
-  #cocoadocs-logo a {
-    background: url("file:///Users/orta/spiel/html/cocoadocs/public/img/cocoadocs-logo.png") no-repeat scroll 8px 5px;
-    background-size: 50px 36px;
-    display: block;
-    width: 64px;
-    height: 46px;
-    padding:0;
-  }
-
-  .navButton {
-    color: black;
-    float: left;
-    color: #8c7a73;
-    height: 46px;
-
-    a {
-      padding: 14px 12px;
-      line-height: 32px;
-      vertical-align: middle;
-    }
-  }
-  
-  #library {
-    #developerHome {
-      float: right;
-      a {
-        color: black;
-      }
-    }
-    a:hover {
-      text-decoration: none;
-    }
-  }
-
-  #title {
-    background-color: $darker-color;
-    color: #F2F2F2;
-    overflow: hidden;
-    position:relative;
-    
-    a {
-      height:25px;
-    }
-    
-    #dash_img {
-      position:absolute;
-      top:1px;
-      right:12px; 
-    }
-    
-    #xcode_img {
-      position:absolute;
-      top:1px;
-      right:42px; 
-    }
-    
-    #dash_img:hover ~ #dropdown {
-      display:block;
-    }
-    
-    #xcode_img:hover ~ #dropdown {
-       display:block;
-    }
-
-    #dash_img:hover ~ #dropdown #dash {
-      display:block;
-    }
-    
-    #xcode_img:hover ~ #dropdown #xcode {
-      display:block;
-    }
-    
-    #dropdown {
-      display:none;
-      position:fixed;
-      right:0px;
-      top:62px;
-      background-color:#FCF3E5;
-      border-bottom-left-radius: 4px;
-      border-left:1px black solid;
-      border-bottom:1px black solid;
-      color:black;
-      padding:4px 18px;
-      text-align:center;
-      z-index:99;
+  ul#subtitle {
+    position:absolute;
+    bottom:0;
+    left:20px;
+    padding: 0;
+    margin-bottom:0;
+    font-size:32px;
+        
+    > li {
+      display:inline-block;
+      border-left: 2px $background-colour solid;
+      margin-bottom:0;
       
-      &:hover {
+      &#versions {
+        position:relative;
+        padding:12px 24px;
+        color: $darker-color;
+        border-right: 2px $background-colour solid;
+      }
+      
+      a {
+        padding:12px 24px;
+        color: $darker-color;
         display:block;
       }
-      
-      input {
-        width:100%;
-      }
-      
-      .subtext {
-      font-size:12px;
-      }
     }
+  
+    li#versions:hover ul {
+      display:block;
     }
-  h1 {
-    font-size: 115%;
-    font-weight: normal;
-    margin: 0;
-    padding: 6px 0;
-    text-align: center;
-    white-space: nowrap;
+      
+    ul {
+      li {
+        font-size:18px;
+        list-style:none;
+        margin:0;
+        
+        &:hover {
+         background-color:$background-colour; 
+        }
+        
+        a {
+          padding: 6px 18px;
+        }
+        
+      }
+      display:none;
+      width:100%;
+     position:absolute;
+     padding-left:0;
+     padding-top:12px;
+     left:-2px;
+     top:36px;
+     background-color:white;
+
+     border-left: 2px $background-colour solid;
+     border-bottom: 2px $background-colour  solid;
+     border-right: 2px $background-colour  solid;
+          
+     text-align:left;
+    
+     &:hover {
+       display:block;
+     }
+    
+    
+    }
+  
+  
   }
 }
 

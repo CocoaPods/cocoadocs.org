@@ -1,8 +1,10 @@
-<%= File.read( Dir.pwd + '/views/appledoc_template/_head.html') %>
+<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html') %>
+
+  <%= self.class %>
 
 	<body>
 
-    <%= File.read( Dir.pwd + '/views/appledoc_template/_header.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html') %>
 
 		<article>
 			<a title="{{page/title}}" name="top"></a>
@@ -11,12 +13,12 @@
 					{{#object/comment}}{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}{{/object/comment}}
 				</div>
         
-        <%= File.read( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+        <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
         
 			</div>
 		</article>
 
-    <%= File.read( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
 
 	</body>
 </html>

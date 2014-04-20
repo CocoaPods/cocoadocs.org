@@ -1,55 +1,32 @@
 <header id="app_header" class="hideInXcode">
-  <img src="file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo2@2x.png" width="264" height="28" alt="CocoaDocsLogo2@2x">
+  <div>
+    <img src="file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo2@2x.png" width="264" height="28" alt="CocoaDocsLogo2@2x">
   
-  <img id="actions" src="file:///Users/orta/dev/html/cocoadocs/public/img/header_action_button.png" width="65" height="65" alt="Header Action Button">
+    <img id="actions" src="file:///Users/orta/dev/html/cocoadocs/public/img/header_action_button.png" width="65" height="65" alt="Header Action Button">
   
-  <h1>{{projectName}} <em>2.3.4</em><img src="file:///Users/orta/dev/html/cocoadocs/public/img/down_arrow_title@2x.png" width="30" height="21"> </h1>
+    <h1><%= spec.name %><em><%= @spec.version %></em></h1>
   
+    <ul id="subtitle">
+      <li><a href="<%= @spec.homepage %>"><%= @spec.or_contributors_to_spec %></a></li>
+
+      <% if @spec.or_has_social_media_url? %>
+      <li><a href="<%= @spec.social_media_url %>"><%= @spec.or_social_media_title %></a></li>
+      <% end %>
+
+      <% if @spec.or_spec_is_deprecated? %>
+      <% end %>
+
+      <% if @versions.count > 1 %>
+      <li id="versions">Versions v
+      <ul>
+        <% @versions.reverse_each do |version| %>
+          <li><a href="../<%= version %>"><%= version %></a></li>
+        <% end %>
+      </ul>
+      </li>
+      <% end %>
+
+      <li>$$$DOC_PERCENT$$$</li>
+    </ul>
+  </div>
 </header>
-
-<!-- <header id="top_header">
-  <div id="library">
-    <div id="cocoadocs-logo" class="navButton">
-      <a href ="http://cocoadocs.org" alt="CocoaDocs.org Home Page"></a>
-    </div>
-
-    <div class="hideInXcode navButton">
-      {{#page}}
-      <h1>
-        <a id="libraryTitle" href="index.html">{{projectName}}  {{strings/objectPage/libraryTitlePostfix}} </a>
-      </h1>
-      {{/page}}
-    </div>
-
-    <div id="libraryVersion" class="hideInXcode navButton">
-      <h1><a id="libraryVersionTitle" href="index.html"></a></h1>
-      <ul id="libraryVersionList"></ul>
-    </div>
-
-    <div id="developerHome" class="hideInXcode navButton">
-      <a id="developerHomepageLink" href="../index.html">{{projectCompany}}</a>
-    </div>
-  </div>
-
-  <div id="title" role="banner">
-    <h1 class="hideInXcode" id="pageTitleHeader">{{page/title}}</h1>
-
-<a id="dash_img" alt="Add Docset to Dash" onmouseover="document.getElementById('dash').style.display='block';document.getElementById('xcode').style.display='none';"  href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2F{{projectName}}.xml"><img src="/assets/img/dash_tiny.png"></a>
-
-    <a href="#" id="xcode_img" onmouseover="document.getElementById('xcode').style.display='block';document.getElementById('dash').style.display='none';" alt="Add Docset to Xcode"><img src="/assets/img/xcode_tiny.png"></a>
-
-    <div id="dropdown">
-      <div id="dash" style="display:none;">
-        <p>Click to add to <a href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2F{{projectName}}.xml">Dash</a></p>
-        <p class="subtext"><a href="http://kapeli.com/dash">What is Dash?</a></p>
-      </div>
-      <div id="xcode" style="display:none;">
-        <p>Click to <a href="docs-for-xcode://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F{{projectName}}%2Fxcode-docset.atom">add to Xcode</a> (via <a href="http://documancer.com/xcode/">Docs for Xcode</a>)</p>
-        <p>Or Copy &amp; Paste into Xcode 4's Prefs</p>
-        <input readonly id="xcode_input" value="http://cocoadocs.org/docsets/{{projectName}}/xcode-docset.atom"></input>
-      </div>
-    </div>
-
-  </div>
-  <ul id="headerButtons" role="toolbar"></ul>
-</header> -->

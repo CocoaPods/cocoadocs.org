@@ -1,5 +1,7 @@
 require 'htmlcompressor'
-
+require 'docstat'
+require 'docstat'
+    
 class DocsetFixer
   include HashInit
   attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path
@@ -12,8 +14,24 @@ class DocsetFixer
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
+    add_documentation_stats
     create_dash_data
     minify_html
+  end
+
+  def add_documentation_stats
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    
+    stats = DocStat.process(@docset_path + docset)
+    
+    Dir.glob(@docset_path + "**/*.html").each do |name|
+    File.open(name, 'r+') do |f|
+      p f
+      new_file = f.read.gsub("$$$DOC_PERCENT$$$", stats["ratio"].round(2).to_s )
+      f.truncate(0)
+      f.write new_file
+    end
+  end
   end
 
   def get_latest_version_in_folder
@@ -26,10 +44,9 @@ class DocsetFixer
     end
 
     #semantically order them as they're in unix's order ATM
-    # we convert them to Versions, then get the last  string
+    # we convert them to Versions, then get the last string
     @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last    
   end
-  
   
   def remove_html_folder
     # the structure is normally /POD/version/html/index.html
@@ -200,6 +217,5 @@ class DocsetFixer
     ]
 
     command redirect_command.join(' ')
-    
   end
 end

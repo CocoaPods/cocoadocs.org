@@ -1,0 +1,533 @@
+body {
+  font-family: "Helvetica Neue", "Arial", san-serif;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0; }
+
+ul {
+  list-style-type: square; }
+
+li {
+  margin-bottom: 10px; }
+
+a {
+  text-decoration: none;
+  color: #ed0015; }
+  a code {
+    text-decoration: none;
+    color: #b7233f; }
+  a:hover {
+    text-decoration: underline;
+    color: #a90010; }
+    a:hover code {
+      text-decoration: underline;
+      color: #a97322; }
+
+h2 {
+  color: #ed0015;
+  font-size: 187%;
+  font-weight: normal;
+  margin-top: 1.75em;
+  padding-bottom: 2px; }
+
+.index-overview {
+  background-color: white;
+  width: 728px;
+  padding: 30px; }
+
+table {
+  margin-bottom: 4em;
+  border-collapse: collapse;
+  vertical-align: middle; }
+
+td {
+  border: 1px solid #9BB3CD;
+  padding: .667em;
+  font-size: 100%; }
+
+th {
+  border: 1px solid #9BB3CD;
+  padding: .3em .667em .3em .667em;
+  background: #93A5BB;
+  font-size: 103%;
+  font-weight: bold;
+  color: white;
+  text-align: left; }
+
+/* @group Common page elements */
+#footer {
+  clear: both;
+  padding-top: 20px;
+  text-align: center; }
+  #footer p {
+    width: 100%;
+    max-width: 100% !important; }
+
+#contents, #overview_contents {
+  min-width: 550px;
+  background-color: #F5F5F5; }
+
+#contents.isShowingTOC {
+  left: 230px;
+  min-width: 320px; }
+
+.copyright {
+  font-size: 12px; }
+
+.generator {
+  font-size: 11px; }
+
+.main-navigation ul li {
+  display: inline;
+  margin-left: 15px;
+  list-style: none; }
+
+.navigation-top {
+  clear: both;
+  float: right; }
+
+.navigation-bottom {
+  clear: both;
+  float: right;
+  margin-top: 20px;
+  margin-bottom: -10px; }
+
+.open > .disclosure {
+  background-image: url("img/disclosure_open.png"); }
+
+.disclosure {
+  background: url("img/disclosure.png") no-repeat scroll 0 0;
+  display: inline-block;
+  height: 8px;
+  margin-right: 5px;
+  position: relative;
+  width: 9px; }
+
+.nodisclosure {
+  display: inline-block;
+  height: 8px;
+  margin-right: 5px;
+  position: relative;
+  width: 9px; }
+
+/* @end */
+/* @group Header */
+header#app_header {
+  font-family: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+  background-color: red;
+  height: 162px;
+  padding: 28px; }
+  header#app_header h1 {
+    font-size: 72px;
+    font-weight: normal;
+    color: #ed0015; }
+    header#app_header h1 em {
+      color: #c6b7b2;
+      font-weight: normal;
+      font-style: normal; }
+    header#app_header h1 img {
+      vertical-align: middle;
+      margin-left: 12px; }
+  header#app_header img#actions {
+    float: right; }
+  header#app_header #subtitle:hover ~ ul {
+    display: block; }
+
+#dropdown {
+  display: none;
+  position: fixed;
+  right: 0px;
+  top: 62px;
+  background-color: #FCF3E5;
+  border-bottom-left-radius: 4px;
+  border-left: 1px black solid;
+  border-bottom: 1px black solid;
+  color: black;
+  padding: 4px 18px;
+  text-align: center;
+  z-index: 99; }
+  #dropdown:hover {
+    display: block; }
+  #dropdown input {
+    width: 100%; }
+  #dropdown .subtext {
+    font-size: 12px; }
+
+#headerButtons {
+  background-color: #D8D8D8;
+  background-image: url("img/button_bar_background.png");
+  border-bottom: 1px solid #EDEDED;
+  border-top: 1px solid #2B334F;
+  font-size: 8pt;
+  height: 28px;
+  left: 0;
+  list-style: none outside none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0; }
+  #headerButtons li {
+    background-repeat: no-repeat;
+    display: inline;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0; }
+
+#libraryVersion ul {
+  display: none; }
+#libraryVersion:hover ul {
+  display: block;
+  list-style: none;
+  position: absolute;
+  z-index: 99;
+  background-image: -webkit-linear-gradient(top, #fcf3e5, #eee2d0);
+  background-image: -moz-linear-gradient(top, #fcf3e5, #eee2d0);
+  margin: 0;
+  padding-left: 0px;
+  border-left: 1px solid #bea693;
+  border-bottom: 1px solid #bea693;
+  border-right: 1px solid #bea693; }
+
+#top_header #libraryVersion ul a {
+  padding: 8px 12px; }
+
+#libraryVersion ul li {
+  margin-bottom: 0; }
+
+#toc_button button {
+  border-style: none solid none none;
+  border-width: 0 1px 0 0;
+  height: 28px;
+  margin: 0;
+  padding-left: 30px;
+  text-align: left;
+  width: 230px;
+  background-color: transparent;
+  background-image: url(http://cocoadocs.org/docsets/AFNetworking/1.2.0/Classes/img/button_bar_background.png); }
+
+li#jumpto_button {
+  left: 230px;
+  margin-left: 0;
+  position: absolute; }
+  li#jumpto_button select {
+    height: 22px;
+    margin: 5px 2px 0 10px;
+    max-width: 300px; }
+
+/* @end */
+/* @group Table of contents */
+#tocContainer {
+  border-top: 1px solid #4f3f21;
+  bottom: 0;
+  display: none;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 91px;
+  width: 229px; }
+  #tocContainer.isShowingTOC {
+    border-right: 1px solid #ACACAC;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0; }
+  #tocContainer > ul#toc {
+    font-size: 11px;
+    margin: 0;
+    padding: 12px 0 18px;
+    width: 209px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none; }
+    #tocContainer > ul#toc > li {
+      margin: 0;
+      padding: 0 0 7px 30px;
+      text-indent: -15px; }
+      #tocContainer > ul#toc > li > .sectionName a {
+        color: #000000;
+        font-weight: bold; }
+        #tocContainer > ul#toc > li > .sectionName a:hover {
+          text-decoration: none; }
+    #tocContainer > ul#toc li.children > ul {
+      display: none;
+      height: 0; }
+    #tocContainer > ul#toc > li > ul {
+      margin: 0;
+      padding: 0;
+      margin-left: 0;
+      margin-bottom: 0;
+      padding-left: 15px; }
+
+ul#toc > li > ul > li {
+  margin-left: 0;
+  margin-bottom: 0;
+  padding-left: 15px; }
+
+#tocContainer > ul#toc > li ul {
+  list-style: none;
+  margin-right: 0;
+  padding-right: 0; }
+#tocContainer > ul#toc li.children.open > ul {
+  display: block;
+  height: auto;
+  margin-left: -15px;
+  padding-left: 0; }
+#tocContainer > ul#toc > li > ul {
+  margin-left: 0;
+  padding-left: 15px; }
+
+ul#toc > li > ul > li {
+  margin-left: 0;
+  padding-left: 15px; }
+
+#tocContainer li ul li {
+  margin-top: 0.583em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+  #tocContainer li ul li span.sectionName {
+    white-space: normal; }
+#tocContainer > ul#toc > li > ul > li > .sectionName a {
+  font-weight: bold; }
+#tocContainer > ul#toc > li > ul a {
+  color: #4F4F4F; }
+
+/* @end */
+/* @group Index formatting */
+.index-title {
+  font-size: 20px;
+  font-weight: normal;
+  margin-top: 8px; }
+
+.index-column {
+  width: 180px;
+  font-size: 11px;
+  background-color: white;
+  padding: 12px;
+  margin: 20px 20px; }
+  .index-column ul {
+    margin: 8px 0 0 0;
+    padding: 0;
+    list-style: none; }
+    .index-column ul li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0 0 3px 0;
+      padding: 0; }
+      .index-column ul li a {
+        color: black;
+        text-decoration: none; }
+        .index-column ul li a:hover {
+          color: #a90010;
+          text-decoration: underline; }
+
+.hierarchy-column {
+  min-width: 400px; }
+  .hierarchy-column ul {
+    margin: 3px 0 0 15px; }
+    .hierarchy-column ul li {
+      list-style-type: square; }
+
+/* @end */
+/* @group Common formatting elements */
+.title {
+  font-weight: normal;
+  font-size: 215%;
+  margin-top: 0; }
+
+.subtitle {
+  font-weight: normal;
+  font-size: 180%;
+  color: #723d2a;
+  border-bottom: 1px solid #b7233f; }
+
+.subsubtitle {
+  font-weight: normal;
+  font-size: 145%;
+  height: 0.7em; }
+
+.note {
+  background-color: white;
+  margin: 1.667em 0 1.75em 0;
+  padding: 0 .667em .083em .750em; }
+
+.warning {
+  border: 1px solid #c5864b;
+  background-color: #F0F3F7;
+  margin-bottom: 0.5em;
+  padding: 0.3em 0.8em; }
+
+.bug {
+  border: 1px solid #000;
+  background-color: #ffc;
+  margin-bottom: 0.5em;
+  padding: 0.3em 0.8em; }
+
+.deprecated {
+  color: #f63c29; }
+
+/* @end */
+/* @group Common layout */
+.section {
+  margin-top: 3em; }
+
+/* @end */
+/* @group Object specification section */
+.section-specification {
+  margin-left: 2.5em;
+  margin-right: 2.5em;
+  font-size: 12px; }
+  .section-specification table {
+    margin-bottom: 0em;
+    border-top: 1px solid #e5d7d9; }
+  .section-specification td {
+    vertical-align: top;
+    border-bottom: 1px solid #e5ccd2;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    padding: .6em; }
+  .section-specification .specification-title {
+    font-weight: bold; }
+
+/* @end */
+/* @group Tasks section */
+.task-list {
+  list-style-type: none;
+  padding-left: 0px; }
+  .task-list li {
+    margin-bottom: 3px; }
+
+.task-item-suffix {
+  color: #996;
+  font-size: 12px;
+  font-style: italic;
+  margin-left: 0.5em; }
+
+span.tooltip:hover span.tooltip {
+  display: block;
+  position: absolute;
+  margin: 13px; }
+
+span.tooltip span.tooltip {
+  border-radius: 4px;
+  background-color: rgba(254, 235, 197, 0.8);
+  font-size: 1.0em;
+  display: none;
+  padding: 0.3em;
+  color: #000;
+  text-align: left;
+  border: 1px solid #c98703;
+  background-color: rgba(254, 234, 195, 0.88);
+  border-radius: 4px; }
+
+/* @end */
+/* @group Method section */
+.section-method {
+  margin-top: 2.3em; }
+
+.method-title {
+  margin-bottom: 1.5em; }
+
+.method-subtitle {
+  margin-top: 0.7em;
+  margin-bottom: 0.2em; }
+
+.method-subsection p {
+  margin-top: 0.4em;
+  margin-bottom: 0.8em; }
+
+.method-declaration {
+  margin-top: 1.182em;
+  margin-bottom: .909em; }
+  .method-declaration code {
+    font: 14px Courier, Consolas, monospace;
+    color: #000;
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: #fcf3e4; }
+
+.declaration {
+  color: #000; }
+
+.argument-def {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em; }
+  .argument-def dd {
+    margin-left: 1.25em; }
+
+.see-also-section ul {
+  list-style-type: none;
+  padding-left: 0px;
+  margin-top: 0; }
+.see-also-section li {
+  margin-bottom: 3px; }
+
+.declared-in-ref {
+  color: #666; }
+
+#tocContainer.hideInXcode {
+  display: none;
+  border: 0px solid black; }
+
+#top_header.hideInXcode {
+  display: none; }
+
+#contents.hideInXcode {
+  border: 0px solid black;
+  top: 0px;
+  left: 0px; }
+
+/* GFM support */
+/* support prettier index pages */
+#overview_contents {
+  min-width: 1080px; }
+  #overview_contents .section-header {
+    display: none; }
+
+#has_index #sidebar {
+  float: left;
+  margin-top: 22px; }
+#has_index #container {
+  float: left; }
+
+/* Add github icon */
+h3 .hover-only, h1 .hover-only {
+  display: inline;
+  opacity: 0.2; }
+
+h3:hover .hover-only, h1:hover .hover-only {
+  opacity: 1; }
+
+h1 .hover-only img {
+  vertical-align: top; }
+
+@font-face {
+  font-family: 'gt_walsheim_regular';
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.eot");
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.eot?#iefix") format("embedded-opentype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.woff") format("woff"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.ttf") format("truetype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-web.svg#gt_walsheim_bold") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'gt_walsheim_bold_oblique';
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.eot");
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.eot?#iefix") format("embedded-opentype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.woff") format("woff"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.ttf") format("truetype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-bold-oblique-web.svg#gt_walsheim_bold_oblique") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'gt_walsheim_regular';
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot");
+  src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot"?#iefix') format("embedded-opentype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.woff") format("woff"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.ttf") format("truetype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.svg#gt_walsheim_regular") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'gt_walsheim_regular_oblique';
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.eot");
+  src: url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.eot?#iefix") format("embedded-opentype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.woff") format("woff"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.ttf") format("truetype"), url("https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-regular-oblique-web.svg#gt_walsheim_regular") format("svg");
+  font-weight: 400;
+  font-style: italic; }

@@ -2,7 +2,9 @@ class ReadmeGenerator
   include HashInit
   attr_accessor :spec, :readme_location, :active_folder
   
-  def create_readme  
+  def create_readme
+    return if $skip_downloading_readme
+    
     spec_readme = readme_path @spec
     unless spec_readme
       vputs "could not find a README"

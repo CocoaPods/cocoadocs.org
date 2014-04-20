@@ -35,5 +35,29 @@ module Pod
         return self.license[:type] if self.license.is_a? Hash
         return "Unknown License"
       end
+      
+      def or_has_social_media_url?
+        self.social_media_url.length > 0
+      end
+      
+      def or_social_media_title
+        if self.social_media_url.include?("twitter.com") 
+          return "@" + self.social_media_url.split(".com/")[-1]
+        end
+        
+        if self.social_media_url.include?("facebook.com") 
+          return "FB: " + self.social_media_url.split(".com/")[-1]
+        end
+        
+        if self.social_media_url.include?("github.com") 
+          return "GH: " + self.social_media_url.split(".com/")[-1]
+        end
+        
+        self.social_media_url
+      end
+      
+      def or_spec_is_deprecated?
+        self.deprecated || self.deprecated_in_favor_of
+      end
    end
 end

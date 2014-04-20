@@ -8,6 +8,8 @@ gem "cocoapods-core"
 gem "cocoapods-downloader"
 gem "cocoapods"
 
+gem "docstat"
+
 gem "octokit"
 gem "nokogiri"
 gem "slim", "< 2.0"

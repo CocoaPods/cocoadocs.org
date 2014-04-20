@@ -1,3 +1,5 @@
+require 'erb'
+
 class WebsiteGenerator
   include HashInit
   attr_accessor :generate_json, :spec
@@ -6,21 +8,13 @@ class WebsiteGenerator
     create_index_page
     move_public_items
     create_stylesheet
-  end
+  end  
   
   def create_index_page
     vputs "Creating index page"
     
     save_slim "views/index.slim", "#{$active_folder}/html/index.html"
     save_slim "views/404.slim", "#{$active_folder}/html/404.html"
-  end
-  
-  def save_slim slim_filepath, to_filepath
-    template = Tilt.new slim_filepath
-    html = template.render
-
-    vputs "Writing slim_filepath"
-    seve_file html, to_filepath  
   end
   
   def create_stylesheet
@@ -83,4 +77,14 @@ class WebsiteGenerator
 
     command upload_command.join(' ')
   end
+  
+  
+  def save_slim slim_filepath, to_filepath
+    template = Tilt.new slim_filepath
+    html = template.render
+
+    vputs "Writing slim_filepath"
+    seve_file html, to_filepath  
+  end
+
 end

@@ -33,6 +33,7 @@ class CocoaDocs < Object
   $skip_source_download = false
   $overwrite_existing_source_files = true
   $delete_source_after_docset_creation = true
+  $skip_downloading_readme = false
 
   # Generate site site & json
   $generate_website = false
@@ -237,9 +238,14 @@ class CocoaDocs < Object
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
     end
     
-    spec = eval(File.open(spec_path).read)
-    generator = WebsiteGenerator.new(:spec => spec)
-    generator.generate
+    $delete_source_after_docset_creation = false
+    $fetch_specs = false
+    $log_all_terminal_commands = true
+    $skip_source_download = true
+    $overwrite_existing_source_files = true
+    $delete_source_after_docset_creation = false
+
+    document_spec_at_path spec_path
   end
 
   private
@@ -316,8 +322,6 @@ class CocoaDocs < Object
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
     diff_log = run_git_command_in_specs "diff --name-status #{sha}"
-    p sha
-    p diff_log
     cleanup_git_logs diff_log
   end
 
@@ -366,6 +370,9 @@ class CocoaDocs < Object
 
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme
+        
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec })
+        appledoc_template.generate
 
         generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
         generator.create_docset
@@ -374,9 +381,6 @@ class CocoaDocs < Object
         fixer.fix
         fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
         fixer.add_docset_redirects if $upload_redirects_for_docsets
-
-        spec_metadata = SpecMetadataGenerator.new({ :spec => spec })
-        spec_metadata.generate
 
       end
 

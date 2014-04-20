@@ -1,25 +1,28 @@
-<%= File.read( Dir.pwd + '/views/appledoc_template/_head.html') %>
+<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html') %>
 
 	<body>
 
-    <%= File.read( Dir.pwd + '/views/appledoc_template/_header.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html') %>
 
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				{{>TableOfContents}}
 			</ul>
 		</nav>
+    
 		<article>
 			<div id="contents" class="isShowingTOC" role="main">
 				<a title="{{page/title}}" name="top"></a>
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
+        
 				<div id="header">
 					<div class="section-header">
 						<h1 class="title title-header">{{page/title}} <span class="hover-only"><a href="https://github.com/search?q={{object/nameOfClass}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-32.png"></a></span></h1>
 					</div>
 				</div>
+        
 				<div id="container">
 					{{#page/specifications}}
 					{{#used}}<div class="section section-specification"><table cellspacing="0"><tbody>{{/used}}
