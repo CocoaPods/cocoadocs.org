@@ -9,49 +9,7 @@ $highlight-dark-color:#A90010;
     margin-top:1em;
     margin-bottom:0.4em;
   }
-  
-  h1, h2, h3  {
-    color: $highlight-color;
-  }
-  
-  h4, h5, h6 {
-    text-transform: uppercase;
-    color: #290002;  
-  }
-  
-  h1 {
-    border-left: 4px $highlight-color solid;
-    padding-left:12px;
-    font-size: 48px;
-    line-height: 52px;
-  }
-  
-  h2 {
-    font-size: 40px;
-    line-height: 52px;
-  }
-  
-  h3 {
-    color: $highlight-dark-color;
-    font-size: 32px;
-    line-height: 41px;
-  }
-  
-  h4 {
-    font-size: 24px;
-    line-height: 32px;
-  }
-  
-  h5 {
-    font-size: 18px;
-    line-height: 24px;
-  }
-  
-  h6 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-  
+
   ul, ol {
     padding-left: 30px;
   }

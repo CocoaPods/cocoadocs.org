@@ -4,8 +4,8 @@
 
 	<body>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html') %>
-
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
+    
 		<article>
 			<a title="{{page/title}}" name="top"></a>
 			<div id="overview_contents" role="main">

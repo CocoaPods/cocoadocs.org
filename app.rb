@@ -365,6 +365,7 @@ class CocoaDocs < Object
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
+      templates_location = $active_folder + "/template/"
 
       if $run_docset_commands
         
@@ -376,10 +377,10 @@ class CocoaDocs < Object
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme
         
-        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec })
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location })
         appledoc_template.generate
 
-        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location })
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location })
         generator.create_docset
 
         fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })

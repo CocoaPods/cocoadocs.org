@@ -1,7 +1,7 @@
 class DocsetGenerator
   include HashInit
   
-  attr_accessor :spec, :from, :to, :readme_location
+  attr_accessor :spec, :from, :to, :readme_location, :appledoc_templates_path
   
   def create_docset
     vputs "Creating docset"
@@ -31,7 +31,7 @@ class DocsetGenerator
       "--project-version #{version}",                           # project version
       "--no-install-docset",                                    # don't make a duplicate
                                                                 
-      "--templates ./appledoc_templates",                       # use the custom template
+      "--templates #{@appledoc_templates_path}",                       # use the custom template
       "--verbose #{verbosity}",                                 # give some useful logs
                                                                 
       "--keep-intermediate-files",                              # space for now is OK

@@ -1,6 +1,6 @@
 class AppledocTemplateGenerator
   include HashInit
-  attr_accessor :spec, :versions
+  attr_accessor :spec, :versions, :appledoc_templates_path
   
   def generate
     generate_versions
@@ -9,15 +9,18 @@ class AppledocTemplateGenerator
   
   def generate_templates
     vputs "Creating appledoc template at for #{@spec.name}"
-    
-    output_folder = Dir.pwd + "/appledoc_templates/html/"
-
+  
+    Dir.mkdir(@appledoc_templates_path) unless File.exist?(@appledoc_templates_path)
+    Dir.mkdir(@appledoc_templates_path + "/html") unless File.exist?(@appledoc_templates_path + "/html")
+  
     Dir[Dir.pwd + "/views/appledoc_template/*.html.erb"].each do |file| 
       filename = File.basename(file, ".html.erb")
       output = render_erb file
-      output_path = output_folder + filename + ".html"
+      output_path = @appledoc_templates_path + "/html/" + filename + ".html"
       File.open(output_path, 'w') { |f| f.write output }
     end
+    
+    `cp -r #{Dir.pwd}/views/docset #{@appledoc_templates_path}`
   end
   
   def generate_versions

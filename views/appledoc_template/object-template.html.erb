@@ -2,15 +2,15 @@
 
 	<body>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html') %>
-
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
+		<article>
+      
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				{{>TableOfContents}}
 			</ul>
 		</nav>
     
-		<article>
 			<div id="contents" class="isShowingTOC" role="main">
 				<a title="{{page/title}}" name="top"></a>
 				<div class="main-navigation navigation-top">

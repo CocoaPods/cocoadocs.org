@@ -24,6 +24,52 @@ body {
   margin:0;
 }
 
+h1,h2,h3,h4,h5 {
+  font-weight:normal;
+}
+
+h1, h2, h3  {
+  color: $highlight-color;
+}
+
+h4, h5, h6 {
+  text-transform: uppercase;
+  color: #290002;  
+}
+
+h1 {
+  border-left: 4px $highlight-color solid;
+  padding-left:12px;
+  font-size: 48px;
+  line-height: 52px;
+}
+
+h2 {
+  font-size: 40px;
+  line-height: 52px;
+}
+
+h3 {
+  color: $highlight-dark-color;
+  font-size: 32px;
+  line-height: 41px;
+}
+
+h4 {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+h5 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+h6 {
+  font-size: 14px;
+  line-height: 19px;
+}
+
 ul {
   list-style-type: square;
 }
@@ -162,7 +208,51 @@ th {
 
 /* @group Header */
 
+header#app_header.minimised {
+  top:0px;
+  bottom:auto;
+
+  div ul#subtitle {
+    height:8px;
+  }
+  
+  div {
+    -webkit-transition:height 0.2s;
+    height: 28px + (20px*2) ;
+  
+    &:hover {
+      height: 60px + (20px*2) ;
+    
+      ul#subtitle {
+        height:auto;
+        -webkit-transition:height 0.2s;
+        
+        li {
+          -webkit-transition:height 0.2s;
+        }
+      };
+    
+      div {
+        height:160px - 28px * 2;
+      }
+    }
+  }
+  
+    h1 {
+      top:0px;
+      padding-top:20px;
+      font-size:48px;
+      text-align:center;
+      width:100%;
+    }
+    em {
+      font-size:32px;
+    }
+}
+
 header#app_header {
+  
+  
   font-family: $gt-walsh;
   background-color:white;
   
@@ -171,25 +261,26 @@ header#app_header {
   }
  
   div {
+    height:320px - 28px * 2;
     position:relative;
-    height:320px;
-    padding:28px;
+    padding:28px;    
   }
- 
+  
   h1 {
-    font-size:72px;
-    font-weight:normal;
-    color: $highlight-color;
-    position:absolute;
     bottom:48px;
     left:20px;
+    font-size:72px;
+    border-left:none;
+    
+    color: $highlight-color;
+    position:absolute;
     padding: 0;
     
     em {
-      font-size:48px;
-      color:$darker-color;
+      color:$background-colour;
       font-weight:normal;
       font-style:normal;
+      margin-left:12px;
     }
     
     img {
@@ -210,10 +301,16 @@ header#app_header {
     margin-bottom:0;
     font-size:32px;
     color: $darker-color;
+    overflow:hidden;
+    
+    -webkit-transition:height 0.2s;
+    transition:height 0.2s;
+    
     
     li:last-child {
       border-right: 2px $background-colour solid;
     }
+    
     > li {
       display:inline-block;
       border-left: 2px $background-colour solid;
@@ -289,10 +386,6 @@ header#app_header {
   }
 }
 
-h1,h2,h3,h4 {
-  font-weight:normal;
-}
-
 #headerButtons {
   background-color: #D8D8D8;
   background-image: url("img/button_bar_background.png");
@@ -366,25 +459,34 @@ li#jumpto_button {
 
 /* @end */
 
+#contents {
+  background-color:white;
+  padding:20px;
+  width:1080px - 40px - 240px;
+  float:right;
+  margin-top:40px;
+}
+
+
 /* @group Table of contents */
 
 #tocContainer {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
+  position: sticky;
+  display:inline-block;
+  top: 15px;
+  width
+  
   &.isShowingTOC {
-    border-right: 1px solid #ACACAC;
     display: block;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 0;
   }
   
-  border-top: 1px solid #4f3f21;
-  bottom: 0;
-  display: none;
-  left: 0;
-  overflow: hidden;
-  position: absolute;
-  top: 91px;
-  width: 229px;
   > ul#toc {
     font-size: 11px;
     margin: 0;
@@ -393,6 +495,7 @@ li#jumpto_button {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+    
     > li {
       margin: 0;
       padding: 0 0 7px 30px;
@@ -525,23 +628,17 @@ ul#toc > li > ul > li {
 
 /* @group Common formatting elements */
 article {
+  
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
   .title {
     font-weight: normal;
     font-size: 215%;
     margin-top: 0;
-  }
-
-  .subtitle {
-    font-weight: normal;
-    font-size: 180%;
-    color: #723d2a;
-    border-bottom: 1px solid $alt-link-color;
-  }
-
-  .subsubtitle {
-    font-weight: normal;
-    font-size: 145%;
-    height: 0.7em;
   }
 
   .note {
@@ -643,24 +740,6 @@ span.tooltip span.tooltip {
 /* @end */
 
 /* @group Method section */
-
-.section-method {
-  margin-top: 2.3em;
-}
-
-.method-title {
-  margin-bottom: 1.5em;
-}
-
-.method-subtitle {
-  margin-top: 0.7em;
-  margin-bottom: 0.2em;
-}
-
-.method-subsection p {
-  margin-top: 0.4em;
-  margin-bottom: 0.8em;
-}
 
 .method-declaration {
   margin-top: 1.182em;
