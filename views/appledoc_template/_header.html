@@ -17,7 +17,7 @@
       <% end %>
 
       <% if @versions.count > 1 %>
-      <li id="versions">Versions v
+      <li class="no-link" id="versions">Versions v
       <ul>
         <% @versions.reverse_each do |version| %>
           <li><a href="../<%= version %>"><%= version %></a></li>
@@ -26,7 +26,7 @@
       </li>
       <% end %>
 
-      <li>$$$DOC_PERCENT$$$</li>
+      <li class="no-link"><span class="subtitle">Documented</span><span="title">$$$DOC_PERCENT$$$%</span></li>
     </ul>
   </div>
 </header>

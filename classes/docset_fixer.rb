@@ -20,14 +20,18 @@ class DocsetFixer
   end
 
   def add_documentation_stats
-    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    vputs "Generating documentation stats for moving into docset"
     
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
     stats = DocStat.process(@docset_path + docset)
+    percent = (stats["ratio"].round(2) * 100).to_s
+    
+    # How nice am I?!
+    percent = "100" if (stats["ratio"] > 0.97);
     
     Dir.glob(@docset_path + "**/*.html").each do |name|
     File.open(name, 'r+') do |f|
-      p f
-      new_file = f.read.gsub("$$$DOC_PERCENT$$$", stats["ratio"].round(2).to_s )
+      new_file = f.read.gsub("$$$DOC_PERCENT$$$", percent)
       f.truncate(0)
       f.write new_file
     end

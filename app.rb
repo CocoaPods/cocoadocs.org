@@ -244,7 +244,8 @@ class CocoaDocs < Object
     $skip_source_download = true
     $overwrite_existing_source_files = true
     $delete_source_after_docset_creation = false
-
+    $skip_downloading_readme = true
+    
     document_spec_at_path spec_path
   end
 
@@ -381,11 +382,7 @@ class CocoaDocs < Object
         fixer.fix
         fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
         fixer.add_docset_redirects if $upload_redirects_for_docsets
-
       end
-
- #     $parser = AppleJSONParser.new
- #     $parser.generate if $generate_apple_json
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
