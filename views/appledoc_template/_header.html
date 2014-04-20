@@ -1,11 +1,13 @@
 <header id="app_header" class="hideInXcode">
   <div>
-    <a href="/"><img id="logo" src="file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo2@2x.png" width="264" height="28" alt="CocoaDocsLogo2@2x"></a>
-  
-    <img id="actions" src="file:///Users/orta/dev/html/cocoadocs/public/img/header_action_button.png" width="65" height="65" alt="Header Action Button">
-  
+    
     <h1><%= spec.name %><em><%= @spec.version %></em></h1>
+    
+    <a href="/" id="logo"></a>
   
+    <img id="actions" width="65" height="65" alt="Header Action Button">
+  
+    <div id="cover"></div>
     <ul id="subtitle">
       <li><a href="<%= @spec.homepage %>"><%= @spec.or_contributors_to_spec %></a></li>
 

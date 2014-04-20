@@ -3,6 +3,7 @@
 	<body>
 
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
+    
 		<article>
       
 		<nav id="tocContainer" class="isShowingTOC">
@@ -99,100 +100,9 @@
 		</article>
     
     
-		<script type="text/javascript">
-    
-			function jumpToChange()
-			{
-				window.location.hash = this.options[this.selectedIndex].value;
-			}
+    <script type="text/javascript"><%= File.read( Dir.pwd + '/views/appledoc_template/_object-nav.js') %></script>
 
-			function toggleTOC()
-			{
-				var contents = document.getElementById('contents');
-				var tocContainer = document.getElementById('tocContainer');
-
-				if (this.getAttribute('class') == 'open')
-				{
-					this.setAttribute('class', '');
-					contents.setAttribute('class', '');
-					tocContainer.setAttribute('class', '');
-
-					window.name = "hideTOC";
-				}
-				else
-				{
-					this.setAttribute('class', 'open');
-					contents.setAttribute('class', 'isShowingTOC');
-					tocContainer.setAttribute('class', 'isShowingTOC');
-
-					window.name = "";
-				}
-				return false;
-			}
-
-			function toggleTOCEntryChildren(e)
-			{
-				e.stopPropagation();
-				var currentClass = this.getAttribute('class');
-				if (currentClass == 'children') {
-					this.setAttribute('class', 'children open');
-				}
-				else if (currentClass == 'children open') {
-					this.setAttribute('class', 'children');
-				}
-				return false;
-			}
-
-			function tocEntryClick(e)
-			{
-				e.stopPropagation();
-				return true;
-			}
-
-			function init()
-			{
-				var selectElement = document.getElementById('jumpTo');
-				selectElement.addEventListener('change', jumpToChange, false);
-
-				var tocButton = document.getElementById('table_of_contents');
-				tocButton.addEventListener('click', toggleTOC, false);
-
-				var taskTreeItem = document.getElementById('task_treeitem');
-				if (taskTreeItem.getElementsByTagName('li').length > 0)
-				{
-					taskTreeItem.setAttribute('class', 'children');
-					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
-				}
-
-				var tocList = document.getElementById('toc');
-
-				var tocEntries = tocList.getElementsByTagName('li');
-				for (var i = 0; i < tocEntries.length; i++) {
-					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
-				}
-
-				var tocLinks = tocList.getElementsByTagName('a');
-				for (var i = 0; i < tocLinks.length; i++) {
-					tocLinks[i].addEventListener('click', tocEntryClick, false);
-				}
-
-				if (window.name == "hideTOC") {
-					toggleTOC.call(tocButton);
-				}
-			}
-
-			window.onload = init;
-
-			// If showing in Xcode, hide the TOC and Header
-			if (navigator.userAgent.match(/xcode/i)) {
-				document.getElementById("contents").className = "hideInXcode"
-				document.getElementById("tocContainer").className = "hideInXcode"
-				document.getElementById("top_header").className = "hideInXcode"
-			}
-
-		</script>
-
-    <%= File.read( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
 
 	</body>
 </html>
@@ -201,81 +111,99 @@
 Section Method
 <div class="section-method">
 	<a name="{{htmlReferenceName}}" title="{{methodSelector}}"></a>
+  
 	<h3 class="subsubtitle method-title">{{methodSelector}} <span class="hover-only"><a href="https://github.com/search?q={{methodSelector}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-16.png"></a></span></h3>
 
 	{{#comment}}
-	{{#hasShortDescription}}
+	{{#hasShortDescription}}{{^hasLongDescription}}
 	<div class="method-subsection brief-description">
 		{{#shortDescription}}{{>GBCommentComponent}}{{/shortDescription}}
 	</div>
-	{{/hasShortDescription}}
-    {{/comment}}
+	{{/hasLongDescription}}{{/hasShortDescription}}
+  {{/comment}}
 
 	<div class="method-subsection method-declaration"><code>{{>MethodDeclaration}}</code></div>
 
-    {{#comment}}
-	{{#hasMethodParameters}}
+  {{#comment}}
+	
+
+	{{#hasLongDescription}}
+	<div class="method-subsection discussion-section">
+		<h5 class="">{{strings/objectMethods/discussionTitle}}</h5>
+	  {{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}
+	</div>
+	{{/hasLongDescription}}
+  
+  
+  {{#hasMethodParameters}}
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">{{strings/objectMethods/parametersTitle}}</h4>
-		{{#methodParameters}}
-		<dl class="argument-def parameter-def">
-			<dt><em>{{argumentName}}</em></dt>
-			<dd>{{#argumentDescription}}{{>GBCommentComponentsList}}{{/argumentDescription}}</dd>
-		</dl>
-		{{/methodParameters}}
+    <div class="params">
+  		{{#methodParameters}}
+  		<dl class="argument-def parameter-def">
+  			<dt>{{argumentName}}</dt>
+  			<dd>{{#argumentDescription}}{{>GBCommentComponentsList}}{{/argumentDescription}}</dd>
+  		</dl>
+  		{{/methodParameters}}
+    </div>
 	</div>
 	{{/hasMethodParameters}}
 
 	{{#hasMethodResult}}
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">{{strings/objectMethods/resultTitle}}</h4>
-		{{#methodResult}}{{>GBCommentComponentsList}}{{/methodResult}}
+    <div class="params">
+      {{#methodResult}}{{>GBCommentComponentsList}}{{/methodResult}}
+    </div>
 	</div>
 	{{/hasMethodResult}}
 
 	{{#hasAvailability}}
 	<div class="method-subsection availability">
 		<h4 class="method-subtitle parameter-title">{{strings/objectMethods/availability}}</h4>
-		{{#availability}}{{>GBCommentComponentsList}}{{/availability}}
+      <div class="params">
+      {{#availability}}{{>GBCommentComponentsList}}{{/availability}}
+      </div>
 	</div>
 	{{/hasAvailability}}
 
-	{{#hasLongDescription}}
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">{{strings/objectMethods/discussionTitle}}</h4>
-		{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}
-	</div>
-	{{/hasLongDescription}}
 
 	{{#hasMethodExceptions}}
 	<div class="method-subsection arguments-section exceptions">
 		<h4 class="method-subtitle exception-title">{{strings/objectMethods/exceptionsTitle}}</h4>
-		{{#methodExceptions}}
-		<dl class="argument-def exception-def">
-			<dt><em>{{argumentName}}</em></dt>
-			<dd>{{#argumentDescription}}{{>GBCommentComponentsList}}{{/argumentDescription}}</dd>
-		</dl>
-		{{/methodExceptions}}
+    <div class="params">
+  		{{#methodExceptions}}
+  		<dl class="argument-def exception-def">
+  			<dt>{{argumentName}}</dt>
+  			<dd>{{#argumentDescription}}{{>GBCommentComponentsList}}{{/argumentDescription}}</dd>
+  		</dl>
+  		{{/methodExceptions}}
+    </div>
 	</div>
 	{{/hasMethodExceptions}}
 
 	{{#hasRelatedItems}}
 	<div class="method-subsection see-also-section">
 		<h4 class="method-subtitle">{{strings/objectMethods/seeAlsoTitle}}</h4>
-		<ul>
-			{{#relatedItems/components}}
-			<li><code>{{>GBCommentComponent}}</code></li>
-			{{/relatedItems/components}}
-		</ul>
+    <div class="params">
+  		<ul>
+  			{{#relatedItems/components}}
+  			<li><code>{{>GBCommentComponent}}</code></li>
+  			{{/relatedItems/components}}
+  		</ul>
+    </div>
 	</div>
 	{{/hasRelatedItems}}
 
 	{{#prefferedSourceInfo}}
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">{{strings/objectMethods/declaredInTitle}}</h4>
-		<code class="declared-in-ref">{{filename}}</code><br />
+    <div class="params">
+      <p class="declared-in-ref">{{filename}}</p>
+    </div>
 	</div>
 	{{/prefferedSourceInfo}}
+  
 	{{/comment}}
 </div>
 EndSection

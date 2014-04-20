@@ -239,10 +239,9 @@ class CocoaDocs < Object
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
     end
     
-    $delete_source_after_docset_creation = false
-    $fetch_specs = false
+    # $fetch_specs = false
     $log_all_terminal_commands = true
-    $skip_source_download = true
+    # $skip_source_download = true
     $overwrite_existing_source_files = true
     $delete_source_after_docset_creation = false
     

@@ -10,14 +10,16 @@
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
+        
 				<div id="header">
 					<div class="section-header">
 						<h1 class="title title-header">{{page/title}}</h1>
 					</div>
 				</div>
+        
 				<div id="container">
 					{{#hasClasses}}
-					<div class="index-column hierarchy-column">
+					<div class="hierarchy-column">
 						<h2 class="index-title">{{strings/hierarchyPage/classesTitle}}</h2>
 						{{>Classes}}
 					</div>
@@ -33,7 +35,11 @@
 							{{/protocols}}
 						</ul>
 						{{/hasProtocols}}
+            
 						{{#hasCategories}}
+            </div>
+  					<div class="index-column">
+            
 						<h2 class="index-title">{{strings/hierarchyPage/categoriesTitle}}</h2>
 						<ul>
 							{{#categories}}
@@ -41,6 +47,7 @@
 							{{/categories}}
 						</ul>
 						{{/hasCategories}}
+            
 					</div>
 					{{/hasProtocolsOrCategories}}
 				</div>
@@ -53,8 +60,8 @@
 			</div>
 		</article>
 
-    <%= File.read( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
-
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+    
 	</body>
 </html>
 
