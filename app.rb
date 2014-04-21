@@ -459,7 +459,7 @@ if $start_sinatra_server
   end
 
   get "/redeploy/:pod" do
-    spec = spec_with_name(params[:pod])
+    spec = docs.spec_with_name(params[:pod])
 
     if spec
       vputs "Generating docs for #{spec.name}"
