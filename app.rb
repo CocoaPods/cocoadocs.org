@@ -224,6 +224,15 @@ class CocoaDocs < Object
     end
   end
 
+  def spec_with_name(name)
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
+    set = source.search(Pod::Dependency.new(name))
+
+    if set
+      set.specification.root
+    end
+  end
+
   private
 
   def setup_options options
@@ -394,15 +403,6 @@ class CocoaDocs < Object
   def document_spec_at_path(spec_path)
     spec = Pod::Specification.from_file(spec_path)
     document_spec(spec)
-  end
-
-  def spec_with_name(name)
-    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
-    set = source.search(Pod::Dependency.new(name))
-
-    if set
-      set.specification.root
-    end
   end
 
   def document_spec_with_name(name)
