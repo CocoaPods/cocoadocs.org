@@ -314,7 +314,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir(File.join($active_folder_name, $cocoadocs_specs_name)) do
+    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
      `git #{git_command}`
     end
   end
