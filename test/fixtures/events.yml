@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pod: MyString
+  error: MyString
+  command: MyString
+  trigger: MyString
+
+two:
+  pod: MyString
+  error: MyString
+  command: MyString
+  trigger: MyString

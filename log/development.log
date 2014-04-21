@@ -1,0 +1,3299 @@
+  [1m[36m (0.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.5ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateEvents (20140323162903)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "events" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "pod" varchar(255), "error" varchar(255), "command" varchar(255), "trigger" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20140323162903"]]
+  [1m[36m (0.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 12:47:38 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 12:47:42 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 12:47:42 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:47:59 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.2ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (18.7ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:49:24 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.6ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:49:25 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.2ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:49:31 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.5ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:50:06 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.5ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:50:16 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 6ms
+
+ActionView::MissingTemplate (Missing template api/webhook, application/webhook with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby]}. Searched in:
+  * "/Users/orta/dev/ruby/cocoadocs2/app/views"
+):
+  actionpack (4.0.4) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.4) lib/action_view/lookup_context.rb:122:in `find'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.4) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/benchmark.rb:294:in `realtime'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:383:in `_run__1873980272791892293__process_action__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.4) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__2751920795667118805__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.8ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:50:18 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 2ms
+
+ActionView::MissingTemplate (Missing template api/webhook, application/webhook with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby]}. Searched in:
+  * "/Users/orta/dev/ruby/cocoadocs2/app/views"
+):
+  actionpack (4.0.4) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.4) lib/action_view/lookup_context.rb:122:in `find'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.4) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/benchmark.rb:294:in `realtime'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:383:in `_run__1873980272791892293__process_action__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.4) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__2751920795667118805__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.3ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:50:40 -0400
+
+SyntaxError (/Users/orta/dev/ruby/cocoadocs2/app/controllers/api_controller.rb:10: syntax error, unexpected ':', expecting =>
+    render :JSON => { "message": "started" }
+                                ^
+/Users/orta/dev/ruby/cocoadocs2/app/controllers/api_controller.rb:10: syntax error, unexpected '}', expecting keyword_end
+/Users/orta/dev/ruby/cocoadocs2/app/controllers/api_controller.rb:22: syntax error, unexpected end-of-input, expecting keyword_end):
+  activesupport (4.0.4) lib/active_support/dependencies.rb:424:in `load'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:424:in `block in load_file'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:616:in `new_constants_in'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:423:in `load_file'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:324:in `require_or_load'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:463:in `load_missing_constant'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:184:in `const_missing'
+  activesupport (4.0.4) lib/active_support/inflector/methods.rb:226:in `const_get'
+  activesupport (4.0.4) lib/active_support/inflector/methods.rb:226:in `block in constantize'
+  activesupport (4.0.4) lib/active_support/inflector/methods.rb:224:in `each'
+  activesupport (4.0.4) lib/active_support/inflector/methods.rb:224:in `inject'
+  activesupport (4.0.4) lib/active_support/inflector/methods.rb:224:in `constantize'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:535:in `get'
+  activesupport (4.0.4) lib/active_support/dependencies.rb:566:in `constantize'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__2751920795667118805__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /usr/local/var/rbenv/versions/2.1.1/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (6.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.2ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:50:57 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:59:18 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.6ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 12:59:19 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:00:45 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.0ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.6ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:00:46 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.6ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:01:55 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:7:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (10.2ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:03:26 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (6.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.2ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:03:27 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.8ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:03:50 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.9ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:03:58 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (6.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.4ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:04:00 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.8ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:05:19 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:11:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.0ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.6ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:05:37 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:11:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.7ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:05:43 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (uninitialized constant ApiController::CocoaDoccer):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.7ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:06:14 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 6ms
+
+ActionView::MissingTemplate (Missing template api/webhook, application/webhook with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby]}. Searched in:
+  * "/Users/orta/dev/ruby/cocoadocs2/app/views"
+):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.8ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:06:15 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 2ms
+
+ActionView::MissingTemplate (Missing template api/webhook, application/webhook with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby]}. Searched in:
+  * "/Users/orta/dev/ruby/cocoadocs2/app/views"
+):
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.4ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:06:32 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 4ms
+
+NameError (undefined local variable or method `text' for #<ApiController:0x007ffbd68ba630>):
+  app/controllers/api_controller.rb:8:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (6.7ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.3ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:06:39 -0400
+Processing by ApiController#webhook as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 3ms (Views: 0.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 13:11:50 -0400
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:15:48 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:15:50 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:15:50 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:15:51 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:15:59 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:05 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:06 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:07 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:16:10 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:46581:8" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:16:12 -0400
+
+
+Started GET "/dashboard/queues/8" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:13 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:46581:8" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:16:15 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:16:18 -0400
+
+
+Started GET "/dashboard/stats" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/stats/resque" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:19 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:16:21 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:22 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:16:23 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:23:22 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:23:23 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:25 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:28 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:29 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:23:32 -0400
+
+
+Started GET "/dashboard/queues/8" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:23:38 -0400
+
+
+Started GET "/dashboard/queues/8" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:24:19 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:24:20 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:47136:*" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:24 -0400
+
+
+Started GET "/dashboard/queues" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:28 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:29 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:30 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/working.png" for 127.0.0.1 at 2014-03-23 13:24:33 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:47136:*" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:25:53 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:25:58 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:26:00 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/queues" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:26:01 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 13:26:02 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:26:03 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:42:38 -0400
+
+
+Started GET "/dashboard" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 3ms (Views: 3.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:42:39 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:44:04 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:44:05 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 13:44:05 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 15:09:13 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 23:04:59 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 5ms (Views: 4.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 23:05:02 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 23:05:02 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:05:03 -0400
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:06:58 -0400
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:07:12 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:11:51 -0400
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-03-23 23:12:11 -0400
+Processing by ApiController#index as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 4ms (Views: 3.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:12:12 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 23:12:13 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:12:15 -0400
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:12:32 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:14:12 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:14:14 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 23:14:15 -0400
+
+
+Started GET "/dashboard/stats" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/stats/resque" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:14:16 -0400
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:15:14 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/stats/resque" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:17 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:18 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:15:19 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:15:20 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:15:21 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:23 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:15:25 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:15:26 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:15:27 -0400
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:16:21 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+Completed 200 OK in 2ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:27:10 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:34:13 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 1ms
+
+NameError (undefined local variable or method `payload' for #<ApiController:0x007fb8a815bba8>):
+  app/controllers/api_controller.rb:10:in `block in webhook'
+  app/controllers/api_controller.rb:9:in `chdir'
+  app/controllers/api_controller.rb:9:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.1ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (19.0ms)
+
+
+Started GET "/api/webhook" for 127.0.0.1 at 2014-03-23 23:37:37 -0400
+Processing by ApiController#webhook as HTML
+Completed 500 Internal Server Error in 97ms
+
+NameError (undefined local variable or method `updated_specs' for #<ApiController:0x007fb8a87a2458>):
+  app/controllers/api_controller.rb:20:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.6ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:39:54 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 18ms
+
+NameError (undefined local variable or method `updated_specs' for #<ApiController:0x007fb8a483a810>):
+  app/controllers/api_controller.rb:20:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.8ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:40:08 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 17ms
+
+NoMethodError (undefined method `+' for nil:NilClass):
+  app/controllers/api_controller.rb:21:in `block in webhook'
+  app/controllers/api_controller.rb:20:in `each'
+  app/controllers/api_controller.rb:20:in `each_with_index'
+  app/controllers/api_controller.rb:20:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (8.9ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:40:48 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 17ms
+
+NoMethodError (undefined method `+' for nil:NilClass):
+  app/controllers/api_controller.rb:22:in `block in webhook'
+  app/controllers/api_controller.rb:21:in `each'
+  app/controllers/api_controller.rb:21:in `each_with_index'
+  app/controllers/api_controller.rb:21:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.1ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:40:56 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:41:20 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:41:57 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:42:39 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 19ms
+
+NoMethodError (undefined method `document_spec_at_path' for #<ApiController:0x007fb8a48b8f58>):
+  app/controllers/api_controller.rb:25:in `block in webhook'
+  app/controllers/api_controller.rb:21:in `each'
+  app/controllers/api_controller.rb:21:in `each_with_index'
+  app/controllers/api_controller.rb:21:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.8ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:44:56 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:47:32 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:48:00 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:48:54 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 23:48:57 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:48:58 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:48:59 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:00 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:00 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:00 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:00 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:00 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:17 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:49:28 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 23ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:31 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:32 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:49:38 -0400
+
+
+Started GET "/dashboard/queues/cocoadocs_queue" for 127.0.0.1 at 2014-03-23 23:49:39 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:40 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:41 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:42 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:49 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:49:50 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:49:51 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:49:53 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:53 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:54 -0400
+
+
+Started GET "/dashboard/queues" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/workers" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-23 23:49:57 -0400
+
+
+Started GET "/dashboard/stats" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/stats/resque" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:49:59 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:50:48 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:52:34 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 2ms
+
+NameError (undefined local variable or method `specs_path' for #<ApiController:0x007fb14f8e2210>):
+  app/controllers/api_controller.rb:40:in `specs_from_webhook'
+  app/controllers/api_controller.rb:11:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.3ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (17.3ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:52:56 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 21ms
+
+NoMethodError (undefined method `lines' for ["PBJVision/0.1.7/PBJVision.podspec"]:Array):
+  app/controllers/api_controller.rb:20:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.1ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (10.1ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:53:01 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/stats/resque" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:23 -0400
+
+
+Started GET "/dashboard/queues" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:24 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:25 -0400
+
+
+Started GET "/dashboard/queues" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:27 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:29 -0400
+
+
+Started GET "/dashboard/failed/requeue/7" for 127.0.0.1 at 2014-03-23 23:53:55 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:53:58 -0400
+
+
+Started GET "/dashboard/failed/requeue/8" for 127.0.0.1 at 2014-03-23 23:54:00 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:01 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:02 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:03 -0400
+
+
+Started POST "/dashboard/failed/clear" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:05 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:54:08 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 22ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:10 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:11 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:54:12 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:54:13 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:15 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-23 23:54:18 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:54:33 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:58:28 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:59:06 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-23 23:59:45 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:00:03 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-24 00:00:26 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-24 00:00:27 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:28 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:29 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:30 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:31 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:56766:*" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-24 00:00:34 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:41 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:00:42 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:00:43 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:00:44 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:02:28 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 23ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:04:30 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 21ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:07 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:08 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:10 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:11 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:12 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/poll.png" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/overview" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:14 -0400
+
+
+Started GET "/dashboard/working" for 127.0.0.1 at 2014-03-24 00:05:15 -0400
+
+
+Started GET "/dashboard/overview.poll" for 127.0.0.1 at 2014-03-24 00:05:22 -0400
+
+
+Started GET "/dashboard/overview.poll" for 127.0.0.1 at 2014-03-24 00:05:24 -0400
+
+
+Started GET "/dashboard/overview.poll" for 127.0.0.1 at 2014-03-24 00:05:26 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:05:26 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/overview.poll" for 127.0.0.1 at 2014-03-24 00:05:28 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-24 00:05:28 -0400
+
+
+Started GET "/dashboard/overview.poll" for 127.0.0.1 at 2014-03-24 00:05:30 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:32 -0400
+
+
+Started GET "/dashboard/workers/artsys-mac-pro.home:57076:*" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/idle.png" for 127.0.0.1 at 2014-03-24 00:05:39 -0400
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:05:41 -0400
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:06:05 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 20ms
+
+NameError (undefined local variable or method `podspec_path' for #<ApiController:0x007f9101c14708>):
+  app/controllers/api_controller.rb:35:in `document_spec_at_path'
+  app/controllers/api_controller.rb:14:in `block in webhook'
+  app/controllers/api_controller.rb:10:in `each'
+  app/controllers/api_controller.rb:10:in `each_with_index'
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (7.2ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (17.9ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:06:14 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 19ms
+
+NameError (undefined local variable or method `cocoadocs_path' for #<ApiController:0x007f91040539e8>):
+  app/controllers/api_controller.rb:35:in `document_spec_at_path'
+  app/controllers/api_controller.rb:14:in `block in webhook'
+  app/controllers/api_controller.rb:10:in `each'
+  app/controllers/api_controller.rb:10:in `each_with_index'
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.6ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (10.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:06:31 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 18ms
+
+ArgumentError (wrong first argument):
+  app/controllers/api_controller.rb:39:in `spawn'
+  app/controllers/api_controller.rb:39:in `document_spec_at_path'
+  app/controllers/api_controller.rb:14:in `block in webhook'
+  app/controllers/api_controller.rb:10:in `each'
+  app/controllers/api_controller.rb:10:in `each_with_index'
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.4ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.2ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.2ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:07:38 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 500 Internal Server Error in 18ms
+
+NoMethodError (undefined method `join' for #<String:0x007f910716f608>):
+  app/controllers/api_controller.rb:38:in `document_spec_at_path'
+  app/controllers/api_controller.rb:14:in `block in webhook'
+  app/controllers/api_controller.rb:10:in `each'
+  app/controllers/api_controller.rb:10:in `each_with_index'
+  app/controllers/api_controller.rb:10:in `webhook'
+
+
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /usr/local/var/rbenv/versions/2.1.1/lib/ruby/gems/2.1.0/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.3ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:07:46 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:08:10 -0400
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:08:22 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/api/webhook?before=ce0eb742e9c9b687c6a287f343773892f3d57f2f&after=6bcf939006165609127a0120bbcdcc8b3cdfd76c" for 127.0.0.1 at 2014-03-24 00:17:48 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#webhook as HTML
+  Parameters: {"before"=>"ce0eb742e9c9b687c6a287f343773892f3d57f2f", "after"=>"6bcf939006165609127a0120bbcdcc8b3cdfd76c"}
+Completed 200 OK in 19ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard/failed" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
+
+
+Started GET "/dashboard/style.css" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
+
+
+Started GET "/dashboard/reset.css" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
+
+
+Started GET "/dashboard/jquery-1.3.2.min.js" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
+
+
+Started GET "/dashboard/jquery.relatize_date.js" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
+
+
+Started GET "/dashboard/ranger.js" for 127.0.0.1 at 2014-03-24 00:21:18 -0400
