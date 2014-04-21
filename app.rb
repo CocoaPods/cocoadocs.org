@@ -71,21 +71,10 @@ class CocoaDocs < Object
   #    cocoadocs all --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   def all
     update_specs_repo
-    filepath = File.join($active_folder, $cocoadocs_specs_name)
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
-    Dir.foreach filepath do |pod|
-      next if pod[0] == '.'
-      pod_path = File.join(filepath, pod)
-      next unless File.directory? pod_path
-
-      Dir.foreach pod_path do |version|
-        next if version[0] == '.'
-
-        pod_version_path = File.join(pod_path, version)
-        next unless File.directory? pod_version_path
-
-        document_spec_at_path(File.join(pod_version_path, "#{pod}.podspec"))
-      end
+    source.all_specs.each do |spec|
+      document_spec(spec)
     end
   end
 
