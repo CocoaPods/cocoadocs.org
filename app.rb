@@ -15,6 +15,7 @@ require "colored"
 require 'tilt'
 require "slim"
 require "nokogiri"
+require "_utils"
 
 class CocoaDocs < Object
 
@@ -438,7 +439,7 @@ if $start_sinatra_server
      if File.exists? podspec_path
        vputs "Generating docs for #{podspec_path}"
 
-        pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", podspec_path)
+        pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
         Process.detach pid
 
        return "{ parsing: true }"
@@ -453,7 +454,7 @@ if $start_sinatra_server
     if spec
       vputs "Generating docs for #{spec.name}"
 
-      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", params[:pod])
+      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", params[:pod], { :chdir => File.expand_path(File.dirname(__FILE__)) })
       Process.detach pid
 
       "{ parsing: true }"
