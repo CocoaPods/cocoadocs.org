@@ -97,15 +97,16 @@ class DocsetFixer
     return unless File.exists? @readme_path
 
     vputs "Moving Github Markdown into index"
-    readme_text = File.open(@readme_path).read
+    readme_text = File.read(@readme_path)
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
 
     ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
-      next unless File.exists? @docset_path + path
+      homepage_path = File.join(@docset_path, path)
+      next unless File.exists?(homepage_path)
 
-      html = File.open(@docset_path + path).read
+      html = File.read(homepage_path)
       html.sub!("</THISISTOBEREMOVED>", readme_text)
-      File.open(@docset_path + path, 'w') { |f| f.write(html) }
+      File.open(homepage_path, 'w') { |f| f.write(html) }
     end
   end
 
