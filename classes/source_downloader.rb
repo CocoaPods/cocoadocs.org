@@ -8,7 +8,7 @@ class SourceDownloader
 
     cache_path = File.join($active_folder, 'download_cache')
 
-    if Dir.exists? @download_location
+    if Dir.exist?(@download_location)
       if @overwrite
         command "rm -rf #{@download_location}"
       else
