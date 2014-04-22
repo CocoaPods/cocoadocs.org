@@ -196,6 +196,27 @@ class CocoaDocs < Object
   # Take a webhook, look at the commits inbetween the before & after
   # and then document each spec.
 
+  
+  def handle_webhook webhook_payload
+    before = webhook_payload["before"]
+    after = webhook_payload["after"]
+    vputs "Got a webhook notification for #{before} to #{after}"
+
+    update_specs_repo
+    updated_specs = specs_for_git_diff before, after
+    vputs "Looking at #{ updated_specs.lines.count }"
+
+    updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
+
+      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+      Process.detach pid
+    end
+    
+    "{ success: true, triggered: #{ updated_specs.lines.count } }"
+  end
+
   def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
@@ -389,26 +410,6 @@ class CocoaDocs < Object
 
   def commands
     (public_methods - Object.public_methods).map{ |c| c.to_sym}
-  end
-  
-  def handle_webhook webhook_payload
-    before = webhook_payload["before"]
-    after = webhook_payload["after"]
-    vputs "Got a webhook notification for #{before} to #{after}"
-
-    update_specs_repo
-    updated_specs = specs_for_git_diff before, after
-    vputs "Looking at #{ updated_specs.lines.count }"
-
-    updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
-
-      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
-      Process.detach pid
-    end
-    
-    "{ success: true, triggered: #{ updated_specs.lines.count } }"
   end
   
 end
