@@ -15,7 +15,6 @@ require "colored"
 require 'tilt'
 require "slim"
 require "nokogiri"
-require "_utils"
 
 class CocoaDocs < Object
 
