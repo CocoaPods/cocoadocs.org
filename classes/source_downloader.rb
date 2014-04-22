@@ -6,7 +6,7 @@ class SourceDownloader
     puts "\n ----------------------"
     puts "\n Looking at #{@spec.name} #{@spec.version} \n".bold.blue
 
-    cache_path = $active_folder + "/download_cache"
+    cache_path = File.join($active_folder, 'download_cache')
 
     if Dir.exists? @download_location
       if @overwrite
@@ -17,7 +17,8 @@ class SourceDownloader
     end
 
     downloader = Pod::Downloader.for_target(@download_location, @spec.source)
-    downloader.cache_root = @cache_path
+    downloader.cache_root = cache_path
     downloader.download
   end
 end
+
