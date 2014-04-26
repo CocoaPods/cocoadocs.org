@@ -45,12 +45,14 @@ class CocoaDocs < Object
 
   $upload_site_to_s3 = false
 
-  Dir["./classes/*.rb"].each {|file| require_relative file }
-
   # Constrain all downloads and data into one subfolder
   $active_folder_name = "activity"
   $current_dir = File.dirname(File.expand_path(__FILE__))
   $active_folder = File.join($current_dir, $active_folder_name)
+
+  Dir[File.join($current_dir, "classes/*.rb")].each do |file|
+    require_relative(file)
+  end
 
   # command line parsing
 
