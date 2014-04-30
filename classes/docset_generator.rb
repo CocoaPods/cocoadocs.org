@@ -22,6 +22,8 @@ class DocsetGenerator
 
     verbosity = $verbose ? "5" : "1"
 
+    template_directory = File.join($current_dir, 'appledoc_templates')
+
     docset_command = [
       "appledoc",
       "--project-name #{@spec.name}",                           # name in top left
@@ -31,7 +33,7 @@ class DocsetGenerator
       "--project-version #{version}",                           # project version
       "--no-install-docset",                                    # don't make a duplicate
 
-      "--templates ./appledoc_templates",                       # use the custom template
+      "--templates #{template_directory}",                       # use the custom template
       "--verbose #{verbosity}",                                 # give some useful logs
 
       "--keep-intermediate-files",                              # space for now is OK
