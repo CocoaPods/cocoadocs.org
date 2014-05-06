@@ -12,7 +12,8 @@ $highlight-dark-color:#A90010;
 
   h1 {
     border-left: 4px $highlight-color solid;
-    padding-left:12px;
+    padding-left: 20px;
+    margin-left:-30px;
     font-size: 48px;
     line-height: 52px;
   }
@@ -47,19 +48,19 @@ $highlight-dark-color:#A90010;
   ul, ol {
     padding-left: 30px;
   }
-  
+
   hr {
     background-color: #ccc;
     border:0;
     height: 4px;
     padding: 0;
   }
-  
+
   p {
     font-size:16px;
     line-height:20px;
   }
-  
+
   h1 img, h2 img, h3 img {
     margin-bottom: 4px;
   }
@@ -148,7 +149,7 @@ dl {
     border-spacing: 0;
     font-size: 100%;
     font: inherit;
-    
+
     th {
       font-weight: bold;
       border: 1px solid #ccc;
@@ -166,13 +167,13 @@ dl {
       max-width: 100%;
     }
   }
-  
+
   code, tt {
     margin: 0 2px;
     padding: 0 5px;
     white-space: nowrap;
   }
-  
+
   pre > code {
     margin: 0;
     padding: 0;
@@ -206,7 +207,7 @@ dl {
       white-space: pre-wrap;
     }
   }
-  
+
   sup, sub, a.footnote {
     font-size: 1.4ex;
     height: 0;
@@ -214,12 +215,12 @@ dl {
     vertical-align: super;
     position: relative;
   }
-  
+
   sub {
     vertical-align: sub;
     top: -1px;
   }
-  
+
   em {
     font-style:normal;
     color:#818181;

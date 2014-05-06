@@ -2,7 +2,7 @@
 
 	<body>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('../index.html', 'index.html') %>
 
 		<article>
 			<div id="overview_contents" role="main">

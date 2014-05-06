@@ -13,7 +13,7 @@ article, header > div {
   width:1080px;
   padding:0;
   margin:0 auto;
-  
+
 }
 
 body {
@@ -44,7 +44,7 @@ h4, h5, h6 {
   text-transform: uppercase;
   color: #290002;
   margin-bottom:0.5em;
-  
+
 }
 
 h1 {
@@ -91,16 +91,16 @@ li {
 a {
   text-decoration: none;
   color: $highlight-color;
-  
+
   code {
     text-decoration: none;
     color: $alt-link-color;
   }
-  
+
   &:hover {
     text-decoration: underline;
     color: $highlight-dark-color;
-    
+
     code {
       text-decoration: underline;
       color: #a97322;
@@ -169,7 +169,7 @@ th {
   position:absolute;
   top:8px;
   right:8px;
-  
+
   ul {
     margin:0;
   }
@@ -196,7 +196,7 @@ th {
 
 .nodisclosure, .disclosure {
   display: inline-block;
-  height: 8px;
+  height: 15px;;
   margin-right: 8px;
   position: relative;
   width: 9px;
@@ -209,15 +209,15 @@ th {
 header#app_header.minimised {
   top:0px;
   bottom:auto;
-  
+
   div {
     -webkit-transition:height 0.2s;
     height: 20px + (20px*2) ;
-  
+
     ul#subtitle {
         z-index:1000;
     }
-    
+
     // Ergh, such a hack
     div#cover {
       background-color: white;
@@ -230,49 +230,50 @@ header#app_header.minimised {
       margin-left:-20px;
       z-index:1001;
     }
-  
+
     li a {
       -webkit-transition:opacity 0.3s;
       opacity:0;
     }
     &:hover {
       height: 60px + (20px*2) ;
-    
+
       ul#subtitle {
         height:auto;
         -webkit-transition:height 0.2s;
-        
+
         li a {
           -webkit-transition:opacity 0.3s;
           opacity:1;
         }
       };
-    
+
       div {
         height:160px - 28px * 2;
       }
     }
   }
-  
+
     h1 {
       top:0px;
       padding-top:0px;
       font-size:48px;
       text-align:center;
-      width:910px;
-      left:64px;
+      width: auto;
+      left: 64px;
+      right:64px;
       z-index:1002;
       display:block;
     }
-    
+
     em {
       font-size:32px;
     }
-    
+
     img#actions {
       z-index:1002;
-    }    
-    
+    }
+
     a#logo {
       background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsMiniLogo@2x.png);
       width:80px;
@@ -283,10 +284,10 @@ header#app_header.minimised {
 }
 
 header#app_header {
-  
+
   font-family: $gt-walsh;
   background-color:white;
-  
+
   a#logo {
     background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo@2x.png);
     width: 264px;
@@ -296,7 +297,7 @@ header#app_header {
     position:absolute;
     top:25px;
   }
-  
+
   img#actions {
     background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsSettings.png);
     position:absolute;
@@ -304,42 +305,42 @@ header#app_header {
     background-size: 65px 65px;
     right:0;
   }
-  
+
   div#cover {
     display:none;
   }
-  
+
   div {
     height:320px - 28px * 2;
     position:relative;
-    padding:28px;    
+    padding:28px;
   }
-  
+
   h1 {
     bottom:48px;
     left:20px;
     font-size:72px;
     border-left:none;
     position:static;
-    
+
     color: $highlight-color;
     position:absolute;
     padding: 0;
-    
+
     em {
       color:$background-colour;
       font-weight:normal;
       font-style:normal;
       margin-left:12px;
     }
-    
+
     img {
       vertical-align:middle;
       margin-left:12px;
     }
   }
-  
-  
+
+
   ul#subtitle {
     position:absolute;
     bottom:0;
@@ -347,18 +348,18 @@ header#app_header {
     padding: 0;
     margin-bottom:0;
     font-size:32px;
-    color: $darker-color;    
-    
+    color: $darker-color;
+
     li:last-child {
       border-right: 2px $background-colour solid;
     }
-    
+
     > li {
       display:inline-block;
       float:left;
       border-left: 2px $background-colour solid;
       margin-bottom:0;
-      
+
       span.subtitle {
         display:block;
         float:left;
@@ -368,17 +369,17 @@ header#app_header {
       span.title {
         display:block;
       }
-      
+
       &.no-link {
         padding:12px 24px;
         height:20px;
-        
+
       }
-      
+
       &#versions {
         position:relative;
       }
-      
+
       a {
         padding:12px 24px;
         height:20px;
@@ -386,27 +387,27 @@ header#app_header {
         display:block;
       }
     }
-  
+
     li#versions:hover ul {
       display:block;
     }
-    
+
     // Popover for versions
     ul {
       li {
         font-size:18px;
         list-style:none;
         margin:0;
-        
+
         &:hover {
-         background-color:$background-colour; 
+         background-color:$background-colour;
         }
-        
+
         a {
           padding: 6px 18px;
-        }        
+        }
       }
-      
+
       display:none;
       width:100%;
       position:absolute;
@@ -438,7 +439,7 @@ header#app_header {
   float:right;
   margin-top:40px;
   position:relative;
-  
+
   div#header {
     margin-top:20px;
     margin-left:-20px;
@@ -463,14 +464,14 @@ header#app_header {
   position: sticky;
     top: 0px;
   float:left;
-  
+
   > ul#toc {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
     padding-left:0;
     margin-top:40px;
-    
+
     > li {
       width: 180px;
       font-size: 14px;
@@ -478,22 +479,22 @@ header#app_header {
       padding: 12px;
       margin: 20px 20px;
       list-style:none;
-            
+
       > .sectionName a {
         color: $highlight-color;
-        font-weight: bold;
+        font-weight: normal;
         &:hover {
           text-decoration: none;
         }
       }
     }
-    
+
     li.children > ul {
       display: none;
       height: 0;
       font-size: 12px;
     }
-    
+
     > li > ul {
       margin: 0;
       padding: 0;
@@ -563,14 +564,14 @@ ul#toc > li > ul > li {
   background-color: white;
   padding: 12px;
   margin: 20px 20px;
-  
+
   h2 {
     font-size: 16px;
     font-weight: normal;
     margin-top: 8px;
     line-height:18px;
   }
-  
+
   ul {
     margin: 8px 0 0 0;
     padding: 0;
@@ -582,17 +583,17 @@ ul#toc > li > ul > li {
       text-overflow: ellipsis;
       margin: 0 0 3px 0;
       padding: 0;
-      
+
       a {
         color:black;
         text-decoration:none;
-        
+
         &:hover {
           color:$highlight-dark-color;
           text-decoration:underline;
         };
       }
-      
+
     }
   }
 }
@@ -602,13 +603,13 @@ ul#toc > li > ul > li {
   padding: 20px;
   float:right;
   background-color:white;
-  
+
   ul {
     font-size:20px;
     padding-top:12px;
     li {
       list-style:none;
-      padding:6px;      
+      padding:6px;
     }
   }
 }
@@ -617,13 +618,13 @@ ul#toc > li > ul > li {
 
 /* @group Common formatting elements */
 article {
-  
+
   &:after {
     content: "";
     display: table;
     clear: both;
   }
-  
+
   .title {
     font-weight: normal;
     font-size: 215%;
@@ -710,7 +711,7 @@ span.tooltip:hover span.tooltip {
   display: block;
   position: absolute;
   margin: 13px;
-}  
+}
 
 span.tooltip span.tooltip {
   border-radius: 4px;
@@ -721,7 +722,7 @@ span.tooltip span.tooltip {
   color: #000;
   text-align: left;
   border: 1px solid black;
-  border-radius: 4px; 
+  border-radius: 4px;
   width: 640px;
 }
 
@@ -757,11 +758,11 @@ div.section-method {
 .method-subsection {
   clear:both;
   padding-top:12px;
-  
+
   h5 {
     margin-top:0.5em;
   }
-  
+
   h4 {
     font-size: 14px;
     width: 120px;
@@ -772,27 +773,27 @@ div.section-method {
     line-height: 18px;
     text-transform:initial;
   }
-  
+
   .params {
     width:796px - 120px - 12px;
     float:right;
     clear:right;
     margin:0;
-    
+
     p:first-child, dl:first-child {
       margin-top:0;
     }
-    
+
     > ul {
       margin:0;
     }
-    
+
     dt {
       margin:0;
       padding:0;
       font-style: normal;
     }
-  
+
     dd {
       margin:0;
       padding:0;
@@ -853,7 +854,7 @@ h3:hover .hover-only, h1:hover .hover-only {
 }
 
 h1 .hover-only img {
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 

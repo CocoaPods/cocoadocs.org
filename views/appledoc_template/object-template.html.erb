@@ -3,27 +3,27 @@
 	<body>
 
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
-    
+
 		<article>
-      
+
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				{{>TableOfContents}}
 			</ul>
 		</nav>
-    
+
 			<div id="contents" class="isShowingTOC" role="main">
 				<a title="{{page/title}}" name="top"></a>
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
-        
+
 				<div id="header">
 					<div class="section-header">
 						<h1 class="title title-header">{{page/title}} <span class="hover-only"><a href="https://github.com/search?q={{object/nameOfClass}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-32.png"></a></span></h1>
 					</div>
 				</div>
-        
+
 				<div id="container">
 					{{#page/specifications}}
 					{{#used}}<div class="section section-specification"><table cellspacing="0"><tbody>{{/used}}
@@ -90,16 +90,13 @@
 					{{/hasInstanceMethods}}
 					{{/object/methods}}
 				</div>
-				<div class="main-navigation navigation-bottom">
-					{{>Navigation}}
-				</div>
 
         <%= File.read( Dir.pwd + '/views/appledoc_template/_footer.html') %>
 
 			</div>
 		</article>
-    
-    
+
+
     <script type="text/javascript"><%= File.read( Dir.pwd + '/views/appledoc_template/_object-nav.js') %></script>
 
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
@@ -111,7 +108,7 @@
 Section Method
 <div class="section-method">
 	<a name="{{htmlReferenceName}}" title="{{methodSelector}}"></a>
-  
+
 	<h3 class="subsubtitle method-title">{{methodSelector}} <span class="hover-only"><a href="https://github.com/search?q={{methodSelector}}++extension%3Am&type=Code&ref=searchresults"><img src="http://cocoadocs.org.s3.amazonaws.com/assets/img/blacktocat-16.png"></a></span></h3>
 
 	{{#comment}}
@@ -125,7 +122,7 @@ Section Method
 	<div class="method-subsection method-declaration"><code>{{>MethodDeclaration}}</code></div>
 
   {{#comment}}
-	
+
 
 	{{#hasLongDescription}}
 	<div class="method-subsection discussion-section">
@@ -133,8 +130,8 @@ Section Method
 	  {{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}
 	</div>
 	{{/hasLongDescription}}
-  
-  
+
+
   {{#hasMethodParameters}}
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">{{strings/objectMethods/parametersTitle}}</h4>
@@ -203,7 +200,7 @@ Section Method
     </div>
 	</div>
 	{{/prefferedSourceInfo}}
-  
+
 	{{/comment}}
 </div>
 EndSection
