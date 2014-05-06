@@ -230,6 +230,9 @@ class CocoaDocs < Object
     end
   end
   
+  # ruby app.rb create_assets ARAnalytics 
+  # ruby app.rb create_assets ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
+  
   def create_assets
     
     name = ARGV[1]
@@ -239,13 +242,13 @@ class CocoaDocs < Object
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
     end
     
-    # $fetch_specs = false
     $log_all_terminal_commands = true
-    # $skip_source_download = true
     $overwrite_existing_source_files = true
     $delete_source_after_docset_creation = false
     
     document_spec_at_path spec_path
+    command "sass views/appledoc_stylesheet.scss:activity/html/assets/appledoc_stylesheet.css"
+    command "sass views/appledoc_gfm.scss:activity/html/assets/appledoc_gfm.css"
   end
 
   private
