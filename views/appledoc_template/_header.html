@@ -1,7 +1,7 @@
 <header id="app_header" class="hideInXcode">
   <div>
 
-    <h1><a href="../index.html"></a><%= spec.name %><em><%= @spec.version %></em><a></h1>
+    <h1><a href="../index.html"><%= spec.name %><em><%= @spec.version %></em><a></h1>
 
     <a href="/" id="logo"></a>
 
@@ -19,7 +19,7 @@
       <% end %>
 
       <% if @versions.count > 1 %>
-      <li class="no-link" id="versions">Versions v
+      <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
       <ul>
         <% @versions.reverse_each do |version| %>
           <li><a href="../<%= version %>"><%= version %></a></li>

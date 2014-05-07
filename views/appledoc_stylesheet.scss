@@ -114,6 +114,7 @@ a {
   width: 728px;
   padding: 30px;
   padding-top:2px;
+  margin-top:44px;
 }
 
 table {
@@ -194,12 +195,19 @@ th {
   }
 }
 
+li.children:hover  {
+    .nodisclosure, .disclosure {
+      opacity:0.3;
+    }
+}
+
 .nodisclosure, .disclosure {
-  display: inline-block;
-  height: 15px;;
+  color: $highlight-color;
   margin-right: 8px;
-  position: relative;
   width: 9px;
+  font-size:10px;
+  line-height: 16px;
+  vertical-align: text-bottom;
 }
 
 /* @end */
@@ -235,6 +243,7 @@ header#app_header.minimised {
       -webkit-transition:opacity 0.3s;
       opacity:0;
     }
+
     &:hover {
       height: 60px + (20px*2) ;
 
@@ -338,6 +347,10 @@ header#app_header {
       vertical-align:middle;
       margin-left:12px;
     }
+
+    a:hover {
+      text-decoration:none;
+    }
   }
 
 
@@ -347,8 +360,12 @@ header#app_header {
     left:20px;
     padding: 0;
     margin-bottom:0;
-    font-size:32px;
+    font-size:26px;
     color: $darker-color;
+
+    span.arrrow {
+      vertical-align: middle;
+    }
 
     li:last-child {
       border-right: 2px $background-colour solid;
@@ -483,6 +500,8 @@ header#app_header {
       > .sectionName a {
         color: $highlight-color;
         font-weight: normal;
+        pointer-events:none;
+
         &:hover {
           text-decoration: none;
         }
@@ -545,9 +564,6 @@ ul#toc > li > ul > li {
     }
   }
   > ul#toc > li > ul {
-    > li > .sectionName a {
-      font-weight: bold;
-    }
     a {
       color: #4F4F4F;
     }
@@ -661,7 +677,14 @@ article {
 /* @group Common layout */
 
 .section {
-  margin-top: 3em;
+  border-top:20px solid #f2f2f2;
+  margin-top: 20px;
+
+  margin-left: -20px;
+  padding-left:20px;
+
+  margin-right: -20px;
+  padding-right:20px;
 }
 
 /* @end */
@@ -669,13 +692,15 @@ article {
 /* @group Object specification section */
 
 .section-specification {
-  margin-left: 2.5em;
-  margin-right: 2.5em;
+  padding-top:20px;
   font-size: 12px;
+  border-top:none;
+
   table {
     margin-bottom: 0em;
     border-top: 1px solid #e5d7d9;
   }
+
   td {
     vertical-align: top;
     border-bottom: 1px solid #e5ccd2;
@@ -762,7 +787,7 @@ div.section-method {
 
 .method-subsection {
   clear:both;
-  padding-top:12px;
+  padding-top:2px;
 
   h5 {
     margin-top:0.5em;
@@ -791,6 +816,11 @@ div.section-method {
 
     > ul {
       margin:0;
+      padding-left:0;
+
+      li {
+        list-style:none;
+      }
     }
 
     dt {
@@ -842,6 +872,7 @@ div.section-method {
     float: left;
     margin-top:22px;
   }
+
   #container {
     float:left;
   }
