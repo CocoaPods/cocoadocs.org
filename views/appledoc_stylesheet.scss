@@ -755,6 +755,11 @@ div.section-method {
   margin-bottom:80px;
 }
 
+.method-subsection.discussion-section h5 {
+  text-transform:none;
+  color: $darker-color;
+}
+
 .method-subsection {
   clear:both;
   padding-top:12px;
