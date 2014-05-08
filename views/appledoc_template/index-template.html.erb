@@ -65,9 +65,19 @@
 						</ul>
 					</div>
 					{{/hasCategories}}
-
-
 					{{/hasProtocolsOrCategories}}
+
+				{{#hasConstants}}
+				<div class="index-column">
+				  <h2 class="index-title">{{strings/hierarchyPage/constantsTitle}}</h2>
+				  <ul>
+				    {{#constants}}
+				    <li><a href="{{href}}">{{title}}</a></li>
+				    {{/constants}}
+				  </ul>
+				</div>
+				{{/hasConstants}}
+
 
 				</div>
 

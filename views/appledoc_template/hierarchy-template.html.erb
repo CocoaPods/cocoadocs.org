@@ -1,7 +1,7 @@
 <%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html') %>
 
 	<body>
-    
+
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
 
 
@@ -10,13 +10,13 @@
 				<div class="main-navigation navigation-top">
 					{{>Navigation}}
 				</div>
-        
+
 				<div id="header">
 					<div class="section-header">
 						<h1 class="title title-header">{{page/title}}</h1>
 					</div>
 				</div>
-        
+
 				<div id="container">
 					{{#hasClasses}}
 					<div class="hierarchy-column">
@@ -35,11 +35,11 @@
 							{{/protocols}}
 						</ul>
 						{{/hasProtocols}}
-            
+
 						{{#hasCategories}}
             </div>
   					<div class="index-column">
-            
+
 						<h2 class="index-title">{{strings/hierarchyPage/categoriesTitle}}</h2>
 						<ul>
 							{{#categories}}
@@ -47,9 +47,19 @@
 							{{/categories}}
 						</ul>
 						{{/hasCategories}}
-            
+
 					</div>
 					{{/hasProtocolsOrCategories}}
+
+					{{#hasConstants}}
+					<h2 class="index-title">{{strings/indexPage/constantsTitle}}</h2>
+					<ul>
+						{{#constants}}
+						<li><a href="{{href}}">{{title}}</a></li>
+						{{/constants}}
+					</ul>
+					{{/hasConstants}}
+
 				</div>
 				<div class="main-navigation navigation-bottom">
 					{{>Navigation}}
@@ -61,7 +71,7 @@
 		</article>
 
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
-    
+
 	</body>
 </html>
 
