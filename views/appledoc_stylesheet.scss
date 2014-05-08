@@ -5,6 +5,7 @@ $code: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
 $highlight-color:#ED0015;
 $highlight-dark-color:#A90010;
 $darker-color:#C6B7B2;
+$darker-dark-color:#A8A8A8;
 $background-colour:#F2F2F2;
 $alt-link-color:#B7233F;
 $warning-color:#B80E3D;
@@ -279,12 +280,12 @@ header#app_header.minimised {
       font-size:32px;
     }
 
-    img#actions {
+    div#header_actions {
       z-index:1002;
     }
 
     a#logo {
-      background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsMiniLogo@2x.png);
+      background-image:url(file:///Users/orta/spiel/html/cocoadocs/public/img/CocoaDocsMiniLogo@2x.png);
       width:80px;
       height:65px;
       background-size: 80px 65px;
@@ -296,9 +297,10 @@ header#app_header {
 
   font-family: $gt-walsh;
   background-color:white;
+  min-width: 1080px;
 
   a#logo {
-    background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsLogo@2x.png);
+    background-image:url(file:///Users/orta/spiel/html/cocoadocs/public/img/CocoaDocsLogo@2x.png);
     width: 264px;
     height:65px;
     background-size: 264px 65px;
@@ -307,19 +309,54 @@ header#app_header {
     top:25px;
   }
 
-  img#actions {
-    background-image:url(file:///Users/orta/dev/html/cocoadocs/public/img/CocoaDocsSettings.png);
+  div#header_actions {
+    background-color: $background-colour;
     position:absolute;
     top:25px;
+    height: 65px;
+    width:65px;
     background-size: 65px 65px;
     right:0;
+
+    svg {
+      margin:20px;
+
+      path {
+        fill: $highlight-color;
+      }
+    }
+
+    #dropdown {
+      display:none;
+      width:320px;
+      right:0;
+      background-color: $darker-color;
+      position: absolute;
+      padding-left: 12px;
+      padding-top: 12px;
+      top:65px;
+      min-height:120px;
+    }
+
+    &:hover {
+      background-color: $darker-color;
+
+      #dropdown {
+        display:block;
+      }
+
+      svg path {
+        fill: white;
+      }
+    }
+
   }
 
   div#cover {
     display:none;
   }
 
-  div {
+  > div {
     height:320px - 28px * 2;
     position:relative;
     padding:28px;
@@ -363,8 +400,9 @@ header#app_header {
     font-size:26px;
     color: $darker-color;
 
-    span.arrrow {
+    span.arrow {
       vertical-align: middle;
+      font-size:18px;
     }
 
     li:last-child {

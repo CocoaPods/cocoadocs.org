@@ -5,7 +5,24 @@
 
     <a href="/" id="logo"></a>
 
-    <img id="actions" width="65" height="65" alt="Header Action Button">
+    <div id="header_actions" width="65" height="65" alt="Header Action Button">
+      <svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+            <path d="M22.1253472,12.3416667 C22.1253472,11.8895833 22.0833333,11.446875 22.0229167,11.0100694 L24.9875,9.29791667 L21.3760417,3.04305556 L18.4125,4.75243056 C17.7131944,4.20763889 16.9399306,3.75381944 16.1048611,3.41631944 L16.1048611,0 L8.88263889,0 L8.88263889,3.41631944 C8.04826389,3.75381944 7.27465278,4.20729167 6.57569444,4.75243056 L3.61215278,3.04305556 L0.000694444444,9.29791667 L2.96493056,11.0100694 C2.90381944,11.446875 2.86180556,11.8895833 2.86180556,12.3416667 C2.86180556,12.7944444 2.90381944,13.2364583 2.96493056,13.6729167 L0,15.3836806 L3.61215278,21.6409722 L6.57569444,19.9295139 C7.27465278,20.4756944 8.04791667,20.928125 8.88263889,21.2666667 L8.88263889,24.6819444 L16.1048611,24.6819444 L16.1048611,21.2659722 C16.9399306,20.928125 17.7135417,20.4753472 18.4125,19.9295139 L21.3760417,21.6409722 L24.9875,15.3836806 L22.0229167,13.6729167 C22.0833333,13.2364583 22.1253472,12.7944444 22.1253472,12.3416667 L22.1253472,12.3416667 Z M12.4982639,17.41875 C9.62326389,17.41875 7.29270833,15.0875 7.29270833,12.2131944 C7.29270833,9.33854167 9.62326389,7.00729167 12.4982639,7.00729167 C15.3722222,7.00729167 17.7038194,9.33854167 17.7038194,12.2131944 C17.7038194,15.0875 15.3722222,17.41875 12.4982639,17.41875 L12.4982639,17.41875 Z"
+                  id="settings-cog" fill="#F8091D" sketch:type="MSShapeGroup"></path>
+        </g>
+    </svg>
+
+      <div id="dropdown">
+        <div id="dash" style="display: none;">
+          <p>Click to add to <a href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2FAAPullToRefresh%2FAAPullToRefresh.xml">Dash</a></p> <p class="subtext"><a href="http://kapeli.com/dash">What is Dash?</a></p>
+        </div>
+        <div id="xcode" style="display: block;">
+          <p>Click to <a href="docs-for-xcode://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2FAAPullToRefresh%2Fxcode-docset.atom">add to Xcode</a> (via <a href="http://documancer.com/xcode/">Docs for Xcode</a>)</p> <p>Or Copy &amp; Paste into Xcode 4's Prefs</p>
+          <input readonly="YES" id="xcode_input" value="http://cocoadocs.org/docsets/AAPullToRefresh/xcode-docset.atom">
+        </div>
+      </div>
+    </div>
 
     <div id="cover"></div>
     <ul id="subtitle">
