@@ -22,6 +22,10 @@
     <ul id="subtitle">
       <li><a href="<%= @spec.homepage %>"><%= @spec.or_contributors_to_spec %></a></li>
 
+      <% if @spec.or_can_show_code? %>
+      <li><a href="<%= @spec.or_repo_url %>">Code</a></li>
+      <% end %>
+
       <% if @spec.or_has_social_media_url? %>
       <li><a href="<%= @spec.social_media_url %>">
         <% if @spec.or_has_twitter_url? %>
@@ -46,6 +50,8 @@
       <% end %>
 
       <li class="no-link"><span class="subtitle">Documented</span><span="title">$$$DOC_PERCENT$$$%</span></li>
+      <li class=""><a href="<%= spec.or_license_name_and_url[:url] %>"><span class="subtitle">License</span><%= spec.or_license_name_and_url[:license] %></a></li>
+
     </ul>
   </div>
 </header>
