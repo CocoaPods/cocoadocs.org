@@ -415,6 +415,10 @@ header#app_header {
       border-left: 2px $background-colour solid;
       margin-bottom:0;
 
+      .twitter-handle {
+        vertical-align:text-top;
+      }
+
       span.subtitle {
         display:block;
         float:left;
