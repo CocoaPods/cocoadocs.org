@@ -5,6 +5,15 @@ module Pod
         self.homepage.include?("github.com") || (self.source[:git] && self.source[:git].include?("github.com"))
       end
 
+      def or_github_url
+        return self.homepage if self.homepage.include?("github.com")
+        return self.source[:git] if (self.source[:git] && self.source[:git].include?("github.com"))
+      end
+
+      def or_podspec_url
+        "https://github.com/CocoaPods/Specs/blob/master/#{ self.name }/#{ self.version }/#{ self.name }.podspec"
+      end
+
       def or_git_ref
         self.source[:tag] || self.source[:commit] || self.source[:branch] || 'master'
       end

@@ -8,13 +8,56 @@
     <div id="header_actions" width="65" height="65" alt="Header Action Button">
       <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/settings_button.svg') %>
       <div id="dropdown">
-        <div id="dash" style="display: none;">
-          <p>Click to add to <a href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2FAAPullToRefresh%2FAAPullToRefresh.xml">Dash</a></p> <p class="subtext"><a href="http://kapeli.com/dash">What is Dash?</a></p>
-        </div>
-        <div id="xcode" style="display: block;">
-          <p>Click to <a href="docs-for-xcode://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2FAAPullToRefresh%2Fxcode-docset.atom">add to Xcode</a> (via <a href="http://documancer.com/xcode/">Docs for Xcode</a>)</p> <p>Or Copy &amp; Paste into Xcode 4's Prefs</p>
-          <input readonly="YES" id="xcode_input" value="http://cocoadocs.org/docsets/AAPullToRefresh/xcode-docset.atom">
-        </div>
+        <ul>
+
+          <li class="icon">
+            <hr/>
+            <h3>Add to Dash</h3>
+            <div claass ="clearfix"></div>
+
+            <div class="thumbnail">
+              <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/nav-dash-icon.svg') %>
+            </div>
+            <div class="details">
+              <p>Add <a href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F<%= @spec.name %>%2F<%= @spec.name %>.xml">Docset to Dash</a></p>
+              <p><a href="http://kapeli.com/dash">Download App</a></p>
+            </div>
+            <div claass ="clearfix"></div>
+
+          </li>
+
+          <li class="icon">
+            <hr/>
+            <h3>Add to Xcode</h3>
+            <div claass ="clearfix"></div>
+
+            <div class="thumbnail">
+              <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/nav-xcode-icon.svg') %>
+            </div>
+            <div class="details">
+              <p>Add Docset with <a href="docs-for-xcode://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F<%= @spec.name %>%2Fxcode-docset.atom">Docs For Xcode</a></p>
+              <p><a href="http://documancer.com/xcode">Download App</a></p>
+          </div>
+          <div claass ="clearfix"></div>
+
+          </li>
+
+          <li>
+            <hr/>
+            <h3>CocoaPods</h3>
+            <div claass ="clearfix"></div>
+
+            <% if @spec.or_is_github? %>
+              <p><a href="<%= @spec.or_github_url %>">Open Repo in Github</a><p>
+            <% end %>
+            <p><a href="<%= @spec.or_podspec_url %>">Open Podspec</a></p>
+            <% if @spec.or_has_twitter_url? %>
+              <p><a href="http://twitter.com/<%= @spec.or_twitter_handle %>">Go to @<%= @spec.or_twitter_handle %> on twitter</a></p>
+            <% end %>
+
+            <div claass ="clearfix"></div>
+          </li>
+        </ul>
       </div>
     </div>
 

@@ -318,7 +318,7 @@ header#app_header {
     background-size: 65px 65px;
     right:0;
 
-    svg {
+    > svg {
       margin:20px;
 
       path {
@@ -332,11 +332,66 @@ header#app_header {
       right:0;
       background-color: $darker-color;
       position: absolute;
-      padding-left: 12px;
-      padding-top: 12px;
+      padding: 18px;
       top:65px;
       min-height:120px;
+      z-index:1010;
+
+      ul {
+        padding:0;
+
+        li {
+          list-style:none;
+          font-size:18px;
+          position:relative;
+          text-align:center;
+          clear: both;
+
+          &.icon {
+            min-height:120px;
+          }
+
+          hr {
+            background-color: white;
+            height:1px;
+            border:none;
+          }
+
+          h3 {
+            color:black;
+            background-color: $darker-color;
+            font-size:18px;
+            text-transform:uppercase;
+            display:inline-block;
+            padding: 0 10px;
+            margin: -1em auto 0 auto;
+            position: relative;
+            top: -1em;
+          }
+
+          div.thumbnail {
+            float:left;
+            width:88px;
+          }
+
+          div.details {
+            float:left;
+            width:320px - 88px;
+          }
+
+          p {
+            text-align:left;
+            margin: 6px 0;
+          }
+
+          > p {
+            padding-left:12px;
+          }
+        }
+      }
+
     }
+
 
     &:hover {
       background-color: $darker-color;
@@ -345,7 +400,7 @@ header#app_header {
         display:block;
       }
 
-      svg path {
+      > svg path {
         fill: white;
       }
     }
