@@ -607,7 +607,6 @@ header#app_header {
       > .sectionName a {
         color: $highlight-color;
         font-weight: normal;
-        pointer-events:none;
 
         &:hover {
           text-decoration: none;
