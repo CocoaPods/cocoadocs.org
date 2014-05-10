@@ -105,7 +105,7 @@ module Pod
       end
 
       def or_has_twitter_url?
-        self.social_media_url.include?("twitter.com")
+        self.or_has_social_media_url? && self.social_media_url.include?("twitter.com")
       end
 
       def or_repo_url

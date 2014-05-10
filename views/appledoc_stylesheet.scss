@@ -269,8 +269,11 @@ header#app_header.minimised {
       padding-top:0px;
       font-size:48px;
       text-align:center;
-      width: auto;
-      left: 64px;
+      width: 940px;
+      height:58px;
+      text-overflow: ellipsis;
+      overflow:hidden;
+      left: 114px;
       right:64px;
       z-index:1002;
       display:block;
@@ -423,11 +426,18 @@ header#app_header {
     font-size:72px;
     border-left:none;
     position:static;
+    width:1040px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height:74px;
+    line-height:63px;
 
     color: $highlight-color;
     position:absolute;
     padding: 0;
-
+    margin-bottom:0;
     em {
       color:$background-colour;
       font-weight:normal;
