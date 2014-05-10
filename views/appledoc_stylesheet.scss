@@ -10,6 +10,40 @@ $background-colour:#F2F2F2;
 $alt-link-color:#B7233F;
 $warning-color:#B80E3D;
 
+html.dash, html.xcode {
+
+  .hideInXcode {
+    display:none;
+  }
+
+  article, #overview_contents {
+    min-width: 800px;
+    width:800px;
+    margin: 32px auto;
+  }
+
+  #overview_contents #sidebar {
+    display:block;
+  }
+
+  #sidebar {
+      float:none;
+
+      .index-column {
+          width: 728px;
+          padding: 30px;
+          padding-top: 2px;
+          margin:0;
+          margin-top: 44px;
+
+          li {
+            min-width: 180px;
+            float: left;
+          }
+      }
+  }
+}
+
 article, header > div {
   width:1080px;
   padding:0;
@@ -980,7 +1014,7 @@ div.section-method {
   }
 
   #container {
-    float:left;
+    float:right;
   }
 }
 

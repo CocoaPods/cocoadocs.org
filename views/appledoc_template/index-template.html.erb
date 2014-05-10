@@ -20,17 +20,30 @@
           <div id="has_index">
         {{/indexDescription}}
 
-        <div id="sidebar">
-          {{#hasDocs}}
-          <div class="index-column">
-               <h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
-               <ul>
-            {{#docs}}
-                <li><a href="{{href}}">{{title}}</a></li>
-            {{/docs}}
-            </ul>
-          </div>
-          {{/hasDocs}}
+				<div id="container">
+					{{#indexDescription}}
+					<div class="section-overview index-overview">
+						{{#comment}}
+						{{#hasLongDescription}}
+						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
+						{{/hasLongDescription}}
+						{{/comment}}
+					</div>
+					{{/indexDescription}}
+        </div>
+
+
+				<div id="sidebar">
+					{{#hasDocs}}
+					<div class="index-column">
+							<h2 class="index-title">{{strings/indexPage/docsTitle}}</h2>
+							<ul>
+						{{#docs}}
+								<li><a href="{{href}}">{{title}}</a></li>
+						{{/docs}}
+						</ul>
+					</div>
+					{{/hasDocs}}
 
 					{{#hasClasses}}
 					<div class="index-column">
@@ -53,7 +66,7 @@
 							<li><a href="{{href}}">{{title}}</a></li>
 							{{/protocols}}
 						</ul>
-          </div>
+					</div>
 					{{/hasProtocols}}
 
 					{{#hasCategories}}
@@ -70,30 +83,16 @@
 
 				{{#hasConstants}}
 				<div class="index-column">
-				  <h2 class="index-title">{{strings/hierarchyPage/constantsTitle}}</h2>
-				  <ul>
-				    {{#constants}}
-				    <li><a href="{{href}}">{{title}}</a></li>
-				    {{/constants}}
-				  </ul>
+					<h2 class="index-title">{{strings/hierarchyPage/constantsTitle}}</h2>
+					<ul>
+						{{#constants}}
+						<li><a href="{{href}}">{{title}}</a></li>
+						{{/constants}}
+					</ul>
 				</div>
 				{{/hasConstants}}
 
-
 				</div>
-
-				<div id="container">
-					{{#indexDescription}}
-					<div class="section-overview index-overview">
-						{{#comment}}
-						{{#hasLongDescription}}
-						{{#longDescription}}{{#components}}{{&htmlValue}}{{/components}}{{/longDescription}}
-						{{/hasLongDescription}}
-						{{/comment}}
-					</div>
-					{{/indexDescription}}
-        </div>
-
 
 				<div class="main-navigation navigation-bottom">
 					{{>Navigation}}

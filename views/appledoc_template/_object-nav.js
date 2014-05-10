@@ -56,40 +56,28 @@ function init()
 
 	var tocList = document.getElementById('toc');
 	var tocEntries = tocList.getElementsByTagName('li');
-  
+
 	for (var i = 0; i < tocEntries.length; i++) {
     if(tocEntries[i].getAttribute("role") == "treeitem" && tocEntries[i].getAttribute("class") == "children"){
       tocEntries[i].setAttribute('class', 'children open');
     }
-    
+
 		tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
 	}
-  
+
   // Too big? Make all small again, doh.
   if(tocList.offsetHeight > window.screen.availHeight){
   	for (var i = 0; i < tocEntries.length; i++) {
       if(tocEntries[i].getAttribute("role") == "treeitem" && tocEntries[i].getAttribute("class") == "children"){
         tocEntries[i].setAttribute('class', 'children');
       }
-  	}    
+  	}
   }
 
 	var tocLinks = tocList.getElementsByTagName('a');
 	for (var i = 0; i < tocLinks.length; i++) {
 		tocLinks[i].addEventListener('click', tocEntryClick, false);
 	}
-
-	if (window.name == "hideTOC") {
-    // toggleTOC.call(tocButton);
-	}
 }
 
 window.onload = init;
-
-// If showing in Xcode, hide the TOC and Header
-if (navigator.userAgent.match(/xcode/i)) {
-	document.getElementById("contents").className = "hideInXcode"
-	document.getElementById("tocContainer").className = "hideInXcode"
-	document.getElementById("top_header").className = "hideInXcode"
-}
-

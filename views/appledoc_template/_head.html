@@ -1,5 +1,16 @@
 <!DOCTYPE HTML>
 <html>
+
+  <script type="text/javascript">
+  if (typeof window.dash != 'undefined'){
+    document.documentElement.className += ' dash'
+ }
+  if (navigator.userAgent.match(/xcode/i)){
+    document.documentElement.className += ' xcode'
+  }
+  </script>
+
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>CocoaDocs.org - {{ page/title }}</title>
@@ -7,6 +18,6 @@
     <meta name="description" content="Documentation for {{ page/title }}" />
 
     <link rel="stylesheet" type="text/css" href="appledoc_stylesheet.css" media="all" />
-    
+
     {{#strings/appledocData}}<meta name="generator" content="{{tool}} {{version}} (build {{build}})" />{{/strings/appledocData}}
   </head>

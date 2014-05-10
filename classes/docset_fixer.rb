@@ -16,7 +16,7 @@ class DocsetFixer
     move_docset_icon_in
     add_documentation_stats
     create_dash_data
-    minify_html
+    minify_html  
   end
 
   def add_documentation_stats
