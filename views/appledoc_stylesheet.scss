@@ -219,7 +219,7 @@ header#app_header.minimised {
   top:0px;
   bottom:auto;
 
-  div {
+  > div {
     -webkit-transition:height 0.2s;
     height: 20px + (20px*2) ;
 
@@ -240,7 +240,7 @@ header#app_header.minimised {
       z-index:1001;
     }
 
-    li a {
+    > li a {
       -webkit-transition:opacity 0.3s;
       opacity:0;
     }
@@ -258,7 +258,7 @@ header#app_header.minimised {
         }
       };
 
-      div {
+      > div {
         height:160px - 28px * 2;
       }
     }
@@ -334,7 +334,7 @@ header#app_header {
       position: absolute;
       padding: 18px;
       top:65px;
-      min-height:120px;
+      height:auto;
       z-index:1010;
 
       ul {
