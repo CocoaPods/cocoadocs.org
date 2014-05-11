@@ -1,6 +1,5 @@
 require 'htmlcompressor'
 require 'docstat'
-require 'docstat'
 
 class DocsetFixer
   include HashInit
@@ -11,12 +10,13 @@ class DocsetFixer
     remove_html_folder
     delete_extra_docset_folder
     fix_relative_links_in_gfm
+    fix_travis_links_in_gfm
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
     add_documentation_stats
     create_dash_data
-    minify_html  
+    minify_html
   end
 
   def add_documentation_stats
@@ -87,6 +87,26 @@ class DocsetFixer
     `rm #{@readme_path}`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
+
+  def fix_travis_links_in_gfm
+    vputs "Fixing Travis links in markdown"
+
+    return unless @spec.or_is_github?
+    return unless File.exists? @readme_path
+
+    doc = Nokogiri::HTML(File.read @readme_path)
+    doc.css('a[href^="https://travis-ci"]').each do |link|
+
+      link.attributes["href"].value = "https://travis-ci.org/#{@spec.or_user}/#{@spec.or_repo}/branches"
+      link.inner_html = "<img src='https://travis-ci.org/#{@spec.or_user}/#{@spec.or_repo}.svg?branch=#{ @spec.version }'>"
+
+    end
+
+    `rm #{@readme_path}`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+
 
   def move_docset_icon_in
     vputs "Adding Docset Icon For Dash"
