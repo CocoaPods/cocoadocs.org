@@ -46,10 +46,18 @@ class DocsetFixer
     end
 
     #semantically order them as they're in unix's order ATM
+<<<<<<< HEAD
     # we convert them to Versions, then get the last string
     @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
   end
 
+=======
+    # we convert them to Versions, then get the last  string
+    @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
+  end
+
+
+>>>>>>> 140510331bf8811846cf1c1996c6e285e6e95634
   def remove_html_folder
     # the structure is normally /POD/version/html/index.html
     # make it /POD/version/index.html
@@ -66,6 +74,23 @@ class DocsetFixer
     command "rm -Rf #{@docset_path}/docset"
   end
 
+  def fix_relative_link link_string
+      if link_string.start_with? "#"
+          return link_string
+      end
+      if link_string.start_with? "http"
+          return link_string
+      end
+      if link_string.start_with? "https"
+          return link_string
+      end
+      if link_string.include? "@"
+          return link_string
+      end
+      
+      return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+  end
+
   def fix_relative_links_in_gfm
     vputs "Fixing relative URLs in github flavoured markdown"
 
@@ -75,18 +100,20 @@ class DocsetFixer
     doc = Nokogiri::HTML(File.read @readme_path)
     doc.css("a").each do |link|
       if link.attributes["href"]
-        link_string = link.attributes["href"].value
-        next if link_string.start_with? "#"
-        next if link_string.start_with? "http"
-        next if link_string.include? "@"
+        link.attributes["href"].value = fix_relative_link link.attributes["href"].value
+      end
+    end
 
-        link.attributes["href"].value = "http://github.com/#{@spec.or_user}/#{@spec.or_repo}/blob/#{@spec.or_git_ref}/#{CGI.escape link.attributes["href"].value}"
+    doc.css("img").each do |img|
+      if img.attributes["src"]
+          img.attributes["src"].value = fix_relative_link img.attributes["src"].value
       end
     end
 
     `rm #{@readme_path}`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
+
 
   def fix_travis_links_in_gfm
     vputs "Fixing Travis links in markdown"
@@ -106,8 +133,6 @@ class DocsetFixer
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
-
-
   def move_docset_icon_in
     vputs "Adding Docset Icon For Dash"
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
@@ -118,15 +143,15 @@ class DocsetFixer
     return unless File.exists? @readme_path
 
     vputs "Moving Github Markdown into index"
-    readme_text = File.open(@readme_path).read
+    readme_text = File.read(@readme_path)
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
 
-    ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
-      next unless File.exists? @docset_path + path
+      homepage_path = File.join(@docset_path, path)
+      next unless File.exists?(homepage_path)
 
-      html = File.open(@docset_path + path).read
+      html = File.read(homepage_path)
       html.sub!("</THISISTOBEREMOVED>", readme_text)
-      File.open(@docset_path + path, 'w') { |f| f.write(html) }
+      File.open(homepage_path, 'w') { |f| f.write(html) }
     end
   end
 

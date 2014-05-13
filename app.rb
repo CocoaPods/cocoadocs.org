@@ -47,12 +47,14 @@ class CocoaDocs < Object
 
   $upload_site_to_s3 = false
 
-  Dir["./classes/*.rb"].each {|file| require_relative file }
-
   # Constrain all downloads and data into one subfolder
   $active_folder_name = "activity"
   $current_dir = File.dirname(File.expand_path(__FILE__))
-  $active_folder = $current_dir + "/" + $active_folder_name
+  $active_folder = File.join($current_dir, $active_folder_name)
+
+  Dir[File.join($current_dir, "classes/*.rb")].each do |file|
+    require_relative(file)
+  end
 
   # command line parsing
 
@@ -73,19 +75,10 @@ class CocoaDocs < Object
   #    cocoadocs all --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
   def all
     update_specs_repo
-    filepath = $active_folder + "/#{$cocoadocs_specs_name}/"
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
-    Dir.foreach filepath do |pod|
-      next if pod[0] == '.'
-      next unless File.directory? "#{filepath}/#{pod}/"
-
-      Dir.foreach filepath + "/#{pod}" do |version|
-        next if version[0] == '.'
-        next unless File.directory? "#{filepath}/#{pod}/#{version}/"
-
-        document_spec_at_path("#{filepath}/#{pod}/#{version}/#{pod}.podspec")
-
-      end
+    source.all_specs.each do |spec|
+      document_spec(spec)
     end
   end
 
@@ -115,21 +108,11 @@ class CocoaDocs < Object
     update_specs_repo
 
     name = @params[0]
-    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
 
-    if name.include? ".podspec"
-      spec_path = name
+    if name.end_with? ".podspec"
+      document_spec_at_path(name)
     else
-      if Dir.exists? spec_path  + name
-        version = Dir.entries(spec_path + name).last
-        spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
-      end
-    end
-
-    if spec_path.include? ".podspec"
-      document_spec_at_path spec_path
-    else
-      puts "Could not find #{name} at #{spec_path}"
+      document_spec_with_name(name)
     end
   end
 
@@ -161,11 +144,16 @@ class CocoaDocs < Object
     setup_for_cocoadocs
 
     updated_specs = specs_for_days_ago_diff @params[1]
+    
     vputs "Looking at #{updated_specs.lines.count}"
 
+    p updated_specs.lines
+    
     updated_specs.lines.each_with_index do |spec_filepath, index|
+      spec_filepath.gsub! /\n/, ''
+      
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
       document_spec_at_path spec_path
     end
@@ -213,6 +201,7 @@ class CocoaDocs < Object
   # Take a webhook, look at the commits inbetween the before & after
   # and then document each spec.
 
+  
   def handle_webhook webhook_payload
     before = webhook_payload["before"]
     after = webhook_payload["after"]
@@ -224,9 +213,21 @@ class CocoaDocs < Object
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.include? ".podspec" and File.exists? spec_path
+      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
-      document_spec_at_path spec_path
+      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+      Process.detach pid
+    end
+    
+    "{ success: true, triggered: #{ updated_specs.lines.count } }"
+  end
+
+  def spec_with_name(name)
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
+    set = source.search(Pod::Dependency.new(name))
+
+    if set
+      set.specification.root
     end
   end
   
@@ -302,12 +303,12 @@ class CocoaDocs < Object
     index = options.find_index "--data-folder"
     $active_folder_name = options[index + 1] if index != nil
 
-    $active_folder = $current_dir + "/" + $active_folder_name
+    $active_folder = File.join($current_dir, $active_folder_name)
   end
 
   # Update or clone Cocoapods/Specs
   def update_specs_repo
-    repo = $active_folder + "/" + $cocoadocs_specs_name
+    repo = File.join($active_folder, $cocoadocs_specs_name)
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       unless repo.include? "://"
@@ -351,18 +352,15 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir($active_folder_name + "/" + $cocoadocs_specs_name) do
+    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
      `git #{git_command}`
     end
   end
 
   # generate the documentation for the pod
 
-  def document_spec_at_path spec_path
-    spec = nil
+  def document_spec(spec)
     begin
-      spec = eval(File.open(spec_path).read)
-
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
@@ -400,7 +398,7 @@ class CocoaDocs < Object
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
         command "rm -rf #{download_location}"
-        command "rm -rf #{docset_location}"
+        command "rm -rf #{docset_location}" if $upload_site_to_s3
       end
     end
 
@@ -417,22 +415,38 @@ class CocoaDocs < Object
     end
 
     open('error_log.txt', 'a') { |f|
-      f.puts "\n\n\n --------------#{spec_path}-------------"
+      f.puts "\n\n\n --------------#{spec.defined_in_file}-------------"
       f.puts e.message
       f.puts "------"
       f.puts e.backtrace.inspect
     }
 
-    puts "--------------#{spec_path}-------------".red
+    puts "--------------#{spec.defined_in_file}-------------".red
     puts e.message.red
     puts "------"
     puts e.backtrace.inspect.red
 
   end
 
+  def document_spec_at_path(spec_path)
+    spec = Pod::Specification.from_file(spec_path)
+    document_spec(spec)
+  end
+
+  def document_spec_with_name(name)
+    spec = spec_with_name(name)
+
+    if spec
+      document_spec(spec)
+    else
+      puts "Could not find #{name}"
+    end
+  end
+
   def commands
     (public_methods - Object.public_methods).map{ |c| c.to_sym}
   end
+  
 end
 
 docs = CocoaDocs.new(ARGV)
@@ -445,7 +459,7 @@ if $start_sinatra_server
   require 'sinatra'
 
   post "/webhook" do
-    docs.handle_webhook JSON.parse(params[:payload])
+    return docs.handle_webhook JSON.parse(params[:payload])
   end
 
   get "/error/:pod/:version" do
@@ -464,7 +478,7 @@ if $start_sinatra_server
      if File.exists? podspec_path
        vputs "Generating docs for #{podspec_path}"
 
-        pid = Process.spawn("ruby", "app.rb", "doc", podspec_path)
+        pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
         Process.detach pid
 
        return "{ parsing: true }"
@@ -473,4 +487,18 @@ if $start_sinatra_server
      return "{ parsing: false }"
   end
 
+  get "/redeploy/:pod" do
+    spec = docs.spec_with_name(params[:pod])
+
+    if spec
+      vputs "Generating docs for #{spec.name}"
+
+      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", params[:pod], { :chdir => File.expand_path(File.dirname(__FILE__)) })
+      Process.detach pid
+
+      "{ parsing: true }"
+    else
+      "{ parsing: false }"
+    end
+  end
 end
