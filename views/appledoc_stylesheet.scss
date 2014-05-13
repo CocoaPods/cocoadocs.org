@@ -16,10 +16,17 @@ html.dash, html.xcode {
     display:none;
   }
 
-  article, #overview_contents {
+  .has_index #overview_contents {
+  
     min-width: 800px;
     width:800px;
     margin: 32px auto;
+    
+    #sidebar ul:after {
+      content: "";
+      display: table;
+      clear: both; 
+    }
   }
 
   #overview_contents #sidebar {
@@ -42,6 +49,34 @@ html.dash, html.xcode {
           }
       }
   }
+}
+
+html.dash {
+
+  // support the mouseovers for code selection
+  .method-declaration code {
+    pointer-events: none;  
+  }
+  
+  article {
+    width:auto;
+    margin:0;
+    min-width: auto;
+  }
+  
+  .section {
+    margin-left: 0px; 
+    margin-right: 0px;
+    border-top:none;
+  }
+  
+  #contents {
+    width:auto;
+    float:none;
+    padding-top:32px;
+  }
+  
+  
 }
 
 article, header > div {
@@ -1007,6 +1042,7 @@ div.section-method {
 }
 
 #has_index {
+  min-width:1080px;
 
   #sidebar {
     float: left;
