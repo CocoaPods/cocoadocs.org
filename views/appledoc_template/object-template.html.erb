@@ -90,7 +90,6 @@
 					{{/hasInstanceMethods}}
 					{{/object/methods}}
 
-<<<<<<< HEAD:views/appledoc_template/object-template.html.erb
 				  {{#typedefEnum}}
 					  <h3 class="subsubtitle method-title">{{nameOfEnum}}</h3>
 					  {{#comment}}
@@ -149,66 +148,6 @@
 					  {{/prefferedSourceInfo}}
 					  {{/comment}}
 					  {{/typedefEnum}}
-=======
-					{{#typedefEnum}}
-                    <h3 class="subsubtitle method-title">{{nameOfEnum}}</h3>
-                    {{#comment}}
-					{{#hasLongDescription}}
-					<div class="section section-overview">
-                        {{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}
-					</div>
-					{{/hasLongDescription}}
-					{{/comment}}
-                    <div class="section">
-                        <!-- display enum values -->
-                        {{#constants}}
-                        <h4 class="method-subtitle">Definition</h4>
-                        <code>typedef {{enumStyle}}({{enumPrimitive}}, {{nameOfEnum}} ) {<br/>
-                            {{#constants}}
-                            &nbsp;&nbsp; <a href="{{htmlLocalReference}}">{{name}}</a>{{#hasAssignedValue}} = {{assignedValue}}{{/hasAssignedValue}},<br/>
-                            {{/constants}}
-                            };</code>
-                    {{/constants}}
-                    </div>
-                    {{#constants}}
-                    <div class="section section-methods">
-                        <h4 class="method-subtitle">Constants</h4>
-                        <dl class="termdef">
-                            {{#constants}}
-                            {{>Constant}}
-                            {{/constants}}
-                        </dl>
-                    </div>
-                    {{/constants}}
-
-                    {{#comment}}
-                    {{#hasAvailability}}
-                    <div class="method-subsection availability">
-                        <h4 class="method-subtitle parameter-title">{{strings/objectMethods/availability}}</h4>
-                        {{#availability}}{{>GBCommentComponentsList}}{{/availability}}
-                    </div>
-                    {{/hasAvailability}}
-
-                    {{#hasRelatedItems}}
-                    <div class="method-subsection see-also-section">
-                        <h4 class="method-subtitle">{{strings/objectMethods/seeAlsoTitle}}</h4>
-                        <ul>
-                            {{#relatedItems/components}}
-                            <li><code>{{>GBCommentComponent}}</code></li>
-                            {{/relatedItems/components}}
-                        </ul>
-                    </div>
-                    {{/hasRelatedItems}}
-
-                    {{#prefferedSourceInfo}}
-                    <div class="method-subsection declared-in-section">
-                        <h4 class="method-subtitle">{{strings/objectMethods/declaredInTitle}}</h4>
-                        <code class="declared-in-ref">{{filename}}</code><br />
-                    </div>
-                    {{/prefferedSourceInfo}}
-                    {{/comment}}
-                    {{/typedefEnum}}
->>>>>>> 140510331bf8811846cf1c1996c6e285e6e95634:appledoc_templates/html/object-template.html
 				</div>
 
 
