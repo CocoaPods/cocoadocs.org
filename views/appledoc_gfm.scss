@@ -1,13 +1,8 @@
-$highlight-color:#ED0015;
-$highlight-dark-color:#A90010;
-$darker-color:#C6B7B2;
-$background-colour:#F2F2F2;
-$alt-link-color:#B7233F;
-$warning-color:#B80E3D;
+@import "vars";
 
 #GFM {
   h1, h2, h3, h4, h5, h6 {
-    font-family: "GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial";
+    font-family: $highlight-font;
     padding: 0;
     -webkit-font-smoothing: subpixel-antialiased;
     margin-top:1em;
@@ -154,7 +149,7 @@ dl {
     font-size: 100%;
     font: inherit;
     width:100%;
-    
+
     th {
       font-weight: bold;
       border: 1px solid $darker-color;

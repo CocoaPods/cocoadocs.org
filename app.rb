@@ -377,7 +377,7 @@ class CocoaDocs < Object
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme
         
-        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location })
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location })
         appledoc_template.generate
 
         generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location })

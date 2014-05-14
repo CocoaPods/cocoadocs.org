@@ -18,4 +18,3 @@ gem "colored", "~> 1.2"
 gem "sinatra", "1.3.1"
 gem "tilt", "1.4.1"
 gem "htmlcompressor"
-

@@ -46,18 +46,10 @@ class DocsetFixer
     end
 
     #semantically order them as they're in unix's order ATM
-<<<<<<< HEAD
     # we convert them to Versions, then get the last string
     @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
   end
 
-=======
-    # we convert them to Versions, then get the last  string
-    @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
-  end
-
-
->>>>>>> 140510331bf8811846cf1c1996c6e285e6e95634
   def remove_html_folder
     # the structure is normally /POD/version/html/index.html
     # make it /POD/version/index.html
@@ -75,20 +67,20 @@ class DocsetFixer
   end
 
   def fix_relative_link link_string
-      if link_string.start_with? "#"
-          return link_string
-      end
-      if link_string.start_with? "http"
-          return link_string
-      end
-      if link_string.start_with? "https"
-          return link_string
-      end
-      if link_string.include? "@"
-          return link_string
-      end
-      
-      return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+    if link_string.start_with? "#"
+      return link_string
+    end
+    if link_string.start_with? "http"
+      return link_string
+    end
+    if link_string.start_with? "https"
+      return link_string
+    end
+    if link_string.include? "@"
+      return link_string
+    end
+
+    return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
   end
 
   def fix_relative_links_in_gfm
@@ -106,7 +98,7 @@ class DocsetFixer
 
     doc.css("img").each do |img|
       if img.attributes["src"]
-          img.attributes["src"].value = fix_relative_link img.attributes["src"].value
+        img.attributes["src"].value = fix_relative_link img.attributes["src"].value
       end
     end
 
@@ -146,8 +138,9 @@ class DocsetFixer
     readme_text = File.read(@readme_path)
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
 
+    ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
       homepage_path = File.join(@docset_path, path)
-      next unless File.exists?(homepage_path)
+      return unless File.exists?(homepage_path)
 
       html = File.read(homepage_path)
       html.sub!("</THISISTOBEREMOVED>", readme_text)
@@ -187,11 +180,11 @@ class DocsetFixer
     xml_path = "#{publish_folder}/#{@spec.name}.xml"
 
     File.open(xml_path, "wb") do |file|
-       file.write("
-       <entry>
-          <version>#{@version}</version>
-          <url>#{$website_home}docsets/#{@spec.name}/#{@spec.name}.tgz</url>
-        </entry>")
+      file.write("
+      <entry>
+      <version>#{@version}</version>
+      <url>#{$website_home}docsets/#{@spec.name}/#{@spec.name}.tgz</url>
+      </entry>")
     end
 
     # the dash docset tgz
