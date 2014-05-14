@@ -68,7 +68,7 @@
 
     <div id="cover"></div>
     <ul id="subtitle">
-      <li><a href="<%= @spec.homepage %>"><%= @spec.or_contributors_to_spec %></a></li>
+      <li class="no-link"><%= @spec.or_contributors_to_spec %></li>
 
       <% if @spec.or_can_show_code? %>
       <li><a href="<%= @spec.or_repo_url %>">Code</a></li>
