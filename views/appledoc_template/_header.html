@@ -59,6 +59,10 @@
             <% if @spec.or_has_twitter_url? %>
               <p><a href="http://twitter.com/<%= @spec.or_twitter_handle %>">Go to @<%= @spec.or_twitter_handle %> on twitter</a></p>
             <% end %>
+            <% if @spec.homepage != nil %>
+              <p><a href="<%= @spec.homepage %>">Open Pod Homepage</a><p>
+            <% end %>
+
 
             <div claass ="clearfix"></div>
           </li>
