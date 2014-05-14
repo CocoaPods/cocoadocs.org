@@ -8,8 +8,8 @@ class WebsiteGenerator
     create_index_page
     move_public_items
     create_stylesheet
-  end  
-  
+  end
+
   def create_index_page
     vputs "Creating index page"
 
@@ -62,8 +62,10 @@ class WebsiteGenerator
 
   def upload_docset
     vputs "Uploading docsets folder"
-    upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/docsets/#{@spec.name}/#{@spec.version}/", "put"
-    upload_folder "docsets/#{@spec.name}/metadata.json", "/docsets/#{@spec.name}/", "put"
+    server_folder = $beta ? "beta" : "docsets"
+
+    upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/#{server_folder}/#{@spec.name}/#{@spec.version}/", "put"
+    upload_folder "docsets/#{@spec.name}/metadata.json", "/#{server_folder}/#{@spec.name}/", "put"
   end
 
   def upload_site

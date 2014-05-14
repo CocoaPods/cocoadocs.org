@@ -144,14 +144,14 @@ class CocoaDocs < Object
     setup_for_cocoadocs
 
     updated_specs = specs_for_days_ago_diff @params[1]
-    
+
     vputs "Looking at #{updated_specs.lines.count}"
 
     p updated_specs.lines
-    
+
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub! /\n/, ''
-      
+
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
       next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
@@ -201,7 +201,7 @@ class CocoaDocs < Object
   # Take a webhook, look at the commits inbetween the before & after
   # and then document each spec.
 
-  
+
   def handle_webhook webhook_payload
     before = webhook_payload["before"]
     after = webhook_payload["after"]
@@ -218,7 +218,7 @@ class CocoaDocs < Object
       pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
       Process.detach pid
     end
-    
+
     "{ success: true, triggered: #{ updated_specs.lines.count } }"
   end
 
@@ -230,23 +230,23 @@ class CocoaDocs < Object
       set.specification.root
     end
   end
-  
-  # ruby app.rb create_assets ARAnalytics 
+
+  # ruby app.rb create_assets ARAnalytics
   # ruby app.rb create_assets ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
-  
+
   def create_assets
-    
+
     name = ARGV[1]
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
     end
-    
+
     $log_all_terminal_commands = true
     $overwrite_existing_source_files = true
     $delete_source_after_docset_creation = false
-    
+
     document_spec_at_path spec_path
     command "sass views/appledoc_stylesheet.scss:activity/html/assets/appledoc_stylesheet.css"
     command "sass views/appledoc_gfm.scss:activity/html/assets/appledoc_gfm.css"
@@ -255,6 +255,10 @@ class CocoaDocs < Object
   private
 
   def setup_options options
+
+    if options.find_index("--beta") != nil
+      $beta = true
+    end
 
     if options.find_index("--verbose") != nil
       $verbose = true
@@ -325,7 +329,7 @@ class CocoaDocs < Object
     end
   end
 
-  
+
   # returns an array from the diff log for the last x days
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
@@ -368,7 +372,7 @@ class CocoaDocs < Object
       templates_location = $active_folder + "/template/"
 
       if $run_docset_commands
-        
+
         unless $skip_source_download
           downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
           downloader.download_pod_source_files
@@ -376,7 +380,7 @@ class CocoaDocs < Object
 
         readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
         readme.create_readme
-        
+
         appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location })
         appledoc_template.generate
 
@@ -446,7 +450,7 @@ class CocoaDocs < Object
   def commands
     (public_methods - Object.public_methods).map{ |c| c.to_sym}
   end
-  
+
 end
 
 docs = CocoaDocs.new(ARGV)
