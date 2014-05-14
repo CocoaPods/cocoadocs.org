@@ -11,12 +11,11 @@ html.dash, html.xcode {
   }
 
   .has_index #overview_contents {
-  
+
     min-width: 800px;
     width:800px;
-    margin: 32px auto;    
+    margin: 32px auto;
   }
-  
 
   #overview_contents #sidebar {
     display:block;
@@ -35,7 +34,7 @@ html.dash, html.xcode {
           ul:after {
             content: "";
             display: table;
-            clear: both; 
+            clear: both;
           }
 
           li {
@@ -51,28 +50,28 @@ html.dash {
 
   // support the mouseovers for code selection
   .method-declaration code {
-    pointer-events: none;  
+    pointer-events: none;
   }
-  
+
   article {
     width:auto;
     margin:0;
     min-width: auto;
   }
-  
+
   .section {
-    margin-left: 0px; 
+    margin-left: 0px;
     margin-right: 0px;
     border-top:none;
   }
-  
+
   #contents {
     width:auto;
     float:none;
     padding-top:32px;
   }
-  
-  
+
+
 }
 
 article, header > div {
@@ -335,13 +334,14 @@ header#app_header.minimised {
       font-size:48px;
       text-align:center;
       width: 940px;
-      height:58px;
       text-overflow: ellipsis;
       overflow:hidden;
       left: 114px;
       right:64px;
       z-index:1002;
       display:block;
+      height: 62px;
+      margin-top:22px;
     }
 
     em {
@@ -353,10 +353,8 @@ header#app_header.minimised {
     }
 
     a#logo {
-      background-image:url(file:///Users/orta/spiel/html/cocoadocs/public/img/CocoaDocsMiniLogo@2x.png);
       width:80px;
       height:65px;
-      background-size: 80px 65px;
       z-index:1002;
     }
 }
@@ -368,13 +366,13 @@ header#app_header {
   min-width: 1080px;
 
   a#logo {
-    background-image:url(file:///Users/orta/spiel/html/cocoadocs/public/img/CocoaDocsLogo@2x.png);
     width: 264px;
     height:65px;
     background-size: 264px 65px;
     display:inline-block;
     position:absolute;
     top:25px;
+    margin-top:19px;
   }
 
   div#header_actions {
@@ -388,9 +386,10 @@ header#app_header {
 
     > svg {
       margin:20px;
-
+      margin-top:12px;
+      
       path {
-        fill: $highlight-color;
+        stroke: $highlight-color;
       }
     }
 
@@ -469,7 +468,7 @@ header#app_header {
       }
 
       > svg path {
-        fill: white;
+        stroke: white;
       }
     }
 

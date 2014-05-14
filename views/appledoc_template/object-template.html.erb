@@ -2,7 +2,7 @@
 
 	<body>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html', "object").gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
 
 		<article>
 

@@ -1,6 +1,6 @@
 class AppledocTemplateGenerator
   include HashInit
-  attr_accessor :spec, :versions, :appledoc_templates_path, :source_download_location
+  attr_accessor :spec, :versions, :appledoc_templates_path, :source_download_location, :rendering
 
   def generate
     generate_doc_vars
@@ -12,9 +12,6 @@ class AppledocTemplateGenerator
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
     settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
 
-    p "DOCS"
-    p settings
-
     if File.exists? cocoadocs_settings
       doc_settings = YAML::load(File.open(cocoadocs_settings).read)
       settings = settings.merge doc_settings
@@ -25,8 +22,6 @@ class AppledocTemplateGenerator
       vars_string << "$" + key + ": "  + value + "; \n"
     end
 
-    p "-------------"
-    p vars_string
     File.open(Dir.pwd + "/views/_vars.scss", 'w') { |f| f.write vars_string }
 
   end
@@ -67,12 +62,16 @@ class AppledocTemplateGenerator
 
   # ERB helpers
 
-  def render_erb filepath
+  def render_erb filepath, context=nil
+    if context
+      @rendering_context = context
+    end
+  
     filename = File.basename(filepath, ".html.erb")
 
     erb = ERB.new(File.read(filepath))
     erb.filename = filename
-    erb.result(self.get_binding)
+    result = erb.result(self.get_binding)
   end
 
   def get_binding

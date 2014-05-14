@@ -1,9 +1,14 @@
 <header id="app_header" class="hideInXcode">
-  <div>
-
+  <div>    
     <h1><a href="../index.html"><%= spec.name %><em><%= @spec.version %></em><a></h1>
 
-    <a href="/" id="logo"></a>
+    <a href="/" id="logo">
+      <% if @rendering_context == "index" %>
+      <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/cocoadocs-logo-big.svg') %>
+      <% else %>
+      <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/cocoadocs-logo-small.svg') %>
+      <% end %>
+    </a>
 
     <div id="header_actions" width="65" height="65" alt="Header Action Button">
       <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/settings_button.svg') %>

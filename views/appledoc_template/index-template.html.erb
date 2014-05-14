@@ -1,9 +1,9 @@
 <%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html') %>
-	<link rel="stylesheet" type="text/css" href="appledoc_gfm.css" media="all" />
+<link rel="stylesheet" type="text/css" href="appledoc_gfm.css" media="all" />
 
 	<body>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('../index.html', 'index.html') %>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html', "index").gsub('../index.html', 'index.html') %>
 
 		<article>
 			<div id="overview_contents" role="main">
