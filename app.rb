@@ -468,7 +468,10 @@ if $start_sinatra_server
   require 'sinatra'
 
   post "/webhook" do
-    return docs.handle_webhook JSON.parse(params[:payload])
+    p params
+    if params
+      return docs.handle_webhook JSON.parse(params)
+    end
   end
 
   get "/error/:pod/:version" do
