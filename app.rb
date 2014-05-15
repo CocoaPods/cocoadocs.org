@@ -84,6 +84,11 @@ class CocoaDocs < Object
 
   #    start webhook server for incremental building
   #    cocoadocs webhook "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  
+  def webhook_beta
+    $beta = true
+    webhook
+  end
 
   def webhook
     $upload_docsets_to_s3 = true
