@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'cocoapods-downloader'
 require 'cocoapods-core'
 require 'cocoapods'
@@ -25,7 +27,6 @@ class CocoaDocs < Object
 
   $verbose = false
   $log_all_terminal_commands = false
-  $start_sinatra_server = false
 
   # Download and document
   $fetch_specs = true
@@ -52,6 +53,7 @@ class CocoaDocs < Object
   $current_dir = File.dirname(File.expand_path(__FILE__))
   $active_folder = File.join($current_dir, $active_folder_name)
 
+  # Include all the classes files
   Dir[File.join($current_dir, "classes/*.rb")].each do |file|
     require_relative(file)
   end
@@ -80,30 +82,6 @@ class CocoaDocs < Object
     source.all_specs.each do |spec|
       document_spec(spec)
     end
-  end
-
-  #    start webhook server for incremental building
-  #    cocoadocs webhook "CocoaPods/Specs" --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
-  
-  def webhook_beta
-    $beta = true
-    webhook
-  end
-
-  def webhook
-    $upload_docsets_to_s3 = true
-    $upload_redirects_for_spec_index = true
-    $upload_redirects_for_docsets = true
-    $upload_site_to_s3 = true
-
-    $generate_website = true
-    $generate_docset_json = true
-    $generate_apple_json = true
-
-    $verbose = true
-    $log_all_terminal_commands = true
-
-    $start_sinatra_server = true
   end
 
   #    just parse ARAnalytics and put the docset in the activity folder
@@ -149,10 +127,7 @@ class CocoaDocs < Object
     setup_for_cocoadocs
 
     updated_specs = specs_for_days_ago_diff @params[1]
-
     vputs "Looking at #{updated_specs.lines.count}"
-
-    p updated_specs.lines
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub! /\n/, ''
@@ -203,30 +178,6 @@ class CocoaDocs < Object
     "      app.rb doc ARAnalytics                                                  \n\n"
   end
 
-  # Take a webhook, look at the commits inbetween the before & after
-  # and then document each spec.
-
-
-  def handle_webhook webhook_payload
-    before = webhook_payload["before"]
-    after = webhook_payload["after"]
-    vputs "Got a webhook notification for #{before} to #{after}"
-
-    update_specs_repo
-    updated_specs = specs_for_git_diff before, after
-    vputs "Looking at #{ updated_specs.lines.count }"
-
-    updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
-
-      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
-      Process.detach pid
-    end
-
-    "{ success: true, triggered: #{ updated_specs.lines.count } }"
-  end
-
   def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
@@ -236,10 +187,10 @@ class CocoaDocs < Object
     end
   end
 
-  # ruby app.rb create_assets ARAnalytics
-  # ruby app.rb create_assets ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
+  # ruby app.rb preview ARAnalytics
+  # ruby app.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
 
-  def create_assets
+  def preview
 
     name = ARGV[1]
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
@@ -253,8 +204,6 @@ class CocoaDocs < Object
     $delete_source_after_docset_creation = false
 
     document_spec_at_path spec_path
-    command "sass views/appledoc_stylesheet.scss:activity/html/assets/appledoc_stylesheet.css"
-    command "sass views/appledoc_gfm.scss:activity/html/assets/appledoc_gfm.css"
   end
 
   private
@@ -275,7 +224,6 @@ class CocoaDocs < Object
     end
 
     if options.find_index("--dont-delete-source") != nil
-      puts "Turning off deleting source "
       $delete_source_after_docset_creation = false
     end
 
@@ -339,12 +287,6 @@ class CocoaDocs < Object
   def specs_for_days_ago_diff days_ago
     sha = run_git_command_in_specs 'rev-list -n1 --before="' + days_ago + ' day ago" master'
     diff_log = run_git_command_in_specs "diff --name-status #{sha}"
-    cleanup_git_logs diff_log
-  end
-
-  # returns an array from the diff log for the commit changes
-  def specs_for_git_diff start_commit, end_commit
-    diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
     cleanup_git_logs diff_log
   end
 
@@ -458,59 +400,4 @@ class CocoaDocs < Object
 
 end
 
-docs = CocoaDocs.new(ARGV)
-
-# --------------------------
-# Sinatra stuff
-# Sinatra hooks into Kernel for the run setting, so it should be done post CocoaDocs.new
-
-if $start_sinatra_server
-  require 'sinatra'
-
-  post "/webhook" do
-    p params
-    if params
-      return docs.handle_webhook JSON.parse(params)
-    end
-  end
-
-  get "/error/:pod/:version" do
-    # get error info for a pod
-     error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
-     if File.exists? error_json_path
-       return "report_error(" + File.read(error_json_path) + ")"
-     end
-     return "{}"
-  end
-
-  get "/redeploy/:pod/:version" do
-    repo_path = $active_folder + "/#{$cocoadocs_specs_name}/"
-    podspec_path = repo_path + "/#{params[:pod]}/#{params[:version]}/#{params[:pod]}.podspec"
-
-     if File.exists? podspec_path
-       vputs "Generating docs for #{podspec_path}"
-
-        pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
-        Process.detach pid
-
-       return "{ parsing: true }"
-     end
-
-     return "{ parsing: false }"
-  end
-
-  get "/redeploy/:pod" do
-    spec = docs.spec_with_name(params[:pod])
-
-    if spec
-      vputs "Generating docs for #{spec.name}"
-
-      pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", params[:pod], { :chdir => File.expand_path(File.dirname(__FILE__)) })
-      Process.detach pid
-
-      "{ parsing: true }"
-    else
-      "{ parsing: false }"
-    end
-  end
-end
+CocoaDocs.new(ARGV)

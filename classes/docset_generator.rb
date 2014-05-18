@@ -1,6 +1,6 @@
 class DocsetGenerator
   include HashInit
-  attr_accessor :spec, :from, :to, :readme_location, :appledoc_templates_path
+  attr_accessor :spec, :from, :to, :readme_location, :appledoc_templates_path, :library_settings
   
   def create_docset
     vputs "Creating docset"
