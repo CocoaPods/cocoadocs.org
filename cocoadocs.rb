@@ -151,7 +151,7 @@ class CocoaDocs < Object
     "                                                                              \n" +
     "     app.rb all                                                               \n" +
     "     app.rb webhook                                                           \n" +
-    "     app.rb doc [spec name or podspec path]                                   \n" +
+    "     app.rb preview [spec name or podspec path]                                   \n" +
     "     app.rb cocoadocs doc [spec name]                                         \n" +
     "     app.rb cocoadocs days [days]                                             \n" +
     "                                                                              \n" +
@@ -187,23 +187,27 @@ class CocoaDocs < Object
     end
   end
 
-  # ruby app.rb preview ARAnalytics
+
   # ruby app.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
 
   def preview
 
     name = ARGV[1]
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
+    version = ""
+    
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
+
+      $log_all_terminal_commands = true
+      $overwrite_existing_source_files = true
+      $delete_source_after_docset_creation = false
+
+      document_spec_at_path spec_path
+      command "open #{ $active_folder }/docsets/#{ name }/#{ version }/"
     end
-
-    $log_all_terminal_commands = true
-    $overwrite_existing_source_files = true
-    $delete_source_after_docset_creation = false
-
-    document_spec_at_path spec_path
+    
   end
 
   private

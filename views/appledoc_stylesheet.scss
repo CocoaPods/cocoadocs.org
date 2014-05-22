@@ -85,7 +85,7 @@ body {
   font-family: $body;
   font-size: 14px;
   line-height: 20px;
-  background-color:$background-colour;
+  background-color:$background-color;
   padding:0;
   margin:0;
 }
@@ -376,7 +376,7 @@ header#app_header {
     
     svg {
      .first-half {
-       fill:$background-colour;
+       fill:$background-color;
      } 
      
      .second-half {
@@ -388,7 +388,7 @@ header#app_header {
   
 
   div#header_actions {
-    background-color: $background-colour;
+    background-color: $background-color;
     position:absolute;
     top:25px;
     height: 65px;
@@ -515,7 +515,7 @@ header#app_header {
     padding: 0;
     margin-bottom:0;
     em {
-      color:$background-colour;
+      color:$background-color;
       font-weight:normal;
       font-style:normal;
       margin-left:12px;
@@ -547,13 +547,13 @@ header#app_header {
     }
 
     li:last-child {
-      border-right: 2px $background-colour solid;
+      border-right: 2px $background-color solid;
     }
 
     > li {
       display:inline-block;
       float:left;
-      border-left: 2px $background-colour solid;
+      border-left: 2px $background-color solid;
       margin-bottom:0;
 
       .twitter-handle {
@@ -600,7 +600,7 @@ header#app_header {
         margin:0;
 
         &:hover {
-         background-color:$background-colour;
+         background-color:$background-color;
         }
 
         a {
@@ -617,9 +617,9 @@ header#app_header {
       top:36px;
       background-color:white;
 
-      border-left: 2px $background-colour solid;
-      border-bottom: 2px $background-colour  solid;
-      border-right: 2px $background-colour  solid;
+      border-left: 2px $background-color solid;
+      border-bottom: 2px $background-color  solid;
+      border-right: 2px $background-color  solid;
 
       text-align:left;
 
@@ -949,7 +949,7 @@ span.tooltip span.tooltip {
     display: inline-block;
     padding: 0.5em;
     border-radius: 4px;
-    background-color: $background-colour;
+    background-color: $background-color;
   }
 }
 
