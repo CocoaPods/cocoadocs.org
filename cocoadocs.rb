@@ -92,7 +92,7 @@ class CocoaDocs < Object
 
     name = @params[0]
 
-    if name.end_with? ".podspec"
+    if name.end_with? ".podspec.json"
       document_spec_at_path(name)
     else
       document_spec_with_name(name)
@@ -132,8 +132,8 @@ class CocoaDocs < Object
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub! /\n/, ''
 
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-      next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + spec_filepath.strip
+      next unless spec_filepath.end_with? ".podspec.json" and File.exists? spec_path
 
       document_spec_at_path spec_path
     end
@@ -149,9 +149,7 @@ class CocoaDocs < Object
     puts "\n" +
     "    CocoaDocs command line                                                    \n" +
     "                                                                              \n" +
-    "     app.rb all                                                               \n" +
-    "     app.rb webhook                                                           \n" +
-    "     app.rb preview [spec name or podspec path]                                   \n" +
+    "     app.rb preview [spec name or podspec path]                               \n" +
     "     app.rb cocoadocs doc [spec name]                                         \n" +
     "     app.rb cocoadocs days [days]                                             \n" +
     "                                                                              \n" +
@@ -193,12 +191,12 @@ class CocoaDocs < Object
   def preview
 
     name = ARGV[1]
-    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/"
+    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/Specs/"
     version = ""
     
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
-      spec_path = "#{spec_path + name}/#{version}/#{name}.podspec"
+      spec_path = "#{spec_path + name}/#{version}/#{name}.podspec.json"
 
       $log_all_terminal_commands = true
       $overwrite_existing_source_files = true
@@ -269,7 +267,7 @@ class CocoaDocs < Object
 
   # Update or clone Cocoapods/Specs
   def update_specs_repo
-    repo = File.join($active_folder, $cocoadocs_specs_name)
+    repo = File.join($active_folder, $cocoadocs_specs_name, "Specs")
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       unless repo.include? "://"
@@ -307,7 +305,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
+    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name, "Specs")) do
      `git #{git_command}`
     end
   end

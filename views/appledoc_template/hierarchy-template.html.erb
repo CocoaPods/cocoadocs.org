@@ -52,12 +52,14 @@
 					{{/hasProtocolsOrCategories}}
 
 					{{#hasConstants}}
-					<h2 class="index-title">{{strings/indexPage/constantsTitle}}</h2>
-					<ul>
-						{{#constants}}
-						<li><a href="{{href}}">{{title}}</a></li>
-						{{/constants}}
-					</ul>
+  					<div class="index-column">
+						<h2 class="index-title">{{strings/indexPage/constantsTitle}}</h2>
+						<ul>
+							{{#constants}}
+							<li><a href="{{href}}">{{title}}</a></li>
+							{{/constants}}
+						</ul>
+					</div>
 					{{/hasConstants}}
 
 				</div>
@@ -86,5 +88,4 @@ Section Classes
 EndSection
 
 Section Navigation
-<a href="index.html">Previous</a>
 EndSection

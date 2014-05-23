@@ -45,7 +45,7 @@ class AppledocTemplateGenerator
   def generate_versions
     vputs "Grabbing different version of the library"
 
-    filepath = $active_folder + "/" + $cocoadocs_specs_name +"/" + @spec.name
+    filepath = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + @spec.name
 
     versions = []
     Dir.foreach filepath do |version|
