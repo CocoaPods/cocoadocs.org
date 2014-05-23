@@ -7,9 +7,6 @@
 
 		<article>
 			<div id="overview_contents" role="main">
-				<div class="main-navigation navigation-top">
-					{{>Navigation}}
-				</div>
 
 				<div id="header">
 					<div class="section-header">
@@ -63,11 +60,8 @@
 					{{/hasConstants}}
 
 				</div>
-				<div class="main-navigation navigation-bottom">
-					{{>Navigation}}
-				</div>
 
-        <%= File.read( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+				<%= File.read( Dir.pwd + '/views/appledoc_template/_footer.html') %>
 
 			</div>
 		</article>
@@ -88,4 +82,5 @@ Section Classes
 EndSection
 
 Section Navigation
+
 EndSection

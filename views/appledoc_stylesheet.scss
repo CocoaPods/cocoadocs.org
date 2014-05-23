@@ -1,13 +1,21 @@
 @import "vars";
 
 html.dash, html.xcode {
-
+	
+  #has_index, header#app_header, #overview_contents {
+    min-width:0;
+  }
+  
   #has_index #container {
     float:none;
   }
 
   .hideInXcode {
     display:none;
+  }
+  
+  #object #contents {
+    margin-top:0;
   }
 
   .has_index #overview_contents {
@@ -556,6 +564,19 @@ header#app_header {
       border-left: 2px $background-color solid;
       margin-bottom:0;
 
+	  &#contributors {
+		  max-width: 320px;
+	      text-overflow: ellipsis;
+	      display: -webkit-box;
+	      /* number of lines to show */
+	      -webkit-line-clamp: 1;
+	      -webkit-box-orient: vertical;
+		  overflow: hidden;
+		  padding-top:0px;
+		  padding-bottom:24px;
+		  line-height: 44px;
+	  }
+
       .twitter-handle {
         vertical-align:text-top;
       }
@@ -1008,7 +1029,7 @@ div.section-method {
     dt {
       margin:0;
       padding:0;
-      font-style: normal;
+	  font-weight:bold;
     }
 
     dd {
