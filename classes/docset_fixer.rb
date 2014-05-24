@@ -43,7 +43,7 @@ class DocsetFixer
     percent = (stats["ratio"] * 100).round(0).to_s
 
     # How nice am I?!
-    percent = "100" if (stats["ratio"] > 0.97);
+    percent = "100" if (stats["ratio"] > 0.95);
     percent
   end
   
