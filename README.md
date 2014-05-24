@@ -31,14 +31,22 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
    ```
    
    All defaults are stored in this config file for you to overwite.
-   
+
+ -  You can find an example at [ARAnalytics's .cocoadocs.yml](https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml)
  -  If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the [documentation_url](http://guides.cocoapods.org/syntax/podspec.html#documentation_url) reference in your Podspec.
 
-##### Common use cases:
+##### Previewing my library in CocoaDocs
+
 
 First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` you will need a working copy of [appledoc](http://gentlebytes.com/appledoc) ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. )
 
-I want to preview my WIP library: `./cocoadocs preview [path_to_repo]` - this will generate a preview in `cocoadocs.org/activity/docsets/lib_name/index.html`. For speed you can run this with `--skip-fetch --skip-readme-download --skip-source-download` after the first sucessful build.
+To preview your library run:
+
+```
+bundle exec ./cocoadocs.rb preview ARAnalytics
+```
+
+This will get the _master_ version of your library and run it through CocoaDocs, then open the resulting folder, you can open the `index.html` in a web browser to preview locally.
 
 ##### CocoaDocs admin use cases:
 
