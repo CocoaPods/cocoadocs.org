@@ -11,7 +11,7 @@ class DocsetFixer
     remove_html_folder
     delete_extra_docset_folder
     fix_relative_links_in_gfm
-    fix_travis_links_in_gfm
+    remove_known_badges
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
@@ -143,18 +143,22 @@ class DocsetFixer
   end
 
 
-  def fix_travis_links_in_gfm
+  def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
     return unless @spec.or_is_github?
     return unless File.exists? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
+    
     doc.css('a[href^="https://travis-ci"]').each do |link|
-
-      link.attributes["href"].value = "https://travis-ci.org/#{@spec.or_user}/#{@spec.or_repo}/branches"
-      link.inner_html = "<img src='https://travis-ci.org/#{@spec.or_user}/#{@spec.or_repo}.svg?branch=#{ @spec.version }'>"
-
+      link.remove if link.inner_html.include? ".svg"
+    end
+    
+    ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|
+      doc.css(selector).each do |image|
+        image.parent.remove
+      end
     end
 
     `rm #{@readme_path}`
