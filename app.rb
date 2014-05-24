@@ -107,7 +107,7 @@ class CocoaDocs < Object
 
     name = @params[0]
 
-    if name.end_with? ".podspec"
+    if name.end_with? ".podspec.json"
       document_spec_at_path(name)
     else
       document_spec_with_name(name)
@@ -150,7 +150,7 @@ class CocoaDocs < Object
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub! /\n/, ''
       
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + spec_filepath.strip
       next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
       document_spec_at_path spec_path
@@ -209,7 +209,7 @@ class CocoaDocs < Object
     vputs "Looking at #{ updated_specs.lines.count }"
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + spec_filepath.strip
       next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
 
       pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", spec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })

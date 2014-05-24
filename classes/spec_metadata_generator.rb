@@ -4,7 +4,7 @@ class SpecMetadataGenerator
 
   def generate
     vputs "Generating the Specs version metadata and all that"
-    filepath = $active_folder + "/" + $cocoadocs_specs_name +"/" + @spec.name
+    filepath = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + @spec.name
 
     versions = []
     Dir.foreach filepath do |version|
