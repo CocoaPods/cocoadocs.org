@@ -362,9 +362,6 @@ class CocoaDocs < Object
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
 
-      $generator.generate if $generate_website
-      $generator.upload_site if $upload_site_to_s3
-
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
         command "rm -rf #{download_location}"
@@ -400,6 +397,8 @@ class CocoaDocs < Object
     
     logger = HistoryLogger.new(:spec => spec)
     logger.append_state state
+    
+    puts "*"
   end
 
   def document_spec_at_path(spec_path)

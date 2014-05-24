@@ -45,11 +45,13 @@ end
 private
 
 def process_path path
-  pid = Process.spawn("ruby", File.join(File.dirname(File.expand_path(__FILE__)), "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+  this_folder = File.expand_path(File.dirname(__FILE__))
+  pid = Process.spawn( File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "doc", path, { :chdir => this_folder })
   Process.detach pid
 end
 
-def process_url path
-  pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "url", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+def process_url url
+  this_folder = File.expand_path(File.dirname(__FILE__))
+  pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", url, { :chdir => this_folder })
   Process.detach pid
 end
