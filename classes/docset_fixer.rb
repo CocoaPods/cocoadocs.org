@@ -1,4 +1,6 @@
 require 'htmlcompressor'
+require 'docstat'
+require 'travis'
 
 class DocsetFixer
   include HashInit
@@ -9,11 +11,71 @@ class DocsetFixer
     remove_html_folder
     delete_extra_docset_folder
     fix_relative_links_in_gfm
+    remove_known_badges
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
+    post_process
     create_dash_data
     minify_html
+  end
+
+  def post_process
+    percent = get_doc_percent
+    travis = get_travis_color
+    
+    Dir.glob(@docset_path + "**/*.html").each do |name|
+      text = File.read(name)
+      
+      replace = text.gsub("$$$DOC_PERCENT$$$", percent)
+      replace = replace.gsub("$$$TRAVIS_INFO$$$", travis["color"])
+      replace = replace.gsub("$$$TRAVIS_URL$$$", travis["url"])
+      
+      File.open(name, "w") { |file| file.puts replace }
+    end
+  end
+
+  def get_doc_percent
+    vputs "Generating documentation stats for moving into docset"
+
+    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+    stats = DocStat.process(@docset_path + docset)
+    percent = (stats["ratio"] * 100).round(0).to_s
+
+    # How nice am I?!
+    percent = "100" if (stats["ratio"] > 0.95);
+    percent
+  end
+  
+  def get_travis_color
+    vputs "Getting travis information"
+    
+    state = "black"
+    url = "http://docs.travis-ci.com/user/languages/objective-c/"
+              
+    if spec.or_is_github?
+      p "CHECK"
+      client = Travis::Client.new
+      repo_id = spec.or_user + "/" + spec.or_repo
+      
+      p "CHECK re " + repo_id
+      begin
+        repo = Travis::Repository.find(repo_id)
+        build = repo.branches[spec.or_git_ref]
+
+        if build.state == "passed"
+          state = "green"
+        else
+          state = "red"
+        end
+        
+        url = "https://travis-ci.org/#{repo_id}/builds/#{build.id}"
+      rescue Exception => e
+        vputs "Error getting travis info"
+      end
+      
+    end
+    { "color" => state, "url" => url }
   end
 
   def get_latest_version_in_folder
@@ -26,10 +88,9 @@ class DocsetFixer
     end
 
     #semantically order them as they're in unix's order ATM
-    # we convert them to Versions, then get the last  string
+    # we convert them to Versions, then get the last string
     @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
   end
-
 
   def remove_html_folder
     # the structure is normally /POD/version/html/index.html
@@ -48,20 +109,20 @@ class DocsetFixer
   end
 
   def fix_relative_link link_string
-      if link_string.start_with? "#"
-          return link_string
-      end
-      if link_string.start_with? "http"
-          return link_string
-      end
-      if link_string.start_with? "https"
-          return link_string
-      end
-      if link_string.include? "@"
-          return link_string
-      end
-      
-      return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+    if link_string.start_with? "#"
+      return link_string
+    end
+    if link_string.start_with? "http"
+      return link_string
+    end
+    if link_string.start_with? "https"
+      return link_string
+    end
+    if link_string.include? "@"
+      return link_string
+    end
+
+    return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
   end
 
   def fix_relative_links_in_gfm
@@ -79,7 +140,31 @@ class DocsetFixer
 
     doc.css("img").each do |img|
       if img.attributes["src"]
-          img.attributes["src"].value = fix_relative_link img.attributes["src"].value
+        img.attributes["src"].value = fix_relative_link img.attributes["src"].value
+      end
+    end
+
+    `rm #{@readme_path}`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+
+  def remove_known_badges
+    vputs "Fixing Travis links in markdown"
+
+    return unless @spec.or_is_github?
+    return unless File.exists? @readme_path
+
+    doc = Nokogiri::HTML(File.read @readme_path)
+    
+    doc.css('a[href^="https://travis-ci.org"]').each do |link|
+      link.remove if link.inner_html.include? ".svg"
+      link.remove if link.inner_html.include? ".png?branch"
+    end
+    
+    ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|
+      doc.css(selector).each do |image|
+        image.parent.remove
       end
     end
 
@@ -102,7 +187,7 @@ class DocsetFixer
 
     ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
       homepage_path = File.join(@docset_path, path)
-      next unless File.exists?(homepage_path)
+      return unless File.exists?(homepage_path)
 
       html = File.read(homepage_path)
       html.sub!("</THISISTOBEREMOVED>", readme_text)
@@ -111,11 +196,17 @@ class DocsetFixer
   end
 
   def move_css_in
-    # dash only supports local css
     vputs "Generating and moving local CSS files into the DocSet"
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
+
+    # embed css in docset
     command "sass views/appledoc_stylesheet.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
-    command "cp public/appledoc_gfm.css #{@docset_path}/#{docset}/Contents/Resources/Documents/"
+    command "sass views/appledoc_gfm.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_gfm.css"
+
+    # copy to website too
+    command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css #{@docset_path}/"
+    command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_gfm.css #{@docset_path}/"
+
   end
 
   def create_dash_data
@@ -136,11 +227,11 @@ class DocsetFixer
     xml_path = "#{publish_folder}/#{@spec.name}.xml"
 
     File.open(xml_path, "wb") do |file|
-       file.write("
-       <entry>
-          <version>#{@version}</version>
-          <url>#{$website_home}docsets/#{@spec.name}/#{@spec.name}.tgz</url>
-        </entry>")
+      file.write("
+      <entry>
+      <version>#{@version}</version>
+      <url>#{$website_home}docsets/#{@spec.name}/#{@spec.name}.tgz</url>
+      </entry>")
     end
 
     # the dash docset tgz
@@ -219,6 +310,5 @@ class DocsetFixer
     ]
 
     command redirect_command.join(' ')
-
   end
 end

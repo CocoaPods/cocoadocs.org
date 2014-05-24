@@ -1,0 +1,112 @@
+<header id="app_header" class="hideInXcode">
+  <div>    
+    <h1><a href="../index.html"><%= spec.name %><em><%= @spec.version %></em><a></h1>
+
+    <a href="/" id="logo">
+      <% if @rendering_context == "index" %>
+      <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/cocoadocs-logo-big.svg') %>
+      <% else %>
+      <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/cocoadocs-logo-small.svg') %>
+      <% end %>
+    </a>
+
+    <div id="header_actions" width="65" height="65" alt="Header Action Button">
+      <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/settings_button.svg') %>
+      <div id="dropdown">
+        <ul>
+
+          <li class="icon">
+            <hr/>
+            <h3>Add to Dash</h3>
+            <div claass ="clearfix"></div>
+
+            <div class="thumbnail">
+              <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/nav-dash-icon.svg') %>
+            </div>
+            <div class="details">
+              <p>Add <a href="dash-feed://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F<%= @spec.name %>%2F<%= @spec.name %>.xml">Docset to Dash</a></p>
+              <p><a href="http://kapeli.com/dash">Download App</a></p>
+            </div>
+            <div claass ="clearfix"></div>
+
+          </li>
+
+          <li class="icon">
+            <hr/>
+            <h3>Add to Xcode</h3>
+            <div claass ="clearfix"></div>
+
+            <div class="thumbnail">
+              <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/nav-xcode-icon.svg') %>
+            </div>
+            <div class="details">
+              <p>Add Docset with <a href="docs-for-xcode://http%3A%2F%2Fcocoadocs.org%2Fdocsets%2F<%= @spec.name %>%2Fxcode-docset.atom">Docs For Xcode</a></p>
+              <p><a href="http://documancer.com/xcode">Download App</a></p>
+          </div>
+          <div claass ="clearfix"></div>
+
+          </li>
+
+          <li>
+            <hr/>
+            <h3>CocoaPods</h3>
+            <div claass ="clearfix"></div>
+
+            <% if @spec.or_is_github? %>
+              <p><a href="<%= @spec.or_github_url %>">Open Repo in Github</a><p>
+            <% end %>
+            <p><a href="<%= @spec.or_podspec_url %>">Open Podspec</a></p>
+            <% if @spec.or_has_twitter_url? %>
+              <p><a href="http://twitter.com/<%= @spec.or_twitter_handle %>">Go to @<%= @spec.or_twitter_handle %> on twitter</a></p>
+            <% end %>
+            <% if @spec.homepage != nil %>
+              <p><a href="<%= @spec.homepage %>">Open Pod Homepage</a><p>
+            <% end %>
+
+            <div claass ="clearfix"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="cover"></div>
+    <ul id="subtitle">
+      <% if @spec.or_is_github? %>
+      <li id = "travis" class="$$$TRAVIS_INFO$$$"><a href="$$$TRAVIS_URL$$$">&#9679;</a></li>
+      <% end %>
+      
+      <li id = "contributors" class="no-link"><%= @spec.or_contributors_to_spec %></li>
+
+      <% if @spec.or_can_show_code? %>
+      <li><a href="<%= @spec.or_repo_url %>">Code</a></li>
+      <% end %>
+
+      <% if @spec.or_has_social_media_url? %>
+      <li><a href="<%= @spec.social_media_url %>">
+        <% if @spec.or_has_twitter_url? %>
+        <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/twitter_bird.svg') %> <span class='twitter-handle'><%= @spec.or_twitter_handle %></span>
+        <% else %>
+          <%= @spec.or_social_media_title %>
+        <% end %>
+      </a></li>
+      <% end %>
+
+      <% if @spec.or_spec_is_deprecated? %>
+      <% end %>
+
+      <% if @versions.count > 1 %>
+      <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
+      <ul>
+        <% @versions.reverse_each do |version| %>
+          <li><a href="../<%= version %>"><%= version %></a></li>
+        <% end %>
+      </ul>
+      </li>
+      <% end %>
+
+      <li class="no-link"><span class="subtitle">Documented</span><span="title">$$$DOC_PERCENT$$$%</span></li>
+      <li class=""><a href="<%= spec.or_license_name_and_url[:url] %>"><span class="subtitle">License</span><%= spec.or_license_name_and_url[:license] %></a></li>
+
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,239 @@
+@import "vars";
+
+#GFM {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $highlight-font;
+    padding: 0;
+    -webkit-font-smoothing: subpixel-antialiased;
+    margin-top:1em;
+    margin-bottom:0.4em;
+  }
+
+  h1 {
+    border-left: 4px $highlight-color solid;
+    padding-left: 20px;
+    margin-left:-30px;
+    font-size: 48px;
+    line-height: 52px;
+  }
+
+  h2 {
+    font-size: 40px;
+    line-height: 52px;
+  }
+
+  h3 {
+    color: $highlight-dark-color;
+    font-size: 32px;
+    line-height: 41px;
+  }
+
+  h4 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  h5 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  h6 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+
+  ul, ol {
+    padding-left: 30px;
+  }
+
+  hr {
+    background-color: #ccc;
+    border:0;
+    height: 4px;
+    padding: 0;
+  }
+
+  p {
+    font-size:16px;
+    line-height:20px;
+  }
+
+  h1 img, h2 img, h3 img {
+    margin-bottom: 4px;
+  }
+}
+
+#wrapper > {
+  h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    + h2 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+  h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+a:first-child {
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, ul li > :first-child, ol li > :first-child {
+  margin-top: 0;
+}
+
+dl {
+  padding: 0;
+  dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px;
+    &:first-child {
+      padding: 0;
+    }
+    > {
+      :first-child {
+        margin-top: 0;
+      }
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+    > {
+      :first-child {
+        margin-top: 0;
+      }
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+#GFM {
+  blockquote {
+    border-left: 4px solid #ddd;
+    padding: 0 15px;
+    color: #777;
+    > {
+      :first-child {
+        margin-top: 0;
+      }
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 100%;
+    font: inherit;
+    width:100%;
+
+    th {
+      font-weight: bold;
+      border: 1px solid $darker-color;
+      background-color: $darker-color;
+      padding: 6px 13px;
+    }
+    td {
+      border: 1px solid #ccc;
+      padding: 6px 13px;
+    }
+    tr {
+      border-top: 1px solid #ccc;
+      background-color: #fff;
+    }
+    trimg {
+      max-width: 100%;
+    }
+  }
+
+  code, tt {
+    margin: 0 2px;
+    padding: 0 5px;
+    white-space: nowrap;
+  }
+
+  pre > code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+  }
+
+  pre {
+    background-color: #F2F2F2;
+    border:0;
+    border-left: 2px solid $highlight-dark-color;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+  }
+
+  .poetry pre {
+    font-family: Georgia, Garamond, serif !important;
+    font-style: italic;
+    font-size: 110% !important;
+    line-height: 1.6em;
+    display: block;
+    margin-left: 1em;
+    code {
+      font-family: Georgia, Garamond, serif !important;
+      word-break: break-all;
+      word-break: break-word;
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+      hyphens: auto;
+      white-space: pre-wrap;
+    }
+  }
+
+  sup, sub, a.footnote {
+    font-size: 1.4ex;
+    height: 0;
+    line-height: 1;
+    vertical-align: super;
+    position: relative;
+  }
+
+  sub {
+    vertical-align: sub;
+    top: -1px;
+  }
+
+  em {
+    font-style:normal;
+    color:#818181;
+  }
+  .em-class { color: #4E95DF; }
+  .em-number { color: #DE292C; }
+  .em-keyword { color: #B7233F; }
+  .em-method { color: #290406; }
+  .em-property { color: #4E95DF; }
+  .em-constant { color: #AA1F22; }
+  .em-preprocessor { color: #76472c; }
+  .em-string, .emphasize .em-string * { color: #B7233F; }
+  .em-comment, .emphasize .em-comment * { color: #098d10; }
+
+}

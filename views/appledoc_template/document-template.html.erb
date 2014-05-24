@@ -1,0 +1,33 @@
+<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html', "doc") %>
+
+  <%= self.class %>
+
+	<body>
+
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
+    
+		<article>
+			<a title="{{page/title}}" name="top"></a>
+			<div id="overview_contents" role="main">
+				<div id="container">
+					{{#object/comment}}{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}{{/object/comment}}
+				</div>
+        
+        <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+        
+			</div>
+		</article>
+
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+
+	</body>
+</html>
+
+
+Section GBCommentComponentsList
+{{#components}}{{>GBCommentComponent}}{{/components}}
+EndSection
+
+Section GBCommentComponent
+{{&htmlValue}}
+EndSection
