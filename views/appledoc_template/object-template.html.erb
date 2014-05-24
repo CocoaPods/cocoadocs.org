@@ -10,6 +10,16 @@
 			<ul id="toc" role="tree">
 				{{>TableOfContents}}
 			</ul>
+      <script>
+        if(document.getElementById("toc").children.length == 0){
+          var li = document.createElement("li")
+          var a = document.createElement("a")
+          a.textContent = "Back to Index"
+          a["href"] = "../index.html"
+          li.appendChild(a)
+          document.getElementById("toc").appendChild(li)
+        }
+      </script>
 		</nav>
 
 			<div id="contents" class="isShowingTOC" role="main">
@@ -17,6 +27,16 @@
 				<div class="main-navigation navigation-top hideInXcode">
 					{{>Navigation}}
 				</div>
+
+        <ul id="headerButtons" role="toolbar" style="display:none;">
+          <li id="toc_button">
+            <button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+          </li>
+          <li id="jumpto_button" role="navigation">
+            {{>JumpTo}}
+          </li>
+        </ul>
+
 
 				<div id="header">
 					<div class="section-header">
@@ -155,7 +175,6 @@
 
 			</div>
 		</article>
-
 
     <script type="text/javascript"><%= File.read( Dir.pwd + '/views/appledoc_template/_object-nav.js') %></script>
     <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
