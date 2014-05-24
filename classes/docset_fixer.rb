@@ -52,9 +52,13 @@ class DocsetFixer
     
     state = "black"
     url = "http://docs.travis-ci.com/user/languages/objective-c/"
+              
     if spec.or_is_github?
+      p "CHECK"
       client = Travis::Client.new
       repo_id = spec.or_user + "/" + spec.or_repo
+      
+      p "CHECK re " + repo_id
       begin
         repo = Travis::Repository.find(repo_id)
         build = repo.branches[spec.or_git_ref]
@@ -67,7 +71,9 @@ class DocsetFixer
         
         url = "https://travis-ci.org/#{repo_id}/builds/#{build.id}"
       rescue Exception => e
+        vputs "Error getting travis info"
       end
+      
     end
     { "color" => state, "url" => url }
   end
@@ -151,8 +157,9 @@ class DocsetFixer
 
     doc = Nokogiri::HTML(File.read @readme_path)
     
-    doc.css('a[href^="https://travis-ci"]').each do |link|
+    doc.css('a[href^="https://travis-ci.org"]').each do |link|
       link.remove if link.inner_html.include? ".svg"
+      link.remove if link.inner_html.include? ".png?branch"
     end
     
     ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|

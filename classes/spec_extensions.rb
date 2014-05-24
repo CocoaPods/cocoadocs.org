@@ -20,12 +20,12 @@ module Pod
 
       def or_user
         return nil unless self.or_is_github?
-        self.homepage.split("/")[-2]
+        self.or_github_url.split("/")[-2]
       end
 
       def or_repo
         return nil unless self.or_is_github?
-        self.homepage.split("/")[-1]
+        self.or_github_url.split("/")[-1].gsub(".git", "")
       end
       
       def or_github_search_context
@@ -106,11 +106,11 @@ module Pod
           elsif license.scan(/wtf/).count > 0
             return { :license => "WTFPL", :url => "http://www.wtfpl.net" }
           elsif license.scan(/eclipse/).count > 0
-            return { :license => "eclipse", :url => "http://www.eclipse.org/legal/epl-v10.html" }
+            return { :license => "Eclipse", :url => "http://www.eclipse.org/legal/epl-v10.html" }
           end
         end
 
-        return { :license => "Custom License", :url => self.homepage }
+        return { :license => "Custom", :url => self.homepage }
       end
 
       def or_has_social_media_url?
