@@ -7,8 +7,8 @@ if ARGV.length == 0
   puts "You need to give a Trunk webhook URL"
 end
 
-post "/webhook/trunk/" + ARGV[0] do  
-  data = JSON.parse(params[:message])
+post "/hooks/trunk/" + ARGV[0] do
+  data = JSON.parse(params["message"])
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
     
   process_url data["data_url"]
@@ -42,12 +42,10 @@ get "/" do
   "Hi"
 end
 
-
-
 private
 
 def process_path path
-  pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+  pid = Process.spawn("ruby", File.join(File.dirname(File.expand_path(__FILE__)), "app.rb"), "cocoadocs", "doc", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
   Process.detach pid
 end
 
