@@ -27,6 +27,19 @@ module Pod
         return nil unless self.or_is_github?
         self.homepage.split("/")[-1]
       end
+      
+      def or_github_search_context
+        return "" unless self.or_is_github?
+        " repo:" + self.or_user + "/" + self.or_repo
+      end
+      
+      def or_github_search_context_method
+        "https://github.com/search?q={{methodSelector}}++extension%3Am" + self.or_github_search_context + "&type=Code&ref=searchresults"
+      end
+      
+      def or_github_search_context_class
+        "https://github.com/search?q={{object/nameOfClass}}++extension%3Am" + self.or_github_search_context + "&type=Code&ref=searchresults"
+      end
 
       def or_extensionless_homepage
         return nil unless self.homepage
