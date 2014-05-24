@@ -13,10 +13,12 @@ require 'open-uri'
 require 'net/http'
 require "shellwords"
 require "colored"
+require 'open-uri'
 
 require 'tilt'
 require "slim"
 require "nokogiri"
+require 'tempfile'
 
 class CocoaDocs < Object
 
@@ -105,6 +107,8 @@ class CocoaDocs < Object
       cocoadocs_doc
     elsif @params[0] == "days"
       cocoadocs_day
+    elsif @params[0] == "url"
+      cocoadocs_url
     end
   end
 
@@ -143,6 +147,24 @@ class CocoaDocs < Object
     setup_for_cocoadocs
     @params[0] = @params[1]
     doc
+  end
+  
+  def cocoadocs_url
+    $fetch_specs = false
+    setup_for_cocoadocs
+    
+    url = @params[1]
+    spec_name = url.split("/")[-1]
+    podspec_path = $active_folder + "/podspecs/" + spec_name
+    
+    FileUtils.mkdir_p(File.dirname(podspec_path))
+    
+    open(url) { |f|
+      File.open(podspec_path, 'w') { |tmp| tmp.write(f.read) }
+      @params[0] = podspec_path
+      doc
+  
+    }  
   end
 
   def help

@@ -1,23 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
+require 'json'
 
-post "/webhook" do
-  before = webhook_payload["before"]
-  after = webhook_payload["after"]
-  vputs "Got a webhook notification for #{before} to #{after}"
+if ARGV.length == 0
+  puts "You need to give a Trunk webhook URL"
+end
 
-  update_specs_repo
-  updated_specs = specs_for_git_diff before, after
-  vputs "Looking at #{ updated_specs.lines.count }"
-
-  updated_specs.lines.each_with_index do |spec_filepath, index|
-    spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
-    next unless spec_filepath.end_with? ".podspec" and File.exists? spec_path
-    process_path params[:pod]
+post "/webhook/trunk/" + ARGV[0] do  
+  data = JSON.parse(params[:message])
+  puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
     
-  end
-  "{ success: true, triggered: #{ updated_specs.lines.count } }"
+  process_url data["data_url"]
+  "{ success: true }"
 end
 
 get "/error/:pod/:version" do
@@ -43,18 +38,10 @@ get "/redeploy/:pod/:version" do
    return "{ parsing: false }"
 end
 
-get "/redeploy/:pod" do
-  spec = docs.spec_with_name(params[:pod])
-
-  if spec
-    vputs "Generating docs for #{spec.name}"
-    process_path params[:pod]
-    
-    "{ parsing: true }"
-  else
-    "{ parsing: false }"
-  end
+get "/" do
+  "Hi"
 end
+
 
 
 private
@@ -64,7 +51,7 @@ def process_path path
   Process.detach pid
 end
 
-def specs_for_git_diff start_commit, end_commit
-  diff_log = run_git_command_in_specs "diff --name-status #{start_commit} #{end_commit}"
-  cleanup_git_logs diff_log
+def process_url path
+  pid = Process.spawn("ruby", File.join($current_dir, "app.rb"), "cocoadocs", "url", podspec_path, { :chdir => File.expand_path(File.dirname(__FILE__)) })
+  Process.detach pid
 end
