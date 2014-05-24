@@ -23,7 +23,7 @@
     [/(\s+|:|,)([0-9])(\s+|:|,|;)/g, "$1<em class='em-number'>$2</em>$3"]
   ];
 
-  Emphasize.query = ".highlight." + Emphasize.languages.join(", .highlight.");
+  Emphasize.query = ".highlight." + Emphasize.languages.join(" , .highlight.");
   Emphasize.regex = new RegExp("(\\s|^)(" + Emphasize.languages.join("|") + ")(\\s|$)", "i");
 
   var blocks = document.querySelectorAll(Emphasize.query);

@@ -32,7 +32,6 @@ class CocoaDocs < Object
 
   # Download and document
   $fetch_specs = true
-  $run_docset_commands = true
   $skip_source_download = false
   $force_master = false
   $overwrite_existing_source_files = true
@@ -332,6 +331,8 @@ class CocoaDocs < Object
   # generate the documentation for the pod
 
   def document_spec(spec)
+    state = "failed"
+    
     begin
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
@@ -339,27 +340,24 @@ class CocoaDocs < Object
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
       templates_location = $active_folder + "/template/"
 
-      if $run_docset_commands
-
-        unless $skip_source_download
-          downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
-          downloader.download_pod_source_files
-        end
-
-        readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
-        readme.create_readme
-
-        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location })
-        appledoc_template.generate
-
-        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location })
-        generator.create_docset
-
-        fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
-        fixer.fix
-        fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
-        fixer.add_docset_redirects if $upload_redirects_for_docsets
+      unless $skip_source_download
+        downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+        downloader.download_pod_source_files
       end
+
+      readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
+      readme.create_readme
+
+      appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location })
+      appledoc_template.generate
+
+      generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location })
+      generator.create_docset
+
+      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
+      fixer.fix
+      fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
+      fixer.add_docset_redirects if $upload_redirects_for_docsets
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
@@ -372,32 +370,36 @@ class CocoaDocs < Object
         command "rm -rf #{download_location}"
         command "rm -rf #{docset_location}" if $upload_site_to_s3
       end
-    end
 
-  rescue Exception => e
-    if spec != nil
-      error_path = "errors/#{spec.name}/#{spec.version}/error.json"
-      FileUtils.mkdir_p(File.dirname(error_path))
-      FileUtils.rm(error_path) if File.exists? error_path
+      state = "success"
 
-      open(error_path, 'a'){ |f|
-        report = { "message" => e.message , "trace" => e.backtrace }
-        f.puts report.to_json.to_s
+    rescue Exception => e
+      if spec != nil
+        error_path = "errors/#{spec.name}/#{spec.version}/error.json"
+        FileUtils.mkdir_p(File.dirname(error_path))
+        FileUtils.rm(error_path) if File.exists? error_path
+
+        open(error_path, 'a'){ |f|
+          report = { "message" => e.message , "trace" => e.backtrace }
+          f.puts report.to_json.to_s
+        }
+      end
+
+      open('error_log.txt', 'a') { |f|
+        f.puts "\n\n\n --------------#{spec.defined_in_file}-------------"
+        f.puts e.message
+        f.puts "------"
+        f.puts e.backtrace.inspect
       }
+
+      puts "--------------#{spec.defined_in_file}-------------".red
+      puts e.message.red
+      puts "------"
+      puts e.backtrace.inspect.red
     end
-
-    open('error_log.txt', 'a') { |f|
-      f.puts "\n\n\n --------------#{spec.defined_in_file}-------------"
-      f.puts e.message
-      f.puts "------"
-      f.puts e.backtrace.inspect
-    }
-
-    puts "--------------#{spec.defined_in_file}-------------".red
-    puts e.message.red
-    puts "------"
-    puts e.backtrace.inspect.red
-
+    
+    logger = HistoryLogger.new(:spec => spec)
+    logger.append_state state
   end
 
   def document_spec_at_path(spec_path)
