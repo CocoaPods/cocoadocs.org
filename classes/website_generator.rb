@@ -6,16 +6,8 @@ class WebsiteGenerator
 
   def generate
     move_public_items
-    create_stylesheet
   end
-
-  def create_stylesheet
-    vputs "Creating sass stylesheets"
-    command "sass views/homepage_stylesheet.scss:#{$active_folder}/html/assets/homepage_stylesheet.css"
-    command "sass views/appledoc_stylesheet.scss:#{$active_folder}/html/assets/appledoc_stylesheet.css"
-    command "sass views/appledoc_gfm.scss:#{$active_folder}/html/assets/appledoc_gfm.css"
-  end
-
+  
   def move_public_items
     resources_dir = "#{$active_folder}/html/assets/"
 
