@@ -9,21 +9,27 @@ class AppledocTemplateGenerator
   end
 
   def generate_doc_vars
+    vputs "Generating SCSS variables for templates"
+    
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
     settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
 
     if File.exists? cocoadocs_settings
+      vputs "- found custom CocoaDocs colours"
       doc_settings = YAML::load(File.open(cocoadocs_settings).read)
       settings = settings.merge doc_settings
     end
 
     vars_string = ""
     for key, value in settings
-      vars_string << "$" + key + ": "  + value + "; \n"
+      if value
+        vars_string << "$" + key + ": "  + value + "; \n"
+      end
     end
-
-    File.open(Dir.pwd + "/views/_vars.scss", 'w') { |f| f.write vars_string }
-
+    
+    vars = Dir.pwd + "/views/_vars.scss"
+    File.unlink vars
+    File.open(vars, 'w') { |f| f.write vars_string }
   end
 
   def generate_templates

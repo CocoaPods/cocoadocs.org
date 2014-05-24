@@ -11,7 +11,7 @@ module Pod
       end
 
       def or_podspec_url
-        "https://github.com/CocoaPods/Specs/blob/master/#{ self.name }/#{ self.version }/#{ self.name }.podspec"
+        "https://github.com/CocoaPods/Specs/blob/master/Specs/#{ self.name }/#{ self.version }/#{ self.name }.podspec.json"
       end
 
       def or_git_ref

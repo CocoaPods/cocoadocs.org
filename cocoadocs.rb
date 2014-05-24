@@ -34,6 +34,7 @@ class CocoaDocs < Object
   $fetch_specs = true
   $run_docset_commands = true
   $skip_source_download = false
+  $force_master = false
   $overwrite_existing_source_files = true
   $delete_source_after_docset_creation = true
   $skip_downloading_readme = false
@@ -174,6 +175,7 @@ class CocoaDocs < Object
     "     app.rb preview [spec name or podspec path]                               \n" +
     "     app.rb cocoadocs doc [spec name]                                         \n" +
     "     app.rb cocoadocs days [days]                                             \n" +
+    "     app.rb cocoadocs url [json podspec url]                                  \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
@@ -185,17 +187,7 @@ class CocoaDocs < Object
     "       --specs-repo \"name/repo\" or \"http://u:p@server.com/git/specs.git\"  \n" +
     "       --data-folder \"activity\"                                             \n" +
     "       --upload-s3 \"bucketname\"                                             \n" +
-    "                                                                              \n" +
-    "     CocoaDocs Command Examples:                                              \n" +
-    "                                                                              \n" +
-    "      Start webhook server for incremental building                           \n" +
-    "      app.rb webhook                                                          \n" +
-    "                                                                              \n" +
-    "      Parse all docs and upload to s3 on the cocoapods.org bucket             \n" +
-    "      app.rb all --upload-s3 cocoapods.org                                    \n" +
-    "                                                                              \n" +
-    "      just parse ARAnalytics and put the docset in the activity folder        \n" +
-    "      app.rb doc ARAnalytics                                                  \n\n"
+    "       --master                                                               \n"
   end
 
   def spec_with_name(name)
@@ -207,7 +199,7 @@ class CocoaDocs < Object
     end
   end
 
-
+  # tip: offline command
   # ruby app.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
 
   def preview
@@ -220,12 +212,13 @@ class CocoaDocs < Object
       version = Dir.entries(spec_path + name).last
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec.json"
 
-      $log_all_terminal_commands = true
       $overwrite_existing_source_files = true
       $delete_source_after_docset_creation = false
+      $force_master = true
 
       document_spec_at_path spec_path
       command "open #{ $active_folder }/docsets/#{ name }/#{ version }/"
+      puts "Preview: #{ $active_folder }/docsets/#{ name }/#{ version }/"
     end
     
   end
@@ -236,6 +229,10 @@ class CocoaDocs < Object
 
     if options.find_index("--beta") != nil
       $beta = true
+    end
+    
+    if options.find_index("--master") != nil
+      $force_master = true
     end
 
     if options.find_index("--verbose") != nil

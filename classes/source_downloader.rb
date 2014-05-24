@@ -3,8 +3,8 @@ class SourceDownloader
   attr_accessor :spec, :download_location, :overwrite
 
   def download_pod_source_files
-    puts "\n ----------------------"
-    puts "\n Looking at #{@spec.name} #{@spec.version} \n".bold.blue
+    version = $force_master ? "Master" : @spec.version
+    puts "\n Looking at #{@spec.name} #{version} \n".bold.blue
 
     cache_path = File.join($active_folder, 'download_cache')
 
@@ -15,8 +15,14 @@ class SourceDownloader
         return
       end
     end
+    
+    source = @spec.source
+    if $force_master
+      source[:tag] = nil
+      source[:commit] = nil
+    end
 
-    downloader = Pod::Downloader.for_target(@download_location, @spec.source)
+    downloader = Pod::Downloader.for_target(@download_location, source)
     downloader.cache_root = cache_path
     downloader.download
   end

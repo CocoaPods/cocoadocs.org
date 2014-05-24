@@ -576,7 +576,10 @@ header#app_header {
 		  padding-bottom:24px;
 		  line-height: 44px;
 	  }
-
+      
+      path#twitter-subtitle-bird {
+        fill: $darker-color;
+      }
       .twitter-handle {
         vertical-align:text-top;
       }
@@ -606,6 +609,20 @@ header#app_header {
         height:20px;
         color: $darker-color;
         display:block;
+      }
+      
+      &#travis a {
+        padding:12px 8px;
+      }
+      
+      &#travis.green a {
+        color:#4fe94f;
+      }
+      &#travis.red a {
+        color:#ed0015;
+      }
+      &#travis.black a {
+        color:black;
       }
     }
 
