@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Cocoadocs.org : Static generator for CocoaDocs.org" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cocoadocs.org</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CocoaPods/cocoadocs.org">View on GitHub</a>
+
+          <h1 id="project_title">Cocoadocs.org</h1>
+          <h2 id="project_tagline">Static generator for CocoaDocs.org</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CocoaPods/cocoadocs.org/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CocoaPods/cocoadocs.org/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a name="cocoadocsorg" class="anchor" href="#cocoadocsorg"><span class="octicon octicon-link"></span></a>CocoaDocs.org</h2>
+
+<p>CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.</p>
+
+<h3>
+<a name="how-it-works-for-the-99-use-cases" class="anchor" href="#how-it-works-for-the-99-use-cases"><span class="octicon octicon-link"></span></a>How it works for the 99% use cases:</h3>
+
+<p>CocoaDocs receives webhook notifications from the <a href="https://github.com/CocoaPods/Specs">CocoaPods/Specs</a> repo on GitHub whenever a CocoaPod is updated. </p>
+
+<p>This triggers a process that will generate documentation for <em>objective-c</em> projects via <a href="http://gentlebytes.com/appledoc/">appledoc</a> and host them for the community. This process can take around 15 minutes after your Podspec is published via trunk. </p>
+
+<p>At the minute 404 errors are likely to occur at our end due to work on trying to move to a queuing system. Presuming your library is made out of objc.</p>
+
+<h5>
+<a name="what-control-do-i-have-over-cocoadocs-as-a-library-author" class="anchor" href="#what-control-do-i-have-over-cocoadocs-as-a-library-author"><span class="octicon octicon-link"></span></a>What control do I have over CocoaDocs as a library author?</h5>
+
+<ul>
+<li>
+<p>You have the ability to edit the styling of CocoaDocs for your own libraries to give some personal branding. This is done by adding a <code>.cocoadocs.yml</code> file to the root of your library, which overwrite these properties:   </p>
+
+<div class="highlight highlight-yaml"><pre><span class="l-Scalar-Plain">highlight-font</span><span class="p-Indicator">:</span> <span class="s">'"GT</span><span class="nv"> </span><span class="s">Walsheim",</span><span class="nv"> </span><span class="s">"gt_walsheim_regular",</span><span class="nv"> </span><span class="s">"Avant</span><span class="nv"> </span><span class="s">Garde</span><span class="nv"> </span><span class="s">Gothic</span><span class="nv"> </span><span class="s">ITCW01Dm",</span><span class="nv"> </span><span class="s">"Avant</span><span class="nv"> </span><span class="s">Garde",</span><span class="nv"> </span><span class="s">"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class="nv"> </span><span class="s">"Arial"'</span>
+
+<span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="s">'"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class="nv"> </span><span class="s">"Arial",</span><span class="nv"> </span><span class="s">san-serif'</span>
+<span class="l-Scalar-Plain">code</span><span class="p-Indicator">:</span> <span class="s">'"Monaco",</span><span class="nv"> </span><span class="s">"Menlo",</span><span class="nv"> </span><span class="s">"Consolas",</span><span class="nv"> </span><span class="s">"Courier</span><span class="nv"> </span><span class="s">New",</span><span class="nv"> </span><span class="s">monospace'</span>
+
+<span class="l-Scalar-Plain">highlight-color</span><span class="p-Indicator">:</span> <span class="s">'#ED0015'</span>
+<span class="l-Scalar-Plain">highlight-dark-color</span><span class="p-Indicator">:</span> <span class="s">'#A90010'</span>
+
+<span class="l-Scalar-Plain">darker-color</span><span class="p-Indicator">:</span> <span class="s">'#C6B7B2'</span>
+<span class="l-Scalar-Plain">darker-dark-color</span><span class="p-Indicator">:</span> <span class="s">'#A8A8A8'</span>
+
+<span class="l-Scalar-Plain">background-color</span><span class="p-Indicator">:</span> <span class="s">'#F2F2F2'</span>
+<span class="l-Scalar-Plain">alt-link-color</span><span class="p-Indicator">:</span> <span class="s">'#B7233F'</span>
+<span class="l-Scalar-Plain">warning-color</span><span class="p-Indicator">:</span> <span class="s">'#B80E3D'</span>
+</pre></div>
+
+<p>All defaults are stored in this config file for you to overwite.</p>
+</li>
+<li><p>You can find an example of styling at <a href="https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml">ARAnalytics's .cocoadocs.yml</a></p></li>
+<li>
+<p>You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it.</p>
+
+<div class="highlight highlight-yaml"><pre><span class="l-Scalar-Plain">additional_guides</span><span class="p-Indicator">:</span>
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">https://github.com/magicalpanda/MagicalRecord/wiki/Installation</span>
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">https://github.com/CocoaPods/CocoaPods/wiki/A-pod-specification</span>
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docs/Getting_started.md</span>
+</pre></div>
+</li>
+<li><p>If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the <a href="http://guides.cocoapods.org/syntax/podspec.html#documentation_url">documentation_url</a> reference in your Podspec.</p></li>
+</ul><h5>
+<a name="previewing-my-library-in-cocoadocs" class="anchor" href="#previewing-my-library-in-cocoadocs"><span class="octicon octicon-link"></span></a>Previewing my library in CocoaDocs</h5>
+
+<p>First, clone this repo: <code>git clone https://github.com/CocoaPods/cocoadocs.org</code> then run <code>bundle install</code> you will need a working copy of <a href="http://gentlebytes.com/appledoc">appledoc</a> ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. )</p>
+
+<p>To preview your library run:</p>
+
+<pre><code>bundle exec ./cocoadocs.rb preview ARAnalytics
+</code></pre>
+
+<p>This will get the <em>master</em> version of your library and run it through CocoaDocs, then open the resulting folder, you can open the <code>index.html</code> in a web browser to preview locally.</p>
+
+<h5>
+<a name="cocoadocs-admin-use-cases" class="anchor" href="#cocoadocs-admin-use-cases"><span class="octicon octicon-link"></span></a>CocoaDocs admin use cases:</h5>
+
+<p>You'll need to have a working copy of <code>s3cmd</code> installed, likely with <code>brew install</code>. </p>
+
+<ul>
+<li>Starting the webhook server is as simple as running <code>./server.rb</code>
+</li>
+<li>Creating a doc and uploading to S3 for the most recent version of a pod: <code>./cocoadocs cocoadocs doc [pod_name or path_to_podspec]</code>
+</li>
+<li>Reparsing &amp; uploading <em>x</em> amount of days worth of CocoaPods: <code>./cocoadocs cocoadocs days [days]</code>
+</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cocoadocs.org maintained by <a href="https://github.com/CocoaPods">CocoaPods</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
