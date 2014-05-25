@@ -13,7 +13,6 @@ require 'open-uri'
 require 'net/http'
 require "shellwords"
 require "colored"
-require 'open-uri'
 
 require 'tilt'
 require "slim"
@@ -357,6 +356,8 @@ class CocoaDocs < Object
       fixer.fix
       fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
       fixer.add_docset_redirects if $upload_redirects_for_docsets
+
+      SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
