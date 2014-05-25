@@ -22,6 +22,28 @@ require 'tempfile'
 
 class CocoaDocs < Object
 
+  def help
+    puts "\n" +
+    "    CocoaDocs command line                                                    \n" +
+    "                                                                              \n" +
+    "     ./cocoadocs.rb preview [spec name or podspec path]                       \n" +
+    "     ./cocoadocs.rb cocoadocs doc [spec name]                                 \n" +
+    "     ./cocoadocs.rb cocoadocs days [days]                                     \n" +
+    "     ./cocoadocs.rb cocoadocs url [json podspec url]                          \n" +
+    "                                                                              \n" +
+    "     Options:                                                                 \n" +
+    "                                                                              \n" +
+    "       --verbose                                                              \n" +
+    "       --skip-fetch                                                           \n" +
+    "       --skip-source-download                                                 \n" +
+    "       --dont-delete-source                                                   \n" +
+    "       --create-website \"http://example.com/\"                               \n" +
+    "       --specs-repo \"name/repo\" or \"http://u:p@server.com/git/specs.git\"  \n" +
+    "       --data-folder \"activity\"                                             \n" +
+    "       --upload-s3 \"bucketname\"                                             \n" +
+    "       --master                                                               \n"
+  end
+
   $specs_repo = "CocoaPods/Specs"
   $s3_bucket = "cocoadocs.org"
   $website_home = "http://cocoadocs.org/"
@@ -167,28 +189,6 @@ class CocoaDocs < Object
     }  
   end
 
-  def help
-    puts "\n" +
-    "    CocoaDocs command line                                                    \n" +
-    "                                                                              \n" +
-    "     app.rb preview [spec name or podspec path]                               \n" +
-    "     app.rb cocoadocs doc [spec name]                                         \n" +
-    "     app.rb cocoadocs days [days]                                             \n" +
-    "     app.rb cocoadocs url [json podspec url]                                  \n" +
-    "                                                                              \n" +
-    "     Options:                                                                 \n" +
-    "                                                                              \n" +
-    "       --verbose                                                              \n" +
-    "       --skip-fetch                                                           \n" +
-    "       --skip-source-download                                                 \n" +
-    "       --dont-delete-source                                                   \n" +
-    "       --create-website \"http://example.com/\"                               \n" +
-    "       --specs-repo \"name/repo\" or \"http://u:p@server.com/git/specs.git\"  \n" +
-    "       --data-folder \"activity\"                                             \n" +
-    "       --upload-s3 \"bucketname\"                                             \n" +
-    "       --master                                                               \n"
-  end
-
   def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
@@ -199,7 +199,7 @@ class CocoaDocs < Object
   end
 
   # tip: offline command
-  # ruby app.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
+  # ./cocoadocs.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
 
   def preview
 
