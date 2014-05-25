@@ -1,20 +1,21 @@
-<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html', "doc") %>
+<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html').gsub('href="appledoc_stylesheet', 'href="../../appledoc_stylesheet' ) %>
 
-  <%= self.class %>
+    <body>
 
-	<body>
+    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html', "document").gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
-    
 		<article>
+		{{#page}}<h1><a id="libraryTitle" href="{{documentationIndexPath}}">{{projectName}} {{strings/objectPage/libraryTitlePostfix}}</a></h1>
+		<a id="developerHome" href="{{documentationIndexPath}}">{{projectCompany}}</a>{{/page}}
+
 			<a title="{{page/title}}" name="top"></a>
 			<div id="overview_contents" role="main">
 				<div id="container">
 					{{#object/comment}}{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}{{/object/comment}}
 				</div>
-        
-        <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
-        
+
+                <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+
 			</div>
 		</article>
 

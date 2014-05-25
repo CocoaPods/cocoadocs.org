@@ -10,7 +10,7 @@ class AppledocTemplateGenerator
 
   def generate_doc_vars
     vputs "Generating SCSS variables for templates"
-    
+
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
     settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
 
@@ -22,11 +22,11 @@ class AppledocTemplateGenerator
 
     vars_string = ""
     for key, value in settings
-      if value
+      if value && value.is_a?(String)
         vars_string << "$" + key + ": "  + value + "; \n"
       end
     end
-    
+
     vars = Dir.pwd + "/views/_vars.scss"
     File.unlink vars
     File.open(vars, 'w') { |f| f.write vars_string }
@@ -72,7 +72,7 @@ class AppledocTemplateGenerator
     if context
       @rendering_context = context
     end
-  
+
     filename = File.basename(filepath, ".html.erb")
 
     erb = ERB.new(File.read(filepath))
