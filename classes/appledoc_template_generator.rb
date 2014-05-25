@@ -4,7 +4,6 @@ class AppledocTemplateGenerator
 
   def generate
     generate_doc_vars
-    generate_versions
     generate_templates
   end
 
@@ -46,24 +45,6 @@ class AppledocTemplateGenerator
     end
 
     `cp -r #{Dir.pwd}/views/docset #{@appledoc_templates_path}`
-  end
-
-  def generate_versions
-    vputs "Grabbing different version of the library"
-
-    filepath = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + @spec.name
-
-    versions = []
-    Dir.foreach filepath do |version|
-      next if version[0] == '.'
-      next unless File.directory? "#{filepath}/#{version}/"
-
-      versions << version
-    end
-
-    # Semantically order them as they're in unix's order ATM
-    # we convert them to Versions, then back to strings
-    @versions = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }
   end
 
   # ERB helpers
