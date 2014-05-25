@@ -181,12 +181,11 @@ class CocoaDocs < Object
     
     FileUtils.mkdir_p(File.dirname(podspec_path))
     
-    open(url) { |f|
+    open(url) do|f|
       File.open(podspec_path, 'w') { |tmp| tmp.write(f.read) }
       @params[0] = podspec_path
       doc
-  
-    }  
+    end
   end
 
   def spec_with_name(name)
