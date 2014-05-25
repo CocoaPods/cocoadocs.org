@@ -23,6 +23,7 @@ class DocsetFixer
   def post_process
     percent = get_doc_percent
     travis = get_travis_color
+    programming_guides = get_programming_guides
 
     Dir.glob(@docset_path + "**/*.html").each do |name|
       text = File.read(name)
@@ -30,9 +31,22 @@ class DocsetFixer
       replace = text.gsub("$$$DOC_PERCENT$$$", percent)
       replace = replace.gsub("$$$TRAVIS_INFO$$$", travis["color"])
       replace = replace.gsub("$$$TRAVIS_URL$$$", travis["url"])
+      replace = replace.gsub("$$$PROGRAMMING_GUIDES$$$", programming_guides)
 
       File.open(name, "w") { |file| file.puts replace }
     end
+  end
+
+  def get_programming_guides
+      list = ""
+      guides_path = File.join(@docset_path, "docs", "guides")
+
+      Dir.foreach guides_path do |guide|
+        next if guide.start_with? "."
+
+        list << "<li><a href='#{ guide }'>#{ guide.gsub(".html", "") }</a></li>"
+      end
+      list
   end
 
   def get_doc_percent
