@@ -118,7 +118,6 @@
 "l-Scalar-Plain">https://github.com/CocoaPods/CocoaPods/wiki/A-pod-specification</span>
      <span class="p-Indicator">-</span> <span class=
 "l-Scalar-Plain">docs/Getting_started.md</span>
-
 </pre>
               </div>
             </li>
@@ -131,12 +130,27 @@
             </li>
           </ul>
 
-          <h5><a name="previewing-my-library-in-cocoadocs" class="anchor" href=
+          <h3>How can I force a reparse of my library?</h3>
+
+          <p>Send a get request (open your browser) to:</p>
+          <pre>
+<code>http://199.229.252.197:4567/redeploy/[Podname]/[Version]</code>
+</pre>
+          <p>Please be cautious with this, it's a very time-expensive call. You'll get a JSON response saying whether parsing has started.</p>
+
+<h3>How can I find out if something went wrong?</h3>
+
+          <p>Send a get request (open your browser) to:</p>
+          <pre>
+<code>http://199.229.252.197:4567/error/[Podname]/[Version]</code>
+</pre>
+
+          <h3><a name="previewing-my-library-in-cocoadocs" class="anchor" href=
           "#previewing-my-library-in-cocoadocs"></a>Previewing my library in
-          CocoaDocs</h5>
+          CocoaDocs</h3>
 
           <p>First, clone this repo: <code>git clone
-          https://github.com/CocoaPods/cocoadocs.org</code> then run <code>bundle
+          https://github.com/CocoaPods/cocoadocs.org</code> then run <code><a href="http://bundler.io">bundle</a>
           install</code> you will need a working copy of <a href=
           "http://gentlebytes.com/appledoc">appledoc</a> ( which you can get a binary
           version from their github releases page as compiling doesn't work in Xcode
@@ -144,14 +158,19 @@
 
           <p>To preview your library run:</p>
           <pre>
-<code>bundle exec ./cocoadocs.rb preview ARAnalytics
-    </code>
+<code>bundle exec ./cocoadocs.rb preview ARAnalytics</code>
 </pre>
 
           <p>This will get the <em>master</em> version of your library and run it through
           CocoaDocs, then open the resulting folder, you can open the
           <code>index.html</code> in a web browser to preview locally.</p>
 
+          <h1>Header 1</h1>
+          <h2>Header 2</h2>
+          <h3>Header 3</h3>
+          <h4>Header 4</h4>
+          <h5>Header 5</h5>
+          <h6>Header 6</h6>
         </div>
       </div>
     </div>
