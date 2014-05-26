@@ -290,7 +290,7 @@ class CocoaDocs < Object
 
   # Update or clone Cocoapods/Specs
   def update_specs_repo
-    repo = File.join($active_folder, $cocoadocs_specs_name, "Specs")
+    repo = File.join($active_folder, $cocoadocs_specs_name)
     unless File.exists? repo
       vputs "Creating Specs Repo for #{$specs_repo}"
       unless repo.include? "://"
@@ -328,7 +328,7 @@ class CocoaDocs < Object
   # We have to run commands from a different git root if we want to do anything in the Specs repo
 
   def run_git_command_in_specs git_command
-    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name, "Specs")) do
+    Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
      `git #{git_command}`
     end
   end
