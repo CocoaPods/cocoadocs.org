@@ -2,7 +2,12 @@
 
 def command command_to_run
   puts " " + command_to_run.yellow if $verbose
-  system command_to_run
+  success = system command_to_run
+
+  # appledoc always fails for me ... ?
+  unless success && !command_to_run.start_with? "appledoc"
+    puts (command_to_run + " failed!").red
+  end
 end
 
 # a nice puts
