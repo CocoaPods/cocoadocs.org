@@ -10,7 +10,7 @@ end
 post "/hooks/trunk/" + ARGV[0] do
   data = JSON.parse(params["message"])
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
-    
+
   process_url data["data_url"]
   "{ success: true }"
 end
@@ -24,18 +24,23 @@ get "/error/:pod/:version" do
    return "{}"
 end
 
+get "/redeploy/:pod/latest" do
+  begin
+    trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name))
+    versions = JSON.parse(trunk_spec)["versions"]
+    versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
+
+    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ versions[-1] }/#{ params[:pod] }.podspec.json"
+
+  rescue Exception => e
+    return "{ parsing: false }"
+  end
+end
+
 get "/redeploy/:pod/:version" do
-  repo_path = $active_folder + "/#{$cocoadocs_specs_name}/"
-  podspec_path = repo_path + "/#{params[:pod]}/#{params[:version]}/#{params[:pod]}.podspec"
+    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ params[:pod] }/#{ params[:pod] }.podspec.json"
 
-   if File.exists? podspec_path
-     vputs "Generating docs for #{podspec_path}"
-     process_path podspec_path
-     
-     return "{ parsing: true }"
-   end
-
-   return "{ parsing: false }"
+   return "{ parsing: true }"
 end
 
 get "/" do
