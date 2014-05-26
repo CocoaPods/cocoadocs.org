@@ -44,7 +44,7 @@ get "/redeploy/:pod/latest" do
 end
 
 get "/redeploy/:pod/:version" do
-    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ params[:pod] }/#{ params[:pod] }.podspec.json"
+    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ version }/#{ params[:pod] }.podspec.json"
 
    return "{ parsing: true }"
 end
