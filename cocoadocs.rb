@@ -402,10 +402,10 @@ class CocoaDocs < Object
         f.puts e.backtrace.inspect
       }
 
-      p "--------------#{spec.defined_in_file}-------------".red
-      p e.message.red
-      p "------"
-      p e.backtrace.inspect.red
+      puts "--------------#{spec.defined_in_file}-------------".red
+      puts e.message.red
+      puts "------"
+      puts e.backtrace.inspect.red
     end
 
     logger = HistoryLogger.new(:spec => spec)
