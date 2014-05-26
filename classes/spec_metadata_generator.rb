@@ -7,8 +7,13 @@ class SpecMetadataGenerator
     count = 0;
 
     begin
-      trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name))
+      trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name).body
       versions = JSON.parse(trunk_spec)["versions"]
+
+      versions = versions.keep_if do |version|
+        REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version["name"] + "/index.html").ok?
+      end
+
       versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 
       hash_string = {
@@ -21,7 +26,7 @@ class SpecMetadataGenerator
 
     rescue Errno::ECONNRESET => e
       puts "Error generating Spec metadata: " + e.message.red
-      
+
       count += 1
       retry unless count > 3
     end

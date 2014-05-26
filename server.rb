@@ -2,6 +2,10 @@
 
 require 'sinatra'
 require 'json'
+require 'cocoapods'
+
+gem 'nap'
+require 'rest'
 
 if ARGV.length == 0
   puts "You need to give a Trunk webhook URL"
@@ -26,14 +30,15 @@ end
 
 get "/redeploy/:pod/latest" do
   begin
-    trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod] ))
+    trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod]).body
     versions = JSON.parse(trunk_spec)["versions"]
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 
     process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ versions[-1] }/#{ params[:pod] }.podspec.json"
+    return "{ parsing: true }"
 
   rescue Exception => e
-    p e.message.red
+    p e.message
     return "{ parsing: false }"
   end
 end

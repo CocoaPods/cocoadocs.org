@@ -4,6 +4,9 @@ require 'cocoapods-downloader'
 require 'cocoapods-core'
 require 'cocoapods'
 
+gem 'nap'
+require 'rest'
+
 require 'ostruct'
 require 'yaml'
 require 'json'

@@ -127,6 +127,7 @@ DEPENDENCIES
   colored (~> 1.2)
   docstat
   htmlcompressor
+  nap
   nokogiri
   octokit
   sass
