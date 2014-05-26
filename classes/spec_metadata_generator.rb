@@ -17,8 +17,10 @@ class SpecMetadataGenerator
 
       File.open(json_filepath, "wb") { |f| f.write hash_string }
 
-    rescue Exception => e
-      puts "Error generating Spec metadata: " + e
+    rescue Errno::ECONNRESET => e
+      puts "Error generating Spec metadata: " + e.inspect
+      count += 1
+      retry unless count > 3
     end
   end
 
