@@ -56,10 +56,38 @@ html.dash, html.xcode {
 
 html.dash {
 
-  // support the mouseovers for code selection
-  .method-declaration code {
-    pointer-events: none;
+  #overview_contents {
+    background-color: $background-color;
   }
+
+  .index-overview {
+    margin-top: 0;
+    padding-top:20px;
+  }
+
+  body {
+    background-color: white;
+  }
+
+  /* Move the padding to the outer div to increase the clickable area: */
+  .method-declaration code {
+      padding: 0px;
+  }
+
+  .method-subsection {
+      padding: 10px 28px 10px 10px;
+  }
+
+  /* Restore pointer events so that user is able to select text: */
+  html.dash .method-declaration code {
+     /* Remove the pointer-events: none */
+  }
+
+  /* This reduces the clickable area of the text and increases the click-to-copy area. Text selection only works inside the text and everywhere else it's click-to-copy */
+  .method-declaration code {
+      display: inline;
+  }
+
 
   article {
     width:auto;
