@@ -17,7 +17,8 @@ class SpecMetadataGenerator
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 
     hash_string = {
-      :versions => versions,
+      :name => @spec.name,
+      :versions => versions
     }.to_json.to_s
 
     json_filepath = @docset_path + "../metadata.json"
