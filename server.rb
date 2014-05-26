@@ -26,7 +26,7 @@ end
 
 get "/redeploy/:pod/latest" do
   begin
-    trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name))
+    trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod] ))
     versions = JSON.parse(trunk_spec)["versions"]
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 

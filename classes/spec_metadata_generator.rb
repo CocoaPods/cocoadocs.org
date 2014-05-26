@@ -4,6 +4,8 @@ class SpecMetadataGenerator
 
   def generate
     vputs "Generating the Specs version metadata and all that"
+    count = 0;
+    
     begin
       trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name))
       versions = JSON.parse(trunk_spec)["versions"]
