@@ -19,7 +19,7 @@
     [/(\s+)(for|while|do|if|else|break|in)(\s+|\()/g, "$1<em class='em-keyword'>$2</em>$3"],
     [/(\s+|:)(YES|NO|return|break|continue|)(\s+|;)/g, "$1<em class='em-keyword'>$2</em>$3"],
     [/(\s+|\()(void|BOOL)(\s+|\))/g, "$1<em class='em-keyword'>$2</em>$3"],
-    [/(?:\/\*(?:[\s\S]*?)\*\/)|(?:([\s;])+\/\/(?:.*)$)/gm, "<em class='em-comment'>$1$2$3</em>"],
+    [/(\/\*(?:[\s\S]*?)\*\/)|(([\s;])+\/\/(?:.*)$)/gm, "<em class='em-comment'>$1$2</em>"],
     [/(\s+|:|,)([0-9])(\s+|:|,|;)/g, "$1<em class='em-number'>$2</em>$3"]
   ];
 
