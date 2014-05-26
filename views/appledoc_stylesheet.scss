@@ -1,11 +1,11 @@
 @import "vars";
 
 html.dash, html.xcode {
-	
+
   #has_index, header#app_header, #overview_contents {
     min-width:0;
   }
-  
+
   #has_index #container {
     float:none;
   }
@@ -13,7 +13,7 @@ html.dash, html.xcode {
   .hideInXcode {
     display:none;
   }
-  
+
   #object #contents {
     margin-top:0;
   }
@@ -381,19 +381,19 @@ header#app_header {
     position:absolute;
     top:25px;
     margin-top:19px;
-    
+
     svg {
      .first-half {
        fill:$background-color;
-     } 
-     
+     }
+
      .second-half {
        fill:$darker-color;
-     } 
+     }
     }
   }
 
-  
+
 
   div#header_actions {
     background-color: $background-color;
@@ -407,7 +407,7 @@ header#app_header {
     > svg {
       margin:20px;
       margin-top:12px;
-      
+
       path {
         stroke: $highlight-color;
       }
@@ -576,7 +576,7 @@ header#app_header {
 		  padding-bottom:24px;
 		  line-height: 44px;
 	  }
-      
+
       path#twitter-subtitle-bird {
         fill: $darker-color;
       }
@@ -610,11 +610,11 @@ header#app_header {
         color: $darker-color;
         display:block;
       }
-      
+
       &#travis a {
         padding:12px 8px;
       }
-      
+
       &#travis.green a {
         color:#4fe94f;
       }
