@@ -94,7 +94,7 @@
       <% if @spec.or_spec_is_deprecated? %>
       <% end %>
 
-      <% if @versions.count > 1 %>
+      <% if @versions && @versions.count > 1 %>
       <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
       <ul>
         <% @versions.reverse_each do |version| %>
