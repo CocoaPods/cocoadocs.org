@@ -1,24 +1,49 @@
-<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html', "doc") %>
+<%= render_erb( Dir.pwd + '/views/appledoc_template/_head.html').gsub('href="appledoc_stylesheet', 'href="../../appledoc_stylesheet' ) %>
+<link rel="stylesheet" type="text/css" href="appledoc_gfm.css" media="all" />
 
-  <%= self.class %>
+    <body>
 
-	<body>
+        <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html', "document").gsub('class="hideInXcode"', 'class="hideInXcode minimised"').gsub('"../index.html"','"../../index.html"') %>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_header.html').gsub('class="hideInXcode"', 'class="hideInXcode minimised"') %>
-    
-		<article>
-			<a title="{{page/title}}" name="top"></a>
-			<div id="overview_contents" role="main">
-				<div id="container">
-					{{#object/comment}}{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}{{/object/comment}}
-				</div>
-        
-        <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
-        
-			</div>
+        <article>
+    		<div id="overview_contents" role="main">
+
+
+            <div id="header">
+                <div class="section-header">
+                    <h1 class="title title-header">{{page/title}}</h1>
+                </div>
+            </div>
+
+            <div id="has_index">
+
+            		<div id="container" class="section-overview index-overview">
+            			{{#object/comment}}{{#longDescription}}{{>GBCommentComponentsList}}{{/longDescription}}{{/object/comment}}
+            		</div>
+
+
+            		<div id="sidebar">
+                		<div class="index-column">
+                		    <h2 class="index-title">Programming Guides</h2>
+                		    <ul>
+                		      $$$PROGRAMMING_GUIDES$$$
+                		    </ul>
+                		</div>
+
+
+                    <div class="index-column">
+                        	<ul>
+                        		<li><a href="../../index.html">Back to Index</a></li>
+                        	</ul>
+                    </div>
+
+            		</div>
+
+                <%= render_erb( Dir.pwd + '/views/appledoc_template/_footer.html') %>
+            </div>
 		</article>
 
-    <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
+        <%= render_erb( Dir.pwd + '/views/appledoc_template/_final-scripts.html') %>
 
 	</body>
 </html>

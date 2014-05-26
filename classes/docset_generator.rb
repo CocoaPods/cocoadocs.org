@@ -1,7 +1,7 @@
 class DocsetGenerator
   include HashInit
   attr_accessor :spec, :from, :to, :readme_location, :appledoc_templates_path, :library_settings, :source_download_location
-  
+
   def create_docset
     vputs "Creating docset"
 
@@ -14,8 +14,8 @@ class DocsetGenerator
     headers = headers_for_spec_at_location @spec
     headers.map! { |header| Shellwords.escape header }
     headers = [from] if headers.count == 0
-    
-    guides = GuidesGenerator.new(:spec = @spec, :source_download_location => @source_download_location) 
+
+    guides = GuidesGenerator.new(:spec => @spec, :source_download_location => @source_download_location)
 
     verbosity = $verbose ? "5" : "1"
 
@@ -50,8 +50,8 @@ class DocsetGenerator
       "--keep-undocumented-objects",                         # not everyone will be documenting
       "--keep-undocumented-members",                         # so we should at least show something
       "--search-undocumented-doc",                           # uh? ( no idea what this does... )
-      
-      guides.generate_string_for_appledoc
+
+      guides.generate_string_for_appledoc,
 
       "--output #{@to}",                                      # where should we throw stuff
       *headers
@@ -61,12 +61,12 @@ class DocsetGenerator
       docset_command.insert(3, "--index-desc resources/overwritten_index.html")
     end
 
-    
+
     command docset_command.join(' ')
 
     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
     raise "Appledoc did not generate HTML for this project. Perhaps it has no objc classes." unless File.exists? to + "/html/index.html"
-    
+
   end
 
   def report_appledoc_error

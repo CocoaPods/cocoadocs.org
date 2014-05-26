@@ -5,49 +5,66 @@ class GuidesGenerator
 	attr_accessor :spec, :source_download_location
 
 	def generate_string_for_appledoc
-		guides = cocoadocs_settings["additional_guides"];
+		settings = cocoadocs_settings
+		return "" if settings.nil?
+		return "" unless settings.has_key? "additional_guides"
+
+		guides = settings["additional_guides"];
 		return "" unless guides.is_a? Array
-		return "" unless guides.count == 0
-		
+		return "" if guides.count == 0
+
 		vputs "Grabbing additional programming guides"
-		command = " "
-		
+
+		guides_folder = "guides"
+		docs_folder = File.join(@source_download_location, guides_folder);
+		Dir.mkdir(docs_folder) unless File.exist?(docs_folder)
+
+		includes = []
 		guides.each do |guide_path|
-			
+
 			if guide_path.include? "http"
+
+				# Native wiki support
+				# from https://github.com/magicalpanda/MagicalRecord/wiki/Installation
+				# to   https://raw.githubusercontent.com/wiki/magicalpanda/MagicalRecord/Installation.md
+
+				if guide_path.include?("github.com") && guide_path.include?("/wiki/")
+					guide_path = guide_path.gsub "/wiki", ""
+					guide_path = guide_path.gsub "github.com", "raw.githubusercontent.com/wiki"
+					guide_path = guide_path + ".md"
+				end
+
 				vputs " - downloading " + guide_path
+
 				file_contents = Net::HTTP.get(URI(guide_path))
-				file_path = File.join(@source_download_location, File.basename(guide_path))
+				file_path = File.join(docs_folder , File.basename(guide_path))
+				file_path = file_path.reverse.sub(".".reverse, "-template.".reverse).reverse
 				File.open(file_path, 'w') { |f| f.write file_contents }
-				command << " --include " + file_path
-				
+
 			else
-				if verify_file_path guide_path
-					command << " --include " + guide_path
+				local_path = File.join(@source_download_location, guide_path)
+
+				if File.exists? local_path
+					new_path = File.join(docs_folder, File.basename(local_path))
+					new_path = new_path.reverse.sub(".".reverse, "-template.".reverse).reverse
+
+					FileUtils.cp local_path, new_path
 				end
 			end
-	
-			command
-		end
-		
-		
-		def verify_file_path path
-			return false if path.include? "../"
-			return false if path.include? "&"
-			return false if path.include? ";"
-			return false if path.include? ";"
-			
-			File.exists? path
+
 		end
 
-		def cocoadocs_settings
-			cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
-			settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
-		
-			if File.exists? cocoadocs_settings
-				doc_settings = YAML::load(File.open(cocoadocs_settings).read)
-				settings.merge doc_settings
-			end
-		end 
+		" --include " + File.join(@source_download_location, guides_folder)
+	end
+
+	def cocoadocs_settings
+		cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
+		settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
+
+		if File.exists? cocoadocs_settings
+			doc_settings = YAML::load(File.open(cocoadocs_settings).read)
+			settings.merge doc_settings
+		end
+	end
 
 end

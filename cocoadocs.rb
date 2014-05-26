@@ -13,7 +13,6 @@ require 'open-uri'
 require 'net/http'
 require "shellwords"
 require "colored"
-require 'open-uri'
 
 require 'tilt'
 require "slim"
@@ -170,17 +169,17 @@ class CocoaDocs < Object
     @params[0] = @params[1]
     doc
   end
-  
+
   def cocoadocs_url
     $fetch_specs = false
     setup_for_cocoadocs
-    
+
     url = @params[1]
     spec_name = url.split("/")[-1]
     podspec_path = $active_folder + "/podspecs/" + spec_name
-    
+
     FileUtils.mkdir_p(File.dirname(podspec_path))
-    
+
     open(url) do|f|
       File.open(podspec_path, 'w') { |tmp| tmp.write(f.read) }
       @params[0] = podspec_path
@@ -205,7 +204,7 @@ class CocoaDocs < Object
     name = ARGV[1]
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/Specs/"
     version = ""
-    
+
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
       spec_path = "#{spec_path + name}/#{version}/#{name}.podspec.json"
@@ -218,7 +217,7 @@ class CocoaDocs < Object
       command "open #{ $active_folder }/docsets/#{ name }/#{ version }/"
       puts "Preview: #{ $active_folder }/docsets/#{ name }/#{ version }/"
     end
-    
+
   end
 
   private
@@ -228,7 +227,7 @@ class CocoaDocs < Object
     if options.find_index("--beta") != nil
       $beta = true
     end
-    
+
     if options.find_index("--master") != nil
       $force_master = true
     end
@@ -331,7 +330,7 @@ class CocoaDocs < Object
 
   def document_spec(spec)
     state = "failed"
-    
+
     begin
       download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
@@ -357,6 +356,8 @@ class CocoaDocs < Object
       fixer.fix
       fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
       fixer.add_docset_redirects if $upload_redirects_for_docsets
+
+      SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
@@ -393,10 +394,10 @@ class CocoaDocs < Object
       puts "------"
       puts e.backtrace.inspect.red
     end
-    
+
     logger = HistoryLogger.new(:spec => spec)
     logger.append_state state
-    
+
     puts "*"
   end
 

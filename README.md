@@ -32,7 +32,16 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
    
    All defaults are stored in this config file for you to overwite.
 
- -  You can find an example at [ARAnalytics's .cocoadocs.yml](https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml)
+ - You can find an example of styling at [ARAnalytics's .cocoadocs.yml](https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml)
+ - You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it.
+ 
+   ```yaml
+   additional_guides:
+     - https://github.com/magicalpanda/MagicalRecord/wiki/Installation
+     - https://github.com/CocoaPods/CocoaPods/wiki/A-pod-specification
+     - docs/Getting_started.md
+   ```
+
  -  If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the [documentation_url](http://guides.cocoapods.org/syntax/podspec.html#documentation_url) reference in your Podspec.
 
 ##### Previewing my library in CocoaDocs
