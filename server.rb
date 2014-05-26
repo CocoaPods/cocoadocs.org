@@ -33,6 +33,7 @@ get "/redeploy/:pod/latest" do
     process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ versions[-1] }/#{ params[:pod] }.podspec.json"
 
   rescue Exception => e
+    p e.message.red
     return "{ parsing: false }"
   end
 end

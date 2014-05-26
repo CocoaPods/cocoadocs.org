@@ -5,7 +5,7 @@ class SpecMetadataGenerator
   def generate
     vputs "Generating the Specs version metadata and all that"
     count = 0;
-    
+
     begin
       trunk_spec = Net::HTTP.get(URI("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name))
       versions = JSON.parse(trunk_spec)["versions"]
@@ -20,7 +20,8 @@ class SpecMetadataGenerator
       File.open(json_filepath, "wb") { |f| f.write hash_string }
 
     rescue Errno::ECONNRESET => e
-      puts "Error generating Spec metadata: " + e.inspect
+      puts "Error generating Spec metadata: " + e.message.red
+      
       count += 1
       retry unless count > 3
     end
