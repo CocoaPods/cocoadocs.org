@@ -36,7 +36,7 @@ class GuidesGenerator
 
 				vputs " - downloading " + guide_path
 
-				file_contents = Net::HTTP.get(URI(guide_path))
+				file_contents = REST.get(guide_path).body
 				file_path = File.join(docs_folder , File.basename(guide_path))
 				file_path = file_path.reverse.sub(".".reverse, "-template.".reverse).reverse
 				File.open(file_path, 'w') { |f| f.write file_contents }
