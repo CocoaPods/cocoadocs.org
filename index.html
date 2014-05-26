@@ -1,123 +1,261 @@
-<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org" />
+  <meta charset='utf-8' />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="description" content=
+  "Cocoadocs.org : Static generator for CocoaDocs.org" />
+  <link rel="stylesheet" type="text/css" media="screen" href=
+  "http://cocoadocs.org/docsets/OHHTTPStubs/3.1.2/appledoc_stylesheet.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href=
+  "http://cocoadocs.org/docsets/OHHTTPStubs/3.1.2/appledoc_gfm.css" />
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Cocoadocs.org : Static generator for CocoaDocs.org" />
+  <script type="text/javascript" src="javascripts/jscolor.js"></script>
+  <title>Cocoadocs Developer Documentation</title>
+  <style id="the_style_yo">
+    header#app_header.minimised:hover {
+      height:116px;
+    }
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    header#app_header.minimised:hover > div {
+      height:60px;
+    }
+  </style>
+</head>
 
-    <title>Cocoadocs.org</title>
-  </head>
+<body>
 
-  <body>
+  <header id="app_header" class="hideInXcode minimised"> <div>
+    <a href="/" id="logo"> <!--?xml version="1.0" encoding="UTF-8" standalone="no"?--> <svg width="80px" height="28px" viewBox="0 0 80 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"> <title>Slice 1</title> <description>Created with Sketch.</description> <defs></defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g sketch:type="MSLayerGroup"> <path class="first-half" d="M9,2.67002856 L5.26765082,1 L0,14.0830708 L5.32083173,27 L8.97423193,25.361745 L4.38057141,14.0488089 L9,2.67002856 Z" id="&lt;-copy" sketch:type="MSShapeGroup"></path> <path class="second-half" d="M80,2.67002856 L76.2676508,1 L71,14.0830708 L76.3208317,27 L79.9742319,25.361745 L75.3805714,14.0488089 L80,2.67002856 Z" id="&lt;-copy" sketch:type="MSShapeGroup" transform="translate(75.500000, 14.000000) scale(-1, 1) translate(-75.500000, -14.000000) "></path> <path class="first-half" d="M26.04,22.4456522 C21.3103448,22.4456522 18.1448276,18.6793478 18.1448276,14 C18.1448276,9.58695652 20.9751724,5.55434783 25.9655172,5.55434783 C29.8013793,5.55434783 32.1103448,7.91304348 32.6689655,11.0326087 L38.9627586,11.0326087 C38.2551724,4.9076087 33.5255172,0 25.8910345,0 C16.9903448,0 12,6.69565217 12,14 C12,21.4565217 17.2510345,28 25.9655172,28 C33.2648276,28 37.9944828,23.3967391 39,17.7663043 L32.5944828,17.7663043 C31.8496552,20.3913043 29.5406897,22.4456522 26.04,22.4456522 Z" id="C-copy" sketch:type="MSShapeGroup"></path> <path class="second-half" d="M44,1 L44,28 L53.5185185,28 C62.1481481,28 67,21.4042857 67,14.5 C67,7.59571429 62.1111111,1 53.5185185,1 L44,1 Z M53.255102,6 C58.1564626,6 61,9.88571429 61,14 C61,18.1142857 58.1564626,22 53.255102,22 L50,22 L50,6 L53.255102,6 Z" id="DOCS" sketch:type="MSShapeGroup"></path> </g> </g> </svg> </a>
+    <h1>CocoaDocs Developer Docs</h1>
+  </div> </header>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/CocoaPods/cocoadocs.org">View on GitHub</a>
+  <article>
+  <div id="has_index">
+    <div id="container">
+      <div class="section-overview index-overview">
+        <div id="GFM">
+          <h1>What is CocoaDocs?</h1>
+          <p>CocoaDocs gets a <a href="https://github.com/CocoaPods/trunk.cocoapods.org">trunk</a> <a href="https://github.com/CocoaPods/trunk.cocoapods.org#webhook">webhook</a> notifications to run <a href="https://github.com/tomaz/appledoc/">appledoc</a> on every public CocoaPod library.</p>
+          <p>This means after you run a <code>pod trunk push XXX</code> we ( usually in a few minutes) have a new version of the docs generated.
 
-          <h1 id="project_title">Cocoadocs.org</h1>
-          <h2 id="project_tagline">Static generator for CocoaDocs.org</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/CocoaPods/cocoadocs.org/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/CocoaPods/cocoadocs.org/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+          <h3><a name="what-control-do-i-have-over-cocoadocs-as-a-library-author" class=
+          "anchor" href=
+          "#what-control-do-i-have-over-cocoadocs-as-a-library-author"></a>What control
+          do I have over CocoaDocs as a library author?</h3>
+
+          <ul>
+            <li>
+              <p>You have the ability to edit the styling of CocoaDocs for your own
+              libraries to give some personal branding. This is done by adding a
+              <code>.cocoadocs.yml</code> file to the root of your library, which
+              overwrite these properties:</p>
+
+              <div class="highlight highlight-yaml">
+                <pre>
+<span class="l-Scalar-Plain">highlight-font</span><span class=
+"p-Indicator">:</span> <span class="s">'"GT</span><span class="nv"> </span><span class=
+"s">Walsheim",</span><span class="nv"> </span><span class=
+"s">"gt_walsheim_regular",</span><span class="nv"> </span><span class=
+"s">"Avant</span><span class="nv"> </span><span class="s">Garde</span><span class=
+"nv"> </span><span class="s">Gothic</span><span class="nv"> </span><span class=
+"s">ITCW01Dm",</span><span class="nv"> </span><span class="s">"Avant</span><span class=
+"nv"> </span><span class="s">Garde",</span><span class="nv"> </span><span class=
+"s">"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class=
+"nv"> </span><span class="s">"Arial"'</span>
+
+<span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class=
+"s">'"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class=
+"nv"> </span><span class="s">"Arial",</span><span class="nv"> </span><span class=
+"s">san-serif'</span>
+<span class="l-Scalar-Plain">code</span><span class="p-Indicator">:</span> <span class=
+"s">'"Monaco",</span><span class="nv"> </span><span class="s">"Menlo",</span><span class=
+"nv"> </span><span class="s">"Consolas",</span><span class="nv"> </span><span class=
+"s">"Courier</span><span class="nv"> </span><span class="s">New",</span><span class=
+"nv"> </span><span class="s">monospace'</span>
+
+<span class="l-Scalar-Plain">highlight-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#ED0015'</span>
+<span class="l-Scalar-Plain">highlight-dark-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#A90010'</span>
+
+<span class="l-Scalar-Plain">darker-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#C6B7B2'</span>
+<span class="l-Scalar-Plain">darker-dark-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#A8A8A8'</span>
+
+<span class="l-Scalar-Plain">background-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#F2F2F2'</span>
+<span class="l-Scalar-Plain">alt-link-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#B7233F'</span>
+<span class="l-Scalar-Plain">warning-color</span><span class=
+"p-Indicator">:</span> <span class="s">'#B80E3D'</span>
+</pre>
+              </div>
+
+              <p>All defaults are stored in this config file for you to overwite.</p>
+            </li>
+
+            <li>
+              <p>You can find an example of styling at <a href=
+              "https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml">ARAnalytics's
+              .cocoadocs.yml</a></p>
+            </li>
+
+            <li>
+              <p>You can add your own documentation guides, either from remote markdown
+              files or from files locally inside the library. CocoaDocs will
+              automatically convert github wiki pages to the markdown behind it.</p>
+
+              <div class="highlight highlight-yaml">
+                <pre>
+<span class="l-Scalar-Plain">additional_guides</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class=
+"l-Scalar-Plain">https://github.com/magicalpanda/MagicalRecord/wiki/Installation</span>
+     <span class="p-Indicator">-</span> <span class=
+"l-Scalar-Plain">https://github.com/CocoaPods/CocoaPods/wiki/A-pod-specification</span>
+     <span class="p-Indicator">-</span> <span class=
+"l-Scalar-Plain">docs/Getting_started.md</span>
+
+</pre>
+              </div>
+            </li>
+
+            <li>
+              <p>If you host your own documentation, and/or just prefer to not use
+              CocoaDocs you can use the <a href=
+              "http://guides.cocoapods.org/syntax/podspec.html#documentation_url">documentation_url</a>
+              reference in your Podspec.</p>
+            </li>
+          </ul>
+
+          <h5><a name="previewing-my-library-in-cocoadocs" class="anchor" href=
+          "#previewing-my-library-in-cocoadocs"></a>Previewing my library in
+          CocoaDocs</h5>
+
+          <p>First, clone this repo: <code>git clone
+          https://github.com/CocoaPods/cocoadocs.org</code> then run <code>bundle
+          install</code> you will need a working copy of <a href=
+          "http://gentlebytes.com/appledoc">appledoc</a> ( which you can get a binary
+          version from their github releases page as compiling doesn't work in Xcode
+          5.1+. )</p>
+
+          <p>To preview your library run:</p>
+          <pre>
+<code>bundle exec ./cocoadocs.rb preview ARAnalytics
+    </code>
+</pre>
+
+          <p>This will get the <em>master</em> version of your library and run it through
+          CocoaDocs, then open the resulting folder, you can open the
+          <code>index.html</code> in a web browser to preview locally.</p>
+
+        </div>
+      </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h2>
-<a name="cocoadocsorg" class="anchor" href="#cocoadocsorg"><span class="octicon octicon-link"></span></a>CocoaDocs.org</h2>
+    <div id="sidebar">
+      <div class="index-column">
+        <h2 class="index-title">Choose your Colours</h2>
 
-<p>CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.</p>
+        <ul>
+          <li>
+            <div>highlight-color</div>
+            <input id="highlight_color" class ="color {onImmediateChange:'updateFromInput(highlight_color);'}"
+              value="ED0015"
+              data-selector="header#app_header h1, h1, h2, a { color:#HEX; } -- #gfm h1 { border-left: 4px #HEX solid;}">
+          </li>
 
-<h3>
-<a name="how-it-works-for-the-99-use-cases" class="anchor" href="#how-it-works-for-the-99-use-cases"><span class="octicon octicon-link"></span></a>How it works for the 99% use cases:</h3>
 
-<p>CocoaDocs receives webhook notifications from the <a href="https://github.com/CocoaPods/Specs">CocoaPods/Specs</a> repo on GitHub whenever a CocoaPod is updated. </p>
+          <li>
+            <div>highlight-dark-color</div>
+            <input id="highlight_dark_color" class ="color {onImmediateChange:'updateFromInput(highlight_dark_color);'}"
+              value="A90010"
+              data-selector='#gfm h3, a:hover { color:#HEX; } -- #gfm pre { border-left: 2px solid #HEX; } '>
+          </li>
 
-<p>This triggers a process that will generate documentation for <em>objective-c</em> projects via <a href="http://gentlebytes.com/appledoc/">appledoc</a> and host them for the community. This process can take around 15 minutes after your Podspec is published via trunk. </p>
+          <li>
+            <div>darker-color</div>
+            <input id="darker_color"  class ="color {onImmediateChange:'updateFromInput(darker_color);'}"
+              value="C6B7B2"
+              data-selector="header#app_header a#logo svg .second-half { fill:#HEX; } ">
+          </li>
 
-<p>At the minute 404 errors are likely to occur at our end due to work on trying to move to a queuing system. Presuming your library is made out of objc.</p>
+          <li>
+            <div>darker-dark-color</div>
+            <input id="darker_dark_color" class="color onImmediateChange:'updateFromInput(darker_dark_color);'"
+              value="A8A8A8"
+              data-selector="">
+          </li>
 
-<h5>
-<a name="what-control-do-i-have-over-cocoadocs-as-a-library-author" class="anchor" href="#what-control-do-i-have-over-cocoadocs-as-a-library-author"><span class="octicon octicon-link"></span></a>What control do I have over CocoaDocs as a library author?</h5>
+          <li>
+            <div>background-color</div>
+            <input id="background_color" class ="color {onImmediateChange:'updateFromInput(background_color);'}"
+              value="F2F2F2"
+              data-selector="body { background-color: #HEX; } -- header#app_header a#logo svg .first-half { fill: #HEX; }">
+          </li>
 
-<ul>
-<li>
-<p>You have the ability to edit the styling of CocoaDocs for your own libraries to give some personal branding. This is done by adding a <code>.cocoadocs.yml</code> file to the root of your library, which overwrite these properties:   </p>
+          <li>
+            <div>alt-link-color (in code)</div>
+            <input id="alt-link-color" class="color"
+              value="B7233F"
+              data-selector=""
+              onchange="updateYAML()">
+          </li>
 
-<div class="highlight highlight-yaml"><pre><span class="l-Scalar-Plain">highlight-font</span><span class="p-Indicator">:</span> <span class="s">'"GT</span><span class="nv"> </span><span class="s">Walsheim",</span><span class="nv"> </span><span class="s">"gt_walsheim_regular",</span><span class="nv"> </span><span class="s">"Avant</span><span class="nv"> </span><span class="s">Garde</span><span class="nv"> </span><span class="s">Gothic</span><span class="nv"> </span><span class="s">ITCW01Dm",</span><span class="nv"> </span><span class="s">"Avant</span><span class="nv"> </span><span class="s">Garde",</span><span class="nv"> </span><span class="s">"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class="nv"> </span><span class="s">"Arial"'</span>
+          <li>
+            <div>warning-color</div>
+            <input id="warning-color" class="color"
+              value="B80E3D"
+              data-selector=""
+              onchange="updateYAML()">
+          </li>
 
-<span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="s">'"Helvetica</span><span class="nv"> </span><span class="s">Neue",</span><span class="nv"> </span><span class="s">"Arial",</span><span class="nv"> </span><span class="s">san-serif'</span>
-<span class="l-Scalar-Plain">code</span><span class="p-Indicator">:</span> <span class="s">'"Monaco",</span><span class="nv"> </span><span class="s">"Menlo",</span><span class="nv"> </span><span class="s">"Consolas",</span><span class="nv"> </span><span class="s">"Courier</span><span class="nv"> </span><span class="s">New",</span><span class="nv"> </span><span class="s">monospace'</span>
+        </ul>
+      </div>
 
-<span class="l-Scalar-Plain">highlight-color</span><span class="p-Indicator">:</span> <span class="s">'#ED0015'</span>
-<span class="l-Scalar-Plain">highlight-dark-color</span><span class="p-Indicator">:</span> <span class="s">'#A90010'</span>
-
-<span class="l-Scalar-Plain">darker-color</span><span class="p-Indicator">:</span> <span class="s">'#C6B7B2'</span>
-<span class="l-Scalar-Plain">darker-dark-color</span><span class="p-Indicator">:</span> <span class="s">'#A8A8A8'</span>
-
-<span class="l-Scalar-Plain">background-color</span><span class="p-Indicator">:</span> <span class="s">'#F2F2F2'</span>
-<span class="l-Scalar-Plain">alt-link-color</span><span class="p-Indicator">:</span> <span class="s">'#B7233F'</span>
-<span class="l-Scalar-Plain">warning-color</span><span class="p-Indicator">:</span> <span class="s">'#B80E3D'</span>
-</pre></div>
-
-<p>All defaults are stored in this config file for you to overwite.</p>
-</li>
-<li><p>You can find an example of styling at <a href="https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml">ARAnalytics's .cocoadocs.yml</a></p></li>
-<li>
-<p>You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it.</p>
-
-<div class="highlight highlight-yaml"><pre><span class="l-Scalar-Plain">additional_guides</span><span class="p-Indicator">:</span>
- <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">https://github.com/magicalpanda/MagicalRecord/wiki/Installation</span>
- <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">https://github.com/CocoaPods/CocoaPods/wiki/A-pod-specification</span>
- <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docs/Getting_started.md</span>
-</pre></div>
-</li>
-<li><p>If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the <a href="http://guides.cocoapods.org/syntax/podspec.html#documentation_url">documentation_url</a> reference in your Podspec.</p></li>
-</ul><h5>
-<a name="previewing-my-library-in-cocoadocs" class="anchor" href="#previewing-my-library-in-cocoadocs"><span class="octicon octicon-link"></span></a>Previewing my library in CocoaDocs</h5>
-
-<p>First, clone this repo: <code>git clone https://github.com/CocoaPods/cocoadocs.org</code> then run <code>bundle install</code> you will need a working copy of <a href="http://gentlebytes.com/appledoc">appledoc</a> ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. )</p>
-
-<p>To preview your library run:</p>
-
-<pre><code>bundle exec ./cocoadocs.rb preview ARAnalytics
-</code></pre>
-
-<p>This will get the <em>master</em> version of your library and run it through CocoaDocs, then open the resulting folder, you can open the <code>index.html</code> in a web browser to preview locally.</p>
-
-<h5>
-<a name="cocoadocs-admin-use-cases" class="anchor" href="#cocoadocs-admin-use-cases"><span class="octicon octicon-link"></span></a>CocoaDocs admin use cases:</h5>
-
-<p>You'll need to have a working copy of <code>s3cmd</code> installed, likely with <code>brew install</code>. </p>
-
-<ul>
-<li>Starting the webhook server is as simple as running <code>./server.rb</code>
-</li>
-<li>Creating a doc and uploading to S3 for the most recent version of a pod: <code>./cocoadocs cocoadocs doc [pod_name or path_to_podspec]</code>
-</li>
-<li>Reparsing &amp; uploading <em>x</em> amount of days worth of CocoaPods: <code>./cocoadocs cocoadocs days [days]</code>
-</li>
-</ul>
-      </section>
+      <div class="index-column">
+        <h2 class="index-title">YAML</h2>
+        <textarea id="yaml" rows="18"></textarea>
+        <p>Create a .cocoadocs.yml file with the above YAML to colour your CocoaPod documentation.</p>
+      </div>
     </div>
+  </div>
+</article>
+  <script>
+    function updateYAML() {
+        var inputs = document.querySelectorAll("#sidebar input");
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Cocoadocs.org maintained by <a href="https://github.com/CocoaPods">CocoaPods</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+        yaml.value = 'highlight-font: §"GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial§\n'.replace(/§/g,"'")
 
-    
+        yaml.value += 'body: §"Helvetica Neue", "Arial", san-serif§\n'.replace(/§/g,"'")
+        yaml.value += 'code: §"Monaco", "Menlo", "Consolas", "Courier New", monospace§\n\n'.replace(/§/g,"'")
 
-  </body>
+        for (var i = 0; i < inputs.length; i++) {
+          var input = inputs[i];
+          yaml.value += input.id.replace(/_/g,"-") + ': "#' + input.value + '"' + "\n";
+        };
+    }
+
+    function updateFromInput(element) {
+      var selector = element.attributes["data-selector"].value
+      var stylesheet = document.styleSheets[1]
+
+      var rules = selector.split("--");
+      for (var i = 0; i < rules.length; i++) {
+        var rule = rules[i].replace(/HEX/g, element.value)
+        console.log(rule)
+        stylesheet.insertRule(rule, stylesheet.cssRules.length)
+
+      }
+
+      updateYAML()
+    }
+    updateYAML()
+  </script>
+
+
+</body>
 </html>
