@@ -40,6 +40,7 @@ class DocsetFixer
   def get_programming_guides
       list = ""
       guides_path = File.join(@docset_path, "docs", "guides")
+      return "" unless File.exist? guides_path
 
       Dir.foreach guides_path do |guide|
         next if guide.start_with? "."

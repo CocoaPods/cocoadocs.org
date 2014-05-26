@@ -7,7 +7,7 @@ class WebsiteGenerator
   def generate
     move_public_items
   end
-  
+
   def move_public_items
     resources_dir = "#{$active_folder}/html/assets/"
 
@@ -32,7 +32,7 @@ class WebsiteGenerator
   def save_file file, path
     FileUtils.mkdir_p(File.dirname(path))
     File.unlink path if File.exists? path
-       
+
     File.open(path, "wb") { |f| f.write file }
   end
 
@@ -49,12 +49,13 @@ class WebsiteGenerator
   # Upload the docsets folder to s3
   def upload_folder from, to, command
     vputs "Uploading #{from} with #{command} on s3"
+    verbose = $verbose ? "--verbose" : ""
 
     upload_command = [
       "s3cmd #{command}",
       "--recursive  --acl-public",
       "--no-check-md5",
-      "--verbose --human-readable-sizes --reduced-redundancy",
+      verbose + " --human-readable-sizes --reduced-redundancy",
       "#{ $active_folder }/#{from} s3://#{ $s3_bucket }#{to}"
     ]
 
