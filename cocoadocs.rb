@@ -205,6 +205,8 @@ class CocoaDocs < Object
   def preview
 
     name = ARGV[1]
+    update_specs_repo
+
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/Specs/"
     version = ""
 
@@ -219,6 +221,8 @@ class CocoaDocs < Object
       document_spec_at_path spec_path
       command "open #{ $active_folder }/docsets/#{ name }/#{ version }/"
       puts "Preview: #{ $active_folder }/docsets/#{ name }/#{ version }/"
+    else
+      puts "Could not find spec at " + spec_path + name
     end
 
   end
