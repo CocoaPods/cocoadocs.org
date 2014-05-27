@@ -408,10 +408,9 @@ class CocoaDocs < Object
       p e.backtrace.inspect.red
     end
 
-    logger = HistoryLogger.new(:spec => spec)
-    logger.append_state state
+    HistoryLogger.new(:spec => spec, :download_location => docset_location, :source_download_location => download_location).append_state state
 
-    puts "*"
+    puts "* - " + $website_home + "docsets/" + spec.name + "/" + spec.version.to_s  + "/"
   end
 
   def document_spec_at_path(spec_path)

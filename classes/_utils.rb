@@ -5,7 +5,7 @@ def command command_to_run
   success = system command_to_run
 
   # appledoc always fails for me ... ?
-  unless success && !command_to_run.start_with?("appledoc")
+  if !success && !command_to_run.strip.start_with?("appledoc")
     puts (command_to_run + " failed!").red
   end
 end
