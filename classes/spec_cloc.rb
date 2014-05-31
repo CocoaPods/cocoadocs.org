@@ -1,3 +1,5 @@
+require 'yaml'
+
 class Cloc
   def initialize(spec, source_download_location, *options)
     @spec = spec
