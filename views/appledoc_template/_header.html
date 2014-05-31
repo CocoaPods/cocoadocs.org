@@ -53,7 +53,7 @@
             <div claass ="clearfix"></div>
 
             <% if @spec.or_is_github? %>
-              <p><a href="<%= @spec.or_github_url %>">Open Repo in Github</a><p>
+              <p><a href="<%= @spec.or_github_url %>" id="open_in_github" data-github-username="<%= @spec.or_user %>" data-github-repo="<%= @spec.or_repo %>" data-github-ref="<%= @spec.or_git_ref %>">Open Repo in Github</a><p>
             <% end %>
             <p><a href="<%= @spec.or_podspec_url %>">Open Podspec</a></p>
             <% if @spec.or_has_twitter_url? %>
