@@ -12,6 +12,7 @@ class DocsetFixer
     delete_extra_docset_folder
     fix_relative_links_in_gfm
     remove_known_badges
+    fix_header_anchors
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
@@ -161,7 +162,6 @@ class DocsetFixer
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
-
   def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
@@ -178,6 +178,26 @@ class DocsetFixer
     ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|
       doc.css(selector).each do |image|
         image.parent.remove
+      end
+    end
+
+    `rm #{@readme_path}`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+  def fix_header_anchors
+    vputs "Fixing header anchor names"
+
+    return unless @spec.or_is_github?
+    return unless File.exists? @readme_path
+
+    doc = Nokogiri::HTML(File.read @readme_path)
+
+    nodes = doc.css('h1, h2, h3')
+    nodes.each do |node|
+      href = node.css('a').first
+      if href.attributes["name"]
+        href.attributes["name"].value = href.attributes["name"].value.gsub(/user-content-/, "")
       end
     end
 
