@@ -175,8 +175,15 @@ class DocsetFixer
       link.remove if link.inner_html.include? ".png?branch"
     end
 
-    ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|
-      doc.css(selector).each do |image|
+    urls_to_delete = ['http://cocoapod-badges.herokuapp', 
+                      'https://cocoapod-badges.herokuapp', 
+                      'https://img.shields.io', 
+                      'http://img.shields.io',
+                      'https://reposs.herokuapp.com',
+                      'https://secure.travis-ci.org',
+                      'https://kiwiirc.com']
+    urls_to_delete.each do |selector|
+      doc.css('img[data-canonical-src^="' + selector + '"]').each do |image|
         image.parent.remove
       end
     end
