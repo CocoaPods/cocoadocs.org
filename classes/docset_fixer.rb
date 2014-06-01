@@ -23,15 +23,12 @@ class DocsetFixer
 
   def post_process
     percent = get_doc_percent
-    travis = get_travis_color
     programming_guides = get_programming_guides
 
     Dir.glob(@docset_path + "**/*.html").each do |name|
       text = File.read(name)
 
       replace = text.gsub("$$$DOC_PERCENT$$$", percent)
-      replace = replace.gsub("$$$TRAVIS_INFO$$$", travis["color"])
-      replace = replace.gsub("$$$TRAVIS_URL$$$", travis["url"])
       replace = replace.gsub("$$$PROGRAMMING_GUIDES$$$", programming_guides)
 
       File.open(name, "w") { |file| file.puts replace }
@@ -61,35 +58,6 @@ class DocsetFixer
     # How nice am I?!
     percent = "100" if (stats["ratio"] > 0.95);
     percent
-  end
-
-  def get_travis_color
-    vputs "Getting travis information"
-
-    state = "black"
-    url = "http://docs.travis-ci.com/user/languages/objective-c/"
-
-    if spec.or_is_github?
-      client = Travis::Client.new
-      repo_id = spec.or_user + "/" + spec.or_repo
-
-      begin
-        repo = Travis::Repository.find(repo_id)
-        build = repo.branches[spec.or_git_ref]
-
-        if build.state == "passed"
-          state = "green"
-        else
-          state = "red"
-        end
-
-        url = "https://travis-ci.org/#{repo_id}/builds/#{build.id}"
-      rescue Exception => e
-        vputs "Error getting travis info"
-      end
-
-    end
-    { "color" => state, "url" => url }
   end
 
   def get_latest_version_in_folder
