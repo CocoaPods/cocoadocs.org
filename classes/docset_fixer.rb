@@ -12,6 +12,7 @@ class DocsetFixer
     delete_extra_docset_folder
     fix_relative_links_in_gfm
     remove_known_badges
+    fix_header_anchors
     move_gfm_readme_in
     move_css_in
     move_docset_icon_in
@@ -22,15 +23,12 @@ class DocsetFixer
 
   def post_process
     percent = get_doc_percent
-    travis = get_travis_color
     programming_guides = get_programming_guides
 
     Dir.glob(@docset_path + "**/*.html").each do |name|
       text = File.read(name)
 
       replace = text.gsub("$$$DOC_PERCENT$$$", percent)
-      replace = replace.gsub("$$$TRAVIS_INFO$$$", travis["color"])
-      replace = replace.gsub("$$$TRAVIS_URL$$$", travis["url"])
       replace = replace.gsub("$$$PROGRAMMING_GUIDES$$$", programming_guides)
 
       File.open(name, "w") { |file| file.puts replace }
@@ -60,35 +58,6 @@ class DocsetFixer
     # How nice am I?!
     percent = "100" if (stats["ratio"] > 0.95);
     percent
-  end
-
-  def get_travis_color
-    vputs "Getting travis information"
-
-    state = "black"
-    url = "http://docs.travis-ci.com/user/languages/objective-c/"
-
-    if spec.or_is_github?
-      client = Travis::Client.new
-      repo_id = spec.or_user + "/" + spec.or_repo
-
-      begin
-        repo = Travis::Repository.find(repo_id)
-        build = repo.branches[spec.or_git_ref]
-
-        if build.state == "passed"
-          state = "green"
-        else
-          state = "red"
-        end
-
-        url = "https://travis-ci.org/#{repo_id}/builds/#{build.id}"
-      rescue Exception => e
-        vputs "Error getting travis info"
-      end
-
-    end
-    { "color" => state, "url" => url }
   end
 
   def get_latest_version_in_folder
@@ -161,7 +130,6 @@ class DocsetFixer
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
-
   def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
@@ -175,9 +143,36 @@ class DocsetFixer
       link.remove if link.inner_html.include? ".png?branch"
     end
 
-    ['img[data-canonical-src^="http://cocoapod-badges.herokuapp"]', 'img[data-canonical-src^="https://img.shields.io"]'].each do |selector|
-      doc.css(selector).each do |image|
+    urls_to_delete = ['http://cocoapod-badges.herokuapp', 
+                      'https://cocoapod-badges.herokuapp', 
+                      'https://img.shields.io', 
+                      'http://img.shields.io',
+                      'https://reposs.herokuapp.com',
+                      'https://secure.travis-ci.org',
+                      'https://kiwiirc.com']
+    urls_to_delete.each do |selector|
+      doc.css('img[data-canonical-src^="' + selector + '"]').each do |image|
         image.parent.remove
+      end
+    end
+
+    `rm #{@readme_path}`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+  def fix_header_anchors
+    vputs "Fixing header anchor names"
+
+    return unless @spec.or_is_github?
+    return unless File.exists? @readme_path
+
+    doc = Nokogiri::HTML(File.read @readme_path)
+
+    nodes = doc.css('h1, h2, h3')
+    nodes.each do |node|
+      href = node.css('a').first
+      if href.attributes["name"]
+        href.attributes["name"].value = href.attributes["name"].value.gsub(/user-content-/, "")
       end
     end
 

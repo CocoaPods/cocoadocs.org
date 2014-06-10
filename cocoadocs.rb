@@ -372,6 +372,8 @@ class CocoaDocs < Object
 
       SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
+      cloc = Cloc.new(spec, download_location)
+
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
 
