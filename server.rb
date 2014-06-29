@@ -12,7 +12,7 @@ if ARGV.length == 0
 end
 
 post "/hooks/trunk/" + ARGV[0] do
-  data = JSON.parse(params["message"])
+  data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
 
   process_url data["data_url"]
