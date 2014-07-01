@@ -81,6 +81,7 @@ class DocsetGenerator
         :page => {
           :title => @spec.name
         },
+
         :indexDescription => {
         },
        :hasDocs => {
@@ -88,10 +89,8 @@ class DocsetGenerator
           :docs => [{ :href => "#", :title => error }]
         }
     }
-
-    handlebars = Handlebars::Context.new
-    template = handlebars.compile(File.read(index_template_path))
-    index_content = template.call(metadata)
+    tempalate_contents = File.read(index_template_path)
+    index_content = Mustache.render(tempalate_contents, metadata)
 
     fake_index_content = File.read("resources/overwritten_index.html")
 
