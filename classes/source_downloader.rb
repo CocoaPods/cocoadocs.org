@@ -15,11 +15,11 @@ class SourceDownloader
         return
       end
     end
-    
+
     source = @spec.source
     if $force_master
-      source[:tag] = nil
-      source[:commit] = nil
+      source[:tag] = nil if source.has_key? :source
+      source[:commit] = nil if source.has_key? :commit
     end
 
     downloader = Pod::Downloader.for_target(@download_location, source)
