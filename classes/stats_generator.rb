@@ -20,7 +20,7 @@ class StatsGenerator
   end
 
   def generated_download_size
-    `du -s #{ @download_location}`.split("\t")[0]
+    `du -sm #{ @download_location}`.split("\t")[0]
   end
   
   def readme_metadata
