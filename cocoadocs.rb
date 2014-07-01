@@ -98,7 +98,7 @@ class CocoaDocs < Object
     end
 
     cloc_path = `which cloc`.strip.chomp
-    if cloc_path == "cloc not found"
+    if cloc_path == ""
       puts "You need an to install cloc".red
       puts "run " + "brew install cloc".purple
       exit

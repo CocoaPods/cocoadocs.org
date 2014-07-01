@@ -34,8 +34,7 @@ class AppledocTemplateGenerator
   def generate_templates
     vputs "Creating appledoc template at for #{@spec.name}"
 
-    Dir.mkdir(@appledoc_templates_path) unless File.exist?(@appledoc_templates_path)
-    Dir.mkdir(@appledoc_templates_path + "/html") unless File.exist?(@appledoc_templates_path + "/html")
+    `mkdir -p #{@appledoc_templates_path}/html` unless File.exist?(@appledoc_templates_path + "/html")
 
     Dir[Dir.pwd + "/views/appledoc_template/*.html.erb"].each do |file|
       filename = File.basename(file, ".html.erb")
