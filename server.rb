@@ -12,7 +12,7 @@ if ARGV.length == 0
 end
 
 post "/hooks/trunk/" + ARGV[0] do
-  data = JSON.parse(params["message"])
+  data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
 
   process_url data["data_url"]
@@ -55,14 +55,9 @@ end
 
 private
 
-def process_path path
-  this_folder = File.expand_path(File.dirname(__FILE__))
-  pid = Process.spawn( File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "doc", path, { :chdir => this_folder })
-  Process.detach pid
-end
-
 def process_url url
   this_folder = File.expand_path(File.dirname(__FILE__))
   pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", url, { :chdir => this_folder })
   Process.detach pid
 end
+
