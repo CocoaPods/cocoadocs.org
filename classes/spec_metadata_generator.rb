@@ -1,6 +1,6 @@
 class SpecMetadataGenerator
   include HashInit
-  attr_accessor :spec, :docset_path
+  attr_accessor :spec, :docset_path, :versions
 
   def generate
     vputs "Generating the Specs version metadata and all that"
@@ -13,18 +13,19 @@ class SpecMetadataGenerator
       REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version["name"] + "/index.html").ok?
     end
 
+    @versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
+    @versions
+  end
 
-    versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
-
+  def save
     hash_string = {
       :name => @spec.name,
-      :versions => versions
+      :versions => @versions
     }.to_json.to_s
 
     json_filepath = @docset_path + "../metadata.json"
 
     File.open(json_filepath, "wb") { |f| f.write hash_string }
-
   end
 
 end

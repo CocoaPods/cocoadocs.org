@@ -376,11 +376,16 @@ class CocoaDocs < Object
       readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
       readme.create_readme
 
-      appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location })
+      version_metadata = SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location)
+      versions = version_metadata.generate
+
+      appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
       appledoc_template.generate
 
       generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
       generator.create_docset
+
+      version_metadata.save
 
       fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
       fixer.fix
@@ -388,7 +393,6 @@ class CocoaDocs < Object
       fixer.add_docset_redirects if $upload_redirects_for_docsets
       percent_doc = fixer.get_doc_percent
 
-      SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
