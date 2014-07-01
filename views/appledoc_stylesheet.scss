@@ -225,15 +225,15 @@ table {
 }
 
 td {
-  border: 1px solid #9BB3CD;
+  border: 1px solid $highlight-dark-color;
   padding: .667em;
   font-size: 100%;
 }
 
 th {
-  border: 1px solid #9BB3CD;
+  border: 1px solid $highlight-dark-color;
   padding: .3em .667em .3em .667em;
-  background: #93A5BB;
+  background: $highlight-dark-color;
   font-size: 103%;
   font-weight: bold;
   color: white;
