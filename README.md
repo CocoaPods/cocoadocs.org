@@ -47,7 +47,7 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
 ##### Previewing my library in CocoaDocs
 
 
-First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` you will need a working copy of [appledoc](http://gentlebytes.com/appledoc) ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. )
+First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` you will need a working copy of [appledoc](http://gentlebytes.com/appledoc) ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. ) and [cloc](http://cloc.sourceforge.net) (use `brew install cloc`)
 
 To preview your library run:
 

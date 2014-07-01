@@ -1,11 +1,8 @@
 require 'yaml'
 
-class Cloc
-  def initialize(spec, source_download_location, *options)
-    @spec = spec
-    @source_download_location = source_download_location
-    @options = options.push('--yaml', '--quiet')
-  end
+class ClocStatsGenerator
+  include HashInit
+  attr_accessor :spec, :source_download_location, :options, :output_location
 
   def source_files
     pathlist = Pod::Sandbox::PathList.new( Pathname.new(@source_download_location) )
@@ -26,10 +23,14 @@ class Cloc
   end
 
   def generate
+    vputs "Generating CLOC stats"
+    @options = ['--yaml', '--quiet']
     yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
     hash = YAML.load yaml
     hash.delete 'header'
-    hash.map {|l, r| Results.new(l, r)}
+    results = hash.map {|l, r| Results.new(l, r).to_json }
+
+    File.open(@output_location, "wb") { |f| f.write results.to_json.to_s}
   end
 
   class Results
@@ -40,5 +41,10 @@ class Cloc
         self.send("#{key}=", hash[key])
       end
     end
+
+    def to_json
+      { :lang => @language, :files => @nFiles, :comment => @comment, :code => @code }.to_json
+    end
+
   end
 end

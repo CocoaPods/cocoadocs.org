@@ -37,6 +37,7 @@ class CocoaDocs < Object
     "                                                                              \n" +
     "       --verbose                                                              \n" +
     "       --skip-fetch                                                           \n" +
+    "       --skip-cloc                                                            \n" +
     "       --skip-source-download                                                 \n" +
     "       --dont-delete-source                                                   \n" +
     "       --create-website \"http://example.com/\"                               \n" +
@@ -61,6 +62,7 @@ class CocoaDocs < Object
   $overwrite_existing_source_files = true
   $delete_source_after_docset_creation = true
   $skip_downloading_readme = false
+  $skip_cloc = false
 
   # Generate site site & json
   $generate_website = false
@@ -91,6 +93,13 @@ class CocoaDocs < Object
     appledoc_version = `appledoc --version`.strip.gsub("appledoc version: ", "").split(" ")[0].to_f
     if appledoc_version < 2.2
       puts "You need an updated version of appledoc, grab the latest release: https://github.com/tomaz/appledoc/releases".red
+      exit
+    end
+
+    cloc_path = `which cloc`.strip.chomp
+    if cloc_path == "cloc not found"
+      puts "You need an to install cloc".red
+      puts "run " + "brew install cloc".purple
       exit
     end
 
@@ -154,6 +163,7 @@ class CocoaDocs < Object
     $upload_redirects_for_docsets = true
     $upload_site_to_s3 = true
     $s3_bucket = "cocoadocs.org"
+
 
   end
 
@@ -254,6 +264,11 @@ class CocoaDocs < Object
       $fetch_specs = false
     end
 
+    if options.find_index("--skip-fetch") != nil
+      $skip_cloc = true
+    end
+
+
     if options.find_index("--dont-delete-source") != nil
       $delete_source_after_docset_creation = false
     end
@@ -350,6 +365,7 @@ class CocoaDocs < Object
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
       templates_location = $active_folder + "/template/"
+      cloc_json_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/cloc.json"
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
@@ -372,7 +388,9 @@ class CocoaDocs < Object
 
       SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
-      cloc = Cloc.new(spec, download_location)
+      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location, :output_location => cloc_json_location)
+      cloc.generate
+
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
