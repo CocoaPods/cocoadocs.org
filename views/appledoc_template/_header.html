@@ -98,7 +98,7 @@
       <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
       <ul>
         <% @versions.reverse_each do |version| %>
-          <li><a href="../<%= version %>"><%= version %></a></li>
+          <li><a href="http://cocoadocs.org/docsets/<%= @spec.name %>/<%= version %>"><%= version %></a></li>
         <% end %>
       </ul>
       </li>
