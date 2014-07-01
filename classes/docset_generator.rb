@@ -66,6 +66,7 @@ class DocsetGenerator
     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
 
     # Appledoc did not generate HTML for this project. Perhaps it has no objc classes?
+    index = to + "/html/index.html"
     unless File.exists? index
       show_error_page index, "Could not find Objective-C Classes."
     end
