@@ -143,9 +143,9 @@ class DocsetFixer
       link.remove if link.inner_html.include? ".png?branch"
     end
 
-    urls_to_delete = ['http://cocoapod-badges.herokuapp', 
-                      'https://cocoapod-badges.herokuapp', 
-                      'https://img.shields.io', 
+    urls_to_delete = ['http://cocoapod-badges.herokuapp',
+                      'https://cocoapod-badges.herokuapp',
+                      'https://img.shields.io',
                       'http://img.shields.io',
                       'https://reposs.herokuapp.com',
                       'https://secure.travis-ci.org',
@@ -171,7 +171,7 @@ class DocsetFixer
     nodes = doc.css('h1, h2, h3')
     nodes.each do |node|
       href = node.css('a').first
-      if href.attributes["name"]
+      if href && href.attributes["name"]
         href.attributes["name"].value = href.attributes["name"].value.gsub(/user-content-/, "")
       end
     end
