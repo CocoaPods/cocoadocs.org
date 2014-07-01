@@ -21,6 +21,7 @@ require 'tilt'
 require "slim"
 require "nokogiri"
 require 'tempfile'
+require 'handlebars'
 
 class CocoaDocs < Object
 

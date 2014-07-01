@@ -16,3 +16,4 @@ gem "htmlcompressor"
 gem "sinatra", "1.3.1"
 gem "travis"
 gem "nap"
+gem 'handlebars'

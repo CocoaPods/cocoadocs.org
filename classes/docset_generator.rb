@@ -61,21 +61,41 @@ class DocsetGenerator
       docset_command.insert(3, "--index-desc resources/overwritten_index.html")
     end
 
-
     command docset_command.join(' ')
 
     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
 
     # Appledoc did not generate HTML for this project. Perhaps it has no objc classes?
-    index = to + "/html/index.html"
     unless File.exists? index
-      create_no_objc_index index
+      show_error_page index, "Could not find Objective-C Classes."
     end
 
   end
 
-  def create_no_objc_index path
+  def show_error_page path, error
+    vputs "Got an error from Appledoc"
 
+    index_template_path = @appledoc_templates_path + "/html/index-template.html"
+    metadata = {
+        :page => {
+          :title => @spec.name
+        },
+        :indexDescription => {
+        },
+       :hasDocs => {
+          :strings => { :indexPage => { :docsTitle => "Error Parsing Pod" } },
+          :docs => [{ :href => "#", :title => error }]
+        }
+    }
+
+    handlebars = Handlebars::Context.new
+    template = handlebars.compile(File.read(index_template_path))
+    index_content = template.call(metadata)
+
+    fake_index_content = File.read("resources/overwritten_index.html")
+
+    index_content = index_content.gsub('index-overview">', 'index-overview">' + fake_index_content)
+    File.open(path, 'w') { |f| f.write(index_content) }
   end
 
   def report_appledoc_error
