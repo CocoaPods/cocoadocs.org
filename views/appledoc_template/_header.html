@@ -1,5 +1,5 @@
 <header id="app_header" class="hideInXcode">
-  <div>    
+  <div>
     <h1><a href="../index.html"><%= spec.name %><em><%= @spec.version %></em><a></h1>
 
     <a href="/" id="logo">
@@ -74,7 +74,7 @@
       <% if @spec.or_is_github? %>
       <li id = "travis" class="black"><a href="http://docs.travis-ci.com/user/languages/objective-c/">&#9679;</a></li>
       <% end %>
-      
+
       <li id = "contributors" class="no-link"><%= @spec.or_contributors_to_spec %></li>
 
       <% if @spec.or_can_show_code? %>
@@ -94,7 +94,7 @@
       <% if @spec.or_spec_is_deprecated? %>
       <% end %>
 
-      <% if @versions && @versions.count > 1 %>
+      <% if @versions != nil && @versions.count > 1 %>
       <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
       <ul>
         <% @versions.reverse_each do |version| %>

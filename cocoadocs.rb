@@ -364,7 +364,7 @@ class CocoaDocs < Object
       docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
-      templates_location = $active_folder + "/template/"
+      templates_location = $active_folder + "/template/#{spec.name}/"
       cloc_json_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/cloc.json"
 
       unless $skip_source_download

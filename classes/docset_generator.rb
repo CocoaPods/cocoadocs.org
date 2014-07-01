@@ -37,14 +37,14 @@ class DocsetGenerator
       "--create-html",                                          # eh, nice to have
       "--publish-docset",                                       # this should create atom
 
-      "--docset-feed-url #{$website_home}docsets/#{spec.name}/xcode-docset.atom",
+      "--docset-feed-url #{$website_home}docsets/#{@spec.name}/xcode-docset.atom",
       "--docset-atom-filename xcode-docset.atom",
 
-      "--docset-package-url #{$website_home}docsets/#{spec.name}/docset.xar",
+      "--docset-package-url #{$website_home}docsets/#{@spec.name}/docset.xar",
       "--docset-package-filename docset",
 
-      "--docset-fallback-url #{$website_home}docsets/#{spec.name}",
-      "--docset-feed-name #{spec.name}",
+      "--docset-fallback-url #{$website_home}docsets/#{@spec.name}",
+      "--docset-feed-name #{@spec.name}",
 
       # http://gentlebytes.com/appledoc-docs-examples-advanced/
       "--keep-undocumented-objects",                         # not everyone will be documenting
@@ -65,7 +65,16 @@ class DocsetGenerator
     command docset_command.join(' ')
 
     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
-    raise "Appledoc did not generate HTML for this project. Perhaps it has no objc classes." unless File.exists? to + "/html/index.html"
+
+    # Appledoc did not generate HTML for this project. Perhaps it has no objc classes?
+    index = to + "/html/index.html"
+    unless File.exists? index
+      create_no_objc_index index
+    end
+
+  end
+
+  def create_no_objc_index path
 
   end
 
