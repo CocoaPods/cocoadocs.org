@@ -64,3 +64,14 @@ You'll need to have a working copy of `s3cmd` installed, likely with `brew insta
 - Starting the webhook server is as simple as running `./server.rb`
 - Creating a doc and uploading to S3 for the most recent version of a pod: `./cocoadocs cocoadocs doc [pod_name or path_to_podspec]`
 - Reparsing & uploading _x_ amount of days worth of CocoaPods: `./cocoadocs cocoadocs days [days]`
+
+
+##### Thanks!
+
+The creation of CocoaDocs v2 has been made possible with help from the following:
+
+* Kyle Fuller - Admin & Code
+* Delisa Mason - Docstat gem
+* Clay Allsopp - Readme Complexity gem
+* Ash Furrow - Javascript & Ruby assistance
+* Boris Bugling - Boring legwork on templates

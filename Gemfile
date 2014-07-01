@@ -17,3 +17,5 @@ gem "sinatra", "1.3.1"
 gem "travis"
 gem "nap"
 gem 'mustache'
+gem 'readme-score', :git => "https://github.com/clayallsopp/readme-score.git"
+gem 'rb-readline'
