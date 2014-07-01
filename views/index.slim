@@ -1,55 +1,196 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>Cocoadocs</title>
-  <!-- 09 mar 2011 -->
-  <meta name="title" content="Cocoadocs.org - Hosted Documentation for iOS Libraries" /> 
-  <meta name="author"  content="orta; http://orta.github.com/" /> 
-  <meta name="description" content="Hosted objective-c documentation for Mac / iOS libraries" /> 
-  <meta name="keywords" content="cocoapods, cocoa, ios, objective C" /> 
-  <meta name="robots" content="all, follow"/> 
-  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    
-  <script src="assets/string_score.js"></script>
-  <link href="assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
-</head>
+doctype html
+html lang="en-en"
+  head
+    <!-- 09 mar 2013 --> <!-- 14 Jun 2014 -->
 
-body
-  div id="content"
-    header id="masthead"
-      a href="http://cocoadocs.org"
-        h1 Cocoa<em>Docs</em>
-        h2 Hosted Docs for Objective-C Libraries.
-    
-    div id="command_bar"
-      a href="#" id="search_indicator"
-        img height=32 width=32 src="assets/img/search_glass.png"
-        
-      <input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="library name..."  onkeyup="podSearchHasChanged()">
+    meta charset="utf-8"
+    meta name="keywords" content="documentation cocoapods objective-c package manager docs"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
 
-      a id="about_link" href="#"
-        img src="assets/img/question_mark.png" height=32 width=32 onclick="document.getElementById('about').style.display = 'block';"
-    
-    ul id="results"
-  
-    div id="loading" style="display:none"
-      p Loading...
-      
-    div id="no_results" style="display:none"    
-      p No results found
+    meta name="title" content="CocoaDocs"
+    meta name="author"  content="orta; http://orta.github.io"
+    meta name="description" content="Hosted documentation for Mac / iOS libraries"
+    meta name="keywords" content="CocoaPods, Cocoa, ios, objective C, swift"
+    meta name="robots" content="all, follow"
 
-    div id="about" style="display:none"
-      p Cocoadocs is a project from <a href="http://twitter.com/cocoapods">@cocoapods</a> by <a href="http://twitter.com/orta">@orta</a> - more info coming soon.
-    
-    div id="footer_pod"
-      a href="http://cocoapods.org" 
-        img src="assets/img/cocoapods.png"
-      
-  
-  script src="assets/string_score.js"
-  script src="assets/app.js" 
-  script src="apple_documents.jsonp" async="true"
-    
-<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-29866548-2', 'cocoadocs.org');ga('send', 'pageview');
-</script>
+    link rel="shortcut icon" href="http://cocoapods.org/favicons/favicon.ico" type="image/x-icon"
+    link rel="apple-touch-icon" href="http://cocoapods.org/favicons/apple-touch-icon.png"
+    link rel="apple-touch-icon" sizes="57x57" href="http://cocoapods.org/favicons/apple-touch-icon-57x57.png"
+    link rel="apple-touch-icon" sizes="60x60" href="http://cocoapods.org/favicons/apple-touch-icon-60x60.png"
+    link rel="apple-touch-icon" sizes="72x72" href="http://cocoapods.org/favicons/apple-touch-icon-72x72.png"
+    link rel="apple-touch-icon" sizes="76x76" href="http://cocoapods.org/favicons/apple-touch-icon-76x76.png"
+    link rel="apple-touch-icon" sizes="114x114" href="http://cocoapods.org/favicons/apple-touch-icon-114x114.png"
+    link rel="apple-touch-icon" sizes="120x120" href="http://cocoapods.org/favicons/apple-touch-icon-120x120.png"
+    link rel="apple-touch-icon" sizes="144x144" href="http://cocoapods.org/favicons/apple-touch-icon-144x144.png"
+    link rel="apple-touch-icon" sizes="152x152" href="http://cocoapods.org/favicons/apple-touch-icon-152x152.png"
+
+    link href="http://cocoapods.org/stylesheets/app.css" media="screen" rel="stylesheet" type="text/css"
+
+  body
+    nav.navbar.navbar-static-top role="navigation"
+      section.container
+        div.navbar-header
+
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-header-collapse"
+            span.sr-only == "Toggle navigation"
+            span.glyphicon-plus
+
+          a.navbar-brand href="http://cocoapods.org"
+
+    nav.navbar.navbar-static-top#cocoadocs
+      section.container
+        div.navbar-header
+
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-header-collapse"
+            span.sr-only == "Toggle navigation"
+            span.glyphicon-plus
+
+          a.navbar-brand href="http://cocoadocs.org"
+
+    .homepage_container.container
+      section.row
+
+        #search
+
+          form onkeypress="return event.keyCode != 13;"
+            h3 Search Docs
+
+            fieldset
+              img src="images/SearchLoupe.png" height="33" width="32"
+              input autocomplete="off" autofocus="autofocus" class="query" id="pod_search" placeholder="" type="search"
+
+
+    #results_container.container
+      section.row
+
+        #search_results
+
+          .allocations
+              ol.shown
+              ol.more style="display:none"
+                li load more
+              ol.onrequest
+
+          .results
+
+          .no_results style="display:none"
+            .apology Sorry. No pods found.
+            .splits
+            .tags
+
+    #tagline
+      p Made by <a href ="http://orta.github.io">Orta</a>
+
+
+  scss:
+    nav#cocoadocs {
+      background-color: white;
+
+      a.navbar-brand {
+        background-image:url(images/CocoaDocsLogo.png)
+      }
+    }
+
+
+
+    #search form {
+      height:88px;
+
+      margin: auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      width:50%;
+
+      &.active {
+        top: 120px;
+        bottom:auto;
+
+        h3 {
+          display:none;
+        }
+      }
+
+      h3 {
+        text-overflow: ellipsis;
+        font-size: 24px;
+        line-height: 32px;
+        text-transform: uppercase;
+        margin-bottom: 0.5em;
+        font-weight:100;
+        text-align:center;
+      }
+
+      img {
+        position:absolute;
+        left:-40px;
+        bottom:10px;
+      }
+
+    }
+
+    #results_container {
+        margin-top: 140px;
+              list-style:none;
+
+        .result {
+          margin-bottom:20px;
+          div {
+            background-color:whitesmoke;
+            padding:10px;
+          }
+
+          h2 {
+            word-break: break-all;
+            word-break: break-word;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
+            color:#c80025;
+            font-weight:100;
+            margin-top:10px;
+            margin-bottom:8px;
+          }
+          p {
+            margin-top:10px;
+            margin-bottom:10px;
+            font-size:14px;
+          }
+
+          ul {
+            margin:0;
+            padding:0;
+            margin-bottom:12px;
+
+            li {
+              list-style:none;
+              a{
+                color:#c7b7b2;
+              }
+            }
+          }
+        }
+    }
+
+
+    #tagline {
+      position:fixed;
+      bottom:20px;
+      right:20px;
+
+      p {
+        margin:0;
+      }
+    }
+
+  script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+  script src="assets/search.js"
+
+  javascript:
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29866548-2', 'cocoadocs.org');
+    ga('send', 'pageview');
