@@ -30,14 +30,14 @@ class CocoaDocs < Object
     "    CocoaDocs command line                                                    \n" +
     "                                                                              \n" +
     "     ./cocoadocs.rb preview [spec name or podspec path]                       \n" +
-    "     ./cocoadocs.rb cocoadocs doc [spec name]                                 \n" +
+    "     ./cocoadocs.rb cocoadocs doc [spec name or path]                         \n" +
     "     ./cocoadocs.rb cocoadocs days [days]                                     \n" +
     "     ./cocoadocs.rb cocoadocs url [json podspec url]                          \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
     "       --verbose                                                              \n" +
-    "       --skip-fetch                                                           \n" +
+    "       --skip-fetch-specs                                                     \n" +
     "       --skip-cloc                                                            \n" +
     "       --skip-source-download                                                 \n" +
     "       --dont-delete-source                                                   \n" +
@@ -261,7 +261,7 @@ class CocoaDocs < Object
       $log_all_terminal_commands = true
     end
 
-    if options.find_index("--skip-fetch") != nil
+    if options.find_index("--skip-fetch-specs") != nil
       $fetch_specs = false
     end
 
