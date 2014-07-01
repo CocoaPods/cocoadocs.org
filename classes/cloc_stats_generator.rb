@@ -28,9 +28,7 @@ class ClocStatsGenerator
     yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
     hash = YAML.load yaml
     hash.delete 'header'
-    results = hash.map {|l, r| Results.new(l, r).to_json }
-
-    File.open(@output_location, "wb") { |f| f.write results.to_json.to_s}
+    hash.map {|l, r| Results.new(l, r).to_dict }
   end
 
   class Results
@@ -42,8 +40,8 @@ class ClocStatsGenerator
       end
     end
 
-    def to_json
-      { :lang => @language, :files => @nFiles, :comment => @comment, :code => @code }.to_json
+    def to_dict
+      { :lang => @language, :files => @nFiles, :comment => @comment, :code => @code }
     end
 
   end

@@ -4,7 +4,7 @@ require 'travis'
 
 class DocsetFixer
   include HashInit
-  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path
+  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent
 
   def fix
     get_latest_version_in_folder
@@ -49,6 +49,7 @@ class DocsetFixer
   end
 
   def get_doc_percent
+    return @doc_percent if @doc_percent
     vputs "Generating documentation stats for moving into docset"
 
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
@@ -57,6 +58,7 @@ class DocsetFixer
 
     # How nice am I?!
     percent = "100" if (stats["ratio"] > 0.95);
+    @doc_percent = percent
     percent
   end
 

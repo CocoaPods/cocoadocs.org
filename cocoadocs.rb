@@ -366,7 +366,7 @@ class CocoaDocs < Object
       readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
       pod_root_location = $active_folder + "/docsets/#{spec.name}/"
       templates_location = $active_folder + "/template/#{spec.name}/"
-      cloc_json_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/cloc.json"
+      api_json_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/stats.json"
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
@@ -386,12 +386,15 @@ class CocoaDocs < Object
       fixer.fix
       fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
       fixer.add_docset_redirects if $upload_redirects_for_docsets
+      percent_doc = fixer.get_doc_percent
 
       SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location).generate
 
-      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location, :output_location => cloc_json_location)
-      cloc.generate
+      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
+      cloc_results = cloc.generate
 
+      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc)
+      stats.generate
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
