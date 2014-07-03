@@ -5,7 +5,7 @@
 
   var Emphasize = { "rules": {} };
   Emphasize.languages = ["highlight-objective-c", "highlight-objc"];
-  Emphasize.rules["highlight-objective-c", "highlight-objc"] = [
+  var objc_rules = [
     [/(#)(.+)(\n)/g, "<em class='em-preprocessor'>$1$2</em>$3"],
     [/(\[|^|&lt;|\(|\s+)([A-Z]{2}[a-zA-Z]{3,})(\s|\*|&gt;|;|,)/g, "$1<em class='em-class'>$2</em>$3"],
     [/(\[|^|\(|\s+)(\w{3,})(\()/g, "$1<em class='em-method'>$2</em>$3"],
@@ -22,7 +22,8 @@
     [/(\/\*(?:[\s\S]*?)\*\/)|(\/\/(?:.*)$)/gm, "<em class='em-comment'>$1$2</em>"],
     [/(\s+|:|,)([0-9])(\s+|:|,|;)/g, "$1<em class='em-number'>$2</em>$3"]
   ];
-
+  Emphasize.rules["highlight-objective-c"] = objc_rules
+  Emphasize.rules["highlight-objc"] = objc_rules
 
   Emphasize.query = ".highlight." + Emphasize.languages.join(" , .highlight.");
   Emphasize.regex = new RegExp("(\\s|^)(" + Emphasize.languages.join("|") + ")(\\s|$)", "i");
