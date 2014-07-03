@@ -26,6 +26,7 @@ class ClocStatsGenerator
     vputs "Generating CLOC stats"
     @options = ['--yaml', '--quiet']
     yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
+    yaml.sub!(/.*^---/m, '---')
     hash = YAML.load yaml
     hash.delete 'header'
     hash.map {|l, r| Results.new(l, r).to_h }
