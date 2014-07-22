@@ -1,49 +1,94 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>CocoaDocs</title>
-  <!-- 09 mar 2013 -->
-  <meta name="author"  content="orta; http://orta.github.com/" />
-  <meta name="title" content="CocoaDocs.org" />
-  <meta name="description" content="iOS and Mac library documentation" />
-  <meta name="keywords" content="cocoapods, cocoa, ios, objective C" />
-  <meta name="robots" content="all, follow"/>
-  <link href="/assets/homepage_stylesheet.css" media="screen" rel="stylesheet" type="text/css">
-  css:
-    pre {
-      font-size:14px;
-      text-align:left;
-      background-color: #452e00;
-      border: black 1px solid;
-      color: #fcf3e5;
+doctype html
+html lang="en-en"
+  head
+    <!-- 09 mar 2013 --> <!-- 14 Jun 2014 -->
+
+    meta charset="utf-8"
+    meta name="keywords" content="documentation cocoapods objective-c package manager docs"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+
+    meta name="title" content="CocoaDocs"
+    meta name="author"  content="orta; http://orta.github.io"
+    meta name="description" content="Hosted documentation for Mac / iOS libraries"
+    meta name="keywords" content="CocoaPods, Cocoa, ios, objective C, swift"
+    meta name="robots" content="all, follow"
+
+    link rel="shortcut icon" href="http://cocoapods.org/favicons/favicon.ico" type="image/x-icon"
+    link rel="apple-touch-icon" href="http://cocoapods.org/favicons/apple-touch-icon.png"
+    link rel="apple-touch-icon" sizes="57x57" href="http://cocoapods.org/favicons/apple-touch-icon-57x57.png"
+    link rel="apple-touch-icon" sizes="60x60" href="http://cocoapods.org/favicons/apple-touch-icon-60x60.png"
+    link rel="apple-touch-icon" sizes="72x72" href="http://cocoapods.org/favicons/apple-touch-icon-72x72.png"
+    link rel="apple-touch-icon" sizes="76x76" href="http://cocoapods.org/favicons/apple-touch-icon-76x76.png"
+    link rel="apple-touch-icon" sizes="114x114" href="http://cocoapods.org/favicons/apple-touch-icon-114x114.png"
+    link rel="apple-touch-icon" sizes="120x120" href="http://cocoapods.org/favicons/apple-touch-icon-120x120.png"
+    link rel="apple-touch-icon" sizes="144x144" href="http://cocoapods.org/favicons/apple-touch-icon-144x144.png"
+    link rel="apple-touch-icon" sizes="152x152" href="http://cocoapods.org/favicons/apple-touch-icon-152x152.png"
+
+    link href="http://cocoapods.org/stylesheets/app.css" media="screen" rel="stylesheet" type="text/css"
+
+  body
+    nav.navbar.navbar-static-top role="navigation"
+      section.container
+        div.navbar-header
+
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-header-collapse"
+            span.sr-only == "Toggle navigation"
+            span.glyphicon-plus
+
+          a.navbar-brand href="http://cocoapods.org"
+
+    nav.navbar.navbar-static-top#cocoadocs
+      section.container
+        div.navbar-header
+
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-header-collapse"
+            span.sr-only == "Toggle navigation"
+            span.glyphicon-plus
+
+          a.navbar-brand href="http://cocoadocs.org"
+
+    .homepage_container.container
+      section.row
+
+        div id="loading" style="margin:0px"
+          h2 style="font-size:256px;margin:20px;" 404
+
+          p If this is a serious omission, please make a <a href="https://github.com/CocoaPods/cocoadocs.org/issues">github issue</a>
+
+
+          button#reparse style="font-size:12px;cursor: pointer;" onclick="reparse()" Alternatively click here to trigger a docs re-parse &amp; wait 5-10 minutes.
+          button style="font-size:12px;cursor: pointer;" onclick="get_error()" Potential error info
+
+    #tagline
+      p Made by <a href ="http://orta.github.io">Orta</a>
+      p Dev info? <a href ="http://cocoadocs.org/readme">README</a>
+
+  scss:
+    #loading {
+      text-align:center;
     }
 
-</head>
+    nav#cocoadocs {
+      background-color: white;
 
-body
-  div id="content"
-    header id="masthead"
-      a href="http://cocoadocs.org"
-        h1 Cocoa<em>Docs</em>
-        h2 Hosted Docs for Objective-C Libraries.
+      a.navbar-brand {
+        background-image:url(images/CocoaDocsLogo.png)
+      }
+    }
 
-    div id="loading" style="margin:0px"
-      h2 style="font-size:256px;margin:20px;" 404
+    #tagline {
+      position:fixed;
+      bottom:20px;
+      right:20px;
 
-      p If this is a serious omission, please make a <a href="https://github.com/CocoaPods/cocoadocs.org/issues">github issue</a>
-      p style="font-size:14px;margin:20px" or email me at <a href="mailto:orta.therox@gmail.com">orta.therox@gmail.com</a>
+      p {
+        margin:0;
+      }
+    }
 
-      p#reparse style="font-size:12px;cursor: pointer;" onclick="reparse()" Alternatively click here to trigger a docs re-parse &amp; wait 5-10 minutes.
-      p style="font-size:12px;cursor: pointer;" onclick="get_error()" Potential error info
-
-      div id="footer_pod"
-        a href="http://cocoapods.org"
-          img src="/assets/img/cocoapods.png"
 
 javascript:
-
-  (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-29866548-2', 'cocoadocs.org');ga('send', 'pageview');
 
   function report_error(error) {
       var wrapper = document.getElementById("loading")
@@ -99,3 +144,12 @@ javascript:
       reparse.innerHTML = "Could not find the Podname from your address, please check a docs full URL."
     }
   }
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29866548-2', 'cocoadocs.org');
+  ga('send', 'pageview');
+  ga('send', 'event', 'lost', '404');
