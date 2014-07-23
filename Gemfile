@@ -19,3 +19,5 @@ gem "nap"
 gem 'mustache'
 gem 'readme-score', :git => "https://github.com/clayallsopp/readme-score.git"
 gem 'rb-readline'
+gem 'foreman'
+
