@@ -7,11 +7,11 @@ require 'cocoapods'
 gem 'nap'
 require 'rest'
 
-if ARGV.length == 0
-  puts "You need to give a Trunk webhook URL"
-end
+trunk_notification_path = ENV['TRUNK_NOTIFICATION_PATH']
+trunk_notification_path ||= ARGV[0]
+abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
-post "/hooks/trunk/" + ARGV[0] do
+post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
 
