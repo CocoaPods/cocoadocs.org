@@ -100,8 +100,8 @@ class CocoaDocs < Object
     cloc_path = `which cloc`.strip.chomp
     if cloc_path == ""
       puts "You need an to install cloc".red
-      puts "run " + "brew install cloc".purple
-      exit
+      puts "run " + "brew install cloc".red
+      # exit
     end
 
     if ARGV.length > 0
@@ -170,14 +170,15 @@ class CocoaDocs < Object
 
   def cocoadocs_day
     setup_for_cocoadocs
+    update_specs_repo
 
     updated_specs = specs_for_days_ago_diff @params[1]
     vputs "Looking at #{updated_specs.lines.count}"
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub! /\n/, ''
-
-      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/Specs/" + spec_filepath.strip
+      spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
+      p spec_path
       next unless spec_filepath.end_with? ".podspec.json" and File.exists? spec_path
 
       document_spec_at_path spec_path
@@ -351,6 +352,7 @@ class CocoaDocs < Object
 
   def run_git_command_in_specs git_command
     Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
+      vputs "git #{git_command}"
      `git #{git_command}`
     end
   end
