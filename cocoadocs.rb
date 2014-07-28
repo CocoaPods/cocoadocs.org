@@ -101,7 +101,7 @@ class CocoaDocs < Object
     if cloc_path == ""
       puts "You need an to install cloc".red
       puts "run " + "brew install cloc".red
-      # exit
+      exit
     end
 
     if ARGV.length > 0
