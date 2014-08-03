@@ -25,6 +25,7 @@ def save_file file, path
 end
 
 def copy_folder from, to
+  command "mkdir -p #{ @prefix }/#{to}"
   command "cp -R #{ @prefix }/#{from}/* #{ @prefix }/#{to}"
 end
 
