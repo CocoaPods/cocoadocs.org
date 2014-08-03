@@ -34,7 +34,7 @@ $(window).ready(function() {
                     var element = {
                         li : $("<li>", { class: classes }),
                         wrapper : $("<div>"),
-                        title : $("<h2>", { text: result["id"] }),
+                        title : $("<h2>").wrapInner($("<a>", { text: result["id"], href: latestURL })),
                         description : $("<p>", { text: result["summary"] }),
                         linksList : $("<ul>"),
                         latest : $("<li>"),
