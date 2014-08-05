@@ -386,7 +386,7 @@ class CocoaDocs < Object
 
       version_metadata.save
 
-      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
+      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
       fixer.fix
       fixer.add_index_redirect_to_latest_to_pod
       fixer.add_docset_redirects if $upload_redirects_for_docsets

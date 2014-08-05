@@ -4,7 +4,7 @@ require 'travis'
 
 class DocsetFixer
   include HashInit
-  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent
+  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent, :versions
 
   def fix
     get_latest_version_in_folder
@@ -258,13 +258,15 @@ class DocsetFixer
     vputs "Creating a redirect to move to the latest pod"
 
     from = @pod_root + "/index.html"
-    to = "docsets/#{@spec.name}/#{@version}"
+    server_location = "docsets/#{@spec.name}/index.html"
+    
+    to = "docsets/#{@spec.name}/#{@versions[-1]}"
 
     File.open(from, 'w') { |f|
-      f.write <<-EOS
-<meta http-equiv="refresh" content="0; url=/#{to}">
-EOS
+      f.write "<meta http-equiv='refresh' content='0; url=/#{to}'>"
     }
+    
+    upload_file from, server_location
   end
 
   def add_docset_redirects
@@ -324,5 +326,17 @@ EOS
     ]
 
     command redirect_command.join(' ')
+  end
+  
+  def upload_file file, to
+    upload_command = [
+      "s3cmd put",
+      "--acl-public",
+      "--no-check-md5",
+      " --human-readable-sizes --reduced-redundancy",
+      "#{file} s3://#{ $s3_bucket }/#{to}"
+    ]
+    
+    command upload_command.join(' ')
   end
 end
