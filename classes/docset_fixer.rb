@@ -258,9 +258,13 @@ class DocsetFixer
     vputs "Creating a redirect to move to the latest pod"
 
     from = @pod_root + "/index.html"
-    from_server = "docsets/#{@spec.name}/index.html"
     to = "docsets/#{@spec.name}/#{@version}"
-    redirect_command from, from_server, to
+
+    File.open(from, 'w') { |f|
+      f.write <<-EOS
+<meta http-equiv="refresh" content="0; url=/#{to}">
+EOS
+    }
   end
 
   def add_docset_redirects

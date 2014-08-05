@@ -72,7 +72,6 @@ class CocoaDocs < Object
 
   # Upload html / docsets
   $upload_docsets_to_s3 = false
-  $upload_redirects_for_spec_index = false
   $upload_redirects_for_docsets = false
 
   $upload_site_to_s3 = false
@@ -161,7 +160,6 @@ class CocoaDocs < Object
 
     $upload_docsets_to_s3 = true
     $upload_redirects_for_spec_index = true
-    $upload_redirects_for_docsets = true
     $upload_site_to_s3 = true
     $s3_bucket = "cocoadocs.org"
 
@@ -288,7 +286,6 @@ class CocoaDocs < Object
       $upload_docsets_to_s3 = true
       $upload_redirects_for_spec_index = true
       $upload_redirects_for_docsets = true
-      $upload_site_to_s3 = true
       $s3_bucket = options[index + 1]
     end
 
@@ -391,7 +388,7 @@ class CocoaDocs < Object
 
       fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec })
       fixer.fix
-      fixer.add_index_redirect_to_latest_to_pod if $upload_redirects_for_spec_index
+      fixer.add_index_redirect_to_latest_to_pod
       fixer.add_docset_redirects if $upload_redirects_for_docsets
       percent_doc = fixer.get_doc_percent
 
