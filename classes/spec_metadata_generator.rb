@@ -6,14 +6,14 @@ class SpecMetadataGenerator
     vputs "Generating the Specs version metadata and all that"
 
     trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name).body
-    versions = JSON.parse(trunk_spec)["versions"]
+    versions = JSON.parse(trunk_spec)["versions"].map { |version| version['name'] }
 
     versions = versions.keep_if do |version|
       return true if version == @spec.version
-      REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version["name"] + "/index.html").ok?
+      REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version + "/index.html").ok?
     end
 
-    @versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
+    @versions = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }
     @versions
   end
 
