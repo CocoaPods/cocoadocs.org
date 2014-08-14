@@ -259,13 +259,17 @@ class DocsetFixer
 
     from = @pod_root + "/index.html"
     server_location = "docsets/#{@spec.name}/index.html"
-    
-    to = "docsets/#{@spec.name}/#{@versions[-1]}"
+    version = @versions[-1] || @spec.version
+    to = "docsets/#{@spec.name}/#{version}"
+
+    puts "-------------"
+    puts to
+    puts "-------------"
 
     File.open(from, 'w') { |f|
       f.write "<meta http-equiv='refresh' content='0; url=/#{to}'>"
     }
-    
+
     upload_file from, server_location
   end
 
@@ -327,7 +331,7 @@ class DocsetFixer
 
     command redirect_command.join(' ')
   end
-  
+
   def upload_file file, to
     upload_command = [
       "s3cmd put",
@@ -336,7 +340,7 @@ class DocsetFixer
       " --human-readable-sizes --reduced-redundancy",
       "#{file} s3://#{ $s3_bucket }/#{to}"
     ]
-    
+
     command upload_command.join(' ')
   end
 end
