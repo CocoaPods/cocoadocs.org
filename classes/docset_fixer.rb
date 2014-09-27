@@ -59,14 +59,18 @@ class DocsetFixer
 
     project = @spec.source[:git].gsub(/(http(s)?:\/\/)?(github.com\/)?(.*?)(.git)?/, '\4')
 
-    coveralls_uri = URI("https://img.shields.io/coveralls/#{project}.svg")
-    coverage_svg = REXML::Document.new(Net::HTTP.get(coveralls_uri))
+    coveralls_uri = URI("https://coveralls.io/r/#{project}.json")
 
-    texts = coverage_svg.get_elements('svg/g/text').map { |text| text.get_text.to_s }
-    texts = texts.uniq.select { |text| text.end_with? '%' }
+    begin
+      coveralls_info = JSON.parse(Net::HTTP.get(coveralls_uri))
+      coverage_percentage = coveralls_info['model']['coverage_cache']['master']
 
-    @coverage_percent = texts.first
-    texts.first
+      @coverage_percent = "#{coverage_percentage}%"
+    rescue Exception => e
+      @coverage_percent = '0%'
+    end
+
+    @coverage_percent
   end
 
   def get_doc_percent
