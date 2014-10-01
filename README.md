@@ -70,8 +70,8 @@ You'll need to have a working copy of `s3cmd` installed, likely with `brew insta
 
 The creation of CocoaDocs v2 has been made possible with help from the following:
 
-* Kyle Fuller - Admin & Code
-* Delisa Mason - Docstat gem
+* [Kyle Fuller](https://twitter.com/kylefuller) - Admin & Code
+* [Delisa Mason](https://twitter.com/kattrali) - Docstat gem
 * Clay Allsopp - Readme Complexity gem
-* Ash Furrow - Javascript & Ruby assistance
-* Boris Bugling - Boring legwork on templates
+* [Ash Furrow](https://twitter.com/AshFurrow) - Javascript & Ruby assistance
+* [Boris Bugling](https://twitter.com/NeoNacho) - Boring legwork on templates
