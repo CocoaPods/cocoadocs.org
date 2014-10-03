@@ -7,7 +7,7 @@ class DocsetFixer
   attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent, :versions
 
   def fix
-    get_latest_version_in_folder
+    @version = @versions.last
     remove_html_folder
     delete_extra_docset_folder
     fix_relative_links_in_gfm
@@ -60,20 +60,6 @@ class DocsetFixer
     percent = "100" if (stats["ratio"] > 0.95);
     @doc_percent = percent
     percent
-  end
-
-  def get_latest_version_in_folder
-    versions = []
-    Dir.foreach @pod_root do |version|
-      next if version[0] == '.'
-      next unless File.directory? "#{@pod_root}/#{version}"
-
-      versions << version
-    end
-
-    #semantically order them as they're in unix's order ATM
-    # we convert them to Versions, then get the last string
-    @version = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }.last
   end
 
   def remove_html_folder
@@ -259,8 +245,7 @@ class DocsetFixer
 
     from = @pod_root + "/index.html"
     server_location = "docsets/#{@spec.name}/index.html"
-    version = @versions[-1] || @spec.version
-    to = "docsets/#{@spec.name}/#{version}"
+    to = "docsets/#{@spec.name}/#{@version}"
 
     puts "-------------"
     puts to
