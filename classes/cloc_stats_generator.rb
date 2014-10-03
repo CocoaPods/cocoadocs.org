@@ -26,6 +26,8 @@ class ClocStatsGenerator
     vputs "Generating CLOC stats"
     @options = ['--yaml', '--quiet']
     begin
+      return {} if source_files.empty?
+
       yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
       yaml.sub!(/.*^---/m, '---')
 
