@@ -7,13 +7,14 @@ class SpecMetadataGenerator
 
     trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name).body
     versions = JSON.parse(trunk_spec)["versions"].map { |version| version['name'] }
+    versions = versions.map { |version| Pod::Version.new(version) }
 
     versions = versions.keep_if do |version|
       return true if version == @spec.version
-      REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version + "/index.html").ok?
+      REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version.to_s + "/index.html").ok?
     end
 
-    @versions = versions.map { |s| Pod::Version.new(s) }.sort.map { |semver| semver.version }
+    @versions = versions.sort.map { |semver| semver.version }
     @versions
   end
 
