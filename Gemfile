@@ -26,5 +26,6 @@ group :development do
   gem 'bacon'
   gem 'mocha-on-bacon'
   gem 'mocha'
+  gem 'rubocop'
 end
 
