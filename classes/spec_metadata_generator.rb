@@ -4,22 +4,13 @@ class SpecMetadataGenerator
 
   # @return [Array<String>] Returns all the versions
   def generate
-    vputs "Generating the Specs version metadata and all that"
-
-    trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name).body
-    versions = JSON.parse(trunk_spec)["versions"].map { |version| version['name'] }
-    versions = versions.map { |version| Pod::Version.new(version) }
-
-    versions = versions.keep_if do |version|
-     if version == @spec.version
+    @versions = retrieve_versions_from_trunk.keep_if do |version|
+     if version == @spec.version || documentation_for_version_exists?(version)
        true
      else
       REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version.to_s + "/index.html").ok?
      end
-    end
-
-    @versions = versions.sort.map { |semver| semver.version }
-    @versions
+    end.sort.map { |semver| semver.version }
   end
 
   def save
@@ -33,4 +24,19 @@ class SpecMetadataGenerator
     File.open(json_filepath, "wb") { |f| f.write hash_string }
   end
 
+private
+
+  # @return [Array<Pod::Version>] Returns all versions of the pod found in trunk
+  def retrieve_versions_from_trunk
+    trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + @spec.name).body
+    versions = JSON.parse(trunk_spec)["versions"].map { |version| version['name'] }
+    versions.map { |version| Pod::Version.new(version) }
+  end
+
+  # @param [Pod::Version] version
+  # @return [Bool] Returns true if the version has documentation
+  def documentation_for_version_exists?(version)
+    REST.head("http://cocoadocs.org/docsets/#{@spec.name}/#{version}/index.html").ok?
+  end
 end
+
