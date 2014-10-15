@@ -7,3 +7,5 @@ require 'bundler/setup'
 require 'bacon'
 require 'mocha-on-bacon'
 
+require 'cocoapods-core'
+
