@@ -21,3 +21,10 @@ gem 'readme-score', :git => "https://github.com/clayallsopp/readme-score.git"
 gem 'rb-readline'
 gem 'foreman'
 
+group :development do
+  gem 'rake'
+  gem 'bacon'
+  gem 'mocha-on-bacon'
+  gem 'mocha'
+end
+

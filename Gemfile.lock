@@ -16,6 +16,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.6)
     backports (3.6.3)
+    bacon (1.2.0)
     claide (0.7.0)
     cocoapods (0.34.2)
       activesupport (>= 3.2.15, < 4)
@@ -77,9 +78,14 @@ GEM
     json_pure (1.8.1)
     launchy (2.4.2)
       addressable (~> 2.3)
+    metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
+    mocha-on-bacon (0.2.2)
+      mocha (>= 0.13.0)
     multi_json (1.10.1)
     multipart-post (2.0.0)
     mustache (0.99.6)
@@ -102,6 +108,7 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
+    rake (10.3.2)
     rb-readline (0.5.1)
     rdoc (4.1.2)
       json (~> 1.4)
@@ -151,6 +158,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bacon
   cocoapods (> 0.33)
   cocoapods-core
   cocoapods-downloader
@@ -158,10 +166,13 @@ DEPENDENCIES
   docstat
   foreman
   htmlcompressor
+  mocha
+  mocha-on-bacon
   mustache
   nap
   nokogiri
   octokit
+  rake
   rb-readline
   readme-score!
   sass
