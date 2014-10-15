@@ -6,8 +6,6 @@ class SourceDownloader
     version = $force_master ? "Master" : @spec.version
     puts "\n Looking at #{@spec.name} #{version} \n".bold.blue
 
-    cache_path = File.join($active_folder, 'download_cache')
-
     if Dir.exist?(@download_location)
       if @overwrite
         command "rm -rf #{@download_location}"
@@ -23,7 +21,6 @@ class SourceDownloader
     end
 
     downloader = Pod::Downloader.for_target(@download_location, source)
-    downloader.cache_root = cache_path
     downloader.download
   end
 end

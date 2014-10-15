@@ -2,6 +2,7 @@ class SpecMetadataGenerator
   include HashInit
   attr_accessor :spec, :docset_path, :versions
 
+  # @return [Array<String>] Returns all the versions
   def generate
     vputs "Generating the Specs version metadata and all that"
 
@@ -10,8 +11,11 @@ class SpecMetadataGenerator
     versions = versions.map { |version| Pod::Version.new(version) }
 
     versions = versions.keep_if do |version|
-      return true if version == @spec.version
+     if version == @spec.version
+       true
+     else
       REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version.to_s + "/index.html").ok?
+     end
     end
 
     @versions = versions.sort.map { |semver| semver.version }
