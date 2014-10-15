@@ -26,7 +26,7 @@ end
 
 def copy_folder from, to
   command "mkdir -p #{ @prefix }/#{to}"
-  command "cp -R #{ @prefix }/#{from}/* #{ @prefix }/#{to}"
+  command "cp -R \"#{ @prefix }/#{from}\"/* \"#{ @prefix }/#{to}\""
 end
 
 save_slim "views/404.slim", "activity/website/404.html"

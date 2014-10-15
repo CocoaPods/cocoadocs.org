@@ -21,6 +21,8 @@ class DocsetGenerator
 
     template_directory = File.join($current_dir, 'appledoc_templates')
 
+    FileUtils.mkpath(to) if !File.directory?(to)
+
     docset_command = [
       "appledoc",
       "--project-name #{@spec.name}",                           # name in top left
@@ -30,7 +32,7 @@ class DocsetGenerator
       "--project-version #{version}",                           # project version
       "--no-install-docset",                                    # don't make a duplicate
 
-      "--templates #{@appledoc_templates_path}",                # use the custom template
+      "--templates \"#{@appledoc_templates_path}\"",            # use the custom template
       "--verbose #{verbosity}",                                 # give some useful logs
 
       "--keep-intermediate-files",                              # space for now is OK
@@ -53,7 +55,7 @@ class DocsetGenerator
 
       guides.generate_string_for_appledoc,
 
-      "--output #{@to}",                                      # where should we throw stuff
+      "--output \"#{@to}\"",                                      # where should we throw stuff
       *headers
     ]
 
@@ -66,7 +68,7 @@ class DocsetGenerator
     raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
 
     # Appledoc did not generate HTML for this project. Perhaps it has no objc classes?
-    index = to + "/html/index.html"
+    index = File.join(to, "html", "index.html")
     unless File.exists? index
       show_error_page index, "Could not find Objective-C Classes."
     end
@@ -76,7 +78,7 @@ class DocsetGenerator
   def show_error_page path, error
     vputs "Got an error from Appledoc"
 
-    index_template_path = @appledoc_templates_path + "/html/index-template.html"
+    index_template_path = File.join(@appledoc_templates_path, "html", "index-template.html")
     metadata = {
         :page => {
           :title => @spec.name
@@ -95,6 +97,8 @@ class DocsetGenerator
     fake_index_content = File.read("resources/overwritten_index.html")
 
     index_content = index_content.gsub('index-overview">', 'index-overview">' + fake_index_content)
+    output_path = File.dirname(path)
+    FileUtils.mkpath(output_path) if !File.directory?(output_path)
     File.open(path, 'w') { |f| f.write(index_content) }
   end
 

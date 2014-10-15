@@ -3,3 +3,4 @@ errors
 error_log.txt
 .sass-cache/
 .env
+.DS_Store

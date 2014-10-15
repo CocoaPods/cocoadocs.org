@@ -39,11 +39,13 @@ class AppledocTemplateGenerator
     Dir[Dir.pwd + "/views/appledoc_template/*.html.erb"].each do |file|
       filename = File.basename(file, ".html.erb")
       output = render_erb file
-      output_path = @appledoc_templates_path + "/html/" + filename + ".html"
-      File.open(output_path, 'w') { |f| f.write output }
+      output_path = File.join(@appledoc_templates_path, "html")
+      FileUtils.mkpath(output_path) if !File.directory?(output_path)
+      output_file = File.join(output_path, filename + ".html")
+      File.open(output_file, 'w') { |f| f.write output }
     end
 
-    `cp -r #{Dir.pwd}/views/docset #{@appledoc_templates_path}`
+    `cp -r \"#{Dir.pwd}\"/views/docset \"#{@appledoc_templates_path}\"`
   end
 
   # ERB helpers
