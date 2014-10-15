@@ -369,6 +369,7 @@ class CocoaDocs < Object
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+        FileUtils.rm_r download_location if File.directory?(download_location)
         downloader.download_pod_source_files
       end
 
