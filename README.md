@@ -1,5 +1,7 @@
 ## CocoaDocs.org
 
+[![Build Status](http://img.shields.io/travis/CocoaPods/cocoadocs.org/master.svg?style=flat)](https://travis-ci.org/CocoaPods/cocoadocs.org)
+
 CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.
 
 ### How it works for the 99% use cases:
