@@ -13,7 +13,7 @@ class ClocStatsGenerator
         accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
 
         if accessor.source_files
-          memo += acces sor.source_files.map(&:to_s)
+          memo += accessor.source_files.map(&:to_s)
         else
           puts "Skipping source_files for #{internal_spec} on platform #{platform} (no source_files found).".blue
         end

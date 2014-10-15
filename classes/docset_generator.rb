@@ -111,7 +111,7 @@ class DocsetGenerator
         accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
 
         if accessor.public_headers
-          headers += accesso r.public_headers.map(&:to_s)
+          headers += accessor.public_headers.map(&:to_s)
         else
           puts "Skipping headers for #{internal_spec} on platform #{platform} (no headers found).".blue
         end
