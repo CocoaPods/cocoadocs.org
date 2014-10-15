@@ -8,8 +8,7 @@ class DocsetGenerator
     FileUtils.rmdir(to) if Dir.exists?(to)
 
     version = @spec.version.to_s.downcase
-    id = @spec.name.downcase
-    cocoadocs_id = "com.cocoadocs.#{spec.name.downcase}"
+    cocoadocs_id = "com.cocoadocs.#{@spec.name.downcase}"
 
     headers = headers_for_spec_at_location @spec
     headers.map! { |header| Shellwords.escape header }
@@ -18,8 +17,6 @@ class DocsetGenerator
     guides = GuidesGenerator.new(:spec => @spec, :source_download_location => @source_download_location)
 
     verbosity = $verbose ? "5" : "1"
-
-    template_directory = File.join($current_dir, 'appledoc_templates')
 
     docset_command = [
       "appledoc",
