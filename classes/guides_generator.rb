@@ -19,7 +19,6 @@ class GuidesGenerator
     docs_folder = File.join(@source_download_location, guides_folder)
     Dir.mkdir(docs_folder) unless File.exist?(docs_folder)
 
-    includes = []
     guides.each do |guide_path|
 
       if guide_path.include? "http"
@@ -59,10 +58,10 @@ class GuidesGenerator
 
   def cocoadocs_settings
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
-    settings = YAML.load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
+    settings = YAML.load(File.read(Dir.pwd + "/views/cocoadocs.defaults.yml"))
 
     if File.exist? cocoadocs_settings
-      doc_settings = YAML.load(File.open(cocoadocs_settings).read)
+      doc_settings = YAML.load(File.read(cocoadocs_settings))
       settings.merge doc_settings
     end
   end

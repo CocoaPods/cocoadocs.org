@@ -11,11 +11,11 @@ class AppledocTemplateGenerator
     vputs "Generating SCSS variables for templates"
 
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
-    settings = YAML.load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
+    settings = YAML.load(File.read(Dir.pwd + "/views/cocoadocs.defaults.yml"))
 
     if File.exist? cocoadocs_settings
       vputs "- found custom CocoaDocs colours"
-      doc_settings = YAML.load(File.open(cocoadocs_settings).read)
+      doc_settings = YAML.load(File.read(cocoadocs_settings))
       settings = settings.merge doc_settings
     end
 
