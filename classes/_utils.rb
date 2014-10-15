@@ -1,6 +1,6 @@
 # allow logging of terminal commands
 
-def command command_to_run
+def command(command_to_run)
   puts " " + command_to_run.yellow if $verbose
   success = system command_to_run
 
@@ -12,7 +12,7 @@ end
 
 # a nice puts
 
-def vputs text
+def vputs(text)
   puts text.green if $verbose
 end
 
@@ -24,8 +24,8 @@ end
 
 module HashInit
   def initialize(*h)
-    if h.length == 1 && h.first.kind_of?(Hash)
-      h.first.each { |k,v| send("#{k}=",v) }
+    if h.length == 1 && h.first.is_a?(Hash)
+      h.first.each { |k, v| send("#{k}=", v) }
     end
   end
 end

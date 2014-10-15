@@ -14,4 +14,3 @@
 # tar --exclude='.DS_Store' -cvzf NodeJS.tgz NodeJS.docset
 
 # To set a custom icon for your docset, simply add a “icon.png” file directly inside the docset bundle. For example, the file path would be Java.docset/icon.png.
-

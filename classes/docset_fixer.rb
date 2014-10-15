@@ -36,16 +36,16 @@ class DocsetFixer
   end
 
   def get_programming_guides
-      list = ""
-      guides_path = File.join(@docset_path, "docs", "guides")
-      return "" unless File.exist? guides_path
+    list = ""
+    guides_path = File.join(@docset_path, "docs", "guides")
+    return "" unless File.exist? guides_path
 
-      Dir.foreach guides_path do |guide|
-        next if guide.start_with? "."
+    Dir.foreach guides_path do |guide|
+      next if guide.start_with? "."
 
-        list << "<li><a href='#{ guide }'>#{ guide.gsub(".html", "") }</a></li>"
-      end
-      list
+      list << "<li><a href='#{ guide }'>#{ guide.gsub(".html", "") }</a></li>"
+    end
+    list
   end
 
   def get_doc_percent
@@ -57,7 +57,7 @@ class DocsetFixer
     percent = (stats["ratio"] * 100).round(0).to_s
 
     # How nice am I?!
-    percent = "100" if (stats["ratio"] > 0.95);
+    percent = "100" if stats["ratio"] > 0.95
     @doc_percent = percent
     percent
   end
@@ -66,7 +66,7 @@ class DocsetFixer
     # the structure is normally /POD/version/html/index.html
     # make it /POD/version/index.html
 
-    return unless Dir.exists? @docset_path + "html/"
+    return unless Dir.exist? @docset_path + "html/"
 
     vputs "Moving /POD/version/html/index.html to /POD/version/index.html"
     command "cp -Rf #{@docset_path}html/* #{@docset_path}/"
@@ -78,7 +78,7 @@ class DocsetFixer
     command "rm -Rf #{@docset_path}/docset"
   end
 
-  def fix_relative_link link_string
+  def fix_relative_link(link_string)
     if link_string.start_with? "#"
       return link_string
     end
@@ -92,14 +92,14 @@ class DocsetFixer
       return link_string
     end
 
-    return "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+    "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
   end
 
   def fix_relative_links_in_gfm
     vputs "Fixing relative URLs in github flavoured markdown"
 
     return unless @spec.or_is_github?
-    return unless File.exists? @readme_path
+    return unless File.exist? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
     doc.css("a").each do |link|
@@ -122,7 +122,7 @@ class DocsetFixer
     vputs "Fixing Travis links in markdown"
 
     return unless @spec.or_is_github?
-    return unless File.exists? @readme_path
+    return unless File.exist? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
 
@@ -152,7 +152,7 @@ class DocsetFixer
     vputs "Fixing header anchor names"
 
     return unless @spec.or_is_github?
-    return unless File.exists? @readme_path
+    return unless File.exist? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
 
@@ -175,7 +175,7 @@ class DocsetFixer
   end
 
   def move_gfm_readme_in
-    return unless File.exists? @readme_path
+    return unless File.exist? @readme_path
 
     vputs "Moving Github Markdown into index"
     readme_text = File.read(@readme_path)
@@ -183,7 +183,7 @@ class DocsetFixer
 
     ['index.html', "#{docset}/Contents/Resources/Documents/index.html"].each do |path|
       homepage_path = File.join(@docset_path, path)
-      return unless File.exists?(homepage_path)
+      return unless File.exist?(homepage_path)
 
       html = File.read(homepage_path)
       html.sub!("</THISISTOBEREMOVED>", readme_text)
@@ -202,7 +202,6 @@ class DocsetFixer
     # copy to website too
     command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css #{@docset_path}/"
     command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_gfm.css #{@docset_path}/"
-
   end
 
   def create_dash_data
@@ -237,7 +236,6 @@ class DocsetFixer
     Dir.chdir(version_folder) do
       command "tar --exclude='.DS_Store' -czf #{to} #{from}"
     end
-
   end
 
   def add_index_redirect_to_latest_to_pod
@@ -251,9 +249,9 @@ class DocsetFixer
     puts to
     puts "-------------"
 
-    File.open(from, 'w') { |f|
+    File.open(from, 'w') do |f|
       f.write "<meta http-equiv='refresh' content='0; url=/#{to}'>"
-    }
+    end
 
     upload_file from, server_location
   end
@@ -302,7 +300,7 @@ class DocsetFixer
     end
   end
 
-  def redirect_command from, from_server, to
+  def redirect_command(from, from_server, to)
     command "touch #{from}"
 
     redirect_command = [
@@ -317,7 +315,7 @@ class DocsetFixer
     command redirect_command.join(' ')
   end
 
-  def upload_file file, to
+  def upload_file(file, to)
     upload_command = [
       "s3cmd put",
       "--acl-public",

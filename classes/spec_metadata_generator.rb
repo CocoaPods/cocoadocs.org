@@ -5,18 +5,18 @@ class SpecMetadataGenerator
   # @return [Array<String>] Returns all the versions
   def generate
     @versions = retrieve_versions_from_trunk.keep_if do |version|
-     if version == @spec.version || documentation_for_version_exists?(version)
-       true
-     else
-      REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version.to_s + "/index.html").ok?
-     end
-    end.sort.map { |semver| semver.version }
+      if version == @spec.version || documentation_for_version_exists?(version)
+        true
+      else
+        REST.head('http://cocoadocs.org/docsets/' + @spec.name + "/" + version.to_s + "/index.html").ok?
+      end
+    end.sort.map(&:version)
   end
 
   def save
     hash_string = {
-      :name => @spec.name,
-      :versions => @versions
+      name: @spec.name,
+      versions: @versions
     }.to_json.to_s
 
     json_filepath = @docset_path + "../metadata.json"
@@ -24,7 +24,7 @@ class SpecMetadataGenerator
     File.open(json_filepath, "wb") { |f| f.write hash_string }
   end
 
-private
+  private
 
   # @return [Array<Pod::Version>] Returns all versions of the pod found in trunk
   def retrieve_versions_from_trunk
@@ -39,4 +39,3 @@ private
     REST.head("http://cocoadocs.org/docsets/#{@spec.name}/#{version}/index.html").ok?
   end
 end
-

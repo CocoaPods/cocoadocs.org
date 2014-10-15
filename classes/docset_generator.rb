@@ -5,7 +5,7 @@ class DocsetGenerator
   def create_docset
     vputs "Creating docset"
 
-    FileUtils.rmdir(to) if Dir.exists?(to)
+    FileUtils.rmdir(to) if Dir.exist?(to)
 
     version = @spec.version.to_s.downcase
     cocoadocs_id = "com.cocoadocs.#{@spec.name.downcase}"
@@ -14,7 +14,7 @@ class DocsetGenerator
     headers.map! { |header| Shellwords.escape header }
     headers = [from] if headers.count == 0
 
-    guides = GuidesGenerator.new(:spec => @spec, :source_download_location => @source_download_location)
+    guides = GuidesGenerator.new(spec: @spec, source_download_location: @source_download_location)
 
     verbosity = $verbose ? "5" : "1"
 
@@ -54,37 +54,36 @@ class DocsetGenerator
       *headers
     ]
 
-    if File.exists? readme_location
+    if File.exist? readme_location
       docset_command.insert(3, "--index-desc resources/overwritten_index.html")
     end
 
     command docset_command.join(' ')
 
-    raise "Appledoc crashed in creating the DocSet for this project." unless Dir.exists? to
+    fail "Appledoc crashed in creating the DocSet for this project." unless Dir.exist? to
 
     # Appledoc did not generate HTML for this project. Perhaps it has no objc classes?
     index = to + "/html/index.html"
-    unless File.exists? index
+    unless File.exist? index
       show_error_page index, "Could not find Objective-C Classes."
     end
-
   end
 
-  def show_error_page path, error
+  def show_error_page(path, error)
     vputs "Got an error from Appledoc"
 
     index_template_path = @appledoc_templates_path + "/html/index-template.html"
     metadata = {
-        :page => {
-          :title => @spec.name
-        },
+      page: {
+        title: @spec.name
+      },
 
-        :indexDescription => {
-        },
-       :hasDocs => {
-          :strings => { :indexPage => { :docsTitle => "Error Parsing Pod" } },
-          :docs => [{ :href => "#", :title => error }]
-        }
+      indexDescription: {
+      },
+      hasDocs: {
+        strings: { indexPage: { docsTitle: "Error Parsing Pod" } },
+        docs: [{ href: "#", title: error }]
+      }
     }
     tempalate_contents = File.read(index_template_path)
     index_content = Mustache.render(tempalate_contents, metadata)
@@ -96,13 +95,13 @@ class DocsetGenerator
   end
 
   def report_appledoc_error
-    raise 'Appledoc has crashed'
+    fail 'Appledoc has crashed'
   end
 
   # Use cocoapods to get the header files for a specific spec
 
-  def headers_for_spec_at_location spec
-    pathlist = Pod::Sandbox::PathList.new( Pathname.new(@source_download_location) )
+  def headers_for_spec_at_location(_spec)
+    pathlist = Pod::Sandbox::PathList.new(Pathname.new(@source_download_location))
     headers = []
 
     # https://github.com/CocoaPods/cocoadocs.org/issues/35
@@ -112,7 +111,7 @@ class DocsetGenerator
         accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
 
         if accessor.public_headers
-          headers += accessor.public_headers.map{ |filepath| filepath.to_s }
+          headers += accesso r.public_headers.map(&:to_s)
         else
           puts "Skipping headers for #{internal_spec} on platform #{platform} (no headers found).".blue
         end

@@ -5,7 +5,7 @@ class ClocStatsGenerator
   attr_accessor :spec, :source_download_location, :options, :output_location
 
   def source_files
-    pathlist = Pod::Sandbox::PathList.new( Pathname.new(@source_download_location) )
+    pathlist = Pod::Sandbox::PathList.new(Pathname.new(@source_download_location))
 
     [@spec, *@spec.recursive_subspecs].reduce([]) do |memo, internal_spec|
       internal_spec.available_platforms.each do |platform|
@@ -13,7 +13,7 @@ class ClocStatsGenerator
         accessor = Pod::Sandbox::FileAccessor.new(pathlist, consumer)
 
         if accessor.source_files
-          memo += accessor.source_files.map{ |filepath| filepath.to_s }
+          memo += acces sor.source_files.map(&:to_s)
         else
           puts "Skipping source_files for #{internal_spec} on platform #{platform} (no source_files found).".blue
         end
@@ -33,8 +33,8 @@ class ClocStatsGenerator
 
       hash = YAML.load yaml
       hash.delete 'header'
-      hash.map {|l, r| Results.new(l, r).to_h }
-    rescue Exception => e
+      hash.map { |l, r| Results.new(l, r).to_h }
+    rescue => e
       {}
     end
   end
@@ -44,13 +44,12 @@ class ClocStatsGenerator
     def initialize(language, hash = {})
       self.language = language
       %w{nFiles comment code}.each do |key|
-        self.send("#{key}=", hash[key])
+        send("#{key}=", hash[key])
       end
     end
 
     def to_h
-      { :lang => @language, :files => @nFiles, :comment => @comment, :code => @code }
+      { lang: @language, files: @nFiles, comment: @comment, code: @code }
     end
-
   end
 end

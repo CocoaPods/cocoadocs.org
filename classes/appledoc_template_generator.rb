@@ -11,11 +11,11 @@ class AppledocTemplateGenerator
     vputs "Generating SCSS variables for templates"
 
     cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
-    settings = YAML::load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
+    settings = YAML.load(File.open(Dir.pwd + "/views/cocoadocs.defaults.yml").read)
 
-    if File.exists? cocoadocs_settings
+    if File.exist? cocoadocs_settings
       vputs "- found custom CocoaDocs colours"
-      doc_settings = YAML::load(File.open(cocoadocs_settings).read)
+      doc_settings = YAML.load(File.open(cocoadocs_settings).read)
       settings = settings.merge doc_settings
     end
 
@@ -48,7 +48,7 @@ class AppledocTemplateGenerator
 
   # ERB helpers
 
-  def render_erb filepath, context=nil
+  def render_erb(filepath, context = nil)
     if context
       @rendering_context = context
     end
@@ -57,11 +57,10 @@ class AppledocTemplateGenerator
 
     erb = ERB.new(File.read(filepath))
     erb.filename = filename
-    result = erb.result(self.get_binding)
+    result = erb.result(get_binding)
   end
 
   def get_binding
-    binding()
+    binding
   end
-
 end

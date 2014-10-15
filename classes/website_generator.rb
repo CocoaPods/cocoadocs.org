@@ -29,15 +29,14 @@ class WebsiteGenerator
     upload_folder "html/*", "/", "put"
   end
 
-  def save_file file, path
+  def save_file(file, path)
     FileUtils.mkdir_p(File.dirname(path))
-    File.unlink path if File.exists? path
+    File.unlink path if File.exist? path
 
     File.open(path, "wb") { |f| f.write file }
   end
 
-
-  def save_slim slim_filepath, to_filepath
+  def save_slim(slim_filepath, to_filepath)
     template = Tilt.new slim_filepath
     html = template.render
 
@@ -45,9 +44,8 @@ class WebsiteGenerator
     save_file html, to_filepath
   end
 
-
   # Upload the docsets folder to s3
-  def upload_folder from, to, command
+  def upload_folder(from, to, command)
     vputs "Uploading #{from} with #{command} on s3"
     verbose = $verbose ? "--verbose" : ""
 

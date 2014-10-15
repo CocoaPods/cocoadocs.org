@@ -8,15 +8,14 @@ class StatsGenerator
   def generate
     vputs "Generating the entire api stats"
     data = {
-      :readme => CGI::escapeHTML(File.read(@readme_location)),
-      :readme_metadata => readme_metadata,
-      :cloc => @cloc_results,
-      :doc_percent => @doc_percent,
-      :download_size => generated_download_size,
+      readme: CGI.escapeHTML(File.read(@readme_location)),
+      readme_metadata: readme_metadata,
+      cloc: @cloc_results,
+      doc_percent: @doc_percent,
+      download_size: generated_download_size,
     }
 
-    File.open(@api_json_path, "wb") { |f| f.write data.to_json.to_s}
-
+    File.open(@api_json_path, "wb") { |f| f.write data.to_json.to_s }
   end
 
   def generated_download_size
@@ -26,11 +25,10 @@ class StatsGenerator
   def readme_metadata
     score = ReadmeScore::Document.new(File.read(@readme_location)).score
     {
-      :has_gifs => score.metrics.has_gifs?,
-      :has_images => score.metrics.has_images?,
-      :complexity => score.total_score,
-      :breakdown => score.breakdown
+      has_gifs: score.metrics.has_gifs?,
+      has_images: score.metrics.has_images?,
+      complexity: score.total_score,
+      breakdown: score.breakdown
     }
   end
-
 end
