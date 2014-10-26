@@ -22,10 +22,7 @@ end
 get "/error/:pod/:version" do
   # get error info for a pod
    error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
-   if File.exists? error_json_path
-     return "report_error(" + File.read(error_json_path) + ")"
-   end
-   return "{}"
+   error_message_for_path error_json_path
 end
 
 get "/error/:pod" do
@@ -34,9 +31,9 @@ get "/error/:pod" do
    if File.directory? error_json_folder
      # return first found
      error_json_path = Dir[error_json_folder + "/*/*.json"].first
-     return "report_error(" + File.read(error_json_path) + ")"
+     error_message_for_path error_json_path
    end
-   return "{}"
+   error_message_for_path "random_path"
 end
 
 get "/redeploy/:pod/latest" do
@@ -65,6 +62,14 @@ get "/" do
 end
 
 private
+
+def error_message_for_path path 
+  if File.exists? path
+       return "report_error(" + File.read(path) + ")"
+     end
+     return '{"message":"Could not find any errors, perhaps CocoaDocs has not ran the processing?", "trace" :[]}'
+   end
+end
 
 def process_url url
   this_folder = File.expand_path(File.dirname(__FILE__))
