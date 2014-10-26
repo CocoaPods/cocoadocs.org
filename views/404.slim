@@ -38,16 +38,6 @@ html lang="en-en"
 
           a.navbar-brand href="http://cocoapods.org"
 
-    nav.navbar.navbar-static-top#cocoadocs
-      section.container
-        div.navbar-header
-
-          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-header-collapse"
-            span.sr-only == "Toggle navigation"
-            span.glyphicon-plus
-
-          a.navbar-brand href="http://cocoadocs.org"
-
     .homepage_container.container
       section.row
 
@@ -58,7 +48,7 @@ html lang="en-en"
 
 
           button#reparse style="font-size:12px;cursor: pointer;" onclick="reparse()" Alternatively click here to trigger a docs re-parse &amp; wait 5-10 minutes.
-          button style="font-size:12px;cursor: pointer;" onclick="get_error()" Potential error info
+          button id="error_info" style="font-size:12px;cursor: pointer;" onclick="get_error()" Potential error info
 
     #tagline
       p Made by <a href ="http://orta.github.io">Orta</a>
@@ -111,16 +101,26 @@ javascript:
       pre.appendChild(preText);
       wrapper.appendChild(pre);
   }
+  
+  var error_info = document.getElementById("error_info")
+  error_info.remove()
 
   function get_error() {
     var path = window.location.pathname
     var pathbits = path.split("/")
+    var url = ""
     if(pathbits.length == 4) {
+      url = "http://199.229.252.196:4567/error/" + pathbits[2] + "/" + pathbits[3];
+    } else if (pathbits.length == 3) {
+      url = "http://199.229.252.196:4567/error/" + pathbits[2] + "/" + pathbits[3];
+    }
+    if (url.length) {
       var script = document.createElement( "script" );
       script.type = "text/javascript";
-      script.src = "http://199.229.252.197:4567/error/" + pathbits[2] + "/" + pathbits[3];
+      script.src = url
       document.head.appendChild(script);
     }
+
   }
 
   function reparse() {
@@ -130,7 +130,7 @@ javascript:
 
     if (pathbits.length > 2) {
       var script = document.createElement( "script" );
-      var address = "http://199.229.252.197:4567/redeploy/" + pathbits[2]
+      var address = "http://199.229.252.196:4567/redeploy/" + pathbits[2]
 
       if(pathbits.length > 3 && pathbits[3] != "") address += "/" + pathbits[3];
 
@@ -139,6 +139,7 @@ javascript:
       document.head.appendChild(script);
 
       reparse.innerHTML = "Thanks, reparsing right now. Please give it some time and come back in 5-10 mins."
+      reparse.disabled = true
     } else {
 
       reparse.innerHTML = "Could not find the Podname from your address, please check a docs full URL."

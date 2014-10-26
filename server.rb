@@ -28,6 +28,17 @@ get "/error/:pod/:version" do
    return "{}"
 end
 
+get "/error/:pod" do
+  # get generic error info for a pod
+   error_json_folder = "errors/#{params[:pod]}/"
+   if File.directory? error_json_folder
+     # return first found
+     error_json_path = Dir[error_json_folder + "/*/*.json"].first
+     return "report_error(" + File.read(error_json_path) + ")"
+   end
+   return "{}"
+end
+
 get "/redeploy/:pod/latest" do
   begin
     trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod]).body
