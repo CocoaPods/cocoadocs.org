@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem "cocoapods", "> 0.33"
+gem "cocoapods"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
 
@@ -28,4 +28,3 @@ group :development do
   gem 'mocha'
   gem 'rubocop'
 end
-
