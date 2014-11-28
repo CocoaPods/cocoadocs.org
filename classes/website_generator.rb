@@ -11,9 +11,9 @@ class WebsiteGenerator
   def move_public_items
     resources_dir = "#{$active_folder}/html/assets/"
 
-    command "rm -rf #{resources_dir}"
-    command "mkdir #{resources_dir}"
-    command "cp -R public/* #{resources_dir}"
+    command "rm -rf \"#{resources_dir}\""
+    command "mkdir \"#{resources_dir}\""
+    command "cp -R public/* \"#{resources_dir}\""
   end
 
   def upload_docset

@@ -228,15 +228,15 @@ class CocoaDocs < Object
 
     if Dir.exists? spec_path  + name
       version = Dir.entries(spec_path + name).last
-      spec_path = "#{spec_path + name}/#{version}/#{name}.podspec.json"
+      spec_path = File.join("#{spec_path}","#{name}", "#{version}", "#{name}.podspec.json")
 
       $overwrite_existing_source_files = true
       $delete_source_after_docset_creation = false
       $force_master = true
 
       document_spec_at_path spec_path
-      command "open #{ $active_folder }/docsets/#{ name }/#{ version }/"
-      puts "Preview: #{ $active_folder }/docsets/#{ name }/#{ version }/"
+      command "open \"#{ $active_folder }\"/docsets/#{ name }/#{ version }/"
+      puts "Preview: \"#{ $active_folder }\"/docsets/#{ name }/#{ version }/"
     else
       puts "Could not find spec at " + spec_path + name
     end
@@ -369,6 +369,7 @@ class CocoaDocs < Object
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
+        FileUtils.rm_r download_location if File.directory?(download_location)
         downloader.download_pod_source_files
       end
 
@@ -404,8 +405,8 @@ class CocoaDocs < Object
 
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
-        command "rm -rf #{download_location}"
-        command "rm -rf #{docset_location}" if $upload_site_to_s3
+        command "rm -rf \"#{download_location}\""
+        command "rm -rf \"#{docset_location}\"" if $upload_site_to_s3
       end
 
       state = "success"

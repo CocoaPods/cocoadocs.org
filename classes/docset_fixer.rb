@@ -69,13 +69,13 @@ class DocsetFixer
     return unless Dir.exist? @docset_path + "html/"
 
     vputs "Moving /POD/version/html/index.html to /POD/version/index.html"
-    command "cp -Rf #{@docset_path}html/* #{@docset_path}/"
-    command "rm -Rf #{@docset_path}/html"
+    command "cp -Rf \"#{@docset_path}\"html/* \"#{@docset_path}/\""
+    command "rm -Rf \"#{@docset_path}\"/html"
   end
 
   def delete_extra_docset_folder
     vputs "Removing redundant docset extracts"
-    command "rm -Rf #{@docset_path}/docset"
+    command "rm -Rf \"#{@docset_path}\"/docset"
   end
 
   def fix_relative_link(link_string)
@@ -114,7 +114,7 @@ class DocsetFixer
       end
     end
 
-    `rm #{@readme_path}`
+    `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
@@ -144,7 +144,7 @@ class DocsetFixer
       end
     end
 
-    `rm #{@readme_path}`
+    `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
@@ -164,14 +164,14 @@ class DocsetFixer
       end
     end
 
-    `rm #{@readme_path}`
+    `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
   def move_docset_icon_in
     vputs "Adding Docset Icon For Dash"
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
-    command "cp resources/docset_icon.png #{@docset_path}/#{docset}/icon.png"
+    command "cp resources/docset_icon.png \"#{@docset_path}\"/#{docset}/icon.png"
   end
 
   def move_gfm_readme_in
@@ -196,12 +196,13 @@ class DocsetFixer
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
 
     # embed css in docset
-    command "sass views/appledoc_stylesheet.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
-    command "sass views/appledoc_gfm.scss:#{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_gfm.css"
+    command "sass views/appledoc_stylesheet.scss:\"#{@docset_path}\"/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css"
+    command "sass views/appledoc_gfm.scss:\"#{@docset_path}\"/#{docset}/Contents/Resources/Documents/appledoc_gfm.css"
 
     # copy to website too
-    command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css #{@docset_path}/"
-    command "cp #{@docset_path}/#{docset}/Contents/Resources/Documents/appledoc_gfm.css #{@docset_path}/"
+    command "cp \"#{@docset_path}\"/#{docset}/Contents/Resources/Documents/appledoc_stylesheet.css \"#{@docset_path}/\""
+    command "cp \"#{@docset_path}\"/#{docset}/Contents/Resources/Documents/appledoc_gfm.css \"#{@docset_path}/\""
+
   end
 
   def create_dash_data
