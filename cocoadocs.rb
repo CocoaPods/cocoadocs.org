@@ -216,7 +216,7 @@ class CocoaDocs < Object
   end
 
   # tip: offline command
-  # ./cocoadocs.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
+  # bundle exec ./cocoadocs.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
 
   def preview
 
@@ -393,11 +393,10 @@ class CocoaDocs < Object
       fixer.add_docset_redirects if $upload_redirects_for_docsets
       percent_doc = fixer.get_doc_percent
 
-
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
 
-      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc)
+      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :docset_location => docset_location)
       stats.generate
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
