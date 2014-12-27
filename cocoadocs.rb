@@ -162,8 +162,6 @@ class CocoaDocs < Object
     $upload_redirects_for_spec_index = true
     $upload_site_to_s3 = true
     $s3_bucket = "cocoadocs.org"
-
-
   end
 
   def cocoadocs_day
