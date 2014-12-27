@@ -20,8 +20,11 @@ task :install_tools do
 end
 
 def check_and_install app
+  
   if `which #{app}`.length == 0 
-    `brew install #{app}`
+    Bundler.with_clean_env do
+      `brew install #{app}`
+    end
   end
 end
 
