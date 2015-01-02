@@ -65,10 +65,9 @@ private
 
 def error_message_for_path path 
   if File.exists? path
-       return "report_error(" + File.read(path) + ")"
-     end
-     return '{"message":"Could not find any errors, perhaps CocoaDocs has not ran the processing?", "trace" :[]}'
-   end
+    return "report_error(" + File.read(path) + ")"
+  end
+  '{"message":"Could not find any errors, perhaps CocoaDocs has not ran the processing?", "trace" :[]}'
 end
 
 def process_url url
