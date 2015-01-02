@@ -15,8 +15,13 @@ class AppledocTemplateGenerator
 
     if File.exist? cocoadocs_settings
       vputs "- found custom CocoaDocs colours"
-      doc_settings = YAML.load(File.read(cocoadocs_settings))
-      settings = settings.merge doc_settings
+      begin
+        doc_settings = YAML.load(File.read(cocoadocs_settings))
+        settings = settings.merge doc_settings
+      rescue
+        puts "CocoaDocs yaml file is malformed"
+      end
+      
     end
 
     vars_string = ""
