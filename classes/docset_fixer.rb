@@ -1,6 +1,7 @@
 require 'htmlcompressor'
 require 'docstat'
 require 'travis'
+require 'rexml/document'
 
 class DocsetFixer
   include HashInit
@@ -22,13 +23,15 @@ class DocsetFixer
   end
 
   def post_process
-    percent = get_doc_percent
+    coverage_percent = get_coverage_percent
+    doc_percent = get_doc_percent
     programming_guides = get_programming_guides
 
     Dir.glob(@docset_path + "**/*.html").each do |name|
       text = File.read(name)
 
-      replace = text.gsub("$$$DOC_PERCENT$$$", percent)
+      replace = text.gsub("$$$COVERAGE_PERCENT$$$", coverage_percent)
+      replace = replace.gsub("$$$DOC_PERCENT$$$", doc_percent)
       replace = replace.gsub("$$$PROGRAMMING_GUIDES$$$", programming_guides)
 
       File.open(name, "w") { |file| file.puts replace }
@@ -46,6 +49,28 @@ class DocsetFixer
       list << "<li><a href='#{ guide }'>#{ guide.gsub(".html", "") }</a></li>"
     end
     list
+  end
+
+  def get_coverage_percent
+    return @coverage_percent if @coverage_percent
+    vputs "Generating code coverage stats"
+
+    return '0%' unless @spec.source.has_key? :git
+
+    project = @spec.source[:git].gsub(/(http(s)?:\/\/)?(github.com\/)?(.*?)(.git)?/, '\4')
+
+    coveralls_uri = URI("https://coveralls.io/r/#{project}.json")
+
+    begin
+      coveralls_info = JSON.parse(Net::HTTP.get(coveralls_uri))
+      coverage_percentage = coveralls_info['model']['coverage_cache']['master']
+
+      @coverage_percent = "#{coverage_percentage}%"
+    rescue Exception => e
+      @coverage_percent = '0%'
+    end
+
+    @coverage_percent
   end
 
   def get_doc_percent
