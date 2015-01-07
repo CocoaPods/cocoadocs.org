@@ -6,23 +6,34 @@ class StatsGenerator
   attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location
 
   def generate
-    vputs "Generating the entire api stats"
+    vputs "Generating the CocoaDocs stats for CP Metrics"    
+
+    cloc_sum = @cloc_results.select do |cloc|
+      cloc[:lang] == "SUM"
+    end.first
+    
+    unless cloc_sum
+      cloc_sum = { :lang => "SUM", :files => 0, :comment => 0, :code => 0 }
+    end
+    
     data = {
-      readme: "README.html",
-      readme_metadata: readme_metadata,
-      cloc: @cloc_results,
-      doc_percent: @doc_percent,
-      download_size: generated_download_size,
-      first_commit_date: get_first_commit_date
+      :total_files => cloc_sum[:files],
+      :total_comments => cloc_sum[:comment],
+      :total_lines_of_code => cloc_sum[:code],
+      :doc_percent => @doc_percent,
+      :readme_complexity => readme_metadata[:complexity],
+      :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
+      :initial_commit_date => get_first_commit_date,
+      :download_size => generated_download_size,
+      :license_short => spec.or_license_name_and_url[:license],
+      :license_link => spec.or_license_name_and_url[:url]
     }
 
-    puts @readme_location
-    puts @docset_location
+    # send it to the db
+    
 
-    FileUtils.copy(@readme_location, File.join(@docset_location, "README.html"))
-    File.open(@api_json_path, "wb") { |f| f.write data.to_json.to_s }
   end
-
+  
   def generated_download_size
     `du -sk #{ @download_location }`.split("\t")[0]
   end
@@ -32,7 +43,6 @@ class StatsGenerator
       return `git log --pretty=format:%ad --date=iso| tail -1`
     end
   end
-
 
   def readme_metadata
     score = ReadmeScore::Document.new(File.read(@readme_location)).score

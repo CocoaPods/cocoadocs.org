@@ -344,7 +344,6 @@ class CocoaDocs < Object
   end
 
   # We have to run commands from a different git root if we want to do anything in the Specs repo
-
   def run_git_command_in_specs git_command
     Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
       vputs "git #{git_command}"
@@ -353,7 +352,6 @@ class CocoaDocs < Object
   end
 
   # generate the documentation for the pod
-
   def document_spec(spec)
     state = "failed"
 

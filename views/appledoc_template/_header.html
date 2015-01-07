@@ -77,8 +77,8 @@
 
       <li id = "contributors" class="no-link"><%= @spec.or_contributors_to_spec %></li>
 
-      <% if @spec.or_can_show_code? %>
-      <li><a href="<%= @spec.or_repo_url %>">Code</a></li>
+      <% if @spec.or_is_github? %>
+      <li><a href="<%= @spec.or_github_url %>">Code</a></li>
       <% end %>
 
       <% if @spec.or_has_social_media_url? %>

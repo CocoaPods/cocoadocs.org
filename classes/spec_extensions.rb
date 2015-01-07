@@ -13,6 +13,10 @@ module Pod
       "https://github.com/CocoaPods/Specs/blob/master/Specs/#{ name }/#{ version }/#{ name }.podspec.json"
     end
 
+    def or_cocoadocs_url
+      "https://cocoadocs.org/docsets/#{ name }/#{ version }/"
+    end
+    
     def or_git_ref
       source[:tag] || source[:commit] || source[:branch] || 'master'
     end
