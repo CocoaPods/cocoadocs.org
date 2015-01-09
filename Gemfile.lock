@@ -1,5 +1,7 @@
-PATH
-  remote: ~/Development/Realm/jazzy
+GIT
+  remote: https://github.com/realm/jazzy.git
+  revision: cfa65c227473fa87682e71515e4254db6edd3d23
+  branch: seg-podspec
   specs:
     jazzy (0.0.20)
       activesupport (~> 4.1)
