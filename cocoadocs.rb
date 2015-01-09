@@ -4,6 +4,8 @@ require 'cocoapods-downloader'
 require 'cocoapods-core'
 require 'cocoapods'
 
+require 'jazzy'
+
 gem 'nap'
 require 'rest'
 
@@ -372,14 +374,31 @@ class CocoaDocs < Object
       readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
       readme.create_readme
 
+      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
+      cloc_results = cloc.generate
+
       version_metadata = SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location)
       versions = version_metadata.generate
 
-      appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
-      appledoc_template.generate
+      p cloc_results
 
-      generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
-      generator.create_docset
+      swift = cloc_results.find { |r| r[:lang] == 'Swift' }
+      header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
+      if swift && (!header || swift[:files] > header[:files])
+        download_spec_path = download_location + "/#{spec.name}.podspec.json"
+        File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
+        config = Jazzy::Config.new.tap do |c|
+          c.podspec = Pathname(download_spec_path)
+          c.output = Pathname(docset_location)
+        end
+        Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
+      else
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
+        appledoc_template.generate
+
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
+        generator.create_docset
+      end
 
       version_metadata.save
 

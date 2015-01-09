@@ -5,6 +5,8 @@ gem "cocoapods", "> 0.33"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
 
+gem 'jazzy', path: '~/Development/Realm/jazzy'
+
 gem "docstat"
 
 gem "octokit"
