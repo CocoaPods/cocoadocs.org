@@ -233,8 +233,8 @@ class CocoaDocs < Object
       $force_master = true
 
       document_spec_at_path spec_path
-      command "open \"#{ $active_folder }\"/docsets/#{ name }/#{ version }/"
-      puts "Preview: \"#{ $active_folder }\"/docsets/#{ name }/#{ version }/"
+      command  "open \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
+      puts "Preview: \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
     else
       puts "Could not find spec at " + spec_path + name
     end
@@ -392,18 +392,21 @@ class CocoaDocs < Object
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
 
-      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :docset_location => docset_location)
+      tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
+      testing_estimate = tester.testimate
+      
+      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
       stats.generate
-
+    
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
-
+    
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
         command "rm -rf \"#{download_location}\""
         command "rm -rf \"#{docset_location}\"" if $upload_site_to_s3
       end
-
+    
       state = "success"
 
     rescue Exception => e

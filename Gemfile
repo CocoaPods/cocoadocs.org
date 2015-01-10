@@ -4,6 +4,7 @@ ruby '2.1.3'
 gem "cocoapods", "> 0.33"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
+gem "cocoapods-testing"
 
 gem "docstat"
 
@@ -21,6 +22,7 @@ gem 'mustache'
 gem 'readme-score', '~> 0.0.2'
 gem 'rb-readline'
 gem 'foreman'
+
 
 group :development do
   gem 'rake'

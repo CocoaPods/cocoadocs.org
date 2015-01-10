@@ -3,7 +3,7 @@ require 'readme-score'
 
 class StatsGenerator
   include HashInit
-  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location
+  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate
 
   def generate
     vputs "Generating the CocoaDocs stats for CP Metrics"    
@@ -21,6 +21,7 @@ class StatsGenerator
       :total_comments => cloc_sum[:comment],
       :total_lines_of_code => cloc_sum[:code],
       :doc_percent => @doc_percent,
+      :testing_estimate => testing_estimate,
       :readme_complexity => readme_metadata[:complexity],
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
       :initial_commit_date => get_first_commit_date,
