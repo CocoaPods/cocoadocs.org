@@ -400,6 +400,7 @@ class CocoaDocs < Object
         source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
 
         percent_doc = source_module.doc_coverage
+        fixer.readme_path = docset_location + '/index.html'
         fixer.fix_for_jazzy
       else
         appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
