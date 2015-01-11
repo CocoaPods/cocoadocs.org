@@ -396,6 +396,7 @@ class CocoaDocs < Object
           # c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
           c.clean = true
+          c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
         source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
 
@@ -423,19 +424,19 @@ class CocoaDocs < Object
 
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate
-      
+
       stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
       stats.generate
-    
+
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
-    
+
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
         command "rm -rf \"#{download_location}\""
         command "rm -rf \"#{docset_location}\"" if $upload_site_to_s3
       end
-    
+
       state = "success"
 
     rescue Exception => e
