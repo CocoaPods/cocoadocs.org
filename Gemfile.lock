@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/realm/jazzy.git
-  revision: 62e3eed7949dc7d4ab809fd39efb2b335fdb5071
+  revision: 85871d604e1f1711fbc6561d5e0936266ce69a2d
   branch: seg-podspec
   specs:
     jazzy (0.0.20)
