@@ -133,12 +133,15 @@ class CocoaDocs < Object
   def doc
     update_specs_repo
 
-    name = @params[0]
+    @params.each do |param|
+      next if param.start_with?('--')
 
-    if name.end_with? ".podspec.json"
-      document_spec_at_path(name)
-    else
-      document_spec_with_name(name)
+      name = param
+      if name.end_with? ".podspec.json"
+        document_spec_at_path(name)
+      else
+        document_spec_with_name(name)
+      end
     end
   end
 
@@ -485,7 +488,7 @@ class CocoaDocs < Object
   end
 
   def commands
-    (public_methods - Object.public_methods).map{ |c| c.to_sym}
+    (public_methods - Object.public_methods).map(&:to_sym)
   end
 
 end
