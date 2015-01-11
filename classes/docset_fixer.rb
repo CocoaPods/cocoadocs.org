@@ -21,6 +21,15 @@ class DocsetFixer
     minify_html
   end
 
+  def fix_for_jazzy
+    @version = @versions.last
+    fix_relative_links_in_gfm
+    remove_known_badges
+    fix_header_anchors
+    create_dash_data
+    minify_html
+  end
+
   def post_process
     percent = get_doc_percent
     programming_guides = get_programming_guides
@@ -212,6 +221,8 @@ class DocsetFixer
     # create the tgz file for the xcode docset using our GFM index
     version_folder = "#{@pod_root}/#{@spec.version}"
     publish_folder = "#{version_folder}/publish"
+
+    command "mkdir -p '#{publish_folder}'"
 
     docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
 

@@ -4,6 +4,8 @@ require 'cocoapods-downloader'
 require 'cocoapods-core'
 require 'cocoapods'
 
+require 'jazzy'
+
 gem 'nap'
 require 'rest'
 
@@ -372,41 +374,69 @@ class CocoaDocs < Object
       readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
       readme.create_readme
 
+      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
+      cloc_results = cloc.generate
+
       version_metadata = SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location)
       versions = version_metadata.generate
 
-      appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
-      appledoc_template.generate
+      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
 
-      generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
-      generator.create_docset
+      swift = cloc_results.find { |r| r[:lang] == 'Swift' }
+      header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
+      if swift && (!header || swift[:files] > header[:files])
+        download_spec_path = download_location + "/#{spec.name}.podspec.json"
+        File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
+        config = Jazzy::Config.new.tap do |c|
+          c.podspec = Pathname(download_spec_path)
+          c.output = Pathname(docset_location)
+          c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
+          c.docset_icon = Pathname(__FILE__).parent + 'resources/docset_icon.png'
+          c.docset_path = "com.cocoadocs.#{spec.name.downcase}.#{spec.name}.docset"
+          # c.readme_path = Pathname(readme_location)
+          c.source_directory = Pathname(download_location)
+          c.clean = true
+          c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
+        end
+        source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
+
+        percent_doc = source_module.doc_coverage
+        fixer.readme_path = docset_location + '/index.html'
+        fixer.fix_for_jazzy
+      else
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
+        appledoc_template.generate
+
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
+        generator.create_docset
+
+        fixer.fix
+      end
 
       version_metadata.save
 
-      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
-      fixer.fix
       fixer.add_index_redirect_to_latest_to_pod
       fixer.add_docset_redirects if $upload_redirects_for_docsets
-      percent_doc = fixer.get_doc_percent
+      percent_doc ||= fixer.get_doc_percent
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
 
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate
-      
-      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
-      stats.generate
-    
+
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
-    
+
+      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
+      stats.generate
+
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
         command "rm -rf \"#{download_location}\""
         command "rm -rf \"#{docset_location}\"" if $upload_site_to_s3
       end
-    
+
       state = "success"
 
     rescue Exception => e

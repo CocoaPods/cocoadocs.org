@@ -5,6 +5,8 @@ gem "cocoapods", "> 0.33"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
 
+gem 'jazzy', git: 'https://github.com/realm/jazzy.git', branch: 'seg-podspec'
+
 gem "docstat"
 
 gem "octokit"
