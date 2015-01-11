@@ -150,11 +150,11 @@ class CocoaDocs < Object
   def cocoadocs
     $upload_stats = true
     case @params.shift
-    when "doc"
+    when 'doc', 'docs'
       cocoadocs_doc
-    when "days"
+    when 'day', 'days'
       cocoadocs_day
-    when "url"
+    when 'url'
       cocoadocs_url
     end
   end
