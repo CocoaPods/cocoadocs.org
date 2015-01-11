@@ -149,11 +149,12 @@ class CocoaDocs < Object
 
   def cocoadocs
     $upload_stats = true
-    if @params[0] == "doc"
+    case @params.shift
+    when "doc"
       cocoadocs_doc
-    elsif @params[0] == "days"
+    when "days"
       cocoadocs_day
-    elsif @params[0] == "url"
+    when "url"
       cocoadocs_url
     end
   end
@@ -174,7 +175,7 @@ class CocoaDocs < Object
     setup_for_cocoadocs
     update_specs_repo
 
-    updated_specs = specs_for_days_ago_diff @params[1]
+    updated_specs = specs_for_days_ago_diff @params.first
     vputs "Looking at #{updated_specs.lines.count}"
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
@@ -189,7 +190,6 @@ class CocoaDocs < Object
 
   def cocoadocs_doc
     setup_for_cocoadocs
-    @params[0] = @params[1]
     doc
   end
 
@@ -197,7 +197,7 @@ class CocoaDocs < Object
     $fetch_specs = false
     setup_for_cocoadocs
 
-    url = @params[1]
+    url = @params.first
     spec_name = url.split("/")[-1]
     podspec_path = $active_folder + "/podspecs/" + spec_name
 
@@ -205,7 +205,7 @@ class CocoaDocs < Object
 
     open(url) do|f|
       File.open(podspec_path, 'w') { |tmp| tmp.write(f.read) }
-      @params[0] = podspec_path
+      @params = [podspec_path]
       doc
     end
   end
