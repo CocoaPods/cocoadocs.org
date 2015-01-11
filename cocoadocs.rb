@@ -385,6 +385,8 @@ class CocoaDocs < Object
 
       fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
 
+      documented = false
+
       swift = cloc_results.find { |r| r[:lang] == 'Swift' }
       header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
       if swift && (!header || swift[:files] > header[:files])
@@ -401,12 +403,20 @@ class CocoaDocs < Object
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
-        source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
 
-        percent_doc = source_module.doc_coverage
-        fixer.readme_path = docset_location + '/index.html'
-        fixer.fix_for_jazzy
-      else
+        begin
+          source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
+
+          percent_doc = source_module.doc_coverage
+          fixer.readme_path = docset_location + '/index.html'
+          fixer.fix_for_jazzy
+
+          documented = true
+        rescue
+        end
+      end
+
+      unless documented
         appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
         appledoc_template.generate
 
