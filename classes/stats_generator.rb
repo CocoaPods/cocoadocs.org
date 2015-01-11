@@ -1,21 +1,22 @@
 require 'cgi'
 require 'readme-score'
+require 'rest'
 
 class StatsGenerator
   include HashInit
   attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate
 
   def generate
-    vputs "Generating the CocoaDocs stats for CP Metrics"    
+    vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = @cloc_results.select do |cloc|
       cloc[:lang] == "SUM"
     end.first
-    
+
     unless cloc_sum
       cloc_sum = { :lang => "SUM", :files => 0, :comment => 0, :code => 0 }
     end
-    
+
     data = {
       :total_files => cloc_sum[:files],
       :total_comments => cloc_sum[:comment],
@@ -31,10 +32,10 @@ class StatsGenerator
     }
 
     # send it to the db
-    
+    REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
 
   end
-  
+
   def generated_download_size
     `du -sk #{ @download_location }`.split("\t")[0]
   end
