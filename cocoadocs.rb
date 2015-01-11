@@ -380,7 +380,7 @@ class CocoaDocs < Object
       version_metadata = SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location)
       versions = version_metadata.generate
 
-      p cloc_results
+      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
 
       swift = cloc_results.find { |r| r[:lang] == 'Swift' }
       header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
@@ -390,23 +390,32 @@ class CocoaDocs < Object
         config = Jazzy::Config.new.tap do |c|
           c.podspec = Pathname(download_spec_path)
           c.output = Pathname(docset_location)
+          c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
+          c.docset_icon = Pathname(__FILE__).parent + 'resources/docset_icon.png'
+          c.docset_path = "com.cocoadocs.#{spec.name.downcase}.#{spec.name}.docset"
+          # c.readme_path = Pathname(readme_location)
+          c.source_directory = Pathname(download_location)
+          c.clean = true
         end
-        Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
+        source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
+
+        percent_doc = source_module.doc_coverage
+        fixer.fix_for_jazzy
       else
         appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
         appledoc_template.generate
 
         generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
         generator.create_docset
+
+        fixer.fix
       end
 
       version_metadata.save
 
-      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
-      fixer.fix
       fixer.add_index_redirect_to_latest_to_pod
       fixer.add_docset_redirects if $upload_redirects_for_docsets
-      percent_doc = fixer.get_doc_percent
+      percent_doc ||= fixer.get_doc_percent
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
