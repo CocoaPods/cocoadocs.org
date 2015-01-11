@@ -75,6 +75,7 @@ class CocoaDocs < Object
   # Upload html / docsets
   $upload_docsets_to_s3 = false
   $upload_redirects_for_docsets = false
+  $upload_stats = false
 
   $upload_site_to_s3 = false
 
@@ -147,6 +148,7 @@ class CocoaDocs < Object
 
 
   def cocoadocs
+    $upload_stats = true
     if @params[0] == "doc"
       cocoadocs_doc
     elsif @params[0] == "days"
@@ -157,7 +159,6 @@ class CocoaDocs < Object
   end
 
   def setup_for_cocoadocs
-
     $generate_website = true
     $generate_docset_json = true
     $generate_apple_json = true
@@ -270,7 +271,6 @@ class CocoaDocs < Object
     if options.find_index("--skip-fetch") != nil
       $skip_cloc = true
     end
-
 
     if options.find_index("--dont-delete-source") != nil
       $delete_source_after_docset_creation = false
@@ -441,8 +441,11 @@ class CocoaDocs < Object
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
 
-      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
-      stats.generate
+
+      if $upload_stats
+        stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
+        stats.upload
+      end
 
       if $delete_source_after_docset_creation
         vputs "Deleting source files"

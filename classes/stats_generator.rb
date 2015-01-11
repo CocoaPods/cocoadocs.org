@@ -6,7 +6,7 @@ class StatsGenerator
   include HashInit
   attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate
 
-  def generate
+  def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = @cloc_results.select do |cloc|
