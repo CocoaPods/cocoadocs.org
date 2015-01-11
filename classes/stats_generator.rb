@@ -32,7 +32,8 @@ class StatsGenerator
     }
 
     # send it to the db
-    REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
+#    REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
+    REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pod/#{spec.name}", data.to_json)
 
   end
 
