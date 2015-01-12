@@ -14,7 +14,7 @@ module Pod
     end
 
     def or_cocoadocs_url
-      "https://cocoadocs.org/docsets/#{ name }/#{ version }/"
+      "http://cocoadocs.org/docsets/#{ name }/#{ version }"
     end
     
     def or_git_ref

@@ -32,7 +32,6 @@ class TestingIdealist
         target_expectations + target_estimate
       end
     end
-        
   end
   
   # returns a hash of a testing estimate for the file at the path

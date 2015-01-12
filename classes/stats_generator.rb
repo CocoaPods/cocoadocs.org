@@ -22,7 +22,7 @@ class StatsGenerator
       :total_comments => cloc_sum[:comment],
       :total_lines_of_code => cloc_sum[:code],
       :doc_percent => @doc_percent,
-      :testing_estimate => testing_estimate,
+      :total_test_expectations => testing_estimate,
       :readme_complexity => readme_metadata[:complexity],
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
       :initial_commit_date => get_first_commit_date,
