@@ -27,14 +27,13 @@ class StatsGenerator
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
       :initial_commit_date => get_first_commit_date,
       :download_size => generated_download_size,
-      :license_short => spec.or_license_name_and_url[:license],
-      :license_link => spec.or_license_name_and_url[:url]
+      :license_short_name => spec.or_license_name_and_url[:license],
+      :license_canonical_url => spec.or_license_name_and_url[:url]
     }
 
     # send it to the db
 #    REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
     REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pod/#{spec.name}", data.to_json)
-
   end
 
   def generated_download_size
