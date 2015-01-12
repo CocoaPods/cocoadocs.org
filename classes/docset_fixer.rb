@@ -12,6 +12,7 @@ class DocsetFixer
     delete_extra_docset_folder
     fix_relative_links_in_gfm
     remove_known_badges
+    remove_named_header
     fix_header_anchors
     move_gfm_readme_in
     move_css_in
@@ -25,6 +26,7 @@ class DocsetFixer
     @version = @versions.last
     fix_relative_links_in_gfm('article.chapter')
     remove_known_badges
+    remove_named_header
     fix_header_anchors
     create_dash_data
     minify_html
@@ -124,6 +126,16 @@ class DocsetFixer
       end
     end
 
+    `rm \"#{@readme_path}\"`
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+  # Don't have a redundant header under the site's provided one
+  def remove_named_header
+    doc = Nokogiri::HTML(File.read @readme_path)
+    header_anchor = doc.css("body").children[1]
+    header_anchor.remove if header_anchor.to_s.strip == @spec.name
+    
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
