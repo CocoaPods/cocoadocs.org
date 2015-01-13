@@ -390,6 +390,7 @@ class CocoaDocs < Object
       swift = cloc_results.find { |r| r[:lang] == 'Swift' }
       header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
       if swift && (!header || swift[:files] > header[:files])
+        vputs "Using jazzy to document Swift pod"
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
         File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
         config = Jazzy::Config.new.tap do |c|
@@ -412,7 +413,8 @@ class CocoaDocs < Object
           fixer.fix_for_jazzy
 
           documented = true
-        rescue
+        rescue => e
+          vputs "Jazzy failed: #{e.red}\n#{e.backtrace.inspect.red}"
         end
       end
 

@@ -23,7 +23,7 @@ class DocsetFixer
 
   def fix_for_jazzy
     @version = @versions.last
-    fix_relative_links_in_gfm
+    fix_relative_links_in_gfm('article.chapter')
     remove_known_badges
     fix_header_anchors
     create_dash_data
@@ -104,20 +104,21 @@ class DocsetFixer
     "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
   end
 
-  def fix_relative_links_in_gfm
+  def fix_relative_links_in_gfm(parent_selector = nil)
     vputs "Fixing relative URLs in github flavoured markdown"
 
     return unless @spec.or_is_github?
     return unless File.exist? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
-    doc.css("a").each do |link|
+    main = parent_selector ? doc.css(parent_selector).first : doc
+    main.css("a").each do |link|
       if link.attributes["href"]
         link.attributes["href"].value = fix_relative_link link.attributes["href"].value
       end
     end
 
-    doc.css("img").each do |img|
+    main.css("img").each do |img|
       if img.attributes["src"]
         img.attributes["src"].value = fix_relative_link img.attributes["src"].value
       end
