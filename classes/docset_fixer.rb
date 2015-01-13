@@ -20,6 +20,7 @@ class DocsetFixer
     post_process
     create_dash_data
     minify_html
+    create_separate_readme
   end
 
   def fix_for_jazzy
@@ -30,6 +31,19 @@ class DocsetFixer
     fix_header_anchors
     create_dash_data
     minify_html
+    create_separate_readme('article.chapter')
+  end
+
+  def create_separate_readme(parent_selector = nil)
+    destination = File.join(docset_path, "README.html")
+    if parent_selector
+      doc = Nokogiri::HTML(File.read readme_path)
+      doc = doc.css(parent_selector)
+
+      File.open(destination, 'w') { |f| f.write(doc) }
+    else
+      FileUtils.copy(readme_path, destination)
+    end
   end
 
   def post_process
@@ -135,7 +149,7 @@ class DocsetFixer
     doc = Nokogiri::HTML(File.read @readme_path)
     header_anchor = doc.css("body").children[1]
     header_anchor.remove if header_anchor.text.strip == @spec.name
-    
+
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
