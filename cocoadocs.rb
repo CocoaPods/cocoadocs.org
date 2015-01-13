@@ -414,7 +414,7 @@ class CocoaDocs < Object
 
           documented = true
         rescue => e
-          vputs "Jazzy failed: #{e.red}\n#{e.backtrace.inspect.red}"
+          vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
         end
       end
 
