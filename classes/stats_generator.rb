@@ -33,7 +33,9 @@ class StatsGenerator
 
     # send it to the db
     REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
+    REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pod/#{spec.name}/cloc", @cloc_results.to_json)
   end
+
 
   def generated_download_size
     `du -sk #{ @download_location }`.split("\t")[0]

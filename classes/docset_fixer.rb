@@ -134,7 +134,7 @@ class DocsetFixer
   def remove_named_header
     doc = Nokogiri::HTML(File.read @readme_path)
     header_anchor = doc.css("body").children[1]
-    header_anchor.remove if header_anchor.to_s.strip == @spec.name
+    header_anchor.remove if header_anchor.text.strip == @spec.name
     
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
