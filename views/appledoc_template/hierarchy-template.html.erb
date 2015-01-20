@@ -10,14 +10,14 @@
 
 				<div id="header">
 					<div class="section-header">
-						<h1 class="title title-header">{{page/title}}</h1>
+						<h1 class="title title-header">{{page.title}}</h1>
 					</div>
 				</div>
 
 				<div id="container">
 					{{#hasClasses}}
 					<div class="hierarchy-column">
-						<h2 class="index-title">{{strings/hierarchyPage/classesTitle}}</h2>
+						<h2 class="index-title">{{strings.hierarchyPage.classesTitle}}</h2>
 						{{>Classes}}
 					</div>
 					{{/hasClasses}}
@@ -25,7 +25,7 @@
 					{{#hasProtocolsOrCategories}}
 					<div class="index-column">
 						{{#hasProtocols}}
-						<h2 class="index-title">{{strings/hierarchyPage/protocolsTitle}}</h2>
+						<h2 class="index-title">{{strings.hierarchyPage.protocolsTitle}}</h2>
 						<ul>
 							{{#protocols}}
 							<li><a href="{{href}}">{{title}}</a></li>
@@ -37,7 +37,7 @@
             </div>
   					<div class="index-column">
 
-						<h2 class="index-title">{{strings/hierarchyPage/categoriesTitle}}</h2>
+						<h2 class="index-title">{{strings.hierarchyPage.categoriesTitle}}</h2>
 						<ul>
 							{{#categories}}
 							<li><a href="{{href}}">{{title}}</a></li>
@@ -50,7 +50,7 @@
 
 					{{#hasConstants}}
   					<div class="index-column">
-						<h2 class="index-title">{{strings/indexPage/constantsTitle}}</h2>
+						<h2 class="index-title">{{strings.indexPage.constantsTitle}}</h2>
 						<ul>
 							{{#constants}}
 							<li><a href="{{href}}">{{title}}</a></li>

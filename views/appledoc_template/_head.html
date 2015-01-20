@@ -13,11 +13,11 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>CocoaDocs.org - {{ page/title }}</title>
+    <title>CocoaDocs.org - {{ page.title }}</title>
     <meta name="author"  content="orta; http://orta.github.com/" />
-    <meta name="description" content="Documentation for {{ page/title }}" />
+    <meta name="description" content="Documentation for {{ page.title }}" />
 
     <link rel="stylesheet" type="text/css" href="appledoc_stylesheet.css" media="all" />
 
-    {{#strings/appledocData}}<meta name="generator" content="{{tool}} {{version}} (build {{build}})" />{{/strings/appledocData}}
+    {{#strings.appledocData}}<meta name="generator" content="{{tool}} {{version}} (build {{build}})" />{{/strings.appledocData}}
   </head>
