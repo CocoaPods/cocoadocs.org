@@ -49,7 +49,7 @@ class ClocStatsGenerator
     end
 
     def to_h
-      { language: @language, files: @nFiles, comment: @comment, lines_of_code: @code }
+      { language: @language, files: @nFiles, comments: @comment, lines_of_code: @code }
     end
   end
 end
