@@ -10,15 +10,13 @@ class StatsGenerator
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = @cloc_results.select do |cloc|
-      cloc[:lang] == "SUM"
+      cloc[:language] == "SUM"
     end.first
 
     unless cloc_sum
-      cloc_sum = { :lang => "SUM", :files => 0, :comment => 0, :lines_of_code => 0 }
+      cloc_sum = { :language => "SUM", :files => 0, :comment => 0, :lines_of_code => 0 }
     end
     
-    puts cloc_sum
-
     data = {
       :total_files => cloc_sum[:files],
       :total_comments => cloc_sum[:comment],
