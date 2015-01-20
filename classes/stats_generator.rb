@@ -14,12 +14,12 @@ class StatsGenerator
     end.first
 
     unless cloc_sum
-      cloc_sum = { :language => "SUM", :files => 0, :comment => 0, :lines_of_code => 0 }
+      cloc_sum = { :language => "SUM", :files => 0, :comments => 0, :lines_of_code => 0 }
     end
     
     data = {
       :total_files => cloc_sum[:files],
-      :total_comments => cloc_sum[:comment],
+      :total_comments => cloc_sum[:comments],
       :total_lines_of_code => cloc_sum[:lines_of_code],
       :doc_percent => @doc_percent,
       :total_test_expectations => testing_estimate,
