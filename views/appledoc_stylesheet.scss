@@ -577,6 +577,12 @@ header#app_header {
     font-size:26px;
     color: $darker-color;
 
+    // Don't do two lines.
+    max-width:1000px;
+    overflow-x: hidden;
+    overflow-y:hidden;
+    height:44px;
+
     span.arrow {
       vertical-align: middle;
       font-size:18px;
