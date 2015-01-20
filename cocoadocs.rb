@@ -93,7 +93,7 @@ class CocoaDocs < Object
 
   def initialize(args)
 
-    appledoc_version = `appledoc --version`.strip.gsub("appledoc version: ", "").split(" ")[0].to_f
+    appledoc_version = `vendor/appledoc --version`.strip.gsub("appledoc version: ", "").split(" ")[0].to_f
     if appledoc_version < 2.2
       puts "You need an updated version of appledoc, grab the latest release: https://github.com/tomaz/appledoc/releases".red
       exit

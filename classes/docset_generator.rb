@@ -22,7 +22,7 @@ class DocsetGenerator
     FileUtils.mkpath(to) if !File.directory?(to)
 
     docset_command = [
-      "appledoc",
+      "vendor/appledoc",
       "--project-name #{@spec.name}",                           # name in top left
       "--project-company \"#{@spec.or_contributors_to_spec}\"", # name in top right
       "--company-id #{cocoadocs_id}",                           # the id for the
@@ -101,6 +101,7 @@ class DocsetGenerator
   end
 
   def report_appledoc_error
+    puts "Appledoc has crashed."
     fail 'Appledoc has crashed'
   end
 
