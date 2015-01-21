@@ -703,14 +703,14 @@ header#app_header {
 /* @end */
 
 .deprecated {
-  background-color: lighten($warning-color, 30);
+  background-color: lighten( $warning-color, 58% );
 
   div {
     min-width: 1080px;
 
     h3 {
       padding:10px;
-      color: darken($warning-color, 20);
+      color: darken($warning-color, 20%);
       text-align:center;
       margin:0;
     }
