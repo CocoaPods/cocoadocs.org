@@ -87,8 +87,6 @@
       </a></li>
       <% end %>
 
-      <% if @spec.or_spec_is_deprecated? %>
-      <% end %>
 
       <% if @versions != nil && @versions.count > 1 %>
       <li class="no-link" id="versions">Versions <span class='arrow'>&#x25BC;</span>
@@ -106,3 +104,17 @@
     </ul>
   </div>
 </header>
+
+<% if @spec.or_spec_is_deprecated? %>
+<div class="deprecated">
+  <article>
+    <div>
+      <% if @spec.deprecated_in_favor_of %>
+        <h3>This Spec is deprecated, it is recommended you look at <a href="http://cocoadocs.org/docsets/<%= @spec.deprecated_in_favor_of %>"><%= @spec.deprecated_in_favor_of %>.</a></h3>
+      <% else %>
+        <h3>This Spec is deprecated.</h3>
+      <% end %>
+    </div>
+  </article>
+</div>
+<% end %>

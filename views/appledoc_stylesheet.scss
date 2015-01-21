@@ -702,6 +702,21 @@ header#app_header {
 
 /* @end */
 
+.deprecated {
+  background-color: lighten($warning-color, 30);
+
+  div {
+    min-width: 1080px;
+
+    h3 {
+      padding:10px;
+      color: darken($warning-color, 20);
+      text-align:center;
+      margin:0;
+    }
+  }
+}
+
 #contents {
   background-color:white;
   padding:20px;

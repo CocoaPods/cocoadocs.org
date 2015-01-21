@@ -21,7 +21,7 @@ class AppledocTemplateGenerator
       rescue
         puts "CocoaDocs yaml file is malformed"
       end
-      
+
     end
 
     vars_string = ""
@@ -32,7 +32,7 @@ class AppledocTemplateGenerator
     end
 
     vars = Dir.pwd + "/views/_vars.scss"
-    File.unlink vars
+    File.unlink vars if File.exist? vars
     File.open(vars, 'w') { |f| f.write vars_string }
   end
 
