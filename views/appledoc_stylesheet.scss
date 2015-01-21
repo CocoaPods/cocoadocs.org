@@ -543,13 +543,14 @@ header#app_header {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    height:74px;
+    height: 78px;
     line-height:63px;
 
     color: $highlight-color;
     position:absolute;
     padding: 0;
     margin-bottom:0;
+    
     em {
       color:$background-color;
       font-weight:normal;
@@ -577,10 +578,6 @@ header#app_header {
     font-size:26px;
     color: $darker-color;
 
-    // Don't do two lines.
-    max-width:1000px;
-    height:44px;
-
     span.arrow {
       vertical-align: middle;
       font-size:18px;
@@ -590,30 +587,36 @@ header#app_header {
       border-right: 2px $background-color solid;
     }
 
+
     > li {
       display:inline-block;
       float:left;
       border-left: 2px $background-color solid;
       margin-bottom:0;
 
-	  &#contributors {
-		  max-width: 320px;
-	      text-overflow: ellipsis;
-	      display: -webkit-box;
-	      /* number of lines to show */
-	      -webkit-line-clamp: 1;
-	      -webkit-box-orient: vertical;
-		  overflow: hidden;
-		  padding-top:0px;
-		  padding-bottom:24px;
-		  line-height: 44px;
-	  }
+      &.social {
+        max-width:200px;
+      }
+
+  	  &#contributors {
+  		  max-width: 320px;
+  	      text-overflow: ellipsis;
+  	      display: -webkit-box;
+  	      /* number of lines to show */
+  	      -webkit-line-clamp: 1;
+  	      -webkit-box-orient: vertical;
+  		  overflow: hidden;
+  		  padding-top:0px;
+  		  padding-bottom:24px;
+  		  line-height: 44px;
+  	  }
 
       path#twitter-subtitle-bird {
         fill: $darker-color;
       }
       .twitter-handle {
         vertical-align:text-top;
+        max-width:200px;
       }
 
       span.subtitle {

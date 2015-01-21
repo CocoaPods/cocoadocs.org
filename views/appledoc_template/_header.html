@@ -78,7 +78,7 @@
       <li id = "contributors" class="no-link"><%= @spec.or_contributors_to_spec %></li>
 
       <% if @spec.or_has_social_media_url? %>
-      <li><a href="<%= @spec.social_media_url %>">
+      <li class="social"><a href="<%= @spec.social_media_url %>">
         <% if @spec.or_has_twitter_url? %>
         <%= render_erb( Dir.pwd + '/views/appledoc_template/svg/twitter_bird.svg') %> <span class='twitter-handle'><%= @spec.or_twitter_handle %></span>
         <% else %>
@@ -98,7 +98,7 @@
       </li>
       <% end %>
 
-      <li class="no-link"><span class="subtitle">Documented</span><span="title">$$$DOC_PERCENT$$$%</span></li>
+      <li class="no-link"><span class="subtitle">Docs</span><span="title">$$$DOC_PERCENT$$$%</span></li>
       <li class=""><a href="<%= spec.or_license_name_and_url[:url] %>"><span class="subtitle">License</span><%= spec.or_license_name_and_url[:license] %></a></li>
 
     </ul>
