@@ -1,4 +1,5 @@
 require 'active_support/core_ext/string/strip'
+require 'timeout'
 
 class SourceDownloader
   include HashInit
@@ -22,9 +23,14 @@ class SourceDownloader
       source[:commit] = nil if source.key? :commit
     end
 
-    downloader = Pod::Downloader.for_target(@download_location, source)
-    downloader.download
-    run_prepare_command
+    # this is 5 minutes, which may not be long enough for things like cocos2d.
+    # but that can be dealt with if it's an issue.
+
+    Timeout::timeout(300) {
+      downloader = Pod::Downloader.for_target(@download_location, source)
+      downloader.download
+      run_prepare_command
+    }
   end
 
   # Runs the prepare command bash script of the spec.

@@ -3,7 +3,6 @@
 require 'sinatra'
 require 'json'
 require 'cocoapods'
-
 gem 'nap'
 require 'rest'
 
@@ -63,7 +62,7 @@ end
 
 private
 
-def error_message_for_path path 
+def error_message_for_path path
   if File.exists? path
     return "report_error(" + File.read(path) + ")"
   end
@@ -75,4 +74,3 @@ def process_url url
   pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", url, { :chdir => this_folder })
   Process.detach pid
 end
-
