@@ -32,10 +32,19 @@ class StatsGenerator
     }
 
     # send it to the db
-    REST.post("http://cocoadocs-api.cocoapods.org/pod/#{spec.name}", data.to_json)
-    REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pod/#{spec.name}/cloc", @cloc_results.to_json)
+    handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
+    handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
   end
 
+  def handle_request response    
+    if response.ok?
+      vputs "Sent".green
+    elsif response.unauthorized?
+      vputs "Denied sending to CocoaDocs API: #{response.body}".red
+    else
+      vputs "Likely could not find pod in Trunk DB: #{response.body}".red
+    end
+  end
 
   def generated_download_size
     `du -sk #{ @download_location }`.split("\t")[0]
