@@ -31,7 +31,7 @@ class CocoaDocs < Object
     puts "\n" +
     "    CocoaDocs command line                                                    \n" +
     "                                                                              \n" +
-    "     ./cocoadocs.rb preview [spec name or podspec path]                       \n" +
+    "     ./cocoadocs.rb preview [spec name or podspec path] [branch]              \n" +
     "     ./cocoadocs.rb cocoadocs doc [spec name or path]                         \n" +
     "     ./cocoadocs.rb cocoadocs days [days]                                     \n" +
     "     ./cocoadocs.rb cocoadocs url [json podspec url]                          \n" +
@@ -61,7 +61,7 @@ class CocoaDocs < Object
   # Download and document
   $fetch_specs = true
   $skip_source_download = false
-  $force_master = false
+  $force_branch = nil
   $overwrite_existing_source_files = true
   $delete_source_after_docset_creation = true
   $skip_downloading_readme = false
@@ -220,11 +220,16 @@ class CocoaDocs < Object
   end
 
   # tip: offline command
-  # bundle exec ./cocoadocs.rb preview ARAnalytics --verbose --skip-fetch --skip-readme-download --skip-source-download
+  # bundle exec ./cocoadocs.rb preview ARAnalytics mybranch --verbose --skip-fetch --skip-readme-download --skip-source-download
 
   def preview
 
     name = ARGV[1]
+    branch = ARGV[2] || "master"
+    if branch.start_with? "--"
+      branch = "master"
+    end
+
     update_specs_repo
 
     spec_path = $active_folder + "/#{$cocoadocs_specs_name}/Specs/"
@@ -236,7 +241,7 @@ class CocoaDocs < Object
 
       $overwrite_existing_source_files = true
       $delete_source_after_docset_creation = false
-      $force_master = true
+      $force_branch = branch
 
       document_spec_at_path spec_path
       command  "open \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
@@ -256,7 +261,7 @@ class CocoaDocs < Object
     end
 
     if options.find_index("--master") != nil
-      $force_master = true
+      $force_branch = "master"
     end
 
     if options.find_index("--verbose") != nil
@@ -387,8 +392,9 @@ class CocoaDocs < Object
 
       documented = false
 
-      swift = cloc_results.find { |r| r[:lang] == 'Swift' }
-      header = cloc_results.find { |r| r[:lang] == 'C/C++ Header' }
+      swift = cloc_results.find { |r| r[:language] == 'Swift' }
+      header = cloc_results.find { |r| r[:language] == 'C/C++ Header' }
+
       if swift && (!header || swift[:files] > header[:files])
         vputs "Using jazzy to document Swift pod"
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
@@ -436,6 +442,7 @@ class CocoaDocs < Object
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
+      vputs cloc_results.to_s
 
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate

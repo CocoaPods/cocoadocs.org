@@ -550,7 +550,7 @@ header#app_header {
     position:absolute;
     padding: 0;
     margin-bottom:0;
-    
+
     em {
       color:$background-color;
       font-weight:normal;
@@ -595,7 +595,6 @@ header#app_header {
       margin-bottom:0;
 
       &.social {
-        max-width:200px;
       }
 
   	  &#contributors {
@@ -614,9 +613,9 @@ header#app_header {
       path#twitter-subtitle-bird {
         fill: $darker-color;
       }
+
       .twitter-handle {
         vertical-align:text-top;
-        max-width:200px;
       }
 
       span.subtitle {

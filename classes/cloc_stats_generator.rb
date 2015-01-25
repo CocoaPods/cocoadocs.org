@@ -26,7 +26,10 @@ class ClocStatsGenerator
     vputs "Generating CLOC stats"
     @options = ['--yaml', '--quiet']
     begin
-      return {} if source_files.empty?
+      if source_files.empty?
+        vputs "No Source files found."
+        return {}
+      end
 
       yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
       yaml.sub!(/.*^---/m, '---')
@@ -35,6 +38,7 @@ class ClocStatsGenerator
       hash.delete 'header'
       hash.map { |l, r| Results.new(l, r).to_h }
     rescue => e
+      vputs "CLOC Crashed :#{e}".red
       {}
     end
   end

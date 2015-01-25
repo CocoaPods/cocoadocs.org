@@ -6,7 +6,7 @@ class SourceDownloader
   attr_accessor :spec, :download_location, :overwrite
 
   def download_pod_source_files
-    version = $force_master ? "Master" : @spec.version
+    version = $force_branch ? $force_branch : @spec.version
     puts "\n Looking at #{@spec.name} #{version} \n".bold.blue
 
     if Dir.exist?(@download_location)
@@ -18,8 +18,8 @@ class SourceDownloader
     end
 
     source = @spec.source
-    if $force_master
-      source[:tag] = nil if source.key? :source
+    if $force_branch
+      source[:tag] = $force_branch
       source[:commit] = nil if source.key? :commit
     end
 
