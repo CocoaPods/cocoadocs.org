@@ -11,13 +11,14 @@
 				{{>TableOfContents}}
 			</ul>
       <script>
-        if(document.getElementById("toc").children.length == 0){
+        var toc = document.getElementById("toc")
+        if(toc.children.length == 0){
           var li = document.createElement("li")
           var a = document.createElement("a")
           a.textContent = "Back to Index"
           a["href"] = "../index.html"
           li.appendChild(a)
-          document.getElementById("toc").appendChild(li)
+          toc.appendChild(li)
         }
       </script>
 		</nav>
