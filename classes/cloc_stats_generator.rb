@@ -32,6 +32,7 @@ class ClocStatsGenerator
       end
 
       yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
+      vputs yaml
       yaml.sub!(/.*^---/m, '---')
 
       hash = YAML.load yaml
