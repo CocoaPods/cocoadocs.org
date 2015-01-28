@@ -65,13 +65,9 @@ function init()
 		tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
 	}
 
-  // Too big? Make all small again, doh.
-  if(tocList.offsetHeight > window.screen.availHeight){
-  	for (var i = 0; i < tocEntries.length; i++) {
-      if(tocEntries[i].getAttribute("role") == "treeitem" && tocEntries[i].getAttribute("class") == "children"){
-        tocEntries[i].setAttribute('class', 'children');
-      }
-  	}
+  // Too big? Make it scroll
+  if(tocList.clientHeight > window.screen.availHeight){
+    document.getElementById("tocContainer").style.position = "static";
   }
 
 	var tocLinks = tocList.getElementsByTagName('a');
