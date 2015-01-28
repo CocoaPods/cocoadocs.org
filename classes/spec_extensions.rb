@@ -146,8 +146,12 @@ module Pod
       if social_media_url.include?("github.com")
         return "GH: " + social_media_url.split(".com/")[-1]
       end
+      
+      if social_media_url.include?("linkedin.com")
+        return "LI: " + social_media_url.split(".com/")[-1]
+      end
 
-      social_media_url
+      social_media_url.sub("https://","").sub("http://","").split("/")[0]
     end
 
     def or_spec_is_deprecated?
