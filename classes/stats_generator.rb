@@ -9,13 +9,8 @@ class StatsGenerator
   def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
-    cloc_sum = @cloc_results.select do |cloc|
-      cloc[:language] == "SUM"
-    end.first
-
-    unless cloc_sum
-      cloc_sum = { :language => "SUM", :files => 0, :comments => 0, :lines_of_code => 0 }
-    end
+    cloc_sum = get_summary_cloc
+    cloc_top = get_top_cloc
     
     data = {
       :total_files => cloc_sum[:files],
@@ -28,12 +23,35 @@ class StatsGenerator
       :initial_commit_date => get_first_commit_date,
       :download_size => generated_download_size,
       :license_short_name => spec.or_license_name_and_url[:license],
-      :license_canonical_url => spec.or_license_name_and_url[:url]
+      :license_canonical_url => spec.or_license_name_and_url[:url],
+      :dominant_language => cloc_top[:language]
     }
 
     # send it to the db
     handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
     handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
+  end
+
+  def get_summary_cloc 
+    cloc_sum = @cloc_results.select do |cloc|
+      cloc[:language] == "SUM"
+    end.first
+
+    unless cloc_sum
+      cloc_sum = { :language => "SUM", :files => 0, :comments => 0, :lines_of_code => 0 }
+    end
+    cloc_sum
+  end
+  
+  def get_top_cloc
+    cloc_top = @cloc_results.select do |cloc|
+      cloc[:language] != "C/C++ Header"
+    end.sort_by { |cloc| cloc[:files] }.first
+    
+    unless cloc_top
+      cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
+    end
+    cloc_top
   end
 
   def handle_request response    

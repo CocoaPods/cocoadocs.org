@@ -136,7 +136,7 @@ class CocoaDocs < Object
 
     @params.each do |param|
       next if param.start_with?('--')
-
+      
       name = param
       if name.end_with? ".podspec.json"
         document_spec_at_path(name)
