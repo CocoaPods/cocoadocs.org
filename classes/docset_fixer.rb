@@ -173,7 +173,9 @@ class DocsetFixer
                       'http://img.shields.io',
                       'https://reposs.herokuapp.com',
                       'https://secure.travis-ci.org',
-                      'https://kiwiirc.com']
+                      'https://kiwiirc.com',
+                      'https://badges.gitter.im/',
+                      'https://badge.waffle.io']
     urls_to_delete.each do |selector|
       doc.css('img[data-canonical-src^="' + selector + '"]').each do |image|
         image.parent.remove
