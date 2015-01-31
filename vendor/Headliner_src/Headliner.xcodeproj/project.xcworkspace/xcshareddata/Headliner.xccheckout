@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7971B77D-4CB9-4B41-892A-0663BAD41E56</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Headliner</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>75B84E5109E3AC2FAD355EED2FE4F82D25F7F690</key>
+		<string>https://github.com/CocoaPods/cocoadocs.org.git</string>
+		<key>FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26</key>
+		<string>https://github.com/CocoaPods/Strata.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>vendor/Headliner_src/Headliner.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>75B84E5109E3AC2FAD355EED2FE4F82D25F7F690</key>
+		<string>../../../..</string>
+		<key>FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/CocoaPods/cocoadocs.org.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>75B84E5109E3AC2FAD355EED2FE4F82D25F7F690</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>75B84E5109E3AC2FAD355EED2FE4F82D25F7F690</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cocoadocs.org</string>
+		</dict>
+	</array>
+</dict>
+</plist>

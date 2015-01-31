@@ -4,13 +4,13 @@ require 'rest'
 
 class StatsGenerator
   include HashInit
-  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate
+  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top
 
   def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = get_summary_cloc
-    cloc_top = get_top_cloc
+    @cloc_top = get_top_cloc
     
     data = {
       :total_files => cloc_sum[:files],
@@ -24,7 +24,7 @@ class StatsGenerator
       :download_size => generated_download_size,
       :license_short_name => spec.or_license_name_and_url[:license],
       :license_canonical_url => spec.or_license_name_and_url[:url],
-      :dominant_language => cloc_top[:language]
+      :dominant_language => @cloc_top[:language]
     }
 
     # send it to the db

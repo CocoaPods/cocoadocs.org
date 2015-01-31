@@ -60,6 +60,15 @@ module Pod
       return license[:type] if license.is_a? Hash
       "Unknown License"
     end
+    
+    def or_podfile_string
+      if (version.to_s.match(/[^.0-9]/))
+        "pod '#{name}', '#{version}'"
+      else
+        minor_version = version.to_s.split('.').slice(0, 2).join(".")
+        "pod '#{name}, '~> #{minor_version}'"
+      end
+    end
 
     def or_license_name_and_url
       if license.is_a? Hash

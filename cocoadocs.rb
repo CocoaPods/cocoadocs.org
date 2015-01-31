@@ -447,14 +447,13 @@ class CocoaDocs < Object
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate
 
+      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
+      stats.upload if $upload_stats
+      
+      SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
+
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
-
-
-      if $upload_stats
-        stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
-        stats.upload
-      end
 
       if $delete_source_after_docset_creation
         vputs "Deleting source files"
