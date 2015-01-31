@@ -66,7 +66,7 @@ module Pod
         "pod '#{name}', '#{version}'"
       else
         minor_version = version.to_s.split('.').slice(0, 2).join(".")
-        "pod '#{name}, '~> #{minor_version}'"
+        "pod '#{name}', '~> #{minor_version}'"
       end
     end
 

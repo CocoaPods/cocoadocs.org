@@ -7,14 +7,35 @@ class SocialImageGenerator
       spec.name,
       quote_wrap(spec.summary),
       quote_wrap(spec.or_podfile_string),
-      quote_wrap("Tested"),
-      quote_wrap("Doc'd"),
+      quote_wrap(testing_quote),
+      quote_wrap(doc_quote),
       quote_wrap(spec.or_license_name_and_url[:license]),
       quote_wrap(@stats_generator.cloc_top[:language]),
       @output_folder + "preview.png"
     ]
     
     command "vendor/Headliner.app/Contents/MacOS/Headliner " + image_command.join(' ')
+  end
+  
+  def testing_quote 
+    case @stats_generator.testing_estimate
+    when 0..1 then "No Tests"
+    when 2..10 then "Some Tests"
+    when 11..30 then "Tests"
+    when 31..80 then "Tested"
+    when 31..80 then "Well Tested"
+    else then "Very Tested"
+    end
+  end
+  
+  def doc_quote 
+    case @stats_generator.doc_percent
+    when 0..5 then "No Docs"
+    when 6..20 then "Partial Docs"
+    when 21..50 then "Documented"
+    when 51..80 then "Good Docs"
+    else then "Great Docs"
+    end
   end
   
   def quote_wrap thing
