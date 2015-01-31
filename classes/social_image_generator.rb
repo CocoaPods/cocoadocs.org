@@ -22,9 +22,9 @@ class SocialImageGenerator
     when 0..1 then "No Tests"
     when 2..10 then "Some Tests"
     when 11..30 then "Has Tests"
-    when 31..80 then "Tested"
+    when 31..80 then "Amply Tested"
     when 81..150 then "Well Tested"
-    else "Very Tested"
+    else "Great Tests"
     end
   end
   
