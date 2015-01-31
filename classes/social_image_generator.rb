@@ -21,10 +21,10 @@ class SocialImageGenerator
     case @stats_generator.testing_estimate
     when 0..1 then "No Tests"
     when 2..10 then "Some Tests"
-    when 11..30 then "Tests"
+    when 11..30 then "Has Tests"
     when 31..80 then "Tested"
-    when 31..80 then "Well Tested"
-    else then "Very Tested"
+    when 81..150 then "Well Tested"
+    else "Very Tested"
     end
   end
   
@@ -34,7 +34,7 @@ class SocialImageGenerator
     when 6..20 then "Partial Docs"
     when 21..50 then "Documented"
     when 51..80 then "Good Docs"
-    else then "Great Docs"
+    else "Great Docs"
     end
   end
   
