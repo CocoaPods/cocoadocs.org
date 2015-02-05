@@ -1,4 +1,5 @@
 require 'yaml'
+require 'shellwords'
 
 class ClocStatsGenerator
   include HashInit
@@ -31,7 +32,7 @@ class ClocStatsGenerator
         return {}
       end
 
-      yaml = `cloc #{@options.join(' ')} #{source_files.join(' ')}`
+      yaml = `cloc #{@options.join(' ')} #{source_files.map(&:shellescape).join(' ')}`
       vputs "cloc #{@options.join(' ')} #{source_files.join(' ')}"
       if yaml.strip.length == 0
         puts "Got nothing from CLOC, are you on a version of cloc with swift support? ( 1.6.2+)".red
