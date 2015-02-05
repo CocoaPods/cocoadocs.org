@@ -2,11 +2,11 @@
 
 def command(command_to_run)
   puts " " + command_to_run.yellow if $verbose
-  success = system command_to_run
+  success = system(*command_to_run)
 
   # appledoc always fails for me ... ?
-  if !success && !command_to_run.strip.start_with?("appledoc")
-    puts (command_to_run + " failed!").red
+  if !success && !command_to_run.join(' ').strip.start_with?("vendor/appledoc")
+    puts (command_to_run.join(' ') + " failed!").red
   end
 end
 
