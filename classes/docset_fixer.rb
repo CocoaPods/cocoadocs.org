@@ -7,7 +7,7 @@ class DocsetFixer
   attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent, :versions
 
   def fix
-    @version = @versions.last
+    @version = spec.version
     remove_html_folder
     delete_extra_docset_folder
     fix_relative_links_in_gfm
@@ -24,7 +24,7 @@ class DocsetFixer
   end
 
   def fix_for_jazzy
-    @version = @versions.last
+    @version = spec.version
     fix_relative_links_in_gfm('article.chapter')
     remove_known_badges
     remove_named_header
@@ -282,9 +282,11 @@ class DocsetFixer
   def add_index_redirect_to_latest_to_pod
     vputs "Creating a redirect to move to the latest pod"
 
+    latest_version = versions.reverse_each.find { |v| v !~ /[a-zA-Z_-]/ } || versions.last
+
     from = @pod_root + "/index.html"
     server_location = "docsets/#{@spec.name}/index.html"
-    to = "docsets/#{@spec.name}/#{@version}"
+    to = "docsets/#{@spec.name}/#{latest_version}"
 
     puts "-------------"
     puts to

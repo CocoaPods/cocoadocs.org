@@ -11,7 +11,6 @@ class DocsetGenerator
     cocoadocs_id = "com.cocoadocs.#{@spec.name.downcase}"
 
     headers = headers_for_spec_at_location @spec
-    headers.map! { |header| Shellwords.escape header }
     headers = [from] if headers.count == 0
 
     guides = GuidesGenerator.new(spec: @spec, source_download_location: @source_download_location)
@@ -23,45 +22,45 @@ class DocsetGenerator
 
     docset_command = [
       "vendor/appledoc",
-      "--project-name #{@spec.name}",                           # name in top left
-      "--project-company \"#{@spec.or_contributors_to_spec}\"", # name in top right
-      "--company-id #{cocoadocs_id}",                           # the id for the
+      "--project-name", @spec.name,                           # name in top left
+      "--project-company", @spec.or_contributors_to_spec,     # name in top right
+      "--company-id", "#{cocoadocs_id}",                      # the id for the
 
-      "--project-version #{version}",                           # project version
-      "--no-install-docset",                                    # don't make a duplicate
+      "--project-version", "#{version}",                      # project version
+      "--no-install-docset",                                  # don't make a duplicate
 
-      "--templates \"#{@appledoc_templates_path}\"",            # use the custom template
-      "--verbose #{verbosity}",                                 # give some useful logs
+      "--templates", @appledoc_templates_path,                # use the custom template
+      "--verbose", "#{verbosity}",                            # give some useful logs
 
-      "--keep-intermediate-files",                              # space for now is OK
-      "--create-html",                                          # eh, nice to have
-      "--publish-docset",                                       # this should create atom
+      "--keep-intermediate-files",                            # space for now is OK
+      "--create-html",                                        # eh, nice to have
+      "--publish-docset",                                     # this should create atom
 
-      "--docset-feed-url #{$website_home}docsets/#{@spec.name}/xcode-docset.atom",
-      "--docset-atom-filename xcode-docset.atom",
+      "--docset-feed-url", "#{$website_home}docsets/#{@spec.name}/xcode-docset.atom",
+      "--docset-atom-filename", "xcode-docset.atom",
 
-      "--docset-package-url #{$website_home}docsets/#{@spec.name}/docset.xar",
-      "--docset-package-filename docset",
+      "--docset-package-url", "#{$website_home}docsets/#{@spec.name}/docset.xar",
+      "--docset-package-filename", "docset",
 
-      "--docset-fallback-url #{$website_home}docsets/#{@spec.name}",
-      "--docset-feed-name #{@spec.name}",
+      "--docset-fallback-url", "#{$website_home}docsets/#{@spec.name}",
+      "--docset-feed-name", "#{@spec.name}",
 
       # http://gentlebytes.com/appledoc-docs-examples-advanced/
       "--keep-undocumented-objects",                         # not everyone will be documenting
       "--keep-undocumented-members",                         # so we should at least show something
       "--search-undocumented-doc",                           # uh? ( no idea what this does... )
 
-      guides.generate_string_for_appledoc,
+      *guides.generate_array_for_appledoc,
 
-      "--output \"#{@to}\"",                                      # where should we throw stuff
+      "--output", to,                                        # where should we throw stuff
       *headers
     ]
 
     if File.exist? readme_location
-      docset_command.insert(3, "--index-desc resources/overwritten_index.html")
+      docset_command.insert(3, "--index-desc", "resources/overwritten_index.html")
     end
 
-    command docset_command.join(' ')
+    command docset_command
 
     fail "Appledoc crashed in creating the DocSet for this project." unless Dir.exist? to
 

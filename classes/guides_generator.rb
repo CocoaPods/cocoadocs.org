@@ -4,14 +4,14 @@ class GuidesGenerator
   include HashInit
   attr_accessor :spec, :source_download_location
 
-  def generate_string_for_appledoc
+  def generate_array_for_appledoc
     settings = cocoadocs_settings
-    return "" if settings.nil?
-    return "" unless settings.key? "additional_guides"
+    return if settings.nil?
+    return unless settings.key? "additional_guides"
 
     guides = settings["additional_guides"]
-    return "" unless guides.is_a? Array
-    return "" if guides.count == 0
+    return unless guides.is_a? Array
+    return if guides.count == 0
 
     vputs "Grabbing additional programming guides"
 
@@ -53,7 +53,7 @@ class GuidesGenerator
 
     end
 
-    " --include " + File.join(@source_download_location, guides_folder)
+    ["--include", File.join(@source_download_location, guides_folder)]
   end
 
   def cocoadocs_settings
