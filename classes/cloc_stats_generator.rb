@@ -32,8 +32,9 @@ class ClocStatsGenerator
         return {}
       end
 
-      yaml = `cloc #{@options.join(' ')} #{source_files.map(&:shellescape).join(' ')}`
-      vputs "cloc #{@options.join(' ')} #{source_files.join(' ')}"
+      yaml =  `vendor/cloc-1.62.pl #{@options.join(' ')} #{source_files.map(&:shellescape).join(' ')}`
+      vputs "vendor/cloc-1.62.pl #{@options.join(' ')} #{source_files.map(&:shellescape).join(' ')}"
+
       if yaml.strip.length == 0
         puts "Got nothing from CLOC, are you on a version of cloc with swift support? ( 1.6.2+)".red
       end
@@ -44,7 +45,7 @@ class ClocStatsGenerator
       hash.delete 'header'
       hash.map { |l, r| Results.new(l, r).to_h }
     rescue => e
-      vputs "CLOC Crashed :#{e}".red
+      puts "CLOC Crashed :#{e}".red
       {}
     end
   end

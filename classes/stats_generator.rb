@@ -44,10 +44,10 @@ class StatsGenerator
   end
   
   def get_top_cloc
-    cloc_top = @cloc_results.select do |cloc|
-      cloc[:language] != "C/C++ Header"
+    cloc_top = @cloc_results.reject do |cloc|
+      cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
     end.sort_by { |cloc| cloc[:files] }.first
-    
+        
     unless cloc_top
       cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
     end

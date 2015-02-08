@@ -60,7 +60,7 @@ class DocsetGenerator
       docset_command.insert(3, "--index-desc", "resources/overwritten_index.html")
     end
 
-    command docset_command
+    command docset_command.join " "
 
     fail "Appledoc crashed in creating the DocSet for this project." unless Dir.exist? to
 
