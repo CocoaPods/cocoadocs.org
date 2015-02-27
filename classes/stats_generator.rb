@@ -70,7 +70,7 @@ class StatsGenerator
 
   def get_first_commit_date
     Dir.chdir(File.join(@download_location)) do
-      return `git log --pretty=format:%ad --date=iso| tail -1`
+      return `git rev-list --all|tail -n1|xargs git show|grep -v diff|head -n3|tail -1|cut -f2-8 -d' '`
     end
   end
 
