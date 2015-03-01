@@ -27,6 +27,8 @@ class StatsGenerator
       :dominant_language => @cloc_top[:language]
     }
 
+    vputs "Sending as a #{@cloc_top[:language]} project"
+
     # send it to the db
     handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
     handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
@@ -46,8 +48,9 @@ class StatsGenerator
   def get_top_cloc
     cloc_top = @cloc_results.reject do |cloc|
       cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
-    end.sort_by { |cloc| cloc[:files] }.first
+    end.sort_by { |cloc| cloc[:lines_of_code] }.last
         
+    
     unless cloc_top
       cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
     end
