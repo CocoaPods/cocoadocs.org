@@ -1,3 +1,5 @@
+require 'shellescape'
+
 class DocsetGenerator
   include HashInit
   attr_accessor :spec, :from, :to, :readme_location, :appledoc_templates_path, :library_settings, :source_download_location
@@ -52,8 +54,8 @@ class DocsetGenerator
 
       *guides.generate_array_for_appledoc,
 
-      "--output", to,                                        # where should we throw stuff
-      *headers
+      "--output", to.shellescape,                            # where should we throw stuff
+      *headers.map { |header| header.shellescape }
     ]
 
     if File.exist? readme_location
