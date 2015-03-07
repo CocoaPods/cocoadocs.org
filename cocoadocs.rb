@@ -118,7 +118,7 @@ class CocoaDocs < Object
   end
 
   #    parse all docs and upload to s3
-  #    cocoadocs all --create-website http://cocoadocs.org --upload-s3 cocoadocs.org
+  #    ruby cocoadocs.rb all
   def all
     update_specs_repo
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
@@ -128,6 +128,18 @@ class CocoaDocs < Object
     end
   end
 
+  #    parse the latest version of every pod and upload to s3
+  #    ruby cocoadocs.rb all_latest
+  def all_latest
+    update_specs_repo
+    source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
+
+    source.pod_sets.each do |set|
+      document_spec_with_name set.name
+    end
+  end
+
+
   #    just parse ARAnalytics and put the docset in the activity folder
   #    cocoadocs doc "ARAnalytics"
 
@@ -136,7 +148,7 @@ class CocoaDocs < Object
 
     @params.each do |param|
       next if param.start_with?('--')
-      
+
       name = param
       if name.end_with? ".podspec.json"
         document_spec_at_path(name)
@@ -449,7 +461,7 @@ class CocoaDocs < Object
 
       stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
       stats.upload if $upload_stats
-      
+
       SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
