@@ -120,6 +120,7 @@ class CocoaDocs < Object
   #    parse all docs and upload to s3
   #    ruby cocoadocs.rb all
   def all
+    setup_for_cocoadocs
     update_specs_repo
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
@@ -131,6 +132,7 @@ class CocoaDocs < Object
   #    parse the latest version of every pod and upload to s3
   #    ruby cocoadocs.rb all_latest
   def all_latest
+    setup_for_cocoadocs
     update_specs_repo
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
