@@ -26,27 +26,27 @@ class DocsetGenerator
 
     docset_command = [
       "vendor/appledoc",
-      "--project-name", @spec.name,                           # name in top left
-      "--project-company", @spec.or_contributors_to_spec,     # name in top right
-      "--company-id", "#{cocoadocs_id}",                      # the id for the
+      "--project-name", wrap(@spec.name),                       # name in top left
+      "--project-company", wrap(@spec.or_contributors_to_spec), # name in top right
+      "--company-id", "#{cocoadocs_id}",                        # the id for the
 
       "--project-version", "#{version}",                      # project version
       "--no-install-docset",                                  # don't make a duplicate
 
-      "--templates", @appledoc_templates_path,                # use the custom template
+      "--templates", wrap(@appledoc_templates_path),                # use the custom template
       "--verbose", "#{verbosity}",                            # give some useful logs
 
       "--keep-intermediate-files",                            # space for now is OK
       "--create-html",                                        # eh, nice to have
       "--publish-docset",                                     # this should create atom
 
-      "--docset-feed-url", "#{$website_home}docsets/#{@spec.name}/xcode-docset.atom",
+      "--docset-feed-url", wrap("#{$website_home}docsets/#{@spec.name}/xcode-docset.atom"),
       "--docset-atom-filename", "xcode-docset.atom",
 
-      "--docset-package-url", "#{$website_home}docsets/#{@spec.name}/docset.xar",
+      "--docset-package-url", wrap("#{$website_home}docsets/#{@spec.name}/docset.xar"),
       "--docset-package-filename", "docset",
 
-      "--docset-fallback-url", "#{$website_home}docsets/#{@spec.name}",
+      "--docset-fallback-url", wrap("#{$website_home}docsets/#{@spec.name}"),
       "--docset-feed-name", "#{@spec.name}",
 
       # http://gentlebytes.com/appledoc-docs-examples-advanced/
@@ -56,7 +56,7 @@ class DocsetGenerator
 
       *guides.generate_array_for_appledoc,
 
-      "--output", to,                            # where should we throw stuff
+      "--output", to.shellescape,                            # where should we throw stuff
       *headers.map { |header| header.shellescape }
     ]
 
@@ -74,6 +74,10 @@ class DocsetGenerator
 
       show_error_page index, "Could not find Objective-C Classes."
     end
+  end
+
+  def wrap(string)
+    '"' + string + '"'
   end
 
   def show_error_page(path, error)
