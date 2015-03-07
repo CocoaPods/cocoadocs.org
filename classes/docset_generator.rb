@@ -1,4 +1,6 @@
-require 'shellescape'
+if RUBY_VERSION < "2.0.0"
+  require 'shellescape'
+end
 
 class DocsetGenerator
   include HashInit

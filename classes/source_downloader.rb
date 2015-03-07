@@ -23,6 +23,9 @@ class SourceDownloader
       source[:commit] = nil if source.key? :commit
     end
 
+    # Git 2.3+ support no interactive modes if this is set, see #293
+    ENV['GIT_TERMINAL_PROMPT'] = '0'
+
     # this is 5 minutes, which may not be long enough for things like cocos2d.
     # but that can be dealt with if it's an issue.
 
@@ -31,6 +34,7 @@ class SourceDownloader
       downloader.download
       run_prepare_command
     }
+
   end
 
   # Runs the prepare command bash script of the spec.
