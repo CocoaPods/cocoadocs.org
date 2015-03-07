@@ -56,7 +56,7 @@ class DocsetGenerator
 
       *guides.generate_array_for_appledoc,
 
-      "--output", to.shellescape,                            # where should we throw stuff
+      "--output", to,                            # where should we throw stuff
       *headers.map { |header| header.shellescape }
     ]
 
