@@ -141,7 +141,6 @@ class CocoaDocs < Object
     end
   end
 
-
   #    just parse ARAnalytics and put the docset in the activity folder
   #    cocoadocs doc "ARAnalytics"
 
@@ -162,7 +161,6 @@ class CocoaDocs < Object
 
 
   def cocoadocs
-    $upload_stats = true
     case @params.shift
     when 'doc', 'docs'
       cocoadocs_doc
@@ -183,6 +181,7 @@ class CocoaDocs < Object
     $upload_redirects_for_spec_index = true
     $upload_site_to_s3 = true
     $s3_bucket = "cocoadocs.org"
+    $upload_stats = true
   end
 
   def cocoadocs_day
