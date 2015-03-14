@@ -19,8 +19,10 @@ class SourceDownloader
 
     source = @spec.source
     if $force_branch
-      source[:tag] = $force_branch
-      source[:commit] = nil if source.key? :commit
+      if source[:git]
+        source[:tag] = $force_branch
+        source[:commit] = nil if source.key? :commit
+      end
     end
 
     # Git 2.3+ support no interactive modes if this is set, see #293
