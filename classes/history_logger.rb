@@ -7,7 +7,6 @@ class HistoryLogger
     log_folder = $active_folder  + "/logs"
     log_file = log_folder + "/log.csv"
     
-    
     Dir.mkdir(log_folder) unless File.exist?(log_folder)
     `touch #{log_file}` unless File.exist? log_file
     
@@ -18,7 +17,7 @@ class HistoryLogger
     settings = File.exist?(cocoadocs_settings) ? "has_settings" : "no_settings"
     
     
-    appledoc = `appledoc --version`.strip.gsub("appledoc version: ", "")
+    appledoc = `vendor/appledoc --version`.strip.gsub("appledoc version: ", "")
     git_sha = `git rev-parse HEAD`.strip
     
     open(log_file, 'a') do |f|
