@@ -19,7 +19,7 @@ class SocialImageGenerator
   
   def testing_quote 
     case @stats_generator.testing_estimate
-    when 0..1 then "No Tests"
+    when -1..1 then "No Tests"
     when 2..10 then "Some Tests"
     when 11..30 then "Has Tests"
     when 31..80 then "Amply Tested"
@@ -30,7 +30,7 @@ class SocialImageGenerator
   
   def doc_quote 
     case @stats_generator.doc_percent
-    when 0..5 then "No Docs"
+    when -1..5 then "No Docs"
     when 6..20 then "Partial Docs"
     when 21..50 then "Documented"
     when 51..80 then "Good Docs"
