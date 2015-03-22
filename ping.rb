@@ -3,8 +3,6 @@
 require 'rubygems'
 require 'httparty'
 
-STDOUT.sync = true
-
 def post_numbers (number)
   api_key = ENV['STATUS_IO_API_KEY']
   page_id = ENV['STATUS_IO_PAGE_ID']
@@ -13,8 +11,9 @@ def post_numbers (number)
  
   dhash = {
     :timestamp => Time.now.to_i,
-    :value => data
+    :value => number
   }
+  puts "#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json"
   HTTParty.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
 end 
 
