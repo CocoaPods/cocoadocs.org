@@ -67,6 +67,9 @@ GEM
       net-http-pipeline
     highline (1.6.21)
     htmlcompressor (0.1.2)
+    httparty (0.8.3)
+      multi_json (~> 1.0)
+      multi_xml
     i18n (0.7.0)
     jazzy (0.1.2)
       activesupport (~> 4.1)
@@ -91,6 +94,7 @@ GEM
       mocha (>= 0.13.0)
     molinillo (0.2.1)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     multipart-post (2.0.0)
     mustache (0.99.8)
     nap (0.8.0)
@@ -191,6 +195,7 @@ DEPENDENCIES
   docstat
   foreman
   htmlcompressor
+  httparty
   jazzy (~> 0.1)
   mocha
   mocha-on-bacon

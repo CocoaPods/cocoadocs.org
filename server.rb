@@ -10,6 +10,8 @@ trunk_notification_path = ENV['TRUNK_NOTIFICATION_PATH']
 trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
+recent_pods_count = 0
+
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
@@ -56,6 +58,12 @@ get "/redeploy/:pod/:version" do
    return "{ parsing: true }"
 end
 
+get "/recent_pods_count" do
+  old_recent_pods = recent_pods_count
+  recent_pods_count = 0
+  return old_recent_pods
+end
+
 get "/" do
   "Hi"
 end
@@ -70,6 +78,7 @@ def error_message_for_path path
 end
 
 def process_url url
+  recent_pods_count++
   this_folder = File.expand_path(File.dirname(__FILE__))
   pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", url, { :chdir => this_folder })
   Process.detach pid
