@@ -15,7 +15,6 @@ def post_numbers (number)
     :timestamp => Time.now.to_i,
     :value => number
   }
-  puts "#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json"
   HTTParty.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
 end 
 
