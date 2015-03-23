@@ -29,7 +29,6 @@ loop do
       sleep seconds
     end
   rescue Timeout::Error
-    puts "We were not able to reach StatusPage.io in time."
-  # rescue StandardError # StandardError is not rescued.
+    # This is expected behavior.
   end
 end
