@@ -19,7 +19,7 @@ def post_numbers (number)
 end 
 
 loop do
-  begin do
+  begin
     Timeout::timeout(5 * 60) do
       number = HTTParty.get "http://localhost:4567/recent_pods_count"
       puts "Sending #{number} pods to Status.io"
