@@ -11,6 +11,7 @@ trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
 set :pod_count, 0
+set :bind, '0.0.0.0'
 
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
