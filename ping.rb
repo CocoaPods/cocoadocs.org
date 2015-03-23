@@ -2,6 +2,8 @@
 
 require 'rubygems'
 require 'httparty'
+require 'timeout'
+
 
 def post_numbers (number)
   api_key = ENV['STATUS_IO_API_KEY']
@@ -19,9 +21,11 @@ end
 
 loop do
   Thread.new do
-    number = HTTParty.get "http://localhost:4567/recent_pods_count"
-    puts "Sending #{number} pods to Status.io"
-    post_numbers number.to_i
+    Timeout::timeout(5 * 59) {
+      number = HTTParty.get "http://localhost:4567/recent_pods_count"
+      puts "Sending #{number} pods to Status.io"
+      post_numbers number.to_i
+    }
   end
   sleep(5 * 60)
 end
