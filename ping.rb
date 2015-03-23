@@ -23,10 +23,16 @@ seconds = 5 * 60
 loop do
   begin
     Timeout::timeout(seconds) do
-      number = HTTParty.get "http://localhost:4567/recent_pods_count"
-      puts "Sending #{number} pods to Status.io"
-      post_numbers number.to_i
-      sleep seconds
+      begin
+        number = HTTParty.get "http://localhost:4567/recent_pods_count"
+        puts "Sending #{number} pods to Status.io"
+        post_numbers number.to_i
+        sleep seconds
+        
+      rescue => e
+        # also expected behavior
+      end
+
     end
   rescue Timeout::Error
     # This is expected behavior.
