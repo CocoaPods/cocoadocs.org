@@ -19,12 +19,14 @@ def post_numbers (number)
 end 
 
 loop do
-  Thread.new do
-    Timeout::timeout(5 * 59) {
+  begin do
+    Timeout::timeout(5 * 60) do
       number = HTTParty.get "http://localhost:4567/recent_pods_count"
       puts "Sending #{number} pods to Status.io"
       post_numbers number.to_i
-    }
+    end
+  rescue Timeout::Error
+    puts "We were not able to reach StatusPage.io in time."
+  # rescue StandardError # StandardError is not rescued.
   end
-  sleep(5 * 60)
 end
