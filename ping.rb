@@ -18,12 +18,15 @@ def post_numbers (number)
   HTTParty.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
 end 
 
+seconds = 5 * 60
+
 loop do
   begin
-    Timeout::timeout(5 * 60) do
+    Timeout::timeout(seconds) do
       number = HTTParty.get "http://localhost:4567/recent_pods_count"
       puts "Sending #{number} pods to Status.io"
       post_numbers number.to_i
+      sleep seconds
     end
   rescue Timeout::Error
     puts "We were not able to reach StatusPage.io in time."
