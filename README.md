@@ -44,7 +44,7 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
      - docs/Getting_started.md
    ```
 
- -  If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the [documentation_url](http://guides.cocoapods.org/syntax/podspec.html#documentation_url) reference in your Podspec.
+ -  If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the [documentation_url](https://guides.cocoapods.org/syntax/podspec.html#documentation_url) reference in your Podspec.
 
 ##### Previewing my library in CocoaDocs
 
