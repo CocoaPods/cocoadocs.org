@@ -65,7 +65,7 @@ class TestingIdealist
     # Kiwi: should]
     # XCTest: XCTAssert
     
-    expectation_count = ["expect(", "should]", "assertThat", "XCTAssert"].map do |expectation|
+    expectation_count = ["expect(", "should]", "assertThat", "XCTAssert", "XCTFail"].map do |expectation|
        content.split(expectation).length - 1
     end.sort.last
     
