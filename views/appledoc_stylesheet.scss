@@ -338,6 +338,8 @@ header#app_header.minimised {
       padding: 0;
       margin-left:-20px;
       z-index:1001;
+      border-bottom: 1px solid $background-color;
+      -webkit-transition: border-bottom 0.2s;
     }
 
     > li a {
@@ -347,6 +349,12 @@ header#app_header.minimised {
 
     &:hover {
       height: 60px + (20px*2) ;
+
+      div#cover {
+        // Cannot set to none, as the transition breaks
+        border-bottom: 1px solid white;
+        -webkit-transition: border-bottom 0.2s;
+      }
 
       ul#subtitle {
         height:auto;
