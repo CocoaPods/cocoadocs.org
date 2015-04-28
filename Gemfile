@@ -26,7 +26,6 @@ gem 'foreman'
 gem 'httparty'
 
 group :development do
-  gem 'rake'
   gem 'bacon'
   gem 'mocha-on-bacon'
   gem 'mocha'

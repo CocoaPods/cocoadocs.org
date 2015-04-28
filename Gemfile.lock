@@ -120,7 +120,6 @@ GEM
     rack-protection (1.5.3)
       rack
     rainbow (2.0.0)
-    rake (10.3.2)
     rb-readline (0.5.1)
     rdoc (4.1.2)
       json (~> 1.4)
@@ -202,7 +201,6 @@ DEPENDENCIES
   nap
   nokogiri
   octokit
-  rake
   rb-readline
   readme-score (~> 0.0.2)
   rubocop
