@@ -16,8 +16,6 @@ class ReadmeGenerator
 
     markdown = github_readme spec_readme
     File.open(readme_location, 'w') { |f| f.write(markdown) }
-    puts readme_location
-    exit(1)
   end
 
   def github_readme(spec_readme)
