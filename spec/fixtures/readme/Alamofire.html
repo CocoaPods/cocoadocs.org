@@ -1,0 +1,838 @@
+<p><a href="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" target="_blank"><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" style="max-width:100%;"></a></p>
+
+<p><a href="https://travis-ci.org/Alamofire/Alamofire"><img src="https://camo.githubusercontent.com/15a1bc1265d51166121d0248a5f6869bc7b16092/68747470733a2f2f7472617669732d63692e6f72672f416c616d6f666972652f416c616d6f666972652e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/Alamofire/Alamofire.svg" style="max-width:100%;"></a></p>
+
+<p>Alamofire is an HTTP networking library written in Swift, from the <a href="https://github.com/mattt">creator</a> of <a href="https://github.com/afnetworking/afnetworking">AFNetworking</a>.</p>
+
+<h2>
+<a id="user-content-features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>[x] Chainable Request / Response methods</li>
+<li>[x] URL / JSON / plist Parameter Encoding</li>
+<li>[x] Upload File / Data / Stream</li>
+<li>[x] Download using Request or Resume data</li>
+<li>[x] Authentication with NSURLCredential</li>
+<li>[x] HTTP Response Validation</li>
+<li>[x] Progress Closure &amp; NSProgress</li>
+<li>[x] cURL Debug Output</li>
+<li>[x] Comprehensive Unit Test Coverage</li>
+<li>[x] Complete Documentation</li>
+</ul>
+
+<h2>
+<a id="user-content-requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>iOS 7.0+ / Mac OS X 10.9+</li>
+<li>Xcode 6.3</li>
+</ul>
+
+<h2>
+<a id="user-content-communication" class="anchor" href="#communication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Communication</h2>
+
+<ul>
+<li>If you <strong>need help</strong>, use <a href="http://stackoverflow.com/questions/tagged/alamofire">Stack Overflow</a>. (Tag 'alamofire')</li>
+<li>If you'd like to <strong>ask a general question</strong>, use <a href="http://stackoverflow.com/questions/tagged/alamofire">Stack Overflow</a>.</li>
+<li>If you <strong>found a bug</strong>, open an issue.</li>
+<li>If you <strong>have a feature request</strong>, open an issue.</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request.</li>
+</ul>
+
+<h2>
+<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<blockquote>
+<p><strong>Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks.</strong></p>
+
+<p>To use Alamofire with a project targeting iOS 7, you must include the <code>Alamofire.swift</code> source file directly in your project. See the <a href="#source-file">'Source File'</a> section for instructions.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span class="octicon octicon-link"></span></a>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects.</p>
+
+<p>CocoaPods 0.36 adds supports for Swift and embedded frameworks. You can install it with the following command:</p>
+
+<div class="highlight highlight-bash"><pre>$ gem install cocoapods</pre></div>
+
+<p>To integrate Alamofire into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+
+<div class="highlight highlight-ruby"><pre>source <span class="pl-s"><span class="pl-pds">'</span>https://github.com/CocoaPods/Specs.git<span class="pl-pds">'</span></span>
+platform <span class="pl-c1">:ios</span>, <span class="pl-s"><span class="pl-pds">'</span>8.0<span class="pl-pds">'</span></span>
+use_frameworks!
+
+pod <span class="pl-s"><span class="pl-pds">'</span>Alamofire<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>~&gt; 1.2<span class="pl-pds">'</span></span></pre></div>
+
+<p>Then, run the following command:</p>
+
+<div class="highlight highlight-bash"><pre>$ pod install</pre></div>
+
+<h3>
+<a id="user-content-carthage" class="anchor" href="#carthage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Carthage</h3>
+
+<p>Carthage is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.</p>
+
+<p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
+
+<div class="highlight highlight-bash"><pre>$ brew update
+$ brew install carthage</pre></div>
+
+<p>To integrate Alamofire into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+
+<pre lang="ogdl"><code>github "Alamofire/Alamofire" &gt;= 1.2
+</code></pre>
+
+<h3>
+<a id="user-content-manually" class="anchor" href="#manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manually</h3>
+
+<p>If you prefer not to use either of the aforementioned dependency managers, you can integrate Alamofire into your project manually.</p>
+
+<h3>
+<a id="user-content-embedded-framework" class="anchor" href="#embedded-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>Embedded Framework</h3>
+
+<ul>
+<li>Add Alamofire as a <a href="http://git-scm.com/docs/git-submodule">submodule</a> by opening the Terminal, <code>cd</code>-ing into your top-level project directory, and entering the following command:</li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>$ git submodule add https://github.com/Alamofire/Alamofire.git</pre></div>
+
+<ul>
+<li>Open the <code>Alamofire</code> folder, and drag <code>Alamofire.xcodeproj</code> into the file navigator of your app project.</li>
+<li>In Xcode, navigate to the target configuration window by clicking on the blue project icon, and selecting the application target under the "Targets" heading in the sidebar.</li>
+<li>Ensure that the deployment target of Alamofire.framework matches that of the application target.</li>
+<li>In the tab bar at the top of that window, open the "Build Phases" panel.</li>
+<li>Expand the "Target Dependencies" group, and add <code>Alamofire.framework</code>.</li>
+<li>Click on the <code>+</code> button at the top left of the panel and select "New Copy Files Phase". Rename this new phase to "Copy Frameworks", set the "Destination" to "Frameworks", and add <code>Alamofire.framework</code>.</li>
+</ul>
+
+<h4>
+<a id="user-content-source-file" class="anchor" href="#source-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Source File</h4>
+
+<p>For application targets that do not support embedded frameworks, such as iOS 7, Alamofire can be integrated by adding the <code>Alamofire.swift</code> source file directly into your project. Note that any calling conventions described in the <a href="#usage">'Usage'</a> section with the <code>Alamofire</code> prefix would instead omit it (for example, <code>Alamofire.request</code> becomes <code>request</code>), since this functionality is incorporated into the top-level namespace.</p>
+
+<hr>
+
+<h2>
+<a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="user-content-making-a-request" class="anchor" href="#making-a-request" aria-hidden="true"><span class="octicon octicon-link"></span></a>Making a Request</h3>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">import</span> <span class="pl-c1">Alamofire</span>
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)</pre></div>
+
+<h3>
+<a id="user-content-response-handling" class="anchor" href="#response-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response Handling</h3>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>])
+         <span class="pl-k">.</span>response { (request, response, data, error) <span class="pl-k">in</span>
+                     println(request)
+                     println(response)
+                     println(error)
+                   }</pre></div>
+
+<blockquote>
+<p>Networking in Alamofire is done <em>asynchronously</em>. Asynchronous programming may be a source of frustration to programmers unfamiliar with the concept, but there are <a href="https://developer.apple.com/library/ios/qa/qa1693/_index.html">very good reasons</a> for doing it this way.</p>
+
+<p>Rather than blocking execution to wait for a response from the server, a <a href="http://en.wikipedia.org/wiki/Callback_%28computer_programming%29">callback</a> is specified to handle the response once it's received. The result of a request is only available inside the scope of a response handler. Any execution contingent on the response or data received from the server must be done within a handler.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-response-serialization" class="anchor" href="#response-serialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response Serialization</h3>
+
+<p><strong>Built-in Response Methods</strong></p>
+
+<ul>
+<li><code>response()</code></li>
+<li><code>responseString(encoding: NSStringEncoding)</code></li>
+<li><code>responseJSON(options: NSJSONReadingOptions)</code></li>
+<li><code>responsePropertyList(options: NSPropertyListReadOptions)</code></li>
+</ul>
+
+<h4>
+<a id="user-content-response-string-handler" class="anchor" href="#response-string-handler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response String Handler</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>responseString { (_, _, string, _) <span class="pl-k">in</span>
+                  println(string)
+         }</pre></div>
+
+<h4>
+<a id="user-content-response-json-handler" class="anchor" href="#response-json-handler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response JSON Handler</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>responseJSON { (_, _, JSON, _) <span class="pl-k">in</span>
+                  println(JSON)
+         }</pre></div>
+
+<h4>
+<a id="user-content-chained-response-handlers" class="anchor" href="#chained-response-handlers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chained Response Handlers</h4>
+
+<p>Response handlers can even be chained:</p>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>responseString { (_, _, string, _) <span class="pl-k">in</span>
+                  println(string)
+         }
+         <span class="pl-k">.</span>responseJSON { (_, _, JSON, _) <span class="pl-k">in</span>
+                  println(JSON)
+         }</pre></div>
+
+<h3>
+<a id="user-content-http-methods" class="anchor" href="#http-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTTP Methods</h3>
+
+<p><code>Alamofire.Method</code> lists the HTTP methods defined in <a href="http://tools.ietf.org/html/rfc7231#section-4.3">RFC 7231 §4.3</a>:</p>
+
+<div class="highlight highlight-swift"><pre>public <span class="pl-k">enum</span> Method: <span class="pl-c1">String</span> {
+    <span class="pl-k">case</span> OPTIONS <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>OPTIONS<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> GET <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> HEAD <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>HEAD<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> POST <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> PUT <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PUT<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> PATCH <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PATCH<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> DELETE <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>DELETE<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> TRACE <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>TRACE<span class="pl-pds">"</span></span>
+    <span class="pl-k">case</span> CONNECT <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>CONNECT<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<p>These values can be passed as the first argument of the <code>Alamofire.request</code> method:</p>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>)
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>PUT, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/put<span class="pl-pds">"</span></span>)
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>DELETE, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/delete<span class="pl-pds">"</span></span>)</pre></div>
+
+<h3>
+<a id="user-content-parameters" class="anchor" href="#parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h3>
+
+<h4>
+<a id="user-content-get-request-with-url-encoded-parameters" class="anchor" href="#get-request-with-url-encoded-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET Request With URL-Encoded Parameters</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>])
+<span class="pl-c">// http://httpbin.org/get?foo=bar</span></pre></div>
+
+<h4>
+<a id="user-content-post-request-with-url-encoded-parameters" class="anchor" href="#post-request-with-url-encoded-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>POST Request With URL-Encoded Parameters</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> parameters <span class="pl-k">=</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>baz<span class="pl-pds">"</span></span>: [<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-c1">1</span>],
+    <span class="pl-s"><span class="pl-pds">"</span>qux<span class="pl-pds">"</span></span>: [
+        <span class="pl-s"><span class="pl-pds">"</span>x<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+        <span class="pl-s"><span class="pl-pds">"</span>y<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>,
+        <span class="pl-s"><span class="pl-pds">"</span>z<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>
+    ]
+]
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>, parameters: parameters)
+<span class="pl-c">// HTTP body: foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3</span></pre></div>
+
+<h3>
+<a id="user-content-parameter-encoding" class="anchor" href="#parameter-encoding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameter Encoding</h3>
+
+<p>Parameters can also be encoded as JSON, Property List, or any custom format, using the <code>ParameterEncoding</code> enum:</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">enum</span> ParameterEncoding {
+    <span class="pl-k">case</span> URL
+    <span class="pl-k">case</span> JSON
+    <span class="pl-k">case</span> PropertyList(format: NSPropertyListFormat,
+                      options: NSPropertyListWriteOptions)
+
+    <span class="pl-k">func</span> <span class="pl-en">encode</span>(request: NSURLRequest,
+                parameters: [<span class="pl-c1">String</span>: AnyObject]?) <span class="pl-k">-&gt;</span>
+                    (NSURLRequest, NSError?)
+    { <span class="pl-k">...</span> }
+}</pre></div>
+
+<ul>
+<li>
+<code>URL</code>: A query string to be set as or appended to any existing URL query for <code>GET</code>, <code>HEAD</code>, and <code>DELETE</code> requests, or set as the body for requests with any other HTTP method. The <code>Content-Type</code> HTTP header field of an encoded request with HTTP body is set to <code>application/x-www-form-urlencoded</code>. <em>Since there is no published specification for how to encode collection types, Alamofire follows the convention of appending <code>[]</code> to the key for array values (<code>foo[]=1&amp;foo[]=2</code>), and appending the key surrounded by square brackets for nested dictionary values (<code>foo[bar]=baz</code>).</em>
+</li>
+<li>
+<code>JSON</code>: Uses <code>NSJSONSerialization</code> to create a JSON representation of the parameters object, which is set as the body of the request. The <code>Content-Type</code> HTTP header field of an encoded request is set to <code>application/json</code>.</li>
+<li>
+<code>PropertyList</code>: Uses <code>NSPropertyListSerialization</code> to create a plist representation of the parameters object, according to the associated format and write options values, which is set as the body of the request. The <code>Content-Type</code> HTTP header field of an encoded request is set to <code>application/x-plist</code>.</li>
+<li>
+<code>Custom</code>: Uses the associated closure value to construct a new request given an existing request and parameters.</li>
+</ul>
+
+<h4>
+<a id="user-content-manual-parameter-encoding-of-an-nsurlrequest" class="anchor" href="#manual-parameter-encoding-of-an-nsurlrequest" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manual Parameter Encoding of an NSURLRequest</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> URL <span class="pl-k">=</span> NSURL(string: <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)<span class="pl-k">!</span>
+<span class="pl-k">var</span> request <span class="pl-k">=</span> NSURLRequest(URL: URL)
+
+<span class="pl-k">let</span> parameters <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]
+<span class="pl-k">let</span> encoding <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>ParameterEncoding<span class="pl-k">.</span>URL
+(request, _) <span class="pl-k">=</span> encoding<span class="pl-k">.</span>encode(request, parameters: parameters)</pre></div>
+
+<h4>
+<a id="user-content-post-request-with-json-encoded-parameters" class="anchor" href="#post-request-with-json-encoded-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>POST Request with JSON-encoded Parameters</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> parameters <span class="pl-k">=</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: [<span class="pl-c1">1</span>,<span class="pl-c1">2</span>,<span class="pl-c1">3</span>],
+    <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>: [
+        <span class="pl-s"><span class="pl-pds">"</span>baz<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>qux<span class="pl-pds">"</span></span>
+    ]
+]
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>, parameters: parameters, encoding: <span class="pl-k">.</span>JSON)
+<span class="pl-c">// HTTP body: {"foo": [1, 2, 3], "bar": {"baz": "qux"}}</span></pre></div>
+
+<h3>
+<a id="user-content-caching" class="anchor" href="#caching" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caching</h3>
+
+<p>Caching is handled on the system framework level by <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/Reference/Reference.html#//apple_ref/occ/cl/NSURLCache"><code>NSURLCache</code></a>.</p>
+
+<h3>
+<a id="user-content-uploading" class="anchor" href="#uploading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uploading</h3>
+
+<p><strong>Supported Upload Types</strong></p>
+
+<ul>
+<li>File</li>
+<li>Data</li>
+<li>Stream</li>
+</ul>
+
+<h4>
+<a id="user-content-uploading-a-file" class="anchor" href="#uploading-a-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uploading a File</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> fileURL <span class="pl-k">=</span> NSBundle<span class="pl-k">.</span>mainBundle()
+                      <span class="pl-k">.</span>URLForResource(<span class="pl-s"><span class="pl-pds">"</span>Default<span class="pl-pds">"</span></span>,
+                                      withExtension: <span class="pl-s"><span class="pl-pds">"</span>png<span class="pl-pds">"</span></span>)
+
+Alamofire<span class="pl-k">.</span>upload(<span class="pl-k">.</span>POST, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>, file: fileURL)</pre></div>
+
+<h4>
+<a id="user-content-uploading-wprogress" class="anchor" href="#uploading-wprogress" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uploading w/Progress</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>upload(<span class="pl-k">.</span>POST, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>, file: fileURL)
+         <span class="pl-k">.</span>progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) <span class="pl-k">in</span>
+             println(totalBytesWritten)
+         }
+         <span class="pl-k">.</span>responseJSON { (request, response, JSON, error) <span class="pl-k">in</span>
+             println(JSON)
+         }</pre></div>
+
+<h3>
+<a id="user-content-downloading" class="anchor" href="#downloading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading</h3>
+
+<p><strong>Supported Download Types</strong></p>
+
+<ul>
+<li>Request</li>
+<li>Resume Data</li>
+</ul>
+
+<h4>
+<a id="user-content-downloading-a-file" class="anchor" href="#downloading-a-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading a File</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>download(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/stream/100<span class="pl-pds">"</span></span>, destination: { (temporaryURL, response) <span class="pl-k">in</span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> directoryURL <span class="pl-k">=</span> NSFileManager<span class="pl-k">.</span>defaultManager()
+                          <span class="pl-k">.</span>URLsForDirectory(<span class="pl-k">.</span>DocumentDirectory,
+                                            inDomains: <span class="pl-k">.</span>UserDomainMask)[<span class="pl-c1">0</span>]
+                          <span class="pl-k">as?</span> NSURL {
+        <span class="pl-k">let</span> pathComponent <span class="pl-k">=</span> response<span class="pl-k">.</span>suggestedFilename
+
+        <span class="pl-k">return</span> directoryURL<span class="pl-k">.</span>URLByAppendingPathComponent(pathComponent<span class="pl-k">!</span>)
+    }
+
+    <span class="pl-k">return</span> temporaryURL
+})</pre></div>
+
+<h4>
+<a id="user-content-using-the-default-download-destination" class="anchor" href="#using-the-default-download-destination" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the Default Download Destination</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> destination <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Request<span class="pl-k">.</span>suggestedDownloadDestination(directory: <span class="pl-k">.</span>DocumentDirectory, domain: <span class="pl-k">.</span>UserDomainMask)
+
+Alamofire<span class="pl-k">.</span>download(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/stream/100<span class="pl-pds">"</span></span>, destination: destination)</pre></div>
+
+<h4>
+<a id="user-content-downloading-a-file-wprogress" class="anchor" href="#downloading-a-file-wprogress" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading a File w/Progress</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>download(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/stream/100<span class="pl-pds">"</span></span>, destination: destination)
+         <span class="pl-k">.</span>progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) <span class="pl-k">in</span>
+             println(totalBytesRead)
+         }
+         <span class="pl-k">.</span>response { (request, response, _, error) <span class="pl-k">in</span>
+             println(response)
+         }</pre></div>
+
+<h3>
+<a id="user-content-authentication" class="anchor" href="#authentication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authentication</h3>
+
+<p>Authentication is handled on the system framework level by <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLAuthenticationChallenge_Class/Reference/Reference.html"><code>NSURLCredential</code> and <code>NSURLAuthenticationChallenge</code></a>.</p>
+
+<p><strong>Supported Authentication Schemes</strong></p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Digest_access_authentication">HTTP Digest</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Kerberos_%28protocol%29">Kerberos</a></li>
+<li><a href="http://en.wikipedia.org/wiki/NT_LAN_Manager">NTLM</a></li>
+</ul>
+
+<h4>
+<a id="user-content-http-basic-authentication" class="anchor" href="#http-basic-authentication" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTTP Basic Authentication</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> user <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> password <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>https://httpbin.org/basic-auth/<span class="pl-pse">\(</span><span class="pl-s1">user</span><span class="pl-pse">)</span>/<span class="pl-pse">\(</span><span class="pl-s1">password</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>authenticate(user: user, password: password)
+         <span class="pl-k">.</span>response {(request, response, _, error) <span class="pl-k">in</span>
+             println(response)
+         }</pre></div>
+
+<h4>
+<a id="user-content-authentication-with-nsurlcredential" class="anchor" href="#authentication-with-nsurlcredential" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authentication with NSURLCredential</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> user <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> password <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>
+
+<span class="pl-k">let</span> credential <span class="pl-k">=</span> NSURLCredential(user: user, password: password, persistence: <span class="pl-k">.</span>ForSession)
+
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>https://httpbin.org/basic-auth/<span class="pl-pse">\(</span><span class="pl-s1">user</span><span class="pl-pse">)</span>/<span class="pl-pse">\(</span><span class="pl-s1">password</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>authenticate(usingCredential: credential)
+         <span class="pl-k">.</span>response {(request, response, _, error) <span class="pl-k">in</span>
+             println(response)
+         }</pre></div>
+
+<h3>
+<a id="user-content-validation" class="anchor" href="#validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validation</h3>
+
+<p>By default, Alamofire treats any completed request to be successful, regardless of the content of the response. Calling <code>validate</code> before a response handler causes an error to be generated if the response had an unacceptable status code or MIME type.</p>
+
+<h4>
+<a id="user-content-manual-validation" class="anchor" href="#manual-validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manual Validation</h4>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>])
+         <span class="pl-k">.</span>validate(statusCode: <span class="pl-c1">200</span><span class="pl-k">..&lt;</span><span class="pl-c1">300</span>)
+         <span class="pl-k">.</span>validate(contentType: [<span class="pl-s"><span class="pl-pds">"</span>application/json<span class="pl-pds">"</span></span>])
+         <span class="pl-k">.</span>response { (_, _, _, error) <span class="pl-k">in</span>
+                  println(error)
+         }</pre></div>
+
+<h4>
+<a id="user-content-automatic-validation" class="anchor" href="#automatic-validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Automatic Validation</h4>
+
+<p>Automatically validates status code within <code>200...299</code> range, and that the <code>Content-Type</code> header of the response matches the <code>Accept</code> header of the request, if one is provided.</p>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>])
+         <span class="pl-k">.</span>validate()
+         <span class="pl-k">.</span>response { (_, _, _, error) <span class="pl-k">in</span>
+                  println(error)
+         }</pre></div>
+
+<h3>
+<a id="user-content-printable" class="anchor" href="#printable" aria-hidden="true"><span class="octicon octicon-link"></span></a>Printable</h3>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> request <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/ip<span class="pl-pds">"</span></span>)
+
+println(request)
+<span class="pl-c">// GET http://httpbin.org/ip (200)</span></pre></div>
+
+<h3>
+<a id="user-content-debugprintable" class="anchor" href="#debugprintable" aria-hidden="true"><span class="octicon octicon-link"></span></a>DebugPrintable</h3>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> request <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>])
+
+debugPrintln(request)</pre></div>
+
+<h4>
+<a id="user-content-output-curl" class="anchor" href="#output-curl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Output (cURL)</h4>
+
+<div class="highlight highlight-bash"><pre>$ curl -i \
+    -H <span class="pl-s"><span class="pl-pds">"</span>User-Agent: Alamofire<span class="pl-pds">"</span></span> \
+    -H <span class="pl-s"><span class="pl-pds">"</span>Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5<span class="pl-pds">"</span></span> \
+    -H <span class="pl-s"><span class="pl-pds">"</span>Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5<span class="pl-pds">"</span></span> \
+    <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get?foo=bar<span class="pl-pds">"</span></span></pre></div>
+
+<hr>
+
+<h2>
+<a id="user-content-advanced-usage" class="anchor" href="#advanced-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Advanced Usage</h2>
+
+<blockquote>
+<p>Alamofire is built on <code>NSURLSession</code> and the Foundation URL Loading System. To make the most of
+this framework, it is recommended that you be familiar with the concepts and capabilities of the underlying networking stack.</p>
+</blockquote>
+
+<p><strong>Recommended Reading</strong></p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html">URL Loading System Programming Guide</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSURLSession_class/Introduction/Introduction.html#//apple_ref/occ/cl/NSURLSession">NSURLSession Class Reference</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/Reference/Reference.html#//apple_ref/occ/cl/NSURLCache">NSURLCache Class Reference</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLAuthenticationChallenge_Class/Reference/Reference.html">NSURLAuthenticationChallenge Class Reference</a></li>
+</ul>
+
+<h3>
+<a id="user-content-manager" class="anchor" href="#manager" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manager</h3>
+
+<p>Top-level convenience methods like <code>Alamofire.request</code> use a shared instance of <code>Alamofire.Manager</code>, which is configured with the default <code>NSURLSessionConfiguration</code>.</p>
+
+<p>As such, the following two statements are equivalent:</p>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> manager <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager<span class="pl-k">.</span>sharedInstance
+manager<span class="pl-k">.</span>request(NSURLRequest(URL: NSURL(string: <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/get<span class="pl-pds">"</span></span>)))</pre></div>
+
+<p>Applications can create managers for background and ephemeral sessions, as well as new managers that customize the default session configuration, such as for default headers (<code>HTTPAdditionalHeaders</code>) or timeout interval (<code>timeoutIntervalForRequest</code>).</p>
+
+<h4>
+<a id="user-content-creating-a-manager-with-default-configuration" class="anchor" href="#creating-a-manager-with-default-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Manager with Default Configuration</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> configuration <span class="pl-k">=</span> NSURLSessionConfiguration<span class="pl-k">.</span>defaultSessionConfiguration()
+<span class="pl-k">let</span> manager <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager(configuration: configuration)</pre></div>
+
+<h4>
+<a id="user-content-creating-a-manager-with-background-configuration" class="anchor" href="#creating-a-manager-with-background-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Manager with Background Configuration</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> configuration <span class="pl-k">=</span> NSURLSessionConfiguration<span class="pl-k">.</span>backgroundSessionConfiguration(<span class="pl-s"><span class="pl-pds">"</span>com.example.app.background<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> manager <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager(configuration: configuration)</pre></div>
+
+<h4>
+<a id="user-content-creating-a-manager-with-ephemeral-configuration" class="anchor" href="#creating-a-manager-with-ephemeral-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Manager with Ephemeral Configuration</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> configuration <span class="pl-k">=</span> NSURLSessionConfiguration<span class="pl-k">.</span>ephemeralSessionConfiguration()
+<span class="pl-k">let</span> manager <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager(configuration: configuration)</pre></div>
+
+<h4>
+<a id="user-content-modifying-session-configuration" class="anchor" href="#modifying-session-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modifying Session Configuration</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> defaultHeaders <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>session<span class="pl-k">.</span>configuration<span class="pl-k">.</span>HTTPAdditionalHeaders ?? [<span class="pl-k">:</span>]
+defaultHeaders[<span class="pl-s"><span class="pl-pds">"</span>DNT<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>1 (Do Not Track Enabled)<span class="pl-pds">"</span></span>
+
+<span class="pl-k">let</span> configuration <span class="pl-k">=</span> NSURLSessionConfiguration<span class="pl-k">.</span>defaultSessionConfiguration()
+configuration<span class="pl-k">.</span>HTTPAdditionalHeaders <span class="pl-k">=</span> defaultHeaders
+
+<span class="pl-k">let</span> manager <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>Manager(configuration: configuration)</pre></div>
+
+<blockquote>
+<p>This is <strong>not</strong> recommended for <code>Authorization</code> or <code>Content-Type</code> headers. Instead, use <code>URLRequestConvertible</code> and <code>ParameterEncoding</code>, respectively.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-request" class="anchor" href="#request" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request</h3>
+
+<p>The result of a <code>request</code>, <code>upload</code>, or <code>download</code> method is an instance of <code>Alamofire.Request</code>. A request is always created using a constructor method from an owning manager, and never initialized directly.</p>
+
+<p>Methods like <code>authenticate</code>, <code>validate</code>, and <code>response</code> return the caller in order to facilitate chaining.</p>
+
+<p>Requests can be suspended, resumed, and cancelled:</p>
+
+<ul>
+<li>
+<code>suspend()</code>: Suspends the underlying task and dispatch queue</li>
+<li>
+<code>resume()</code>: Resumes the underlying task and dispatch queue. If the owning manager does not have <code>startRequestsImmediately</code> set to <code>true</code>, the request must call <code>resume()</code> in order to start.</li>
+<li>
+<code>cancel()</code>: Cancels the underlying task, producing an error that is passed to any registered response handlers.</li>
+</ul>
+
+<h3>
+<a id="user-content-response-serialization-1" class="anchor" href="#response-serialization-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Response Serialization</h3>
+
+<h4>
+<a id="user-content-creating-a-custom-response-serializer" class="anchor" href="#creating-a-custom-response-serializer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Custom Response Serializer</h4>
+
+<p>Alamofire provides built-in response serialization for strings, JSON, and property lists, but others can be added in extensions on <code>Alamofire.Request</code>.</p>
+
+<p>For example, here's how a response handler using <a href="https://github.com/mattt/Ono">Ono</a> might be implemented:</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">extension</span> Request {
+    <span class="pl-k">class</span> <span class="pl-k">func</span> <span class="pl-en">XMLResponseSerializer</span>() <span class="pl-k">-&gt;</span> Serializer {
+        <span class="pl-k">return</span> { (request, response, data) <span class="pl-k">in</span>
+            <span class="pl-k">if</span> data <span class="pl-k">==</span> nil {
+                <span class="pl-k">return</span> (nil, nil)
+            }
+
+            <span class="pl-k">var</span> XMLSerializationError: NSError?
+            <span class="pl-k">let</span> XML <span class="pl-k">=</span> ONOXMLDocument(data: data, <span class="pl-k">&amp;</span>XMLSerializationError)
+
+            <span class="pl-k">return</span> (XML, XMLSerializationError)
+        }
+    }
+
+    <span class="pl-k">func</span> <span class="pl-en">responseXMLDocument</span>(completionHandler: (NSURLRequest, NSHTTPURLResponse?, ONOXMLDocument?, NSError?) <span class="pl-k">-&gt;</span> Void) -&gt; Self {
+        <span class="pl-k">return</span> response(serializer: Request<span class="pl-k">.</span>XMLResponseSerializer(), completionHandler: { (request, response, XML, error) <span class="pl-k">in</span>
+            completionHandler(request, response, XML <span class="pl-k">as?</span> ONOXMLDocument, error)
+        })
+    }
+}</pre></div>
+
+<h4>
+<a id="user-content-generic-response-object-serialization" class="anchor" href="#generic-response-object-serialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generic Response Object Serialization</h4>
+
+<p>Generics can be used to provide automatic, type-safe response object serialization.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">@objc</span> public <span class="pl-k">protocol</span> ResponseObjectSerializable {
+    <span class="pl-k">init</span>?(response: NSHTTPURLResponse, representation: AnyObject)
+}
+
+<span class="pl-k">extension</span> Alamofire<span class="pl-k">.</span>Request {
+    public <span class="pl-k">func</span> <span class="pl-en">responseObject</span>&lt;T: ResponseObjectSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, T?, NSError?) <span class="pl-k">-&gt;</span> Void) -&gt; Self {
+        <span class="pl-k">let</span> serializer: Serializer <span class="pl-k">=</span> { (request, response, data) <span class="pl-k">in</span>
+            <span class="pl-k">let</span> JSONSerializer <span class="pl-k">=</span> Request<span class="pl-k">.</span>JSONResponseSerializer(options: <span class="pl-k">.</span>AllowFragments)
+            <span class="pl-k">let</span> (JSON: AnyObject?, serializationError) <span class="pl-k">=</span> JSONSerializer(request, response, data)
+            <span class="pl-k">if</span> response <span class="pl-k">!=</span> nil <span class="pl-k">&amp;&amp;</span> JSON <span class="pl-k">!=</span> nil {
+                <span class="pl-k">return</span> (T(response: response<span class="pl-k">!</span>, representation: JSON<span class="pl-k">!</span>), nil)
+            } <span class="pl-k">else</span> {
+                <span class="pl-k">return</span> (nil, serializationError)
+            }
+        }
+
+        <span class="pl-k">return</span> response(serializer: serializer, completionHandler: { (request, response, object, error) <span class="pl-k">in</span>
+            completionHandler(request, response, object <span class="pl-k">as?</span> T, error)
+        })
+    }
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre>final <span class="pl-k">class</span> User: ResponseObjectSerializable {
+    <span class="pl-k">let</span> username: <span class="pl-c1">String</span>
+    <span class="pl-k">let</span> name: <span class="pl-c1">String</span>
+
+    required <span class="pl-k">init</span>?(response: NSHTTPURLResponse, representation: AnyObject) {
+        <span class="pl-k">self</span><span class="pl-k">.</span>username <span class="pl-k">=</span> response<span class="pl-k">.</span>URL<span class="pl-k">!.</span>lastPathComponent
+        <span class="pl-k">self</span><span class="pl-k">.</span>name <span class="pl-k">=</span> representation<span class="pl-k">.</span>valueForKeyPath(<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>) <span class="pl-k">as</span> <span class="pl-c1">String</span>
+    }
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, <span class="pl-s"><span class="pl-pds">"</span>http://example.com/users/mattt<span class="pl-pds">"</span></span>)
+         <span class="pl-k">.</span>responseObject { (_, _, user: User?, _) <span class="pl-k">in</span>
+             println(user)
+         }</pre></div>
+
+<p>The same approach can also be used to handle endpoints that return a representation of a collection of objects:</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">@objc</span> public <span class="pl-k">protocol</span> ResponseCollectionSerializable {
+    <span class="pl-k">class</span> <span class="pl-k">func</span> <span class="pl-en">collection</span>(#response: NSHTTPURLResponse, representation: AnyObject) <span class="pl-k">-&gt;</span> [Self]
+}
+
+extension Alamofire.Request {
+    public <span class="pl-k">func</span> <span class="pl-en">responseCollection</span>&lt;T: ResponseCollectionSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, [T]?, NSError?) <span class="pl-k">-&gt;</span> Void) -&gt; Self {
+        <span class="pl-k">let</span> serializer: Serializer <span class="pl-k">=</span> { (request, response, data) <span class="pl-k">in</span>
+            <span class="pl-k">let</span> JSONSerializer <span class="pl-k">=</span> Request<span class="pl-k">.</span>JSONResponseSerializer(options: <span class="pl-k">.</span>AllowFragments)
+            <span class="pl-k">let</span> (JSON: AnyObject?, serializationError) <span class="pl-k">=</span> JSONSerializer(request, response, data)
+            <span class="pl-k">if</span> response <span class="pl-k">!=</span> nil <span class="pl-k">&amp;&amp;</span> JSON <span class="pl-k">!=</span> nil {
+                <span class="pl-k">return</span> (T<span class="pl-k">.</span>collection(response: response<span class="pl-k">!</span>, representation: JSON<span class="pl-k">!</span>), nil)
+            } <span class="pl-k">else</span> {
+                <span class="pl-k">return</span> (nil, serializationError)
+            }
+        }
+
+        <span class="pl-k">return</span> response(serializer: serializer, completionHandler: { (request, response, object, error) <span class="pl-k">in</span>
+            completionHandler(request, response, object <span class="pl-k">as?</span> [T], error)
+        })
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-urlstringconvertible" class="anchor" href="#urlstringconvertible" aria-hidden="true"><span class="octicon octicon-link"></span></a>URLStringConvertible</h3>
+
+<p>Types adopting the <code>URLStringConvertible</code> protocol can be used to construct URL strings, which are then used to construct URL requests. <code>NSString</code>, <code>NSURL</code>, <code>NSURLComponents</code>, and <code>NSURLRequest</code> conform to <code>URLStringConvertible</code> by default, allowing any of them to be passed as <code>URLString</code> parameters to the <code>request</code>, <code>upload</code>, and <code>download</code> methods:</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> string <span class="pl-k">=</span> NSString(string: <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>)
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, string)
+
+<span class="pl-k">let</span> URL <span class="pl-k">=</span> NSURL(string: string)<span class="pl-k">!</span>
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, URL)
+
+<span class="pl-k">let</span> URLRequest <span class="pl-k">=</span> NSURLRequest(URL: URL)
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, URLRequest) <span class="pl-c">// overrides `HTTPMethod` of `URLRequest`</span>
+
+<span class="pl-k">let</span> URLComponents <span class="pl-k">=</span> NSURLComponents(URL: URL, resolvingAgainstBaseURL: <span class="pl-c1">true</span>)
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>POST, URLComponents)</pre></div>
+
+<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLStringConvertible</code> as a convenient way to map domain-specific models to server resources.</p>
+
+<h4>
+<a id="user-content-type-safe-routing" class="anchor" href="#type-safe-routing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type-Safe Routing</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">extension</span> User: URLStringConvertible {
+    <span class="pl-k">static</span> <span class="pl-k">let</span> baseURLString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://example.com<span class="pl-pds">"</span></span>
+
+    <span class="pl-k">var</span> URLString: <span class="pl-c1">String</span> {
+        <span class="pl-k">return</span> User<span class="pl-k">.</span>baseURLString <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>/users/<span class="pl-pse">\(</span><span class="pl-s1">username</span><span class="pl-pse">)</span>/<span class="pl-pds">"</span></span>
+    }
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> user <span class="pl-k">=</span> User(username: <span class="pl-s"><span class="pl-pds">"</span>mattt<span class="pl-pds">"</span></span>)
+Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, user) <span class="pl-c">// http://example.com/users/mattt</span></pre></div>
+
+<h3>
+<a id="user-content-urlrequestconvertible" class="anchor" href="#urlrequestconvertible" aria-hidden="true"><span class="octicon octicon-link"></span></a>URLRequestConvertible</h3>
+
+<p>Types adopting the <code>URLRequestConvertible</code> protocol can be used to construct URL requests. <code>NSURLRequest</code> conforms to <code>URLRequestConvertible</code> by default, allowing it to be passed into <code>request</code>, <code>upload</code>, and <code>download</code> methods directly (this is the recommended way to specify custom HTTP header fields or HTTP body for individual requests):</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> URL <span class="pl-k">=</span> NSURL(string: <span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org/post<span class="pl-pds">"</span></span>)<span class="pl-k">!</span>
+<span class="pl-k">let</span> mutableURLRequest <span class="pl-k">=</span> NSMutableURLRequest(URL: URL)
+mutableURLRequest<span class="pl-k">.</span>HTTPMethod <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>
+
+<span class="pl-k">let</span> parameters <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]
+<span class="pl-k">var</span> JSONSerializationError: NSError? <span class="pl-k">=</span> nil
+mutableURLRequest<span class="pl-k">.</span>HTTPBody <span class="pl-k">=</span> NSJSONSerialization<span class="pl-k">.</span>dataWithJSONObject(parameters, options: nil, error: <span class="pl-k">&amp;</span>JSONSerializationError)
+mutableURLRequest<span class="pl-k">.</span>setValue(<span class="pl-s"><span class="pl-pds">"</span>application/json<span class="pl-pds">"</span></span>, forHTTPHeaderField: <span class="pl-s"><span class="pl-pds">"</span>Content-Type<span class="pl-pds">"</span></span>)
+
+Alamofire<span class="pl-k">.</span>request(mutableURLRequest)</pre></div>
+
+<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLRequestConvertible</code> as a way to ensure consistency of requested endpoints. Such an approach can be used to abstract away server-side inconsistencies and provide type-safe routing, as well as manage authentication credentials and other state.</p>
+
+<h4>
+<a id="user-content-api-parameter-abstraction" class="anchor" href="#api-parameter-abstraction" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Parameter Abstraction</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">enum</span> Router: URLRequestConvertible {
+    <span class="pl-k">static</span> <span class="pl-k">let</span> baseURLString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://example.com<span class="pl-pds">"</span></span>
+    <span class="pl-k">static</span> <span class="pl-k">let</span> perPage <span class="pl-k">=</span> <span class="pl-c1">50</span>
+
+    <span class="pl-k">case</span> Search(query: <span class="pl-c1">String</span>, page: <span class="pl-c1">Int</span>)
+
+    <span class="pl-c">// MARK: URLRequestConvertible</span>
+
+    <span class="pl-k">var</span> URLRequest: NSURLRequest {
+        <span class="pl-k">let</span> (path: <span class="pl-c1">String</span>, parameters: [<span class="pl-c1">String</span>: AnyObject]?) <span class="pl-k">=</span> {
+            <span class="pl-k">switch</span> <span class="pl-k">self</span> {
+            <span class="pl-k">case</span> <span class="pl-k">.</span>Search(<span class="pl-k">let</span> query, <span class="pl-k">let</span> page) <span class="pl-k">where</span> page <span class="pl-k">&gt;</span> <span class="pl-c1">1</span>:
+                <span class="pl-k">return</span> (<span class="pl-s"><span class="pl-pds">"</span>/search<span class="pl-pds">"</span></span>, [<span class="pl-s"><span class="pl-pds">"</span>q<span class="pl-pds">"</span></span>: query, <span class="pl-s"><span class="pl-pds">"</span>offset<span class="pl-pds">"</span></span>: Router<span class="pl-k">.</span>perPage <span class="pl-k">*</span> page])
+            <span class="pl-k">case</span> <span class="pl-k">.</span>Search(<span class="pl-k">let</span> query, _):
+                <span class="pl-k">return</span> (<span class="pl-s"><span class="pl-pds">"</span>/search<span class="pl-pds">"</span></span>, [<span class="pl-s"><span class="pl-pds">"</span>q<span class="pl-pds">"</span></span>: query])
+            }
+        }()
+
+        <span class="pl-k">let</span> URL <span class="pl-k">=</span> NSURL(string: Router<span class="pl-k">.</span>baseURLString)<span class="pl-k">!</span>
+        <span class="pl-k">let</span> URLRequest <span class="pl-k">=</span> NSURLRequest(URL: URL<span class="pl-k">.</span>URLByAppendingPathComponent(path))
+        <span class="pl-k">let</span> encoding <span class="pl-k">=</span> Alamofire<span class="pl-k">.</span>ParameterEncoding<span class="pl-k">.</span>URL
+
+        <span class="pl-k">return</span> encoding<span class="pl-k">.</span>encode(URLRequest, parameters: parameters)<span class="pl-k">.</span><span class="pl-c1">0</span>
+    }
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(Router<span class="pl-k">.</span>Search(query: <span class="pl-s"><span class="pl-pds">"</span>foo bar<span class="pl-pds">"</span></span>, page: <span class="pl-c1">1</span>)) <span class="pl-c">// ?q=foo+bar&amp;offset=50</span></pre></div>
+
+<h4>
+<a id="user-content-crud--authorization" class="anchor" href="#crud--authorization" aria-hidden="true"><span class="octicon octicon-link"></span></a>CRUD &amp; Authorization</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">enum</span> Router: URLRequestConvertible {
+    <span class="pl-k">static</span> <span class="pl-k">let</span> baseURLString <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://example.com<span class="pl-pds">"</span></span>
+    <span class="pl-k">static</span> <span class="pl-k">var</span> OAuthToken: <span class="pl-c1">String</span>?
+
+    <span class="pl-k">case</span> CreateUser([<span class="pl-c1">String</span>: AnyObject])
+    <span class="pl-k">case</span> ReadUser(<span class="pl-c1">String</span>)
+    <span class="pl-k">case</span> UpdateUser(<span class="pl-c1">String</span>, [<span class="pl-c1">String</span>: AnyObject])
+    <span class="pl-k">case</span> DestroyUser(<span class="pl-c1">String</span>)
+
+    <span class="pl-k">var</span> method: Alamofire<span class="pl-k">.</span>Method {
+        <span class="pl-k">switch</span> <span class="pl-k">self</span> {
+        <span class="pl-k">case</span> <span class="pl-k">.</span>CreateUser:
+            <span class="pl-k">return</span> <span class="pl-k">.</span>POST
+        <span class="pl-k">case</span> <span class="pl-k">.</span>ReadUser:
+            <span class="pl-k">return</span> <span class="pl-k">.</span>GET
+        <span class="pl-k">case</span> <span class="pl-k">.</span>UpdateUser:
+            <span class="pl-k">return</span> <span class="pl-k">.</span>PUT
+        <span class="pl-k">case</span> <span class="pl-k">.</span>DestroyUser:
+            <span class="pl-k">return</span> <span class="pl-k">.</span>DELETE
+        }
+    }
+
+    <span class="pl-k">var</span> path: <span class="pl-c1">String</span> {
+        <span class="pl-k">switch</span> <span class="pl-k">self</span> {
+        <span class="pl-k">case</span> <span class="pl-k">.</span>CreateUser:
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>/users<span class="pl-pds">"</span></span>
+        <span class="pl-k">case</span> <span class="pl-k">.</span>ReadUser(<span class="pl-k">let</span> username):
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>/users/<span class="pl-pse">\(</span><span class="pl-s1">username</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>
+        <span class="pl-k">case</span> <span class="pl-k">.</span>UpdateUser(<span class="pl-k">let</span> username, _):
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>/users/<span class="pl-pse">\(</span><span class="pl-s1">username</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>
+        <span class="pl-k">case</span> <span class="pl-k">.</span>DestroyUser(<span class="pl-k">let</span> username):
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>/users/<span class="pl-pse">\(</span><span class="pl-s1">username</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>
+        }
+    }
+
+    <span class="pl-c">// MARK: URLRequestConvertible</span>
+
+    <span class="pl-k">var</span> URLRequest: NSURLRequest {
+        <span class="pl-k">let</span> URL <span class="pl-k">=</span> NSURL(string: Router<span class="pl-k">.</span>baseURLString)<span class="pl-k">!</span>
+        <span class="pl-k">let</span> mutableURLRequest <span class="pl-k">=</span> NSMutableURLRequest(URL: URL<span class="pl-k">.</span>URLByAppendingPathComponent(path))
+        mutableURLRequest<span class="pl-k">.</span>HTTPMethod <span class="pl-k">=</span> method<span class="pl-k">.</span>rawValue
+
+        <span class="pl-k">if</span> <span class="pl-k">let</span> token <span class="pl-k">=</span> Router<span class="pl-k">.</span>OAuthToken {
+            mutableURLRequest<span class="pl-k">.</span>setValue(<span class="pl-s"><span class="pl-pds">"</span>Bearer <span class="pl-pse">\(</span><span class="pl-s1">token</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>, forHTTPHeaderField: <span class="pl-s"><span class="pl-pds">"</span>Authorization<span class="pl-pds">"</span></span>)
+        }
+
+        <span class="pl-k">switch</span> <span class="pl-k">self</span> {
+        <span class="pl-k">case</span> <span class="pl-k">.</span>CreateUser(<span class="pl-k">let</span> parameters):
+            <span class="pl-k">return</span> Alamofire<span class="pl-k">.</span>ParameterEncoding<span class="pl-k">.</span>JSON<span class="pl-k">.</span>encode(mutableURLRequest, parameters: parameters)<span class="pl-k">.</span><span class="pl-c1">0</span>
+        <span class="pl-k">case</span> <span class="pl-k">.</span>UpdateUser(_, <span class="pl-k">let</span> parameters):
+            <span class="pl-k">return</span> Alamofire<span class="pl-k">.</span>ParameterEncoding<span class="pl-k">.</span>URL<span class="pl-k">.</span>encode(mutableURLRequest, parameters: parameters)<span class="pl-k">.</span><span class="pl-c1">0</span>
+        <span class="pl-k">default</span>:
+            <span class="pl-k">return</span> mutableURLRequest
+        }
+    }
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(Router<span class="pl-k">.</span>ReadUser(<span class="pl-s"><span class="pl-pds">"</span>mattt<span class="pl-pds">"</span></span>)) <span class="pl-c">// GET /users/mattt</span></pre></div>
+
+<hr>
+
+<h2>
+<a id="user-content-faq" class="anchor" href="#faq" aria-hidden="true"><span class="octicon octicon-link"></span></a>FAQ</h2>
+
+<h3>
+<a id="user-content-when-should-i-use-alamofire" class="anchor" href="#when-should-i-use-alamofire" aria-hidden="true"><span class="octicon octicon-link"></span></a>When should I use Alamofire?</h3>
+
+<p>If you're starting a new project in Swift, and want to take full advantage of its conventions and language features, Alamofire is a great choice. Although not as fully-featured as AFNetworking, Alamofire is much nicer to work with, and should satisfy the vast majority of networking use cases.</p>
+
+<blockquote>
+<p>It's important to note that two libraries aren't mutually exclusive: AFNetworking and Alamofire can peacefully exist in the same code base.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-when-should-i-use-afnetworking" class="anchor" href="#when-should-i-use-afnetworking" aria-hidden="true"><span class="octicon octicon-link"></span></a>When should I use AFNetworking?</h3>
+
+<p>AFNetworking remains the premiere networking library available for OS X and iOS, and can easily be used in Swift, just like any other Objective-C code. AFNetworking is stable and reliable, and isn't going anywhere.</p>
+
+<p>Use AFNetworking for any of the following:</p>
+
+<ul>
+<li>UIKit extensions, such as asynchronously loading images to <code>UIImageView</code>
+</li>
+<li>TLS verification, using <code>AFSecurityManager</code>
+</li>
+<li>Situations requiring <code>NSOperation</code> or <code>NSURLConnection</code>, using <code>AFURLConnectionOperation</code>
+</li>
+<li>Network reachability monitoring, using <code>AFNetworkReachabilityManager</code>
+</li>
+<li>Multipart HTTP request construction, using <code>AFHTTPRequestSerializer</code>
+</li>
+</ul>
+
+<h3>
+<a id="user-content-whats-the-origin-of-the-name-alamofire" class="anchor" href="#whats-the-origin-of-the-name-alamofire" aria-hidden="true"><span class="octicon octicon-link"></span></a>What's the origin of the name Alamofire?</h3>
+
+<p>Alamofire is named after the <a href="https://aggie-horticulture.tamu.edu/wildseed/alamofire.html">Alamo Fire flower</a>, a hybrid variant of the Bluebonnet, the official state flower of Texas.</p>
+
+<hr>
+
+<h2>
+<a id="user-content-contact" class="anchor" href="#contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>Follow AFNetworking on Twitter (<a href="https://twitter.com/AFNetworking">@AFNetworking</a>)</p>
+
+<h3>
+<a id="user-content-creator" class="anchor" href="#creator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creator</h3>
+
+<ul>
+<li>
+<a href="http://github.com/mattt">Mattt Thompson</a> (<a href="https://twitter.com/mattt">@mattt</a>)</li>
+</ul>
+
+<h2>
+<a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Alamofire is released under the MIT license. See LICENSE for details.</p>

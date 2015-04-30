@@ -1,0 +1,304 @@
+<h1>
+<a id="user-content-expecta" class="anchor" href="#expecta" aria-hidden="true"><span class="octicon octicon-link"></span></a>Expecta</h1>
+
+<p><a href="https://travis-ci.org/specta/expecta"><img src="https://camo.githubusercontent.com/9509b902da7a59fce5628ef76d1b6de81c1599fb/687474703a2f2f696d672e736869656c64732e696f2f7472617669732f7370656374612f657870656374612f6d61737465722e7376673f7374796c653d666c6174" alt="Build Status" data-canonical-src="http://img.shields.io/travis/specta/expecta/master.svg?style=flat" style="max-width:100%;"></a>
+<a href="http://cocoadocs.org/docsets/Expecta/"><img src="https://camo.githubusercontent.com/91c3838f8792c617ed690bcdbb0f61f261518130/687474703a2f2f696d672e736869656c64732e696f2f636f636f61706f64732f762f457870656374612e7376673f7374796c653d666c6174" alt="Pod Version" data-canonical-src="http://img.shields.io/cocoapods/v/Expecta.svg?style=flat" style="max-width:100%;"></a>
+<a href="http://cocoadocs.org/docsets/Expecta/"><img src="https://camo.githubusercontent.com/bd79689c01a6acd9ddf08be4e8cf4d26aee25785/687474703a2f2f696d672e736869656c64732e696f2f636f636f61706f64732f702f457870656374612e7376673f7374796c653d666c6174" alt="Pod Platform" data-canonical-src="http://img.shields.io/cocoapods/p/Expecta.svg?style=flat" style="max-width:100%;"></a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img src="https://camo.githubusercontent.com/8188e33178c4fd24c2a3850f1b317a33dfbda5b7/687474703a2f2f696d672e736869656c64732e696f2f636f636f61706f64732f6c2f457870656374612e7376673f7374796c653d666c6174" alt="Pod License" data-canonical-src="http://img.shields.io/cocoapods/l/Expecta.svg?style=flat" style="max-width:100%;"></a></p>
+
+<p>A matcher framework for Objective-C and Cocoa.</p>
+
+<h2>
+<a id="user-content-introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>The main advantage of using Expecta over other matcher frameworks is that you do not have to specify the data types. Also, the syntax of Expecta matchers is much more readable and does not suffer from parenthesitis.</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="pl-en">expect</span>(<span class="pl-s"><span class="pl-pds">@"</span>foo<span class="pl-pds">"</span></span>).to.equal(<span class="pl-s"><span class="pl-pds">@"</span>foo<span class="pl-pds">"</span></span>); <span class="pl-c">// `to` is a syntactic sugar and can be safely omitted.</span>
+<span class="pl-en">expect</span>(foo).notTo.equal(<span class="pl-c1">1</span>);
+<span class="pl-en">expect</span>([bar <span class="pl-c1">isBar</span>]).to.equal(<span class="pl-c1">YES</span>);
+<span class="pl-en">expect</span>(baz).to.equal(<span class="pl-c1">3.14159</span>);</pre></div>
+
+<p>Expecta is framework-agnostic: it works well with XCTest and XCTest-compatible test frameworks such as <a href="http://github.com/petejkim/specta/">Specta</a>.</p>
+
+<h2>
+<a id="user-content-setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>You can setup Expecta using <a href="https://github.com/Carthage/Carthage">Carthage</a>, <a href="http://github.com/CocoaPods/CocoaPods">CocoaPods</a> or <a href="#setting-up-manually">completely manually</a>.</p>
+
+<h3>
+<a id="user-content-carthage" class="anchor" href="#carthage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Carthage</h3>
+
+<ol>
+<li>
+<p>Add Expecta to your project's <code>Cartfile.private</code>:</p>
+
+<div class="highlight highlight-ruby"><pre>github <span class="pl-s"><span class="pl-pds">"</span>specta/expecta<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>master<span class="pl-pds">"</span></span></pre></div>
+</li>
+<li><p>Run <code>carthage update</code> in your project directory.</p></li>
+<li>Drag the appropriate <strong>Expecta.framework</strong> for your platform (located in <code>Carthage/Build/</code>) into your application’s Xcode project, and add it to your test target(s).</li>
+</ol>
+
+<h3>
+<a id="user-content-cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span class="octicon octicon-link"></span></a>CocoaPods</h3>
+
+<ol>
+<li>
+<p>Add Expecta to your project's <code>Podfile</code>:</p>
+
+<div class="highlight highlight-ruby"><pre>target <span class="pl-c1">:MyApp</span> <span class="pl-k">do</span>
+<span class="pl-c"># Your app's dependencies</span>
+<span class="pl-k">end</span>
+
+target <span class="pl-c1">:MyAppTests</span> <span class="pl-k">do</span>
+  pod <span class="pl-s"><span class="pl-pds">'</span>Expecta<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>~&gt; 0.2.4<span class="pl-pds">'</span></span>
+<span class="pl-k">end</span></pre></div>
+</li>
+<li><p>Run <code>pod update</code> or <code>pod install</code> in your project directory.</p></li>
+</ol>
+
+<h3>
+<a id="user-content-setting-up-manually" class="anchor" href="#setting-up-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting Up Manually</h3>
+
+<ol>
+<li>Clone Expecta from Github.</li>
+<li>Run <code>rake</code> in your project directory to build the frameworks and libraries.</li>
+<li>Add a Cocoa or Cocoa Touch Unit Testing Bundle target to your Xcode project if you don't already have one.</li>
+<li>
+<p>For <strong>OS X projects</strong>, copy and add <code>Expecta.framework</code> in the <code>Products/osx</code> folder to your project's test target.</p>
+
+<p>For <strong>iOS projects</strong>, copy and add <code>Expecta.framework</code> in the <code>Products/ios</code> folder to your project's test target.</p>
+
+<p>You can also use <code>libExpecta.a</code> if you prefer to link Expecta as a static library — iOS 7.x and below require this.</p>
+</li>
+<li><p>Add <code>-ObjC</code> and <code>-all_load</code> to the <strong>Other Linker Flags</strong> build setting for the test target in your Xcode project.</p></li>
+<li>
+<p>You can now use Expecta in your test classes by adding the following import:</p>
+
+<div class="highlight highlight-objective-c"><pre>@import Expecta; <span class="pl-c">// If you're using Expecta.framework</span>
+
+<span class="pl-c">// OR</span>
+
+#<span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">&lt;</span>Expecta/Expecta.h<span class="pl-pds">&gt;</span></span> <span class="pl-c">// If you're using the static library, or the framework</span></pre></div>
+</li>
+</ol>
+
+<h2>
+<a id="user-content-built-in-matchers" class="anchor" href="#built-in-matchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Built-in Matchers</h2>
+
+<blockquote>
+<p><code>expect(x).to.equal(y);</code> compares objects or primitives x and y and passes if they are identical (==) or equivalent isEqual:).</p>
+
+<p><code>expect(x).to.beIdenticalTo(y);</code> compares objects x and y and passes if they are identical and have the same memory address.</p>
+
+<p><code>expect(x).to.beNil();</code> passes if x is nil.</p>
+
+<p><code>expect(x).to.beTruthy();</code> passes if x evaluates to true (non-zero).</p>
+
+<p><code>expect(x).to.beFalsy();</code> passes if x evaluates to false (zero).</p>
+
+<p><code>expect(x).to.contain(y);</code> passes if an instance of NSArray or NSString x contains y.</p>
+
+<p><code>expect(x).to.beSupersetOf(y);</code> passes if an instance of NSArray, NSSet, NSDictionary or NSOrderedSet x contains all elements of y.</p>
+
+<p><code>expect(x).to.haveCountOf(y);</code> passes if an instance of NSArray, NSSet, NSDictionary or NSString x has a count or length of y.</p>
+
+<p><code>expect(x).to.beEmpty();</code> passes if an instance of NSArray, NSSet, NSDictionary or NSString x has a count or length of .</p>
+
+<p><code>expect(x).to.beInstanceOf([Foo class]);</code> passes if x is an instance of a class Foo.</p>
+
+<p><code>expect(x).to.beKindOf([Foo class]);</code> passes if x is an instance of a class Foo or if x is an instance of any class that inherits from the class Foo.</p>
+
+<p><code>expect([Foo class]).to.beSubclassOf([Bar class]);</code> passes if the class Foo is a subclass of the class Bar or if it is identical to the class Bar. Use beKindOf() for class clusters.</p>
+
+<p><code>expect(x).to.beLessThan(y);</code> passes if <code>x</code> is less than <code>y</code>.</p>
+
+<p><code>expect(x).to.beLessThanOrEqualTo(y);</code> passes if <code>x</code> is less than or equal to <code>y</code>.</p>
+
+<p><code>expect(x).to.beGreaterThan(y);</code> passes if <code>x</code> is greater than <code>y</code>.</p>
+
+<p><code>expect(x).to.beGreaterThanOrEqualTo(y);</code> passes if <code>x</code> is greater than or equal to <code>y</code>.</p>
+
+<p><code>expect(x).to.beInTheRangeOf(y,z);</code> passes if <code>x</code> is in the range of <code>y</code> and <code>z</code>.</p>
+
+<p><code>expect(x).to.beCloseTo(y);</code> passes if <code>x</code> is close to <code>y</code>.</p>
+
+<p><code>expect(x).to.beCloseToWithin(y, z);</code> passes if <code>x</code> is close to <code>y</code> within <code>z</code>.</p>
+
+<p><code>expect(^{ /* code */ }).to.raise(@"ExceptionName");</code> passes if a given block of code raises an exception named <code>ExceptionName</code>.</p>
+
+<p><code>expect(^{ /* code */ }).to.raiseAny();</code> passes if a given block of code raises any exception.</p>
+
+<p><code>expect(x).to.conformTo(y);</code> passes if <code>x</code> conforms to the protocol <code>y</code>.</p>
+
+<p><code>expect(x).to.respondTo(y);</code> passes if <code>x</code> responds to the selector <code>y</code>.</p>
+
+<p><code>expect(^{ /* code */ }).to.notify(@"NotificationName");</code> passes if a given block of code generates an NSNotification amed <code>NotificationName</code>.</p>
+
+<p><code>expect(^{ /* code */ }).to.notify(notification);</code> passes if a given block of code generates an NSNotification equal to the passed <code>notification</code>.</p>
+
+<p><code>expect(x).to.beginWith(y);</code> passes if an instance of NSString, NSArray, or NSOrderedSet <code>x</code> begins with <code>y</code>. Also liased by <code>startWith</code></p>
+
+<p><code>expect(x).to.endWith(y);</code> passes if an instance of NSString, NSArray, or NSOrderedSet <code>x</code> ends with <code>y</code>.</p>
+
+<p><code>expect(x).to.match(y);</code> passes if an instance of NSString <code>x</code> matches regular expression (given as NSString) <code>y</code> one or more times.</p>
+</blockquote>
+
+<h2>
+<a id="user-content-inverting-matchers" class="anchor" href="#inverting-matchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inverting Matchers</h2>
+
+<p>Every matcher's criteria can be inverted by prepending <code>.notTo</code> or <code>.toNot</code>:</p>
+
+<blockquote>
+<p><code>expect(x).notTo.equal(y);</code> compares objects or primitives x and y and passes if they are <em>not</em> equivalent.</p>
+</blockquote>
+
+<h2>
+<a id="user-content-asynchronous-testing" class="anchor" href="#asynchronous-testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asynchronous Testing</h2>
+
+<p>Every matcher can be made to perform asynchronous testing by prepending <code>.will</code>, <code>.willNot</code> or <code>after(...)</code>:</p>
+
+<blockquote>
+<p><code>expect(x).will.beNil();</code> passes if x becomes nil before the default timeout.</p>
+
+<p><code>expect(x).willNot.beNil();</code> passes if x becomes non-nil before the default timeout.</p>
+
+<p><code>expect(x).after(3).to.beNil();</code> passes if x becoms nil after 3.0 seconds.</p>
+
+<p><code>expect(x).after(2.5).notTo.equal(42);</code> passes if x doesn't equal 42 after 2.5 seconds.</p>
+</blockquote>
+
+<p>The default timeout is 1.0 second and is used for all matchers if not otherwise specified. This setting can be changed by calling <code>[Expecta setAsynchronousTestTimeout:x]</code>, where <code>x</code> is the desired timeout in seconds.</p>
+
+<div class="highlight highlight-objective-c"><pre><span class="pl-en">describe</span>(<span class="pl-s"><span class="pl-pds">@"</span>Foo<span class="pl-pds">"</span></span>, ^{
+  <span class="pl-c1">beforeAll</span>(^{
+    <span class="pl-c">// All asynchronous matching using `will` and `willNot`</span>
+    <span class="pl-c">// will have a timeout of 2.0 seconds</span>
+    [Expecta <span class="pl-c1">setAsynchronousTestTimeout:</span><span class="pl-c1">2</span>];
+  });
+
+  <span class="pl-c1">it</span>(<span class="pl-s"><span class="pl-pds">@"</span>will not be nil<span class="pl-pds">"</span></span>, ^{
+    <span class="pl-c">// Test case where default timeout is used</span>
+    <span class="pl-c1">expect</span>(foo).<span class="pl-smi">willNot</span>.<span class="pl-c1">beNil</span>();
+  });
+
+  <span class="pl-c1">it</span>(<span class="pl-s"><span class="pl-pds">@"</span>should equal 42 after 3 seconds<span class="pl-pds">"</span></span>, ^{
+    <span class="pl-c">// Signle case where timeout differs from the default</span>
+    <span class="pl-c1">expect</span>(foo).<span class="pl-c1">after</span>(<span class="pl-c1">3</span>).<span class="pl-smi">to</span>.<span class="pl-c1">equal</span>(<span class="pl-c1">42</span>);
+  });
+});</pre></div>
+
+<h2>
+<a id="user-content-forced-failing" class="anchor" href="#forced-failing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Forced Failing</h2>
+
+<p>You can fail a test by using the <code>failure</code> attribute. This can be used to test branching.</p>
+
+<blockquote>
+<p><code>failure(@"This should not happen");</code> outright fails a test.</p>
+</blockquote>
+
+<h2>
+<a id="user-content-writing-new-matchers" class="anchor" href="#writing-new-matchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Writing New Matchers</h2>
+
+<p>Writing a new matcher is easy with special macros provided by Expecta. Take a look at how <code>.beKindOf()</code> matcher is defined:</p>
+
+<p><code>EXPMatchers+beKindOf.h</code></p>
+
+<div class="highlight highlight-objective-c"><pre>#<span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">"</span>Expecta.h<span class="pl-pds">"</span></span>
+
+<span class="pl-en">EXPMatcherInterface</span>(beKindOf, (<span class="pl-k">Class</span> expected));
+<span class="pl-c">// 1st argument is the name of the matcher function</span>
+<span class="pl-c">// 2nd argument is the list of arguments that may be passed in the function</span>
+<span class="pl-c">// call.</span>
+<span class="pl-c">// Multiple arguments are fine. (e.g. (int foo, float bar))</span>
+
+#<span class="pl-k">define</span> <span class="pl-en">beAKindOf</span> beKindOf</pre></div>
+
+<p><code>EXPMatchers+beKindOf.m</code></p>
+
+<div class="highlight highlight-objective-c"><pre>#<span class="pl-k">import</span> <span class="pl-s"><span class="pl-pds">"</span>EXPMatchers+beKindOf.h<span class="pl-pds">"</span></span>
+
+<span class="pl-en">EXPMatcherImplementationBegin</span>(beKindOf, (<span class="pl-k">Class</span> expected)) {
+  <span class="pl-k">BOOL</span> actualIsNil = (actual == <span class="pl-c1">nil</span>);
+  <span class="pl-k">BOOL</span> expectedIsNil = (expected == <span class="pl-c1">nil</span>);
+
+  <span class="pl-c1">prerequisite</span>(^<span class="pl-k">BOOL</span> {
+    <span class="pl-k">return</span> !(actualIsNil || expectedIsNil);
+    <span class="pl-c">// Return `NO` if matcher should fail whether or not the result is inverted</span>
+    <span class="pl-c">// using `.Not`.</span>
+  });
+
+  <span class="pl-c1">match</span>(^<span class="pl-k">BOOL</span> {
+    <span class="pl-k">return</span> [actual <span class="pl-c1">isKindOfClass:</span>expected];
+    <span class="pl-c">// Return `YES` if the matcher should pass, `NO` if it should not.</span>
+    <span class="pl-c">// The actual value/object is passed as `actual`.</span>
+    <span class="pl-c">// Please note that primitive values will be wrapped in NSNumber/NSValue.</span>
+  });
+
+  <span class="pl-c1">failureMessageForTo</span>(^<span class="pl-c1">NSString</span> * {
+    <span class="pl-k">if</span> (actualIsNil)
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">@"</span>the actual value is nil/null<span class="pl-pds">"</span></span>;
+    <span class="pl-k">if</span> (expectedIsNil)
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">@"</span>the expected value is nil/null<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> [<span class="pl-c1">NSString</span>
+        stringWithFormat:<span class="pl-s"><span class="pl-pds">@"</span>expected: a kind of <span class="pl-c1">%@</span>, <span class="pl-pds">"</span></span>
+                          <span class="pl-s"><span class="pl-pds">"</span>got: an instance of <span class="pl-c1">%@</span>, which is not a kind of <span class="pl-c1">%@</span><span class="pl-pds">"</span></span>,
+                         [expected <span class="pl-c1">class</span>], [actual <span class="pl-c1">class</span>], [expected <span class="pl-c1">class</span>]];
+    <span class="pl-c">// Return the message to be displayed when the match function returns `YES`.</span>
+  });
+
+  <span class="pl-c1">failureMessageForNotTo</span>(^<span class="pl-c1">NSString</span> * {
+    <span class="pl-k">if</span> (actualIsNil)
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">@"</span>the actual value is nil/null<span class="pl-pds">"</span></span>;
+    <span class="pl-k">if</span> (expectedIsNil)
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">@"</span>the expected value is nil/null<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span> [<span class="pl-c1">NSString</span>
+        stringWithFormat:<span class="pl-s"><span class="pl-pds">@"</span>expected: not a kind of <span class="pl-c1">%@</span>, <span class="pl-pds">"</span></span>
+                          <span class="pl-s"><span class="pl-pds">"</span>got: an instance of <span class="pl-c1">%@</span>, which is a kind of <span class="pl-c1">%@</span><span class="pl-pds">"</span></span>,
+                         [expected <span class="pl-c1">class</span>], [actual <span class="pl-c1">class</span>], [expected <span class="pl-c1">class</span>]];
+    <span class="pl-c">// Return the message to be displayed when the match function returns `NO`.</span>
+  });
+}
+EXPMatcherImplementationEnd</pre></div>
+
+<h2>
+<a id="user-content-dynamic-predicate-matchers" class="anchor" href="#dynamic-predicate-matchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynamic Predicate Matchers</h2>
+
+<p>It is possible to add predicate matchers by simply defining the matcher interface, with the matcher implementation being handled at runtime by delegating to the predicate method on your object.</p>
+
+<p>For instance, if you have the following class:</p>
+
+<div class="highlight highlight-objc"><pre><span class="pl-k">@interface</span> <span class="pl-en">LightSwitch</span> : <span class="pl-e">NSObject</span>
+<span class="pl-k">@property</span> (<span class="pl-k">nonatomic</span>, <span class="pl-k">assign</span>, <span class="pl-k">getter</span>=isTurnedOn) <span class="pl-k">BOOL</span> turnedOn;
+<span class="pl-k">@end</span>
+
+<span class="pl-k">@implementation</span> <span class="pl-en">LightSwitch</span>
+<span class="pl-k">@synthesize</span> turnedOn;
+<span class="pl-k">@end</span></pre></div>
+
+<p>The normal way to write an assertion that the switch is turned on would be:</p>
+
+<div class="highlight highlight-objc"><pre><span class="pl-en">expect</span>([lightSwitch <span class="pl-c1">isTurnedOn</span>]).to.beTruthy();</pre></div>
+
+<p>However, if we define a custom predicate matcher:</p>
+
+<div class="highlight highlight-objc"><pre><span class="pl-en">EXPMatcherInterface</span>(isTurnedOn, (<span class="pl-k">void</span>));</pre></div>
+
+<p>(Note: we haven't defined the matcher implementation, just it's interface)</p>
+
+<p>You can now write your assertion as follows:</p>
+
+<div class="highlight highlight-objc"><pre><span class="pl-en">expect</span>(lightSwitch).isTurnedOn();</pre></div>
+
+<h2>
+<a id="user-content-contribution-guidelines" class="anchor" href="#contribution-guidelines" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribution Guidelines</h2>
+
+<ul>
+<li>Please use only spaces and indent 2 spaces at a time.</li>
+<li>Please prefix instance variable names with a single underscore (<code>_</code>).</li>
+<li>Please prefix custom classes and functions defined in the global scope with <code>EXP</code>.</li>
+</ul>
+
+<h2>
+<a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2012-2015 <a href="https://github.com/specta?tab=members">Specta Team</a>. This software is licensed under the <a href="http://github.com/specta/specta/raw/master/LICENSE">MIT License</a>.</p>

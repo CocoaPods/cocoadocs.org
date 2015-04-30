@@ -1,0 +1,1681 @@
+<h1>
+<a id="user-content-dollar-and-cent-" class="anchor" href="#dollar-and-cent-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dollar and Cent <a href="https://travis-ci.org/ankurp/Dollar.swift"><img src="https://camo.githubusercontent.com/935b54e90b0ecb96d9c37cf451e8a8204185ef1e/68747470733a2f2f7472617669732d63692e6f72672f616e6b7572702f446f6c6c61722e73776966742e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/ankurp/Dollar.swift.svg?branch=master" style="max-width:100%;"></a>
+</h1>
+
+<p><a href="https://gitter.im/ankurp/Dollar.swift?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Gitter" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a></p>
+
+<p>Dollar is a Swift library that provides useful functional programming helper methods without extending any built in objects. It is similar to <a href="https://lodash.com">Lo-Dash</a> or <a href="http://underscorejs.org">Underscore.js</a> in Javascript.</p>
+
+<p>Cent is a library that extends certain Swift object types using the extension feature and gives its two cents to Swift language.</p>
+
+<h2>
+<a id="user-content-contents" class="anchor" href="#contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contents</h2>
+
+<ul>
+<li>
+<a href="#setup">Setup</a>
+
+<ul>
+<li><a href="#demo-app">Demo App</a></li>
+</ul>
+</li>
+<li>Dollar
+
+<ul>
+<li>
+<a href="#dollar-usage">Usage</a>
+
+<ul>
+<li><a href="#array">Array</a></li>
+<li><a href="#dictionary">Dictionary</a></li>
+<li><a href="#object">Object</a></li>
+<li><a href="#function">Function</a></li>
+<li><a href="#chaining">Chaining</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Cent
+
+<ul>
+<li>
+<a href="#cent-usage">Usage</a>
+
+<ul>
+<li><a href="#array-extensions">Array</a></li>
+<li>
+<a href="#date-extensions">Date</a><br>
+</li>
+<li><a href="#dictionary-extensions">Dictionary</a></li>
+<li><a href="#int-extensions">Int</a></li>
+<li><a href="#string-extensions">String</a></li>
+<li><a href="#range-extensions">Range</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#dollar-or-cent">Dollar or Cent?</a></li>
+</ul>
+
+<h1>
+<a id="user-content-setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h1>
+
+<h2>
+<a id="user-content-using-carthage" class="anchor" href="#using-carthage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using <a href="https://github.com/Carthage/Carthage">Carthage</a>
+</h2>
+
+<p>Add <code>github "ankurp/Dollar.swift" ~&gt; 3.0.0</code> to your <code>Cartfile</code> and run <code>carthage update</code>. If unfamiliar with Carthage then checkout their <a href="https://github.com/Carthage/Carthage#getting-started">Getting Started section</a> or this <a href="https://github.com/ankurp/DollarCarthageApp">sample app</a></p>
+
+<h2>
+<a id="user-content-using-cocoapods-version-0361" class="anchor" href="#using-cocoapods-version-0361" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using <a href="http://cocoapods.org/">cocoapods</a> version 0.36.1</h2>
+
+<p>Add <code>pod 'Dollar'</code> to your <code>Podfile</code> and run <code>pod install</code>. Add <code>use_frameworks!</code> to the end of the <code>Podfile</code>. Also checkout this <a href="https://github.com/ankurp/DollarPodApp">sample app</a>. Requires cocoapod version 0.36.1.</p>
+
+<h2>
+<a id="user-content-using-git-submodule" class="anchor" href="#using-git-submodule" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using <code>git submodule</code>
+</h2>
+
+<ol>
+<li>If you are using git then add Dollar as a submodule using <code>git submodule add https://github.com/ankurp/Dollar.swift.git</code>. If not using git download the project using <code>git clone https://github.com/ankurp/Dollar.swift.git</code> in your project folder.</li>
+<li>Open the Dollar.swift folder. Drag Dollar.xcodeproj, inside the Dollar folder, into the file navigator of your Xcode project.</li>
+<li>In Xcode, navigate to the target configuration window by clicking on the blue project icon, and selecting the application target under the "Targets" heading in the sidebar.</li>
+<li>In the tab bar at the top of that window, open the "Build Phases" panel.</li>
+<li>Expand the "Link Binary with Libraries" group, and add Dollar.framework.</li>
+<li>In your project file <code>import Dollar</code> and you can call all of the helper functions.</li>
+</ol>
+
+<p>Still stuck. Then checkout this screencast on <a href="http://recordit.co/0gQiCSEREF">how to import</a></p>
+
+<h2>
+<a id="user-content-support-for-older-xcode-and-swift" class="anchor" href="#support-for-older-xcode-and-swift" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support for Older Xcode and Swift</h2>
+
+<p>Use version <code>2.2.0</code> or older for Xcode 6.1 and 6.2.</p>
+
+<h2>
+<a id="user-content-demo-apps" class="anchor" href="#demo-apps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo Apps</h2>
+
+<p>Using</p>
+
+<ul>
+<li><a href="https://github.com/ankurp/DollarCarthageApp"><code>carthage</code></a></li>
+<li><a href="https://github.com/ankurp/DollarPodApp"><code>cocoapods</code></a></li>
+<li><a href="https://github.com/ankurp/DollarSubmoduleApp"><code>git submodule</code></a></li>
+</ul>
+
+<h1>
+<a id="user-content-dollar-usage" class="anchor" href="#dollar-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dollar Usage</h1>
+
+<h2>
+<a id="user-content-array" class="anchor" href="#array" aria-hidden="true"><span class="octicon octicon-link"></span></a>Array</h2>
+
+<h3>
+<a id="user-content-at---at" class="anchor" href="#at---at" aria-hidden="true"><span class="octicon octicon-link"></span></a>at - <code>$.at</code>
+</h3>
+
+<p>Creates an array of elements from the specified indexes, or keys, of the collection. Indexes may be specified as individual arguments or as arrays of indexes.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>at([<span class="pl-s"><span class="pl-pds">"</span>ant<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bat<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>cat<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>dog<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>egg<span class="pl-pds">"</span></span>], indexes: <span class="pl-c1">0</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>) 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>ant<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>cat<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>egg<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-compact---compact" class="anchor" href="#compact---compact" aria-hidden="true"><span class="octicon octicon-link"></span></a>compact - <code>$.compact</code>
+</h3>
+
+<p>Creates an array with all nil values removed.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>compact([<span class="pl-c1">3</span>, nil, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>compact([nil, nil]) <span class="pl-k">as</span> NSObject[] 
+=&gt; []</pre></div>
+
+<h3>
+<a id="user-content-contains---contains" class="anchor" href="#contains---contains" aria-hidden="true"><span class="octicon octicon-link"></span></a>contains - <code>$.contains</code>
+</h3>
+
+<p>Checks if a given value is present in the array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>contains([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], value: <span class="pl-c1">2</span>) 
+=&gt; <span class="pl-c1">true</span>
+
+$<span class="pl-k">.</span>contains([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], value: <span class="pl-c1">10</span>) 
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-cycle---cycle" class="anchor" href="#cycle---cycle" aria-hidden="true"><span class="octicon octicon-link"></span></a>cycle - <code>$.cycle</code>
+</h3>
+
+<p>Cycles through the array definetly or indefinetly passing each element into the callback function. The second parameter is to specify how many times to cycle through the array. If left out it will cycle indefinetly.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>cycle([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], <span class="pl-c1">2</span>) {
+  print($<span class="pl-c1">0</span>)
+}
+<span class="pl-c">// Prints the following</span>
+<span class="pl-c1">123123</span></pre></div>
+
+<h3>
+<a id="user-content-difference---difference" class="anchor" href="#difference---difference" aria-hidden="true"><span class="octicon octicon-link"></span></a>difference - <code>$.difference</code>
+</h3>
+
+<p>Creates an array excluding all values of the provided arrays</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>difference([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">10</span>]) 
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]</pre></div>
+
+<h3>
+<a id="user-content-each---each" class="anchor" href="#each---each" aria-hidden="true"><span class="octicon octicon-link"></span></a>each - <code>$.each</code>
+</h3>
+
+<p>Passes each element in the array to the callback</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>each([<span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>]) { 
+  println(<span class="pl-s"><span class="pl-pds">"</span>Value <span class="pl-pse">\(</span><span class="pl-s1">$<span class="pl-c1">0</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+}
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>]
+
+$<span class="pl-k">.</span>each([<span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>]) { (index, elem) <span class="pl-k">in</span>
+  println(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">index</span><span class="pl-pse">)</span> - <span class="pl-pse">\(</span><span class="pl-s1">elem</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+}
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-every---every" class="anchor" href="#every---every" aria-hidden="true"><span class="octicon octicon-link"></span></a>every - <code>$.every</code>
+</h3>
+
+<p>Checks if the given callback returns true value for all items in the array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>every([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], callback: { $<span class="pl-c1">0</span> <span class="pl-k">&lt;</span> <span class="pl-c1">20</span> }) 
+=&gt; <span class="pl-c1">true</span>
+
+$<span class="pl-k">.</span>every([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]) { $<span class="pl-c1">0</span> <span class="pl-k">==</span> <span class="pl-c1">1</span> } 
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-fetch---fetch" class="anchor" href="#fetch---fetch" aria-hidden="true"><span class="octicon octicon-link"></span></a>fetch - <code>$.fetch</code>
+</h3>
+
+<p>Get element from an array at the given index which can be negative to find elements from the end of the array. A default value can be returned if indexing out of bounds.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>]
+$<span class="pl-k">.</span>fetch(arr, <span class="pl-c1">100</span>)
+=&gt; nil
+
+$<span class="pl-k">.</span>fetch(arr, <span class="pl-c1">100</span>, orElse: <span class="pl-c1">42</span>)
+=&gt; <span class="pl-c1">42</span>
+
+$<span class="pl-k">.</span>fetch(arr, <span class="pl-c1">-1</span>)
+=&gt; <span class="pl-c1">8</span></pre></div>
+
+<h3>
+<a id="user-content-find---find" class="anchor" href="#find---find" aria-hidden="true"><span class="octicon octicon-link"></span></a>find - <code>$.find</code>
+</h3>
+
+<p>Iterates over elements of an array and returning the first element that the callback returns true for.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>find([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], callback: { $<span class="pl-c1">0</span> <span class="pl-k">==</span> <span class="pl-c1">2</span> }) 
+=&gt; <span class="pl-c1">2</span>
+
+$<span class="pl-k">.</span>find([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]) { $<span class="pl-c1">0</span> <span class="pl-k">==</span> <span class="pl-c1">10</span> } 
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-findindex---findindex" class="anchor" href="#findindex---findindex" aria-hidden="true"><span class="octicon octicon-link"></span></a>findIndex - <code>$.findIndex</code>
+</h3>
+
+<p>This method is like find except that it returns the index of the first element that passes the callback check.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">36</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">40</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>]]
+<span class="pl-k">let</span> result <span class="pl-k">=</span> $<span class="pl-k">.</span>findIndex(arr) { $<span class="pl-c1">0</span>[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>] <span class="pl-k">&lt;</span> <span class="pl-c1">20</span> }
+result 
+=&gt; <span class="pl-c1">2</span></pre></div>
+
+<h3>
+<a id="user-content-findlastindex---findlastindex" class="anchor" href="#findlastindex---findlastindex" aria-hidden="true"><span class="octicon octicon-link"></span></a>findLastIndex - <code>$.findLastIndex</code>
+</h3>
+
+<p>This method is like findIndex except that it iterates over elements of the array from right to left.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">36</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">40</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>]]
+<span class="pl-k">let</span> result <span class="pl-k">=</span> $<span class="pl-k">.</span>findLastIndex(arr) { $<span class="pl-c1">0</span>[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>] <span class="pl-k">&gt;</span> <span class="pl-c1">30</span> }
+result
+=&gt; <span class="pl-c1">1</span></pre></div>
+
+<h3>
+<a id="user-content-first---firstarray-anyobject" class="anchor" href="#first---firstarray-anyobject" aria-hidden="true"><span class="octicon octicon-link"></span></a>first - <code>$.first(array: AnyObject[])</code>
+</h3>
+
+<p>Gets the first element in the array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>first([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+=&gt; <span class="pl-c1">1</span>
+
+$<span class="pl-k">.</span>first([]) 
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-second---secondarray-anyobject" class="anchor" href="#second---secondarray-anyobject" aria-hidden="true"><span class="octicon octicon-link"></span></a>second - <code>$.second(array: AnyObject[])</code>
+</h3>
+
+<p>Gets the second element in the array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>second([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+=&gt; <span class="pl-c1">2</span>
+
+$<span class="pl-k">.</span>second([<span class="pl-c1">1</span>]) 
+=&gt; nil
+
+$<span class="pl-k">.</span>second([])
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-flatmap---flatmap" class="anchor" href="#flatmap---flatmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>flatMap - <code>$.flatMap</code>
+</h3>
+
+<p>Maps a function that converts elements to a list and then concatenates them.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> values <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>]
+$<span class="pl-k">.</span>flatMap(values) { [$<span class="pl-c1">0</span>, $<span class="pl-c1">0</span>] }
+=&gt; [<span class="pl-c1">2</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">7</span>]</pre></div>
+
+<h3>
+<a id="user-content-flatmap---flatmap-1" class="anchor" href="#flatmap---flatmap-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>flatMap - <code>$.flatMap</code>
+</h3>
+
+<p>Maps a function that converts a type to an Optional over an Optional, and then returns a single-level Optional.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> url <span class="pl-k">=</span> NSURL(string: <span class="pl-s"><span class="pl-pds">"</span>https://apple.com/swift<span class="pl-pds">"</span></span>)
+$<span class="pl-k">.</span>flatMap(url) { $<span class="pl-c1">0</span><span class="pl-k">.</span>lastPathComponent }
+=&gt; Optional(<span class="pl-s"><span class="pl-pds">"</span>swift<span class="pl-pds">"</span></span>)</pre></div>
+
+<p><em>Note</em>: This is the same behavior as Optional chaining.
+The code above translates to</p>
+
+<div class="highlight highlight-swift"><pre>NSURL(string: <span class="pl-s"><span class="pl-pds">"</span>https://apple.com/swift/<span class="pl-pds">"</span></span>)?<span class="pl-k">.</span>lastPathComponent
+=&gt; Optional(<span class="pl-s"><span class="pl-pds">"</span>swift<span class="pl-pds">"</span></span>)</pre></div>
+
+<h3>
+<a id="user-content-flatten---flatten" class="anchor" href="#flatten---flatten" aria-hidden="true"><span class="octicon octicon-link"></span></a>flatten - <code>$.flatten</code>
+</h3>
+
+<p>Flattens a nested array of any depth.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>flatten([[<span class="pl-c1">3</span>], <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) <span class="pl-k">as</span> <span class="pl-c1">Int</span>[] 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>flatten([[<span class="pl-c1">3</span>], <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>]) <span class="pl-k">as</span> NSObject[] 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>flatten([[[<span class="pl-c1">3</span>], <span class="pl-c1">4</span>], <span class="pl-c1">5</span>]) <span class="pl-k">as</span> <span class="pl-c1">Int</span>[] 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]</pre></div>
+
+<h3>
+<a id="user-content-frequencies---frequencies" class="anchor" href="#frequencies---frequencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>frequencies - <code>$.frequencies</code>
+</h3>
+
+<p>This method returns a dictionary of values in an array mapping to the total number of occurrences in the array. If passed a function it returns a frequency table of the results of the given function on the arrays elements.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>frequencies([<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>]) 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>]
+
+$<span class="pl-k">.</span>frequencies([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) { $<span class="pl-c1">0</span> <span class="pl-k">%</span> <span class="pl-c1">2</span> <span class="pl-k">==</span> <span class="pl-c1">0</span> }
+=&gt; [<span class="pl-c1">false</span>: <span class="pl-c1">3</span>, <span class="pl-c1">true</span>: <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-indexof---indexof" class="anchor" href="#indexof---indexof" aria-hidden="true"><span class="octicon octicon-link"></span></a>indexof - <code>$.indexof</code>
+</h3>
+
+<p>Gets the index at which the first occurrence of value is found.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>indexOf([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], value: <span class="pl-c1">2</span>) 
+=&gt; <span class="pl-c1">1</span>
+
+$<span class="pl-k">.</span>indexOf([<span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>C<span class="pl-pds">"</span></span>], value: <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span>) 
+=&gt; <span class="pl-c1">1</span>
+
+$<span class="pl-k">.</span>indexOf([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], value: <span class="pl-c1">5</span>) 
+=&gt; <span class="pl-c1">2</span>
+
+$<span class="pl-k">.</span>indexOf([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], value: <span class="pl-c1">3</span>) 
+=&gt; <span class="pl-c1">0</span>
+
+$<span class="pl-k">.</span>indexOf([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], value: <span class="pl-c1">2</span>) 
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-initial---initial" class="anchor" href="#initial---initial" aria-hidden="true"><span class="octicon octicon-link"></span></a>initial - <code>$.initial</code>
+</h3>
+
+<p>Gets all but the last element or last n elements of an array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>initial([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+
+$<span class="pl-k">.</span>initial([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], numElements: <span class="pl-c1">2</span>) 
+=&gt; [<span class="pl-c1">3</span>]</pre></div>
+
+<h3>
+<a id="user-content-intersection---intersection" class="anchor" href="#intersection---intersection" aria-hidden="true"><span class="octicon octicon-link"></span></a>intersection - <code>$.intersection</code>
+</h3>
+
+<p>Creates an array of unique values present in all provided arrays.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>intersection([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], [<span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">1</span>]) 
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-last---last" class="anchor" href="#last---last" aria-hidden="true"><span class="octicon octicon-link"></span></a>last - <code>$.last</code>
+</h3>
+
+<p>Gets the last element from the array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>last([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) 
+=&gt; <span class="pl-c1">5</span></pre></div>
+
+<h3>
+<a id="user-content-lastindexof---lastindexof" class="anchor" href="#lastindexof---lastindexof" aria-hidden="true"><span class="octicon octicon-link"></span></a>lastIndexOf - <code>$.lastIndexOf</code>
+</h3>
+
+<p>Gets the index at which the last occurrence of value is found.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>lastIndexOf([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], value: <span class="pl-c1">2</span>) 
+=&gt; <span class="pl-c1">4</span></pre></div>
+
+<h3>
+<a id="user-content-rest---rest" class="anchor" href="#rest---rest" aria-hidden="true"><span class="octicon octicon-link"></span></a>rest - <code>$.rest</code>
+</h3>
+
+<p>The opposite of initial this method gets all but the first element or first n elements of an array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>rest([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) 
+=&gt; [<span class="pl-c1">4</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>rest([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], numElements: <span class="pl-c1">2</span>) 
+=&gt; [<span class="pl-c1">5</span>]</pre></div>
+
+<h3>
+<a id="user-content-map---map" class="anchor" href="#map---map" aria-hidden="true"><span class="octicon octicon-link"></span></a>map - <code>$.map</code>
+</h3>
+
+<p>Maps each element to new value based on the map function passed</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>map([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]) { 
+  $<span class="pl-c1">0</span> <span class="pl-k">*</span> <span class="pl-c1">2</span>
+}
+=&gt; [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span>, <span class="pl-c1">8</span>]</pre></div>
+
+<h3>
+<a id="user-content-min---min" class="anchor" href="#min---min" aria-hidden="true"><span class="octicon octicon-link"></span></a>min - <code>$.min</code>
+</h3>
+
+<p>Retrieves the minimum value in an array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>min([<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]) 
+=&gt; <span class="pl-c1">1</span></pre></div>
+
+<h3>
+<a id="user-content-max---max" class="anchor" href="#max---max" aria-hidden="true"><span class="octicon octicon-link"></span></a>max - <code>$.max</code>
+</h3>
+
+<p>Retrieves the maximum value in an array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>max([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>]) 
+=&gt; <span class="pl-c1">4</span></pre></div>
+
+<h3>
+<a id="user-content-pluck---pluck" class="anchor" href="#pluck---pluck" aria-hidden="true"><span class="octicon octicon-link"></span></a>pluck - <code>$.pluck</code>
+</h3>
+
+<p>Retrieves the value of a specified property from all elements in the array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">20</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">30</span>], [<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">40</span>]]
+$<span class="pl-k">.</span>pluck(arr, value: <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>) 
+=&gt; [<span class="pl-c1">20</span>, <span class="pl-c1">30</span>, <span class="pl-c1">40</span>]</pre></div>
+
+<h3>
+<a id="user-content-pull---pull" class="anchor" href="#pull---pull" aria-hidden="true"><span class="octicon octicon-link"></span></a>pull - <code>$.pull</code>
+</h3>
+
+<p>Removes all provided values from the given array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>pull([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">3</span>, <span class="pl-c1">5</span>) 
+=&gt; [<span class="pl-c1">4</span>]
+
+$<span class="pl-k">.</span>pull([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">4</span>) 
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>pull([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>) 
+=&gt; []</pre></div>
+
+<h3>
+<a id="user-content-range---range" class="anchor" href="#range---range" aria-hidden="true"><span class="octicon octicon-link"></span></a>range - <code>$.range</code>
+</h3>
+
+<p>Creates an array of numbers (positive and/or negative) progressing from start up to but not including end.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>range(<span class="pl-c1">4</span>) 
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+
+$<span class="pl-k">.</span>range(from: <span class="pl-c1">1</span>, to: <span class="pl-c1">5</span>) 
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+
+$<span class="pl-k">.</span>range(from: <span class="pl-c1">0</span>, to: <span class="pl-c1">20</span>, incrementBy: <span class="pl-c1">5</span>) 
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">5</span>, <span class="pl-c1">10</span>, <span class="pl-c1">15</span>]
+
+$<span class="pl-k">.</span>range(from: <span class="pl-c1">1</span>, through: <span class="pl-c1">5</span>)
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>range(from: <span class="pl-c1">0</span>, through: <span class="pl-c1">20</span>, incrementBy: <span class="pl-c1">5</span>)
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">5</span>, <span class="pl-c1">10</span>, <span class="pl-c1">15</span>, <span class="pl-c1">20</span>]</pre></div>
+
+<h3>
+<a id="user-content-reduce---reduce" class="anchor" href="#reduce---reduce" aria-hidden="true"><span class="octicon octicon-link"></span></a>reduce - <code>$.reduce</code>
+</h3>
+
+<p>Reduce function that will resolve to one value after performing combine function on all elements</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>reduce([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], initial: <span class="pl-c1">0</span>) { (total, element) <span class="pl-k">in</span>
+    total <span class="pl-k">+</span> element
+}
+=&gt; <span class="pl-c1">6</span></pre></div>
+
+<h3>
+<a id="user-content-sample---sample" class="anchor" href="#sample---sample" aria-hidden="true"><span class="octicon octicon-link"></span></a>sample - <code>$.sample</code>
+</h3>
+
+<p>Returns a sample item from the array</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">:</span> <span class="pl-c1">Int</span>[] <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+$<span class="pl-k">.</span>contains(arr, value: $<span class="pl-k">.</span>sample(arr))
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-sequence---sequence" class="anchor" href="#sequence---sequence" aria-hidden="true"><span class="octicon octicon-link"></span></a>sequence - <code>$.sequence</code>
+</h3>
+
+<p>Creates an array of an arbitrary sequence. Especially useful with builtin ranges.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>sequence(<span class="pl-c1">0</span><span class="pl-k">..</span><span class="pl-c1">4</span>) 
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+
+$<span class="pl-k">.</span>sequence(<span class="pl-c1">-2</span><span class="pl-k">.</span><span class="pl-c1">0</span><span class="pl-k">..</span><span class="pl-c1">2</span><span class="pl-k">.</span><span class="pl-c1">0</span>) 
+=&gt; [<span class="pl-c1">-2</span><span class="pl-k">.</span><span class="pl-c1">0</span>, <span class="pl-c1">-1</span><span class="pl-k">.</span><span class="pl-c1">0</span>, <span class="pl-c1">0</span><span class="pl-k">.</span><span class="pl-c1">0</span>, <span class="pl-c1">1</span><span class="pl-k">.</span><span class="pl-c1">0</span>]
+
+$<span class="pl-k">.</span>sequence((<span class="pl-c1">0</span><span class="pl-k">..</span><span class="pl-c1">20</span>)<span class="pl-k">.</span>by(<span class="pl-c1">5</span>)) 
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">5</span>, <span class="pl-c1">10</span>, <span class="pl-c1">15</span>]
+
+$<span class="pl-k">.</span>sequence(<span class="pl-s"><span class="pl-pds">"</span>abc<span class="pl-pds">"</span></span>) 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-remove---remove" class="anchor" href="#remove---remove" aria-hidden="true"><span class="octicon octicon-link"></span></a>remove - <code>$.remove</code>
+</h3>
+
+<p>Removes all elements from an array that the callback returns true.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> result <span class="pl-k">=</span> $<span class="pl-k">.</span>remove([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>]) { 
+  $<span class="pl-c1">0</span> <span class="pl-k">==</span> <span class="pl-c1">2</span> <span class="pl-k">||</span> $<span class="pl-c1">0</span> <span class="pl-k">==</span> <span class="pl-c1">3</span> 
+}
+result
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>]</pre></div>
+
+<h3>
+<a id="user-content-shuffle---shuffle" class="anchor" href="#shuffle---shuffle" aria-hidden="true"><span class="octicon octicon-link"></span></a>shuffle - <code>$.shuffle</code>
+</h3>
+
+<p>Shuffles and returns the new shuffled array</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> result <span class="pl-k">=</span> $<span class="pl-k">.</span>shuffle([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>])
+result
+=&gt; [<span class="pl-c1">4</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-sortedindex---sortedindex" class="anchor" href="#sortedindex---sortedindex" aria-hidden="true"><span class="octicon octicon-link"></span></a>sortedIndex - <code>$.sortedIndex</code>
+</h3>
+
+<p>Gives the smallest index at which a value should be inserted into a given the array is sorted.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>sortedIndex([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span>, <span class="pl-c1">10</span>], value: <span class="pl-c1">5</span>)
+=&gt; <span class="pl-c1">2</span>
+
+$<span class="pl-k">.</span>sortedIndex([<span class="pl-c1">10</span>, <span class="pl-c1">20</span>, <span class="pl-c1">30</span>, <span class="pl-c1">50</span>], value: <span class="pl-c1">40</span>)
+=&gt; <span class="pl-c1">3</span></pre></div>
+
+<h3>
+<a id="user-content-union---union" class="anchor" href="#union---union" aria-hidden="true"><span class="octicon octicon-link"></span></a>union - <code>$.union</code>
+</h3>
+
+<p>Creates an array of unique values, in order, of the provided arrays.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>union([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], [<span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">1</span>]) 
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">4</span>]</pre></div>
+
+<h3>
+<a id="user-content-merge---merge" class="anchor" href="#merge---merge" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge - <code>$.merge</code>
+</h3>
+
+<p>Creates an array of all values, including duplicates, of the arrays in the order they are provided.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr  <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">5</span>]
+<span class="pl-k">let</span> arr2 <span class="pl-k">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>]
+<span class="pl-k">let</span> arr3 <span class="pl-k">=</span> [<span class="pl-c1">5</span>, <span class="pl-c1">6</span>]
+<span class="pl-k">let</span> result <span class="pl-k">=</span> $<span class="pl-k">.</span>merge(arr, arr2, arr3)
+result
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>]</pre></div>
+
+<h3>
+<a id="user-content-uniq---uniq" class="anchor" href="#uniq---uniq" aria-hidden="true"><span class="octicon octicon-link"></span></a>uniq - <code>$.uniq</code>
+</h3>
+
+<p>Creates a duplicate-value-free version of an array.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>uniq([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span>])
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+
+$<span class="pl-k">.</span>uniq([<span class="pl-c1">1</span>, <span class="pl-c1">2</span><span class="pl-k">.</span><span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">1</span><span class="pl-k">.</span><span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span><span class="pl-k">.</span><span class="pl-c1">5</span>]) {
+  floor($<span class="pl-c1">0</span>)
+}
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span><span class="pl-k">.</span><span class="pl-c1">5</span>, <span class="pl-c1">3</span>]</pre></div>
+
+<h3>
+<a id="user-content-without---without" class="anchor" href="#without---without" aria-hidden="true"><span class="octicon octicon-link"></span></a>without - <code>$.without</code>
+</h3>
+
+<p>Creates an array excluding all provided values.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>without([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">3</span>, <span class="pl-c1">5</span>)
+=&gt; [<span class="pl-c1">4</span>]
+
+$<span class="pl-k">.</span>without([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">4</span>)
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>]
+
+$<span class="pl-k">.</span>without([<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>], values: <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>)
+=&gt; []</pre></div>
+
+<h3>
+<a id="user-content-xor---xor" class="anchor" href="#xor---xor" aria-hidden="true"><span class="octicon octicon-link"></span></a>xor - <code>$.xor</code>
+</h3>
+
+<p>Creates an array that is the symmetric difference of the provided arrays.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>xor([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>], [<span class="pl-c1">5</span>, <span class="pl-c1">2</span>, <span class="pl-c1">1</span>, <span class="pl-c1">4</span>])
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]</pre></div>
+
+<h3>
+<a id="user-content-zip---zip" class="anchor" href="#zip---zip" aria-hidden="true"><span class="octicon octicon-link"></span></a>zip - <code>$.zip</code>
+</h3>
+
+<p>Creates an array of grouped elements, the first of which contains the first elements of the given arrays.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>zip([<span class="pl-s"><span class="pl-pds">"</span>fred<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>barney<span class="pl-pds">"</span></span>], [<span class="pl-c1">30</span>, <span class="pl-c1">40</span>], [<span class="pl-c1">true</span>, <span class="pl-c1">false</span>]) <span class="pl-k">as</span> [NSObject] 
+=&gt; [[<span class="pl-s"><span class="pl-pds">"</span>fred<span class="pl-pds">"</span></span>, <span class="pl-c1">30</span>, <span class="pl-c1">true</span>], [<span class="pl-s"><span class="pl-pds">"</span>barney<span class="pl-pds">"</span></span>, <span class="pl-c1">40</span>, <span class="pl-c1">false</span>]]</pre></div>
+
+<h3>
+<a id="user-content-zipobject---zipobject" class="anchor" href="#zipobject---zipobject" aria-hidden="true"><span class="octicon octicon-link"></span></a>zipObject - <code>$.zipObject</code>
+</h3>
+
+<p>Creates an object composed from arrays of keys and values.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>zipObject([<span class="pl-s"><span class="pl-pds">"</span>fred<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>barney<span class="pl-pds">"</span></span>], values: [<span class="pl-c1">30</span>, <span class="pl-c1">40</span>])
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>fred<span class="pl-pds">"</span></span>: <span class="pl-c1">30</span>, <span class="pl-s"><span class="pl-pds">"</span>barney<span class="pl-pds">"</span></span>: <span class="pl-c1">40</span>]</pre></div>
+
+<h3>
+<a id="user-content-partition---partition" class="anchor" href="#partition---partition" aria-hidden="true"><span class="octicon octicon-link"></span></a>partition - <code>$.partition</code>
+</h3>
+
+<p>Produces an array of arrays, each containing n elements, each offset by step. Stops after a partition is less than n length.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]
+$<span class="pl-k">.</span>partition(arr, n: <span class="pl-c1">2</span>)
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>]]
+
+$<span class="pl-k">.</span>partition(arr, n: <span class="pl-c1">4</span>, step: <span class="pl-c1">1</span>)
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]]
+
+$<span class="pl-k">.</span>partition(arr, n: <span class="pl-c1">4</span>, step: <span class="pl-c1">1</span>, pad: nil)
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]]
+
+$<span class="pl-k">.</span>partition(arr, n: <span class="pl-c1">4</span>, step: <span class="pl-c1">1</span>, pad: [<span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>])
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>]]</pre></div>
+
+<h3>
+<a id="user-content-partitionall---partitionall" class="anchor" href="#partitionall---partitionall" aria-hidden="true"><span class="octicon octicon-link"></span></a>partitionAll - <code>$.partitionAll</code>
+</h3>
+
+<p>Produces an array of arrays, each containing n elements, each offset by step. Continues after a partition is less than n length.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>partitionAll([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], n:<span class="pl-c1">4</span>, step: <span class="pl-c1">1</span>)
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">4</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">5</span>]]</pre></div>
+
+<h3>
+<a id="user-content-partitionby---partitionby" class="anchor" href="#partitionby---partitionby" aria-hidden="true"><span class="octicon octicon-link"></span></a>partitionBy - <code>$.partitionBy</code>
+</h3>
+
+<p>Applies a function to each element in array, splitting it each time the function returns a new value.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>partitionBy([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>]) { $<span class="pl-c1">0</span> <span class="pl-k">%</span> <span class="pl-c1">2</span> <span class="pl-k">==</span> <span class="pl-c1">0</span> }
+=&gt; [[<span class="pl-c1">1</span>], [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">5</span>], [<span class="pl-c1">6</span>]]
+
+$<span class="pl-k">.</span>partitionBy([<span class="pl-c1">1</span>, <span class="pl-c1">7</span>, <span class="pl-c1">3</span>, <span class="pl-c1">6</span>, <span class="pl-c1">10</span>, <span class="pl-c1">12</span>]) { $<span class="pl-c1">0</span> <span class="pl-k">%</span> <span class="pl-c1">3</span> }
+=&gt; [[<span class="pl-c1">1</span>, <span class="pl-c1">7</span>], [<span class="pl-c1">3</span>, <span class="pl-c1">6</span>], [<span class="pl-c1">10</span>], [<span class="pl-c1">12</span>]]</pre></div>
+
+<h2>
+<a id="user-content-dictionary" class="anchor" href="#dictionary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dictionary</h2>
+
+<h3>
+<a id="user-content-keys---keys" class="anchor" href="#keys---keys" aria-hidden="true"><span class="octicon octicon-link"></span></a>keys - <code>$.keys</code>
+</h3>
+
+<p>Creates an array of keys given a dictionary.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>keys([<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>])
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-values---values" class="anchor" href="#values---values" aria-hidden="true"><span class="octicon octicon-link"></span></a>values - <code>$.values</code>
+</h3>
+
+<p>Creates an array of values given a dictionary</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>values([<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>])
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-merge---merge-1" class="anchor" href="#merge---merge-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge - <code>$.merge</code>
+</h3>
+
+<p>Merges all of the dictionaries together and the latter dictionary overrides the value at a given key</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> dict: <span class="pl-c1">Dictionary</span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>, <span class="pl-c1">Int</span><span class="pl-k">&gt;</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>]
+<span class="pl-k">let</span> dict2: <span class="pl-c1">Dictionary</span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>, <span class="pl-c1">Int</span><span class="pl-k">&gt;</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>]
+<span class="pl-k">let</span> dict3: <span class="pl-c1">Dictionary</span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>, <span class="pl-c1">Int</span><span class="pl-k">&gt;</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>Sheep<span class="pl-pds">"</span></span>: <span class="pl-c1">4</span>]
+$<span class="pl-k">.</span>merge(dict, dict2, dict3)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>, <span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>Sheep<span class="pl-pds">"</span></span>: <span class="pl-c1">4</span>]</pre></div>
+
+<h3>
+<a id="user-content-pick---pick" class="anchor" href="#pick---pick" aria-hidden="true"><span class="octicon octicon-link"></span></a>pick - <code>$.pick</code>
+</h3>
+
+<p>Creates a shallow clone of a dictionary composed of the specified keys.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>pick([<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>, <span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>], keys: <span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>]</pre></div>
+
+<h3>
+<a id="user-content-omit---omit" class="anchor" href="#omit---omit" aria-hidden="true"><span class="octicon octicon-link"></span></a>omit - <code>$.omit</code>
+</h3>
+
+<p>Creates a shallow clone of a dictionary excluding the specified keys.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>omit([<span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>: <span class="pl-c1">2</span>, <span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>], keys: <span class="pl-s"><span class="pl-pds">"</span>Cat<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Dog<span class="pl-pds">"</span></span>)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Cow<span class="pl-pds">"</span></span>: <span class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>Sheep<span class="pl-pds">"</span></span>: <span class="pl-c1">4</span>]</pre></div>
+
+<h2>
+<a id="user-content-object" class="anchor" href="#object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object</h2>
+
+<h3>
+<a id="user-content-tap---tap" class="anchor" href="#tap---tap" aria-hidden="true"><span class="octicon octicon-link"></span></a>tap - <code>$.tap</code>
+</h3>
+
+<p>Invokes interceptor with the object and then returns object.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> beatle <span class="pl-k">=</span> Car(name: <span class="pl-s"><span class="pl-pds">"</span>Fusca<span class="pl-pds">"</span></span>)
+$<span class="pl-k">.</span>tap(beatle, {$<span class="pl-c1">0</span><span class="pl-k">.</span>name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Beatle<span class="pl-pds">"</span></span>})<span class="pl-k">.</span>color <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Blue<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-function" class="anchor" href="#function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function</h2>
+
+<h3>
+<a id="user-content-after---after" class="anchor" href="#after---after" aria-hidden="true"><span class="octicon octicon-link"></span></a>after - <code>$.after</code>
+</h3>
+
+<p>Creates a function that executes passed function only after being called n times.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> saves <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>profile<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>settings<span class="pl-pds">"</span></span>];
+<span class="pl-k">let</span> asyncSave <span class="pl-k">=</span> { (function: () <span class="pl-k">-&gt;</span> ()?) <span class="pl-k">in</span>
+   function() 
+   <span class="pl-c">// Saving right away for testing </span>
+   <span class="pl-c">// but in real world would be async</span>
+}
+<span class="pl-k">var</span> isDone <span class="pl-k">=</span> <span class="pl-c1">false</span>
+<span class="pl-k">var</span> completeCallback <span class="pl-k">=</span> $<span class="pl-k">.</span>after(saves<span class="pl-k">.</span>count) {
+   isDone <span class="pl-k">=</span> <span class="pl-c1">true</span>
+}
+<span class="pl-k">for</span> elem <span class="pl-k">in</span> saves {
+   asyncSave(completeCallback)
+}
+isDone 
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-bind---bind" class="anchor" href="#bind---bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>bind - <code>$.bind</code>
+</h3>
+
+<p>Creates a function that, when called, invokes func with the binding of arguments provided.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> helloWorldFunc <span class="pl-k">=</span> $<span class="pl-k">.</span>bind({(T<span class="pl-k">...</span>) <span class="pl-k">in</span> 
+  T[<span class="pl-c1">0</span>] <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> <span class="pl-k">+</span> T[<span class="pl-c1">1</span>] <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> from <span class="pl-pds">"</span></span> <span class="pl-k">+</span> T[<span class="pl-c1">2</span>] 
+}, <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Swift<span class="pl-pds">"</span></span>)
+helloWorldFunc() 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello World from Swift<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-compose---compose" class="anchor" href="#compose---compose" aria-hidden="true"><span class="octicon octicon-link"></span></a>compose - <code>$.compose</code>
+</h3>
+
+<p>Compose two or more functions where the return value of the first function is passed into the next function. Useful when chaining functions and returns a function that can be called with variadic argument values or an array of values as input</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> double <span class="pl-k">=</span> { (params: <span class="pl-c1">Int</span><span class="pl-k">...</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] <span class="pl-k">in</span>
+  <span class="pl-k">return</span> $<span class="pl-k">.</span>map(params) { $<span class="pl-c1">0</span> <span class="pl-k">*</span> <span class="pl-c1">2</span> }
+}
+<span class="pl-k">let</span> subtractTen <span class="pl-k">=</span> { (params: <span class="pl-c1">Int</span><span class="pl-k">...</span>) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] <span class="pl-k">in</span>
+  <span class="pl-k">return</span> $<span class="pl-k">.</span>map(params) { $<span class="pl-c1">0</span> <span class="pl-k">-</span> <span class="pl-c1">10</span> }
+}
+<span class="pl-k">let</span> doubleSubtractTen <span class="pl-k">=</span> $<span class="pl-k">.</span>compose(double, subtractTen)
+doubleSubtractTen(<span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>)
+=&gt; [<span class="pl-c1">0</span>, <span class="pl-c1">2</span>, <span class="pl-c1">4</span>]
+
+<span class="pl-k">let</span> f <span class="pl-k">=</span> $<span class="pl-k">.</span>compose({ (arr: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] <span class="pl-k">in</span>
+  $<span class="pl-k">.</span>map(arr) { $<span class="pl-c1">0</span> <span class="pl-k">+</span> <span class="pl-c1">1</span> }
+}, { (arr: [<span class="pl-c1">Int</span>]) <span class="pl-k">-&gt;</span> [<span class="pl-c1">Int</span>] <span class="pl-k">in</span>
+  $<span class="pl-k">.</span>map(arr) { $<span class="pl-c1">0</span> <span class="pl-k">*</span> <span class="pl-c1">2</span> }
+})
+f([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>])
+=&gt; [<span class="pl-c1">4</span>, <span class="pl-c1">6</span>]</pre></div>
+
+<h3>
+<a id="user-content-curry---curry" class="anchor" href="#curry---curry" aria-hidden="true"><span class="octicon octicon-link"></span></a>curry - <code>$.curry</code>
+</h3>
+
+<p>Returns a function which when invoked either executes the function returning its result, if all function arguments have been provided, or returns another function that accepts one more argument of the remaining function arguments until all arguments are supplied. This is useful for making partial function as seen in these examples.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">func</span> <span class="pl-en">adder</span>(x: <span class="pl-c1">Int</span>, y: <span class="pl-c1">Int</span>, z: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> {
+<span class="pl-k">return</span> x <span class="pl-k">+</span> y <span class="pl-k">+</span> z
+}
+
+<span class="pl-k">let</span> curriedAdder <span class="pl-k">=</span> $<span class="pl-k">.</span>curry(adder)
+<span class="pl-k">let</span> addTenAnd <span class="pl-k">=</span> curriedAdder(<span class="pl-c1">10</span>)
+<span class="pl-k">let</span> addThirtyAnd <span class="pl-k">=</span> addTenAnd(<span class="pl-c1">20</span>)
+addThirtyAnd(<span class="pl-c1">1</span>)
+=&gt; <span class="pl-c1">31</span>
+
+addThirtyAnd(<span class="pl-c1">50</span>)
+=&gt; <span class="pl-c1">80</span>
+
+addTenAnd(<span class="pl-c1">10</span>)(<span class="pl-c1">10</span>)
+=&gt; <span class="pl-c1">30</span></pre></div>
+
+<h3>
+<a id="user-content-id---id" class="anchor" href="#id---id" aria-hidden="true"><span class="octicon octicon-link"></span></a>id - <code>$.id</code>
+</h3>
+
+<p>The identify function which simply returns the argument its given.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>id(<span class="pl-s"><span class="pl-pds">"</span>Hello World from Swift<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello World from Swift<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-memoize---memoize" class="anchor" href="#memoize---memoize" aria-hidden="true"><span class="octicon octicon-link"></span></a>memoize - <code>$.memoize</code>
+</h3>
+
+<p>Returns a memoized function to improve performance by caching recursive function values.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> times <span class="pl-k">=</span> <span class="pl-c1">0</span> <span class="pl-c">// to test memoization</span>
+
+<span class="pl-k">let</span> fibMemo <span class="pl-k">=</span> $<span class="pl-k">.</span>memoize { (fib: (<span class="pl-c1">Int</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span>), val: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span> <span class="pl-k">in</span>
+  times <span class="pl-k">+=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">return</span> val <span class="pl-k">==</span> <span class="pl-c1">1</span> <span class="pl-k">||</span> val <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-c1">1</span> <span class="pl-k">:</span> fib(val <span class="pl-k">-</span> <span class="pl-c1">1</span>) <span class="pl-k">+</span> fib(val <span class="pl-k">-</span> <span class="pl-c1">2</span>)
+}
+
+<span class="pl-k">let</span> x <span class="pl-k">=</span> fibMemo(<span class="pl-c1">5</span>)
+times
+=&gt; <span class="pl-c1">6</span>
+
+times <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">let</span> y <span class="pl-k">=</span> fibMemo(<span class="pl-c1">5</span>)
+times
+=&gt; <span class="pl-c1">0</span>
+
+times <span class="pl-k">=</span> <span class="pl-c1">0</span>
+<span class="pl-k">let</span> z <span class="pl-k">=</span> fibMemo(<span class="pl-c1">6</span>)
+times
+=&gt; <span class="pl-c1">1</span></pre></div>
+
+<h3>
+<a id="user-content-noop---noop" class="anchor" href="#noop---noop" aria-hidden="true"><span class="octicon octicon-link"></span></a>noop - <code>$.noop</code>
+</h3>
+
+<p>A no-operation function.</p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>noop() 
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-once---once" class="anchor" href="#once---once" aria-hidden="true"><span class="octicon octicon-link"></span></a>once - <code>$.once</code>
+</h3>
+
+<p>Get a wrapper function that executes the passed function only once. Useful for getting shared config or creating singleton objects.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">func</span> <span class="pl-en">createConfig</span>() <span class="pl-k">-&gt;</span> [<span class="pl-c1">String</span>: <span class="pl-c1">String</span>] {
+  <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">1</span>
+  <span class="pl-k">return</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>App ID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">i<span class="pl-k">++</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>URL<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://someurl<span class="pl-pds">"</span></span>
+  ]
+}
+
+<span class="pl-k">let</span> getConfig <span class="pl-k">=</span> $<span class="pl-k">.</span>once(createConfig)
+getConfig()
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>App ID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>URL<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://someurl<span class="pl-pds">"</span></span>]
+
+getConfig()
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>App ID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>URL<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>https://someurl<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-partial---partial" class="anchor" href="#partial---partial" aria-hidden="true"><span class="octicon octicon-link"></span></a>partial - <code>$.partial</code>
+</h3>
+
+<p>Creates a function that, when called, invokes func with any additional partial arguments prepended to those provided to the new function.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> partialFunc <span class="pl-k">=</span> $<span class="pl-k">.</span>partial({(T<span class="pl-k">...</span>) <span class="pl-k">in</span> 
+  T[<span class="pl-c1">0</span>] <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> <span class="pl-k">+</span> T[<span class="pl-c1">1</span>] <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> from <span class="pl-pds">"</span></span> <span class="pl-k">+</span> T[<span class="pl-c1">2</span>] 
+}, <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>)
+partialFunc(<span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Swift<span class="pl-pds">"</span></span>) 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello World from Swift<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-times---times" class="anchor" href="#times---times" aria-hidden="true"><span class="octicon octicon-link"></span></a>times - <code>$.times</code>
+</h3>
+
+<p>Call a function n times and also passes the index. If a value is returned in the function then the times method will return an array of those values.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> fun <span class="pl-k">=</span> $<span class="pl-k">.</span>bind({ (names: <span class="pl-c1">String</span><span class="pl-k">...</span>) <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span> <span class="pl-k">in</span>
+   <span class="pl-k">let</span> people <span class="pl-k">=</span> $<span class="pl-k">.</span>join(names, separator: <span class="pl-s"><span class="pl-pds">"</span> from <span class="pl-pds">"</span></span>)
+   <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>Hello <span class="pl-pse">\(</span><span class="pl-s1">people</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>
+   }, <span class="pl-s"><span class="pl-pds">"</span>Ankur<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Swift<span class="pl-pds">"</span></span>)
+$<span class="pl-k">.</span>times(<span class="pl-c1">2</span>, function: fun) <span class="pl-k">as</span> <span class="pl-c1">String</span>[] 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Hello Ankur from Swift<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Hello Ankur from Swift<span class="pl-pds">"</span></span>]</pre></div>
+
+<h2>
+<a id="user-content-chaining" class="anchor" href="#chaining" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chaining</h2>
+
+<p><strong><code>$.chain(...)</code></strong></p>
+
+<h3>
+<a id="user-content-any" class="anchor" href="#any" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>any</code>
+</h3>
+
+<p>Returns true if callback function returns true for at least one element in the array</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>])
+chain<span class="pl-k">.</span>any({ ($<span class="pl-c1">0</span> <span class="pl-k">as</span> <span class="pl-c1">Int</span>) <span class="pl-k">&lt;</span> <span class="pl-c1">2</span> })
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-all" class="anchor" href="#all" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>all</code>
+</h3>
+
+<p>Returns true if callback function returns true for all elements in the array</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>])
+chain<span class="pl-k">.</span>all({ ($<span class="pl-c1">0</span> <span class="pl-k">as</span> <span class="pl-c1">Int</span>) <span class="pl-k">&lt;</span> <span class="pl-c1">10</span> })
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-each" class="anchor" href="#each" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>each</code>
+</h3>
+
+<p>Passes each element value to the callback function</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>])
+<span class="pl-k">var</span> strBuilder <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+chain<span class="pl-k">.</span>each({ strBuilder <span class="pl-k">+=</span> ($<span class="pl-c1">0</span> <span class="pl-k">as</span> <span class="pl-c1">String</span>) })<span class="pl-k">.</span>value
+strBuilder
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>HelloWorld<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-filter" class="anchor" href="#filter" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>filter</code>
+</h3>
+
+<p>Filters the arrary to elements for which the callback function returns true</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>filter({ ($<span class="pl-c1">0</span> <span class="pl-k">as</span> <span class="pl-c1">Int</span>) <span class="pl-k">&lt;</span> <span class="pl-c1">3</span> })<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-first" class="anchor" href="#first" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>first</code>
+</h3>
+
+<p>Returns the first element in the array and terminated the chain</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>first()
+=&gt; <span class="pl-c1">1</span></pre></div>
+
+<h3>
+<a id="user-content-second" class="anchor" href="#second" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>second</code>
+</h3>
+
+<p>Returns the second element in the array and terminated the chain</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>second()
+=&gt; <span class="pl-c1">2</span></pre></div>
+
+<h3>
+<a id="user-content-third" class="anchor" href="#third" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>third</code>
+</h3>
+
+<p>Returns the third element in the array and terminated the chain</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>third()
+=&gt; <span class="pl-c1">3</span></pre></div>
+
+<h3>
+<a id="user-content-flatten" class="anchor" href="#flatten" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>flatten</code>
+</h3>
+
+<p>Flattens a nested array of any depth.</p>
+
+<div class="highlight highlight-swift"><pre>chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([[<span class="pl-c1">1</span>, [<span class="pl-c1">2</span>]], [<span class="pl-c1">3</span>], <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>flatten()<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]</pre></div>
+
+<h3>
+<a id="user-content-initial" class="anchor" href="#initial" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>initial</code>
+</h3>
+
+<p>Gets all but the last element or last n elements of an array.</p>
+
+<div class="highlight highlight-swift"><pre>varchain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>initial(<span class="pl-c1">2</span>)<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>]</pre></div>
+
+<h3>
+<a id="user-content-map" class="anchor" href="#map" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>map</code>
+</h3>
+
+<p>Maps each element to the new value returned in the callback function</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>])
+chain<span class="pl-k">.</span>map({ ($<span class="pl-c1">0</span> <span class="pl-k">as</span> <span class="pl-c1">Int</span>) <span class="pl-k">*</span> <span class="pl-c1">2</span> })<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span>, <span class="pl-c1">8</span>]</pre></div>
+
+<h3>
+<a id="user-content-slice" class="anchor" href="#slice" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>slice</code>
+</h3>
+
+<p>Slices the array based on the start and end position. If an end position is not specified it will slice till the end of the array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>])
+chain<span class="pl-k">.</span>slice(<span class="pl-c1">2</span>, end: <span class="pl-c1">4</span>)<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>]</pre></div>
+
+<h3>
+<a id="user-content-value" class="anchor" href="#value" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>value</code>
+</h3>
+
+<p>Returns the value after evaluating all callbacks</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> chain <span class="pl-k">=</span> $<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>])
+chain<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>]</pre></div>
+
+<p><strong>Chaining more than one method</strong></p>
+
+<div class="highlight highlight-swift"><pre>$<span class="pl-k">.</span>chain([[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>], <span class="pl-c1">3</span>, [[<span class="pl-c1">4</span>], <span class="pl-c1">5</span>]])
+  <span class="pl-k">.</span>initial()
+  <span class="pl-k">.</span>flatten()
+  <span class="pl-k">.</span>first()
+=&gt; <span class="pl-c1">1</span>
+
+$<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>])
+  <span class="pl-k">.</span>filter { $<span class="pl-c1">0</span> <span class="pl-k">%</span> <span class="pl-c1">1</span> <span class="pl-k">==</span> <span class="pl-c1">0</span> }
+  <span class="pl-k">.</span>map { $<span class="pl-c1">0</span> <span class="pl-k">*</span> <span class="pl-c1">2</span> }
+  <span class="pl-k">.</span>all {$<span class="pl-c1">0</span> <span class="pl-k">&lt;</span> <span class="pl-c1">10</span>}
+=&gt; <span class="pl-c1">false</span>
+
+$<span class="pl-k">.</span>chain([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>])
+  <span class="pl-k">.</span>map({ $<span class="pl-c1">0</span> <span class="pl-k">*</span> <span class="pl-c1">2</span> })
+  <span class="pl-k">.</span>flatten()
+  <span class="pl-k">.</span>initial(<span class="pl-c1">2</span>)<span class="pl-k">.</span>value
+=&gt; [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">6</span>]</pre></div>
+
+<h2>
+<a id="user-content-optional" class="anchor" href="#optional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional</h2>
+
+<h3>
+<a id="user-content-equal" class="anchor" href="#equal" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>equal</code>
+</h3>
+
+<p>Tells whether two optionals containing Equatable types are equal.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> optionalString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> otherOptionalString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>
+$<span class="pl-k">.</span>equal(optionalString, otherOptionalString)
+=&gt; <span class="pl-c1">true</span>
+
+<span class="pl-k">let</span> thirdOptionalString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>goodbye<span class="pl-pds">"</span></span>
+$<span class="pl-k">.</span>equal(optionalString, thirdOptionalString)
+=&gt; <span class="pl-c1">false</span>
+
+<span class="pl-k">let</span> nilOptionalString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> nil
+<span class="pl-k">let</span> otherNilOptionalString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> nil
+$<span class="pl-k">.</span>equal(nilOptionalString, otherNilOptionalString)
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h1>
+<a id="user-content-cent-usage" class="anchor" href="#cent-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cent Usage</h1>
+
+<h2>
+<a id="user-content-array-extensions" class="anchor" href="#array-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Array Extensions</h2>
+
+<h3>
+<a id="user-content--elem-element---element" class="anchor" href="#-elem-element---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;&lt; elem: Element -&gt; [Element]</code>
+</h3>
+
+<p>Overloaded operator to append element to an array or append elements from another array into the first array. Return array with the element appended in the end.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> array <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]
+array <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">4</span>
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+array <span class="pl-k">&lt;&lt;</span> [<span class="pl-c1">5</span>, <span class="pl-c1">6</span>]
+=&gt; [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>]</pre></div>
+
+<h3>
+<a id="user-content-atindexes-int---element" class="anchor" href="#atindexes-int---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>at(indexes: Int...) -&gt; [Element]</code>
+</h3>
+
+<p>Creates an array of elements from the specified indexes, or keys, of the collection.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]
+<span class="pl-k">let</span> some <span class="pl-k">=</span> array<span class="pl-k">.</span>at(<span class="pl-c1">1</span>, <span class="pl-c1">3</span>)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-eachcallback-element------element" class="anchor" href="#eachcallback-element------element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>each(callback: (Element) -&gt; ()) -&gt; [Element]</code>
+</h3>
+
+<p>For each item in the array invoke the callback by passing the elem</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]
+array<span class="pl-k">.</span>each {
+  println($<span class="pl-c1">0</span>)
+}
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-eachwithindexcallback-int-element------element" class="anchor" href="#eachwithindexcallback-int-element------element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>eachWithIndex(callback: (Int, Element) -&gt; ()) -&gt; [Element]</code>
+</h3>
+
+<p>For each item in the array invoke the callback by passing the elem along with the index</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> array <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]
+array<span class="pl-k">.</span>each { (index, elem)
+  println(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">index</span><span class="pl-pse">)</span> - <span class="pl-pse">\(</span><span class="pl-s1">elem</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+}
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-cycleutimes-int-callback-element---u" class="anchor" href="#cycleutimes-int-callback-element---u" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>cycle&lt;U&gt;(times: Int, callback: (Element) -&gt; U)</code>
+</h3>
+
+<p>Cycles through the array definetly or indefinetly passing each element into the callback function. The second parameter is to specify how many times to cycle through the array. If left out it will cycle indefinetly.</p>
+
+<div class="highlight highlight-swift"><pre>[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]<span class="pl-k">.</span>cycle(<span class="pl-c1">2</span>) {
+  print($<span class="pl-c1">0</span>)
+}
+<span class="pl-c">// Prints the following</span>
+<span class="pl-c1">123123</span>
+
+[<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]<span class="pl-k">.</span>cycle {
+  print($<span class="pl-c1">0</span>)
+}
+<span class="pl-c">// Cycles in an infinite loop</span></pre></div>
+
+<h3>
+<a id="user-content-everycallback-element---bool---bool" class="anchor" href="#everycallback-element---bool---bool" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>every(callback: (Element) -&gt; Bool) -&gt; Bool</code>
+</h3>
+
+<p>Checks if the given callback returns true value for all items in the array.</p>
+
+<div class="highlight highlight-swift"><pre>[<span class="pl-s"><span class="pl-pds">"</span>angry<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>hungry<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>every { (a: <span class="pl-c1">String</span>) <span class="pl-k">-&gt;</span> (<span class="pl-c1">Bool</span>) <span class="pl-k">in</span> 
+  a<span class="pl-k">.</span>hasSuffix(<span class="pl-s"><span class="pl-pds">"</span>gry<span class="pl-pds">"</span></span>) 
+}
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-fetchindex-int-orelse-t--none---t" class="anchor" href="#fetchindex-int-orelse-t--none---t" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>fetch(index: Int, orElse: T? = .None) -&gt; T!</code>
+</h3>
+
+<p>Get element from an array at the given index which can be negative to find elements from the end of the array. A default value can be returned if indexing out of bounds.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> arr <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>, <span class="pl-c1">7</span>, <span class="pl-c1">8</span>]
+arr<span class="pl-k">.</span>fetch(<span class="pl-c1">100</span>)
+=&gt; nil
+
+arr<span class="pl-k">.</span>fetch(<span class="pl-c1">100</span>, orElse: <span class="pl-c1">42</span>)
+=&gt; <span class="pl-c1">42</span>
+
+arr<span class="pl-k">.</span>fetch(<span class="pl-c1">-1</span>)
+=&gt; <span class="pl-c1">8</span></pre></div>
+
+<h3>
+<a id="user-content-findindexcallback-element---bool---int" class="anchor" href="#findindexcallback-element---bool---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>findIndex(callback: (Element) -&gt; Bool) -&gt; Int?</code>
+</h3>
+
+<p>This method is like find except that it returns the index of the first element that passes the callback check.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> ind: int? <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>findIndex {
+  $<span class="pl-c1">0</span><span class="pl-k">.</span>length <span class="pl-k">==</span> <span class="pl-c1">4</span>
+}
+ind<span class="pl-k">!</span> <span class="pl-k">==</span> <span class="pl-c1">2</span> 
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-findlastindexcallback-element---bool---int" class="anchor" href="#findlastindexcallback-element---bool---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>findLastIndex(callback: (Element) -&gt; Bool) -&gt; Int?</code>
+</h3>
+
+<p>This method is like findIndex except that it iterates over elements of the array from right to left.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> ind: int? <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>findLastIndex {
+  $<span class="pl-c1">0</span><span class="pl-k">.</span>length <span class="pl-k">==</span> <span class="pl-c1">4</span> 
+}
+ind<span class="pl-k">!</span> <span class="pl-k">==</span> <span class="pl-c1">3</span> 
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-first---element" class="anchor" href="#first---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>first() -&gt; Element?</code>
+</h3>
+
+<p>Gets the first element in the array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> first <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>first()
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-flatten---element" class="anchor" href="#flatten---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>flatten() -&gt; [Element]</code>
+</h3>
+
+<p>Flattens a nested array of any depth.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> unFlattened <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, [<span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>], [[<span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>]], [[[<span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]]] ]
+<span class="pl-k">let</span> flattened <span class="pl-k">=</span> unFlattened<span class="pl-k">.</span>flatten() 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-getindex-int---element" class="anchor" href="#getindex-int---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>get(index: Int) -&gt; Element?</code>
+</h3>
+
+<p>Get element at index</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> element <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-c1">0</span>)
+element<span class="pl-k">!</span>
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>
+
+<span class="pl-k">let</span> nothing <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-c1">1000</span>)
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-initialnumelements-int--1---element" class="anchor" href="#initialnumelements-int--1---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>initial(numElements: Int? = 1) -&gt; [Element]</code>
+</h3>
+
+<p>Gets all but the last element or last n elements of an array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> initial <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>initial(<span class="pl-c1">2</span>) 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-last---element" class="anchor" href="#last---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>last() -&gt; Element?</code>
+</h3>
+
+<p>Gets the last element from the array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> last <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>last() 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-restnumelements-int--1---element" class="anchor" href="#restnumelements-int--1---element" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>rest(numElements: Int? = 1) -&gt; [Element]</code>
+</h3>
+
+<p>The opposite of initial this method gets all but the first element or first n elements of an array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> rest <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>rest(<span class="pl-c1">2</span>)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-mint-comparable---t" class="anchor" href="#mint-comparable---t" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>min&lt;T: Comparable&gt;() -&gt; T?</code>
+</h3>
+
+<p>Retrieves the minimum value in an array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> min <span class="pl-k">=</span> [ <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span> ]<span class="pl-k">.</span>min()
+=&gt; <span class="pl-c1">0</span></pre></div>
+
+<h3>
+<a id="user-content-maxt-comparable---t" class="anchor" href="#maxt-comparable---t" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>max&lt;T: Comparable&gt;() -&gt; T?</code>
+</h3>
+
+<p>Retrieves the maximum value in an array.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> max <span class="pl-k">=</span> [ <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>]<span class="pl-k">.</span>max()
+=&gt; <span class="pl-c1">2</span></pre></div>
+
+<h2>
+<a id="user-content-character-extensions" class="anchor" href="#character-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Character Extensions</h2>
+
+<h3>
+<a id="user-content-adescription---string" class="anchor" href="#adescription---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>"A".description -&gt; String</code>
+</h3>
+
+<p>Get string description of Character</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> ch: <span class="pl-c1">Character</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> str <span class="pl-k">=</span> ch<span class="pl-k">.</span>description
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-date-extensions" class="anchor" href="#date-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Date Extensions</h2>
+
+<h3>
+<a id="user-content-datefromyear-int-month-int-day-int---nsdate" class="anchor" href="#datefromyear-int-month-int-day-int---nsdate" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Date.from(#year: Int, month: Int, day: Int) -&gt; NSDate</code>
+</h3>
+
+<p>Returns a new Date given the year month and day</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> date <span class="pl-k">=</span> Date<span class="pl-k">.</span>from(<span class="pl-c1">2014</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>) 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Jan 1, 2014, 12:00 AM<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-datefromunix-double---nsdate" class="anchor" href="#datefromunix-double---nsdate" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Date.from(#unix: Double) -&gt; NSDate</code>
+</h3>
+
+<p>Returns a new Date given the unix timestamp (timeIntervalSince1970)</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> date <span class="pl-k">=</span> Date<span class="pl-k">.</span>from(unix: <span class="pl-c1">1_388_552_400</span><span class="pl-k">.</span><span class="pl-c1">0</span>)
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Jan 1, 2014, 12:00 AM<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-dateparsedatestr-string-format-string--yyyy-mm-dd---nsdate" class="anchor" href="#dateparsedatestr-string-format-string--yyyy-mm-dd---nsdate" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Date.parse(dateStr: String, format: String = "yyyy-MM-dd") -&gt; NSDate</code>
+</h3>
+
+<p>Parses the date based on the format and return a new Date</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> parsedDate <span class="pl-k">=</span> Date<span class="pl-k">.</span>parse(<span class="pl-s"><span class="pl-pds">"</span>2014-01-01<span class="pl-pds">"</span></span>, format: <span class="pl-s"><span class="pl-pds">"</span>yyyy-MM-dd<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Jan 1, 2014, 12:00 AM<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-dateunixdate-nsdate--nsdate---double" class="anchor" href="#dateunixdate-nsdate--nsdate---double" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Date.unix(date: NSDate = NSDate()) -&gt; Double</code>
+</h3>
+
+<p>Returns the unix timestamp of the date passed in or the current unix timestamp</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> currentUnix <span class="pl-k">=</span> Date<span class="pl-k">.</span>unix()
+=&gt; <span class="pl-c1">1</span>,<span class="pl-c1">388</span>,<span class="pl-c1">552</span>,<span class="pl-c1">400</span><span class="pl-k">.</span><span class="pl-c1">0</span>
+
+<span class="pl-k">var</span> otherNSDate <span class="pl-k">=</span> Date()
+<span class="pl-k">let</span> otherUnix <span class="pl-k">=</span> Date<span class="pl-k">.</span>unix(otherDate)
+=&gt; <span class="pl-c1">1</span>,<span class="pl-c1">388</span>,<span class="pl-c1">552</span>,<span class="pl-c1">400</span><span class="pl-k">.</span><span class="pl-c1">0</span></pre></div>
+
+<h3>
+<a id="user-content-inthourfromnow-et-al" class="anchor" href="#inthourfromnow-et-al" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<code>Int.hour.fromNow</code> et al.</h3>
+
+<p>Use the following syntax to calculate dates and times based on the user's current calendar. </p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">1</span><span class="pl-k">.</span>day<span class="pl-k">.</span>ago
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Apr 10, 2015, 11:51 AM<span class="pl-pds">"</span></span>
+<span class="pl-c1">4</span><span class="pl-k">.</span>hours<span class="pl-k">.</span>fromNow
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Apr 11, 2015, 3:51 PM<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-dictionary-extensions" class="anchor" href="#dictionary-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dictionary Extensions</h2>
+
+<h3>
+<a id="user-content-mergek-vdictionaries-dictionaryk-v" class="anchor" href="#mergek-vdictionaries-dictionaryk-v" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>merge&lt;K, V&gt;(dictionaries: Dictionary&lt;K, V&gt;...)</code>
+</h3>
+
+<p>Merges the dictionary with dictionaries passed. The latter dictionaries will override values of the keys that are already set</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">var</span> dic <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>] 
+<span class="pl-k">let</span> anotherDic <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>baz<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]
+dic<span class="pl-k">.</span>merge(anotherDic)
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>baz<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>spam<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>eggs<span class="pl-pds">"</span></span>]</pre></div>
+
+<h2>
+<a id="user-content-int-extensions" class="anchor" href="#int-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Int Extensions</h2>
+
+<h3>
+<a id="user-content-timescallback-int---" class="anchor" href="#timescallback-int---" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>times(callback: (Int) -&gt; ())</code>
+</h3>
+
+<p>Invoke a callback n times with callback that takes index</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">5</span><span class="pl-k">.</span>times { print(<span class="pl-s"><span class="pl-pds">"</span>Na<span class="pl-pds">"</span></span>) } 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>NaNaNaNaNa<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-times-function----" class="anchor" href="#times-function----" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>times (function: () -&gt; ())</code>
+</h3>
+
+<p>Invoke a callback n times</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">5</span><span class="pl-k">.</span>times { (a: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> () <span class="pl-k">in</span> print(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">a</span><span class="pl-pse">)</span> <span class="pl-pds">"</span></span>) } 
+=&gt; <span class="pl-c1">0</span> <span class="pl-c1">1</span> <span class="pl-c1">2</span> <span class="pl-c1">3</span> <span class="pl-c1">4</span>  </pre></div>
+
+<h3>
+<a id="user-content-iseven" class="anchor" href="#iseven" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>isEven</code>
+</h3>
+
+<p>Check if int is even</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">2</span><span class="pl-k">.</span>isEven
+=&gt; <span class="pl-c1">true</span>
+
+<span class="pl-c1">1</span><span class="pl-k">.</span>isEven
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-isodd" class="anchor" href="#isodd" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>isOdd</code>
+</h3>
+
+<p>Check if int is odd</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">3</span><span class="pl-k">.</span>isOdd
+=&gt; <span class="pl-c1">true</span>
+
+<span class="pl-c1">2</span><span class="pl-k">.</span>isOdd
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-digits---int" class="anchor" href="#digits---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>digits() -&gt; [Int]</code>
+</h3>
+
+<p>Splits the int into array of digits</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">4208</span><span class="pl-k">.</span>digits()
+=&gt; [<span class="pl-c1">4</span>, <span class="pl-c1">2</span>, <span class="pl-c1">0</span>, <span class="pl-c1">8</span>]</pre></div>
+
+<h3>
+<a id="user-content-next---int" class="anchor" href="#next---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>next() -&gt; Int</code>
+</h3>
+
+<p>Get the next int</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">10</span><span class="pl-k">.</span>next()
+=&gt; <span class="pl-c1">11</span></pre></div>
+
+<h3>
+<a id="user-content-prev---int" class="anchor" href="#prev---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>prev() -&gt; Int</code>
+</h3>
+
+<p>Get the previous int</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">10</span><span class="pl-k">.</span>prev()
+=&gt; <span class="pl-c1">9</span></pre></div>
+
+<h3>
+<a id="user-content-uptolimit-int-callback----" class="anchor" href="#uptolimit-int-callback----" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>upTo(limit: Int, callback: () -&gt; ())</code>
+</h3>
+
+<p>Invoke the callback from int up to and including limit</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">3</span><span class="pl-k">.</span>upTo(<span class="pl-c1">5</span>) {
+  print(<span class="pl-s"><span class="pl-pds">"</span>Hi<span class="pl-pds">"</span></span>)
+}
+Prints <span class="pl-s"><span class="pl-pds">"</span>HiHiHi<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-downtolimit-int-callback----" class="anchor" href="#downtolimit-int-callback----" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>downTo(limit: Int, callback: () -&gt; ())</code>
+</h3>
+
+<p>Invoke the callback from int down to and including limit</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c1">3</span><span class="pl-k">.</span>upTo(<span class="pl-c1">0</span>) {
+  print(<span class="pl-s"><span class="pl-pds">"</span>Hi<span class="pl-pds">"</span></span>)
+}
+Prints <span class="pl-s"><span class="pl-pds">"</span>HiHiHiHi<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-string-extensions" class="anchor" href="#string-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>String Extensions</h2>
+
+<h3>
+<a id="user-content-length" class="anchor" href="#length" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>.length</code>
+</h3>
+
+<p>Get the length of the string</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span><span class="pl-k">.</span>length
+=&gt; <span class="pl-c1">5</span></pre></div>
+
+<h3>
+<a id="user-content--str-string---bool" class="anchor" href="#-str-string---bool" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>=~ str: String -&gt; Bool</code>
+</h3>
+
+<p>Does a regex match of whether regex string on the right is matches the string on the left</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Dollar<span class="pl-pds">"</span></span> <span class="pl-k">=~</span> <span class="pl-s"><span class="pl-pds">"</span>oll<span class="pl-pds">"</span></span>
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content--n-int---string" class="anchor" href="#-n-int---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>* n: Int -&gt; String</code>
+</h3>
+
+<p>Get string concatenated <code>n</code> times</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Hi Swift! <span class="pl-pds">"</span></span> <span class="pl-k">*</span> <span class="pl-c1">3</span>
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hi Swift! Hi Swift! Hi Swift! <span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-i-int---character" class="anchor" href="#i-int---character" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>[i: Int] -&gt; Character?</code>
+</h3>
+
+<p>Get character at a subscript</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>[<span class="pl-c1">6</span>] <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>W<span class="pl-pds">"</span></span>
+=&gt; <span class="pl-c1">true</span>
+
+<span class="pl-s"><span class="pl-pds">"</span>Hi<span class="pl-pds">"</span></span>[<span class="pl-c1">5</span>]
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-str-string---string" class="anchor" href="#str-string---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>[str: String] -&gt; String?</code>
+</h3>
+
+<p>Returns the substring based on the first regex match passed in the subscript</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> proj <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Dollar and Cent<span class="pl-pds">"</span></span>
+proj[<span class="pl-s"><span class="pl-pds">"</span>^.+[^and Cent]<span class="pl-pds">"</span></span>]
+=&gt; {Some: <span class="pl-s"><span class="pl-pds">"</span>Dollar<span class="pl-pds">"</span></span>}</pre></div>
+
+<h3>
+<a id="user-content-r-rangeint---string" class="anchor" href="#r-rangeint---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>[r: Range&lt;Int&gt;] -&gt; String</code>
+</h3>
+
+<p>Get substring using subscript notation and by passing a range</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>[<span class="pl-c1">0</span><span class="pl-k">..&lt;</span><span class="pl-c1">5</span>] <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span> 
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h3>
+<a id="user-content-indexofchar-character---int" class="anchor" href="#indexofchar-character---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>indexOf(char: Character) -&gt; Int?</code>
+</h3>
+
+<p>Get the start index of character</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span><span class="pl-k">.</span>indexOf(<span class="pl-c1">Character</span>(<span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>))<span class="pl-k">!</span>
+=&gt; <span class="pl-c1">4</span></pre></div>
+
+<h3>
+<a id="user-content-indexofstr-string---int" class="anchor" href="#indexofstr-string---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>indexOf(str: String) -&gt; Int?</code>
+</h3>
+
+<p>Get the start index of string</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span><span class="pl-k">.</span>indexOf(<span class="pl-s"><span class="pl-pds">"</span>llo<span class="pl-pds">"</span></span>)<span class="pl-k">!</span>
+=&gt; <span class="pl-c1">2</span>
+
+<span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span><span class="pl-k">.</span>indexOf(<span class="pl-s"><span class="pl-pds">"</span>illo<span class="pl-pds">"</span></span>)
+=&gt; nil</pre></div>
+
+<h3>
+<a id="user-content-indexofpattern-string---int" class="anchor" href="#indexofpattern-string---int" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>indexOf(pattern: String) -&gt; Int?</code>
+</h3>
+
+<p>Get the start index of regex pattern inside the string</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span><span class="pl-k">.</span>indexOf(<span class="pl-s"><span class="pl-pds">"</span>.llo<span class="pl-pds">"</span></span>)<span class="pl-k">!</span>
+=&gt; <span class="pl-c1">1</span></pre></div>
+
+<h3>
+<a id="user-content-splitdelimiter-character---string" class="anchor" href="#splitdelimiter-character---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>split(delimiter: Character) -&gt; [String]</code>
+</h3>
+
+<p>Get an array from string split using the delimiter character</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span><span class="pl-k">.</span>split(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>) 
+=&gt; [<span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span>]</pre></div>
+
+<h3>
+<a id="user-content-lstring---string" class="anchor" href="#lstring---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>lstring() -&gt; String</code>
+</h3>
+
+<p>Get string without leading spaces</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> leadingSpace <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>  Hello<span class="pl-pds">"</span></span>
+leadingSpace<span class="pl-k">.</span>lstrip()
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-rstring---string" class="anchor" href="#rstring---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>rstring() -&gt; String</code>
+</h3>
+
+<p>Get string without trailing spaces</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> trailingSpace <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello   <span class="pl-pds">"</span></span>
+trailingSpace<span class="pl-k">.</span>rstrip()
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="user-content-strip---string" class="anchor" href="#strip---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>strip() -&gt; String</code>
+</h3>
+
+<p>Get string without leading or trailing spaces</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> spaces <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>   Hello   <span class="pl-pds">"</span></span>
+spaces<span class="pl-k">.</span>strip()
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-regex" class="anchor" href="#regex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Regex</h2>
+
+<h3>
+<a id="user-content-init" class="anchor" href="#init" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>init</code>
+</h3>
+
+<p>Init with regex pattern as string</p>
+
+<div class="highlight highlight-swift"><pre>Regex<span class="pl-k">.</span><span class="pl-k">init</span>(<span class="pl-s"><span class="pl-pds">"</span>^Hello.World$<span class="pl-pds">"</span></span>) <span class="pl-c">// Regex that matches "Hello World"</span></pre></div>
+
+<h3>
+<a id="user-content-matchesteststr-string---anyobject" class="anchor" href="#matchesteststr-string---anyobject" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>matches(testStr: String) -&gt; [AnyObject]</code>
+</h3>
+
+<p>Return matches based on String passed.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> re <span class="pl-k">=</span> Regex<span class="pl-k">.</span><span class="pl-k">init</span>(<span class="pl-s"><span class="pl-pds">"</span>^Hello.World$<span class="pl-pds">"</span></span>)
+re<span class="pl-k">.</span>matches(<span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>)</pre></div>
+
+<h3>
+<a id="user-content-testteststr-string---bool" class="anchor" href="#testteststr-string---bool" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>test(testStr: String) -&gt; Bool</code>
+</h3>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> re <span class="pl-k">=</span> Regex<span class="pl-k">.</span><span class="pl-k">init</span>(<span class="pl-s"><span class="pl-pds">"</span>^Hello.World$<span class="pl-pds">"</span></span>)
+re<span class="pl-k">.</span>matches(<span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-c1">true</span>
+
+re<span class="pl-k">.</span>matches(<span class="pl-s"><span class="pl-pds">"</span>Str<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-escapestrstr-string---string" class="anchor" href="#escapestrstr-string---string" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>escapeStr(str: String) -&gt; String</code>
+</h3>
+
+<p>Escape string with regex characters</p>
+
+<div class="highlight highlight-swift"><pre>Regex<span class="pl-k">.</span>escape(<span class="pl-s"><span class="pl-pds">"</span>Hello.World<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-ii">\.</span>World<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-range-extensions" class="anchor" href="#range-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Range Extensions</h2>
+
+<h3>
+<a id="user-content-equals---" class="anchor" href="#equals---" aria-hidden="true"><span class="octicon octicon-link"></span></a>equals - <code>==</code>
+</h3>
+
+<p>Check the equality of two ranges</p>
+
+<div class="highlight highlight-swift"><pre>(<span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span>) <span class="pl-k">==</span> (<span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span>) 
+=&gt; <span class="pl-c1">true</span>
+
+(<span class="pl-c1">1</span><span class="pl-k">..&lt;</span><span class="pl-c1">5</span>) <span class="pl-k">==</span> (<span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span>) 
+=&gt; <span class="pl-c1">false</span></pre></div>
+
+<h3>
+<a id="user-content-eachwithindexcallback-t---" class="anchor" href="#eachwithindexcallback-t---" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>eachWithIndex(callback: (T) -&gt; ())</code>
+</h3>
+
+<p>For each index in the range invoke the callback by passing the item in range</p>
+
+<div class="highlight highlight-swift"><pre>(<span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span>)<span class="pl-k">.</span>eachWithIndex { (a: <span class="pl-c1">Int</span>) <span class="pl-k">-&gt;</span> () <span class="pl-k">in</span> print(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">\(</span><span class="pl-s1">a</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>) } 
+=&gt; <span class="pl-c1">12345</span></pre></div>
+
+<h3>
+<a id="user-content-eachcallback----" class="anchor" href="#eachcallback----" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>each(callback: () -&gt; ())</code>
+</h3>
+
+<p>For each index in the range invoke the callback</p>
+
+<div class="highlight highlight-swift"><pre>(<span class="pl-c1">1</span><span class="pl-k">...</span><span class="pl-c1">5</span>)<span class="pl-k">.</span>each { print(<span class="pl-s"><span class="pl-pds">"</span>Na<span class="pl-pds">"</span></span>) } 
+=&gt; <span class="pl-s"><span class="pl-pds">"</span>NaNaNaNaNa<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-optional-extensions" class="anchor" href="#optional-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional Extensions</h2>
+
+<h3>
+<a id="user-content-equals----1" class="anchor" href="#equals----1" aria-hidden="true"><span class="octicon octicon-link"></span></a>equals - <code>==</code>
+</h3>
+
+<p>Check the equality of two Equatable Optionals</p>
+
+<div class="highlight highlight-swift"><pre>Optional(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>) <span class="pl-k">==</span> Optional(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-c1">true</span>
+
+Optional(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>) <span class="pl-k">==</span> Optional(<span class="pl-s"><span class="pl-pds">"</span>goodbye<span class="pl-pds">"</span></span>)
+=&gt; <span class="pl-c1">false</span>
+
+nil <span class="pl-k">as</span> <span class="pl-c1">String</span>? <span class="pl-k">==</span> nil <span class="pl-k">as</span> <span class="pl-c1">String</span>?
+=&gt; <span class="pl-c1">true</span></pre></div>
+
+<h1>
+<a id="user-content-contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h1>
+
+<p>If you are interested in contributing checkout <a href="https://github.com/ankurp/Dollar.swift/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+
+<h1>
+<a id="user-content-roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h1>
+
+<ul>
+<li>Add more extention functions to the Cent library</li>
+<li>Benchmark and improve performance if applicable</li>
+</ul>
+
+<h1>
+<a id="user-content-dollar-or-cent" class="anchor" href="#dollar-or-cent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dollar or Cent</h1>
+
+<p>If you are interested only in pure functional programming <code>import Dollar</code> otherwise <code>import Cent</code> which includes extensions for certain object type such as Array for now but more will be added.</p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://camo.githubusercontent.com/445b6b54e5a9de3245ff2db1633d458c30f6c3df/68747470733a2f2f64327765637a68766c38323376302e636c6f756466726f6e742e6e65742f616e6b7572702f646f6c6c61722e73776966742f7472656e642e706e67" alt="Bitdeli Badge" data-canonical-src="https://d2weczhvl823v0.cloudfront.net/ankurp/dollar.swift/trend.png" style="max-width:100%;"></a></p>

@@ -1,0 +1,361 @@
+<h1>
+<a id="user-content-swiftyjson-中文介绍" class="anchor" href="#swiftyjson-%E4%B8%AD%E6%96%87%E4%BB%8B%E7%BB%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>SwiftyJSON <a href="http://tangplin.github.io/swiftyjson/">中文介绍</a>
+</h1>
+
+<p>SwiftyJSON makes it easy to deal with JSON data in Swift.</p>
+
+<ol>
+<li><a href="#why-is-the-typical-json-handling-in-swift-not-good">Why is the typical JSON handling in Swift NOT good</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#integration">Integration</a></li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#initialization">Initialization</a></li>
+<li><a href="#subscript">Subscript</a></li>
+<li><a href="#loop">Loop</a></li>
+<li><a href="#error">Error</a></li>
+<li><a href="#optional-getter">Optional getter</a></li>
+<li><a href="#non-optional-getter">Non-optional getter</a></li>
+<li><a href="#setter">Setter</a></li>
+<li><a href="#raw-object">Raw object</a></li>
+<li><a href="#literal-convertibles">Literal convertibles</a></li>
+</ul>
+</li>
+<li><a href="#work-with-alamofire">Work with Alamofire</a></li>
+</ol>
+
+<h2>
+<a id="user-content-why-is-the-typical-json-handling-in-swift-not-good" class="anchor" href="#why-is-the-typical-json-handling-in-swift-not-good" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why is the typical JSON handling in Swift NOT good?</h2>
+
+<p>Swift is very strict about types. But although explicit typing is good for saving us from mistakes, it becomes painful when dealing with JSON and other areas that are, by nature, implicit about types.</p>
+
+<p>Take the Twitter API for example.  Say we want to retrieve a user's "name" value of some tweet in Swift (according to Twitter's API <a href="https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline">https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline</a>).</p>
+
+<p>The code would look like this:</p>
+
+<div class="highlight highlight-swift"><pre>
+<span class="pl-k">let</span> jsonObject <span class="pl-k">:</span> AnyObject<span class="pl-k">!</span> <span class="pl-k">=</span> NSJSONSerialization<span class="pl-k">.</span>JSONObjectWithData(dataFromTwitter, options: NSJSONReadingOptions<span class="pl-k">.</span>MutableContainers, error: nil)
+<span class="pl-k">if</span> <span class="pl-k">let</span> statusesArray <span class="pl-k">=</span> jsonObject <span class="pl-k">as?</span> NSArray{
+    <span class="pl-k">if</span> <span class="pl-k">let</span> aStatus <span class="pl-k">=</span> statusesArray[<span class="pl-c1">0</span>] <span class="pl-k">as?</span> NSDictionary{
+        <span class="pl-k">if</span> <span class="pl-k">let</span> user <span class="pl-k">=</span> aStatus[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>] <span class="pl-k">as?</span> NSDictionary{
+            <span class="pl-k">if</span> <span class="pl-k">let</span> userName <span class="pl-k">=</span> user[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>] <span class="pl-k">as?</span> NSString{
+                <span class="pl-c">//Finally We Got The Name</span>
+
+            }
+        }
+    }
+}
+</pre></div>
+
+<p>It's not good.</p>
+
+<p>Even if we use optional chaining, it would also cause a mess:</p>
+
+<div class="highlight highlight-swift"><pre>
+<span class="pl-k">let</span> jsonObject <span class="pl-k">:</span> AnyObject<span class="pl-k">!</span> <span class="pl-k">=</span> NSJSONSerialization<span class="pl-k">.</span>JSONObjectWithData(dataFromTwitter, options: NSJSONReadingOptions<span class="pl-k">.</span>MutableContainers, error: nil)
+<span class="pl-k">if</span> <span class="pl-k">let</span> userName <span class="pl-k">=</span> (((jsonObject <span class="pl-k">as?</span> NSArray)?[<span class="pl-c1">0</span>] <span class="pl-k">as?</span> NSDictionary)?[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>] <span class="pl-k">as?</span> NSDictionary)?[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]{
+  <span class="pl-c">//What A disaster above</span>
+}
+</pre></div>
+
+<p>An unreadable mess--for something that should really be simple!</p>
+
+<p>With SwiftyJSON all you have to do is:</p>
+
+<div class="highlight highlight-swift"><pre>
+<span class="pl-k">let</span> json <span class="pl-k">=</span> JSON(data: dataFromNetworking)
+<span class="pl-k">if</span> <span class="pl-k">let</span> userName <span class="pl-k">=</span> json[<span class="pl-c1">0</span>][<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string{
+  <span class="pl-c">//Now you got your value</span>
+}
+</pre></div>
+
+<p>And don't worry about the Optional Wrapping thing. It's done for you automatically.</p>
+
+<div class="highlight highlight-swift"><pre>
+<span class="pl-k">let</span> json <span class="pl-k">=</span> JSON(data: dataFromNetworking)
+<span class="pl-k">if</span> <span class="pl-k">let</span> userName <span class="pl-k">=</span> json[<span class="pl-c1">999999</span>][<span class="pl-s"><span class="pl-pds">"</span>wrong_key<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>wrong_name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string{
+    <span class="pl-c">//Calm down, take it easy, the ".string" property still produces the correct Optional String type with safety</span>
+} <span class="pl-k">else</span> {
+    <span class="pl-c">//Print the error</span>
+    println(json[<span class="pl-c1">999999</span>][<span class="pl-s"><span class="pl-pds">"</span>wrong_key<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>wrong_name<span class="pl-pds">"</span></span>])
+}
+</pre></div>
+
+<h2>
+<a id="user-content-requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>iOS 7.0+ / Mac OS X 10.9+</li>
+<li>Xcode 6.1</li>
+</ul>
+
+<h2>
+<a id="user-content-integration" class="anchor" href="#integration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integration</h2>
+
+<h4>
+<a id="user-content-carthage" class="anchor" href="#carthage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Carthage</h4>
+
+<p>You can use <a href="https://github.com/Carthage/Carthage">Carthage</a> to install <code>SwiftyJSON</code> by adding it to your <code>Cartfile</code>:</p>
+
+<pre><code>github "SwiftyJSON/SwiftyJSON" &gt;= 2.2
+</code></pre>
+
+<h4>
+<a id="user-content-cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span class="octicon octicon-link"></span></a>CocoaPods</h4>
+
+<p>You can use <a href="http://cocoapods.org/">Cocoapods</a> to install <code>SwiftyJSON</code>by adding it to your <code>Podfile</code>:</p>
+
+<div class="highlight highlight-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">"</span>SwiftyJSON<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>&gt;= 2.2<span class="pl-pds">"</span></span></pre></div>
+
+<p>Note that it needs you to install CocoaPods 36 version, and requires your iOS deploy target &gt;= 8.0:</p>
+
+<div class="highlight highlight-bash"><pre>[sudo] gem install cocoapods -v <span class="pl-s"><span class="pl-pds">'</span>&gt;=0.36<span class="pl-pds">'</span></span></pre></div>
+
+<h4>
+<a id="user-content-manually" class="anchor" href="#manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manually</h4>
+
+<p>To use this library in your project manually you may:  </p>
+
+<ol>
+<li>for Projects, just drag SwiftyJSON.swift to the project tree</li>
+<li>for Workspaces, include the whole SwiftyJSON.xcodeproj (as suggested by @garnett)</li>
+</ol>
+
+<h2>
+<a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h4>
+<a id="user-content-initialization" class="anchor" href="#initialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initialization</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> json <span class="pl-k">=</span> JSON(data: dataFromNetworking)</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> json <span class="pl-k">=</span> JSON(jsonObject)</pre></div>
+
+<h4>
+<a id="user-content-subscript" class="anchor" href="#subscript" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subscript</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With a int from JSON supposed to an Array</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-c1">0</span>]<span class="pl-k">.</span>double</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With a string from JSON supposed to an Dictionary</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>stringValue</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With an array like path to the element</span>
+<span class="pl-k">let</span> path <span class="pl-k">=</span> [<span class="pl-c1">1</span>,<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,<span class="pl-c1">2</span>,<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[path]<span class="pl-k">.</span>string
+<span class="pl-c">//Just the same</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-c1">1</span>][<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>][<span class="pl-c1">2</span>][<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With a literal array to the element</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-c1">1</span>,<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,<span class="pl-c1">2</span>,<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string
+<span class="pl-c">//Just the same</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-c1">1</span>][<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>][<span class="pl-c1">2</span>][<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With a Hard Way</span>
+<span class="pl-k">let</span> name <span class="pl-k">=</span> json[[<span class="pl-c1">1</span>,<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,<span class="pl-c1">2</span>,<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]]<span class="pl-k">.</span>string</pre></div>
+
+<h4>
+<a id="user-content-loop" class="anchor" href="#loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loop</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If json is .Dictionary</span>
+<span class="pl-k">for</span> (key: <span class="pl-c1">String</span>, subJson: JSON) <span class="pl-k">in</span> json {
+   <span class="pl-c">//Do something you want</span>
+}</pre></div>
+
+<p><em>The first element is always String, even if the JSON's object is Array</em></p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If json is .Array</span>
+<span class="pl-c">//The `index` is 0..&lt;json.count's string value</span>
+<span class="pl-k">for</span> (index: <span class="pl-c1">String</span>, subJson: JSON) <span class="pl-k">in</span> json {
+    <span class="pl-c">//Do something you want</span>
+}</pre></div>
+
+<h4>
+<a id="user-content-error" class="anchor" href="#error" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error</h4>
+
+<p>Use subscript to get/set value in Array or Dicitonary</p>
+
+<ul>
+<li> If json is an array, the app may crash with "index out-of-bounds."</li>
+<li> If json is a dictionary, it will get <code>nil</code> without the reason.</li>
+<li> If json is not an array or a dictionary, the app may crash with the wrong selector exception.</li>
+</ul>
+
+<p>It will never happen in SwiftyJSON.</p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> json <span class="pl-k">=</span> JSON([<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>])
+<span class="pl-k">if</span> <span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-c1">999</span>]<span class="pl-k">.</span>string {
+    <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+    println(json[<span class="pl-c1">999</span>]<span class="pl-k">.</span>error) <span class="pl-c">// "Array[999] is out of bounds"</span>
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> json <span class="pl-k">=</span> JSON([<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Jack<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>])
+<span class="pl-k">if</span> <span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>address<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string {
+    <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+    println(json[<span class="pl-s"><span class="pl-pds">"</span>address<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>error) <span class="pl-c">// "Dictionary["address"] does not exist"</span>
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> json <span class="pl-k">=</span> JSON(<span class="pl-c1">12345</span>)
+<span class="pl-k">if</span> <span class="pl-k">let</span> age <span class="pl-k">=</span> json[<span class="pl-c1">0</span>]<span class="pl-k">.</span>string {
+    <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+    println(json[<span class="pl-c1">0</span>])       <span class="pl-c">// "Array[0] failure, It is not an array"</span>
+    println(json[<span class="pl-c1">0</span>]<span class="pl-k">.</span>error) <span class="pl-c">// "Array[0] failure, It is not an array"</span>
+}
+
+<span class="pl-k">if</span> <span class="pl-k">let</span> name <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string {
+    <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+    println(json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>])       <span class="pl-c">// "Dictionary[\"name"] failure, It is not an dictionary"</span>
+    println(json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>error) <span class="pl-c">// "Dictionary[\"name"] failure, It is not an dictionary"</span>
+}</pre></div>
+
+<h4>
+<a id="user-content-optional-getter" class="anchor" href="#optional-getter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional getter</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//NSNumber</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> id <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>favourites_count<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>number {
+   <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+   <span class="pl-c">//Print the error</span>
+   println(json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>favourites_count<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>error)
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//String</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> id <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string {
+   <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+   <span class="pl-c">//Print the error</span>
+   println(json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>])
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//Bool</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> id <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>is_translator<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>bool {
+   <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+   <span class="pl-c">//Print the error</span>
+   println(json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>is_translator<span class="pl-pds">"</span></span>])
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//Int</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> id <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>int {
+   <span class="pl-c">//Do something you want</span>
+} <span class="pl-k">else</span> {
+   <span class="pl-c">//Print the error</span>
+   println(json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>])
+}
+<span class="pl-k">...</span></pre></div>
+
+<h4>
+<a id="user-content-non-optional-getter" class="anchor" href="#non-optional-getter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Non-optional getter</h4>
+
+<p>Non-optional getter is named <code>xxxValue</code></p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If not a Number or nil, return 0</span>
+<span class="pl-k">let</span> id: <span class="pl-c1">Int</span> <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>intValue</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If not a String or nil, return ""</span>
+<span class="pl-k">let</span> name: <span class="pl-c1">String</span> <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>stringValue</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If not a Array or nil, return []</span>
+<span class="pl-k">let</span> list: <span class="pl-c1">Array</span><span class="pl-k">&lt;</span>JSON<span class="pl-k">&gt;</span> <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>arrayValue</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//If not a Dictionary or nil, return [:]</span>
+<span class="pl-k">let</span> user: <span class="pl-c1">Dictionary</span><span class="pl-k">&lt;</span><span class="pl-c1">String</span>, JSON<span class="pl-k">&gt;</span> <span class="pl-k">=</span> json[<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>dictionaryValue</pre></div>
+
+<h4>
+<a id="user-content-setter" class="anchor" href="#setter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setter</h4>
+
+<div class="highlight highlight-swift"><pre>json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> JSON(<span class="pl-s"><span class="pl-pds">"</span>new-name<span class="pl-pds">"</span></span>)
+json[<span class="pl-c1">0</span>] <span class="pl-k">=</span> JSON(<span class="pl-c1">1</span>)</pre></div>
+
+<div class="highlight highlight-swift"><pre>json[<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>int <span class="pl-k">=</span>  <span class="pl-c1">1234567890</span>
+json[<span class="pl-s"><span class="pl-pds">"</span>coordinate<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>double <span class="pl-k">=</span>  <span class="pl-c1">8766</span><span class="pl-k">.</span><span class="pl-c1">766</span>
+json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string <span class="pl-k">=</span>  <span class="pl-s"><span class="pl-pds">"</span>Jack<span class="pl-pds">"</span></span>
+json<span class="pl-k">.</span>arrayObject <span class="pl-k">=</span> [<span class="pl-c1">1</span>,<span class="pl-c1">2</span>,<span class="pl-c1">3</span>,<span class="pl-c1">4</span>]
+json<span class="pl-k">.</span>dictionary <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Jack<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>:<span class="pl-c1">25</span>]</pre></div>
+
+<h4>
+<a id="user-content-raw-object" class="anchor" href="#raw-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Raw object</h4>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">let</span> jsonObject: AnyObject <span class="pl-k">=</span> json<span class="pl-k">.</span>object</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> jsonObject: AnyObject <span class="pl-k">=</span> json<span class="pl-k">.</span>rawValue</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//convert the JSON to raw NSData</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> data <span class="pl-k">=</span> json<span class="pl-k">.</span>rawData() {
+    <span class="pl-c">//Do something you want</span>
+}</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//convert the JSON to raw String</span>
+<span class="pl-k">if</span> <span class="pl-k">let</span> string <span class="pl-k">=</span> json<span class="pl-k">.</span>rawString() {
+    <span class="pl-c">//Do something you want</span>
+}</pre></div>
+
+<h4>
+<a id="user-content-literal-convertibles" class="anchor" href="#literal-convertibles" aria-hidden="true"><span class="octicon octicon-link"></span></a>Literal convertibles</h4>
+
+<p>More info about the literal convertibles: <a href="http://nshipster.com/swift-literal-convertible/">Swift Literal Convertibles</a></p>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//StringLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>I'm a json<span class="pl-pds">"</span></span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//IntegerLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  <span class="pl-c1">12345</span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//BooleanLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  <span class="pl-c1">true</span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//FloatLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  <span class="pl-c1">2</span><span class="pl-k">.</span><span class="pl-c1">8765</span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//DictionaryLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  [<span class="pl-s"><span class="pl-pds">"</span>I<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>am<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>json<span class="pl-pds">"</span></span>]</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//ArrayLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  [<span class="pl-s"><span class="pl-pds">"</span>I<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>am<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>json<span class="pl-pds">"</span></span>]</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//NilLiteralConvertible</span>
+<span class="pl-k">let</span> json:JSON <span class="pl-k">=</span>  nil</pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With subscript in array</span>
+<span class="pl-k">var</span> json:JSON <span class="pl-k">=</span>  [<span class="pl-c1">1</span>,<span class="pl-c1">2</span>,<span class="pl-c1">3</span>]
+json[<span class="pl-c1">0</span>] <span class="pl-k">=</span> <span class="pl-c1">100</span>
+json[<span class="pl-c1">1</span>] <span class="pl-k">=</span> <span class="pl-c1">200</span>
+json[<span class="pl-c1">2</span>] <span class="pl-k">=</span> <span class="pl-c1">300</span>
+json[<span class="pl-c1">999</span>] <span class="pl-k">=</span> <span class="pl-c1">300</span> <span class="pl-c">//Don't worry, nothing will happen</span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//With subscript in dictionary</span>
+<span class="pl-k">var</span> json:JSON <span class="pl-k">=</span>  [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Jack<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>]
+json[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Mike<span class="pl-pds">"</span></span>
+json[<span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>25<span class="pl-pds">"</span></span> <span class="pl-c">//It's OK to set String</span>
+json[<span class="pl-s"><span class="pl-pds">"</span>address<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>L.A.<span class="pl-pds">"</span></span> <span class="pl-c">// Add the "address": "L.A." in json</span></pre></div>
+
+<div class="highlight highlight-swift"><pre><span class="pl-c">//Array &amp; Dictionary</span>
+<span class="pl-k">var</span> json:JSON <span class="pl-k">=</span>  [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>Jack<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>age<span class="pl-pds">"</span></span>: <span class="pl-c1">25</span>, <span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>:[<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>,[<span class="pl-s"><span class="pl-pds">"</span>what<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span>this<span class="pl-pds">"</span></span>]]]
+json[<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>][<span class="pl-c1">3</span>][<span class="pl-s"><span class="pl-pds">"</span>what<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>that<span class="pl-pds">"</span></span>
+json[<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,<span class="pl-c1">3</span>,<span class="pl-s"><span class="pl-pds">"</span>what<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>that<span class="pl-pds">"</span></span>
+<span class="pl-k">let</span> path <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,<span class="pl-c1">3</span>,<span class="pl-s"><span class="pl-pds">"</span>what<span class="pl-pds">"</span></span>]
+json[path] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>that<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="user-content-work-with-alamofire" class="anchor" href="#work-with-alamofire" aria-hidden="true"><span class="octicon octicon-link"></span></a>Work with Alamofire</h2>
+
+<p>SwiftyJSON nicely wraps the result of the Alamofire JSON response handler:</p>
+
+<div class="highlight highlight-swift"><pre>Alamofire<span class="pl-k">.</span>request(<span class="pl-k">.</span>GET, url, parameters: parameters)
+  <span class="pl-k">.</span>responseJSON { (req, res, json, error) <span class="pl-k">in</span>
+    <span class="pl-k">if</span>(error <span class="pl-k">!=</span> nil) {
+      NSLog(<span class="pl-s"><span class="pl-pds">"</span>Error: <span class="pl-pse">\(</span><span class="pl-s1">error</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+      println(req)
+      println(res)
+    }
+    <span class="pl-k">else</span> {
+      NSLog(<span class="pl-s"><span class="pl-pds">"</span>Success: <span class="pl-pse">\(</span><span class="pl-s1">url</span><span class="pl-pse">)</span><span class="pl-pds">"</span></span>)
+      <span class="pl-k">var</span> json <span class="pl-k">=</span> JSON(json<span class="pl-k">!</span>)
+    }
+  }</pre></div>
