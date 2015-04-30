@@ -62,13 +62,26 @@ class ReadmeManipulator
   # Don't have a redundant header under the site's provided one
   def remove_named_header
     doc = Nokogiri::HTML(File.read @readme_path)
-    header_anchor = doc.css("body").children[1]
+
+    # Nokogiri counts whitespace as a text node, so remote all of them for this case
+    real_elements = doc.xpath('/html/body/child::node()').select do |node| 
+      node.type != Nokogiri::XML::Node::TEXT_NODE || node.content =~ /\S/
+    end
+
+    header_anchor = real_elements[0]
+
+    # Is it an empty paragraph (because we removed all badges?
+    if header_anchor.name == "p" && header_anchor.text.strip == ""
+      header_anchor.remove
+      header_anchor = real_elements[1]
+    end
+    
     header_anchor.remove if header_anchor.text.strip == @spec.name
 
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
-
+  
   def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
@@ -120,6 +133,5 @@ class ReadmeManipulator
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
-
 
 end
