@@ -13,6 +13,14 @@ abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
+before do
+  content_type 'application/json'
+end
+
+configure do
+  mime_type :js, 'application/javascript'
+end
+
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
@@ -22,12 +30,16 @@ post "/hooks/trunk/" + trunk_notification_path do
 end
 
 get "/error/:pod/:version" do
+  content_type :js
+  
   # get error info for a pod
    error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
    error_message_for_path error_json_path
 end
 
 get "/error/:pod" do
+  content_type :js
+  
   # get generic error info for a pod
    error_json_folder = "errors/#{params[:pod]}/"
    if File.directory? error_json_folder
@@ -35,6 +47,7 @@ get "/error/:pod" do
      error_json_path = Dir[error_json_folder + "/*/*.json"].first
      error_message_for_path error_json_path
    end
+   
    error_message_for_path "random_path"
 end
 
