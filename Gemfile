@@ -5,7 +5,7 @@ gem "cocoapods", "> 0.33"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
 
-gem 'jazzy', '~> 0.1'
+gem 'jazzy', '~> 0.2'
 
 gem "docstat"
 
