@@ -62,7 +62,7 @@ get "/redeploy/:pod/latest" do
 
   rescue Exception => e
     p e.message
-    return "{ parsing: false }"
+    return "{ parsing: false, error: "#{e.message}" }"
   end
 end
 
