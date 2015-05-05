@@ -73,13 +73,16 @@ class TestingIdealist
    return { has_tests: true, expectations:expectation_count }
   end
   
-  # gets the (.swift or .m files for )
+  # gets the (.swift or .m files for the test target)
   def get_source_files_for_target target
     target.source_build_phase.files.to_a.map do |pbx_build_file|
       pbx_build_file.file_ref.real_path.to_s
       
     end.select do |path| 
       path.end_with?(".m") || path.end_with?(".swift") 
+      
+    end.select do |path| 
+      File.exists? path
     end
   end
   
