@@ -12,7 +12,7 @@ class ReadmeManipulator
     remove_known_badges
     remove_named_header
     fix_header_anchors
-    remove_other_managers
+    remove_dependency_manager_cues
   end
   
   def run_for_jazzy
@@ -23,7 +23,7 @@ class ReadmeManipulator
     remove_known_badges
     remove_named_header
     fix_header_anchors
-    remove_other_managers
+    remove_dependency_manager_cues('article.main-content .section')
   end
   
   def fix_relative_link(link_string)
@@ -68,7 +68,7 @@ class ReadmeManipulator
   def remove_named_header
     doc = Nokogiri::HTML(File.read @readme_path)
 
-    # Nokogiri counts whitespace as a text node, so remote all of them for this case
+    # Nokogiri counts whitespace as a text node, so remove all of them for this case
     real_elements = doc.xpath('/html/body/child::node()').select do |node| 
       node.type != Nokogiri::XML::Node::TEXT_NODE || node.content =~ /\S/
     end
@@ -137,8 +137,71 @@ class ReadmeManipulator
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
-  def remove_other_managers
+  def remove_dependency_manager_cues(parent_selector = nil)
+    doc = Nokogiri::HTML(File.read @readme_path)
+    main = parent_selector ? doc.css(parent_selector).first : doc.css("body")
 
+    # replace all clickable Carthage links with just the text
+    doc.css('a[href^="https://github.com/Carthage/Carthage"]').each do |link|
+      link.replace(Nokogiri::XML::Text.new(link.text, doc))
+    end
+    
+    # replace all clickable CP links with just the text
+    doc.css('a[href^="https://cocoapods.org"]').each do |link|
+      link.replace(Nokogiri::XML::Text.new(link.text, doc))
+    end
+  
+    # replace sections beginning with a header
+    main = remove_dependency_manager_section main, "carthage"
+    main = remove_dependency_manager_section main, "cocoapods"
+        
+    # look for just a paragraph then a pre with 'github "' or 'pod "
+    main = remove_two_linked_paragraphs main, "carthage", 'github "'
+    main = remove_two_linked_paragraphs main, "cocoapods", 'pod "'
+        
+    File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
+
+  def remove_dependency_manager_section main_element, name
+    in_section = false
+    main_element.children.each do |child|
+      next if child.type == Nokogiri::XML::Node::TEXT_NODE
+      
+      # This turns it on, but won't turn itself off
+      in_section = true if child.name.start_with?("h") && child.text.downcase.include?(name)
+
+      # This turns it off when we reach a new header 
+      in_section = false if child.name.start_with?("h") && !child.text.downcase.include?(name)
+      
+      child.remove if in_section
+    end
+    
+    main_element
+  end
+
+  def remove_two_linked_paragraphs main_element, before, after
+    
+    paragraph_node = nil
+    nodes = main_element.children
+    nodes.each do |child|
+      next if child.type == Nokogiri::XML::Node::TEXT_NODE
+      
+      paragraph_node = child if child.name == "p" && child.text.downcase.include?(before)
+      pre_node = child if child.name == "pre" && child.text.downcase.include?(after)
+      
+      if paragraph_node && pre_node
+        index_difference = nodes.index(pre_node) - nodes.index(paragraph_node)
+
+        # We have to include the skipped text node, thus 2
+        if index_difference == 2
+          paragraph_node.remove
+          pre_node.remove
+          break
+        end
+      end
+    end
+    
+    main_element
+  end 
 
 end
