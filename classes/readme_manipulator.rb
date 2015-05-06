@@ -12,7 +12,7 @@ class ReadmeManipulator
   end
   
   def run_for_jazzy
-    fix_relative_links_in_gfm('article.chapter')
+    fix_relative_links_in_gfm('article.main-content .section')
     remove_known_badges
     remove_named_header
     fix_header_anchors
@@ -103,6 +103,7 @@ class ReadmeManipulator
                       'https://secure.travis-ci.org',
                       'https://kiwiirc.com',
                       'https://badges.gitter.im/',
+                      'https://coveralls.io',
                       'https://badge.waffle.io']
     urls_to_delete.each do |selector|
       doc.css('img[data-canonical-src^="' + selector + '"]').each do |image|
