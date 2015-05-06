@@ -6,12 +6,16 @@ require 'readme_manipulator'
 require "nokogiri"
 
 describe 'with CDZUIKitAutoLayoutDebugging' do
-  before do
-    tmp_readme = "/tmp/cdz.html"
-    `cp spec/fixtures/readme/CDZUIKitAutoLayoutDebugging.html #{tmp_readme}`
+  def manipulator_for pod
+    tmp_readme = "/tmp/#{pod}.html"
+    `cp spec/fixtures/readme/#{pod}.html #{tmp_readme}`
     
-    spec = Pod::Specification.from_file "spec/fixtures/podspecs/CDZUIKitAutoLayoutDebugging.podspec.json"
-    @manipulator = ReadmeManipulator.new({ :readme_path => tmp_readme, :spec => spec })
+    spec = Pod::Specification.from_file "spec/fixtures/podspecs/#{pod}.podspec.json"
+    ReadmeManipulator.new( :readme_path => tmp_readme, :spec => spec )
+  end
+  
+  before do
+    @manipulator = manipulator_for "CDZUIKitAutoLayoutDebugging"
   end
 
   def contain(substring)

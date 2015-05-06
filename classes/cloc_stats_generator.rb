@@ -38,7 +38,6 @@ class ClocStatsGenerator
       if yaml.strip.length == 0
         puts "Got nothing from CLOC, are you on a version of cloc with swift support? ( 1.6.2+)".red
       end
-      vputs yaml
       yaml.sub!(/.*^---/m, '---')
 
       hash = YAML.load yaml

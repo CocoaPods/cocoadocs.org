@@ -2,7 +2,7 @@ class SocialImageGenerator
   include HashInit
   attr_accessor :spec, :output_folder, :stats_generator
   
-  def generate
+  def generate    
     image_command = [
       spec.name,
       quote_wrap(spec.summary),
@@ -10,7 +10,7 @@ class SocialImageGenerator
       quote_wrap(testing_quote),
       quote_wrap(doc_quote),
       quote_wrap(spec.or_license_name_and_url[:license]),
-      quote_wrap(@stats_generator.cloc_top[:language]),
+      quote_wrap(@stats_generator.get_top_cloc[:language]),
       @output_folder + "preview.png"
     ]
     

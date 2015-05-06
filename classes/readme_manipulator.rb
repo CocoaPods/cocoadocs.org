@@ -5,17 +5,25 @@ class ReadmeManipulator
   attr_accessor :spec, :readme_path
 
   def run_for_cocoadocs
+    return unless @spec.or_is_github?
+    return unless File.exist? @readme_path
+    
     fix_relative_links_in_gfm
     remove_known_badges
     remove_named_header
     fix_header_anchors
+    remove_other_managers
   end
   
   def run_for_jazzy
+    return unless @spec.or_is_github?
+    return unless File.exist? @readme_path
+    
     fix_relative_links_in_gfm('article.main-content .section')
     remove_known_badges
     remove_named_header
     fix_header_anchors
+    remove_other_managers
   end
   
   def fix_relative_link(link_string)
@@ -37,9 +45,6 @@ class ReadmeManipulator
 
   def fix_relative_links_in_gfm(parent_selector = nil)
     vputs "Fixing relative URLs in github flavoured markdown"
-
-    return unless @spec.or_is_github?
-    return unless File.exist? @readme_path
 
     doc = Nokogiri::HTML(File.read @readme_path)
     main = parent_selector ? doc.css(parent_selector).first : doc
@@ -85,9 +90,6 @@ class ReadmeManipulator
   def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
-    return unless @spec.or_is_github?
-    return unless File.exist? @readme_path
-
     doc = Nokogiri::HTML(File.read @readme_path)
 
     doc.css('a[href^="https://travis-ci.org"]').each do |link|
@@ -102,7 +104,7 @@ class ReadmeManipulator
                       'https://reposs.herokuapp.com',
                       'https://secure.travis-ci.org',
                       'https://kiwiirc.com',
-                      'https://badges.gitter.im/',
+                      'https://badges.gitter.im',
                       'https://coveralls.io',
                       'https://badge.waffle.io']
     urls_to_delete.each do |selector|
@@ -133,6 +135,10 @@ class ReadmeManipulator
 
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
+  end
+
+  def remove_other_managers
+
   end
 
 end

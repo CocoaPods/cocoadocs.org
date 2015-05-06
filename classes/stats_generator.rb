@@ -39,7 +39,7 @@ class StatsGenerator
       cloc[:language] == "SUM"
     end.first
 
-    unless cloc_sum
+    if cloc_sum == nil
       cloc_sum = { :language => "SUM", :files => 0, :comments => 0, :lines_of_code => 0 }
     end
     cloc_sum
@@ -49,9 +49,8 @@ class StatsGenerator
     cloc_top = @cloc_results.reject do |cloc|
       cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
     end.sort_by { |cloc| cloc[:lines_of_code] }.last
-        
-    
-    unless cloc_top
+
+    if cloc_top == nil
       cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
     end
     cloc_top

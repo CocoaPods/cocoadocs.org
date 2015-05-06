@@ -255,6 +255,7 @@ class CocoaDocs < Object
       $overwrite_existing_source_files = true
       $delete_source_after_docset_creation = false
       $force_branch = branch
+      
 
       document_spec_at_path spec_path
       command  "open \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
@@ -418,7 +419,7 @@ class CocoaDocs < Object
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
           c.docset_icon = Pathname(__FILE__).parent + 'resources/docset_icon.png'
           c.docset_path = "com.cocoadocs.#{spec.name.downcase}.#{spec.name}.docset"
-          # c.readme_path = Pathname(readme_location)
+          c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"

@@ -29,7 +29,7 @@ class DocsetFixer
     manipulator.run_for_jazzy
     create_dash_data
     minify_html
-    create_separate_readme('article.chapter')
+    create_separate_readme('article.main-content .section')
   end
 
   def create_separate_readme(parent_selector = nil)
@@ -238,7 +238,8 @@ class DocsetFixer
     end
   end
 
-  def redirect_command(from, from_server, to)
+  def redirect_command(from, from_server, to)    
+    return unless $upload_redirects_for_docsets
     command "touch #{from}"
 
     redirect_command = [
@@ -254,6 +255,8 @@ class DocsetFixer
   end
 
   def upload_file(file, to)
+    return unless $upload_site_to_s3
+
     upload_command = [
       "s3cmd put",
       "--acl-public",
