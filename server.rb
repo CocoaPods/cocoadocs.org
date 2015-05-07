@@ -19,7 +19,9 @@ end
 
 configure do
   mime_type :js, 'application/javascript'
+  mime_type :text, 'text/plain'
 end
+
 
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
@@ -73,12 +75,15 @@ get "/redeploy/:pod/:version" do
 end
 
 get "/recent_pods_count" do
+  content_type :text
+  
   old_recent_pods = settings.pod_count
   set :pod_count, 0
   return old_recent_pods.to_s
 end
 
 get "/" do
+  content_type :text
   "Hi"
 end
 
