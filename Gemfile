@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.1.3'
 
+gem 'rake'
+
 gem "cocoapods", "> 0.33"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
