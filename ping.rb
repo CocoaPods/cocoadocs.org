@@ -5,7 +5,7 @@ require 'httparty'
 require 'timeout'
 
 begin
-  number = HTTParty.get "http://localhost:4567/recent_pods_count"
+  number.to_s = HTTParty.get "http://localhost:4567/recent_pods_count"
   puts "Sending #{number} pods to Status.io"
 
   api_key = ENV['STATUS_IO_API_KEY']

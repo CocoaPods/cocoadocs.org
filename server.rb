@@ -13,16 +13,6 @@ abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
-before do
-  content_type 'application/json'
-end
-
-configure do
-  mime_type :js, 'application/javascript'
-  mime_type :text, 'text/plain'
-end
-
-
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
@@ -32,15 +22,14 @@ post "/hooks/trunk/" + trunk_notification_path do
 end
 
 get "/error/:pod/:version" do
-  content_type :js
-  
+  content_type "application/javascript"  
   # get error info for a pod
    error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
    error_message_for_path error_json_path
 end
 
 get "/error/:pod" do
-  content_type :js
+  content_type "application/javascript"
   
   # get generic error info for a pod
    error_json_folder = "errors/#{params[:pod]}/"
@@ -54,6 +43,7 @@ get "/error/:pod" do
 end
 
 get "/redeploy/:pod/latest" do
+  content_type "application/javascript"
   begin
     trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod]).body
     versions = JSON.parse(trunk_spec)["versions"]
@@ -75,8 +65,6 @@ get "/redeploy/:pod/:version" do
 end
 
 get "/recent_pods_count" do
-  content_type :text
-  
   old_recent_pods = settings.pod_count
   set :pod_count, 0
   return old_recent_pods.to_s
