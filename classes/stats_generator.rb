@@ -95,7 +95,7 @@ class StatsGenerator
     has_artifacts = false
     reference = @spec.source[:tag] || @spec.source[:commit]
     Dir.chdir(carthage_path) do
-      `rm Cartfile` unless File.exist?("Cartfile")
+      `rm -rf Cartfile Cartfile.resolved Carthage` if File.exist?("Cartfile")
       `echo 'git "file://#{@download_location}" "#{reference}"' > Cartfile`
       command "carthage bootstrap"
       has_artifacts = Dir.glob("Carthage/Build/*").count > 0
