@@ -21,10 +21,11 @@ begin
     check_and_install "cloc"
     check_and_install "s3cmd"
     check_and_install "appledoc"
+    check_and_install "carthage"
   end
 
   def check_and_install app
-    if `which #{app}`.length == 0 
+    if `which #{app}`.length == 0
       Bundler.with_clean_env do
         `brew install #{app}`
       end

@@ -11,7 +11,7 @@ class StatsGenerator
 
     cloc_sum = get_summary_cloc
     @cloc_top = get_top_cloc
-    
+
     data = {
       :total_files => cloc_sum[:files],
       :total_comments => cloc_sum[:comments],
@@ -24,7 +24,8 @@ class StatsGenerator
       :download_size => generated_download_size,
       :license_short_name => spec.or_license_name_and_url[:license],
       :license_canonical_url => spec.or_license_name_and_url[:url],
-      :dominant_language => @cloc_top[:language]
+      :dominant_language => @cloc_top[:language],
+      :carthage_support => supports_carthage
     }
 
     vputs "Sending as a #{@cloc_top[:language]} project"
@@ -34,7 +35,7 @@ class StatsGenerator
     handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
   end
 
-  def get_summary_cloc 
+  def get_summary_cloc
     cloc_sum = @cloc_results.select do |cloc|
       cloc[:language] == "SUM"
     end.first
@@ -44,7 +45,7 @@ class StatsGenerator
     end
     cloc_sum
   end
-  
+
   def get_top_cloc
     cloc_top = @cloc_results.reject do |cloc|
       cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
@@ -56,7 +57,7 @@ class StatsGenerator
     cloc_top
   end
 
-  def handle_request response    
+  def handle_request response
     if response.ok?
       vputs "Sent".green
     elsif response.unauthorized?
@@ -84,5 +85,22 @@ class StatsGenerator
       complexity: score.total_score,
       breakdown: score.breakdown
     }
+  end
+
+  def supports_carthage
+    return false unless @spec.source[:git]
+    carthage_path = File.join $active_folder, "carthage"
+    Dir.mkdir(carthage_path) unless File.exist?(carthage_path)
+
+    has_artifacts = false
+    reference = @spec.source[:tag] || @spec.source[:commit]
+    Dir.chdir(carthage_path) do
+      `rm Cartfile` unless File.exist?("Cartfile")
+      `echo 'git "file://#{@download_location}" "#{reference}"' > Cartfile`
+      command "carthage bootstrap"
+      has_artifacts = Dir.glob("Carthage/Build/*").count > 0
+    end
+
+    has_artifacts
   end
 end
