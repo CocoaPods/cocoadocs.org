@@ -14,6 +14,7 @@ class TestingIdealist
   def testimate
     
 		get_projects_in_download.reduce(0) do |expectations, project_path|
+      next 0 unless File.exist?(project_path)
       project = path_to_project project_path
       
       expectations + find_test_target(project).reduce(0) do |target_expectations, target|
