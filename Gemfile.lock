@@ -210,3 +210,6 @@ DEPENDENCIES
   slim (< 2.0)
   tilt (= 1.4.1)
   travis
+
+BUNDLED WITH
+   1.10.2

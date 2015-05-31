@@ -100,3 +100,22 @@ describe 'with Expecta' do
     readme_html.should.not contain('carthage update')
   end
 end
+
+describe 'with AWSS3' do
+  it 'should not escape forward slahes in src and href attributes' do
+    readme_html = rendered_readme_for("AWSS3")
+    doc = Nokogiri::HTML(readme_html)
+
+    doc.css("a").each do |link|
+      if link.attributes["href"]
+        link.attributes["href"].value.should.not contain('%2F')
+      end
+    end
+
+    doc.css("img").each do |img|
+      if img.attributes["src"]
+        img.attributes["src"].value.should.not contain('%2F')
+      end
+    end
+  end
+end
