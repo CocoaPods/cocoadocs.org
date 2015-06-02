@@ -40,7 +40,9 @@ class ReadmeManipulator
       return link_string
     end
 
-    "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{CGI.escape link_string}"
+    # Turn forward slahes(%2F) back into forward slashes
+    link_path = CGI.escape(link_string).gsub('%2F', '/')
+    "https://raw.github.com/#{@spec.or_user}/#{@spec.or_repo}/#{@spec.or_git_ref}/#{link_path}"
   end
 
   def fix_relative_links_in_gfm(parent_selector = nil)
