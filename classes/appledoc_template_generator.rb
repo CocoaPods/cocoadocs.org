@@ -1,6 +1,6 @@
 class AppledocTemplateGenerator
   include HashInit
-  attr_accessor :spec, :versions, :appledoc_templates_path, :source_download_location, :rendering
+  attr_accessor :spec, :versions, :appledoc_templates_path, :source_download_location, :rendering, :library_settings
 
   def generate
     generate_doc_vars
@@ -10,22 +10,8 @@ class AppledocTemplateGenerator
   def generate_doc_vars
     vputs "Generating SCSS variables for templates"
 
-    cocoadocs_settings = @source_download_location + "/.cocoadocs.yml"
-    settings = YAML.load(File.read(Dir.pwd + "/views/cocoadocs.defaults.yml"))
-
-    if File.exist? cocoadocs_settings
-      vputs "- found custom CocoaDocs colours"
-      begin
-        doc_settings = YAML.load(File.read(cocoadocs_settings))
-        settings = settings.merge doc_settings
-      rescue
-        puts "CocoaDocs yaml file is malformed"
-      end
-
-    end
-
     vars_string = ""
-    for key, value in settings
+    for key, value in @library_settings
       if value && value.is_a?(String)
         vars_string << "$" + key + ": "  + value + "; \n"
       end

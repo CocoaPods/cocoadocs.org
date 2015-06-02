@@ -255,7 +255,7 @@ class CocoaDocs < Object
       $overwrite_existing_source_files = true
       $delete_source_after_docset_creation = false
       $force_branch = branch
-      
+
 
       document_spec_at_path spec_path
       command  "open \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
@@ -393,6 +393,7 @@ class CocoaDocs < Object
         downloader.download_pod_source_files
       end
 
+      settings = CocoaDocsSettings.settings_at_location download_location
       readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
       readme.create_readme
 
@@ -439,10 +440,10 @@ class CocoaDocs < Object
       end
 
       unless documented
-        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions })
+        appledoc_template = AppledocTemplateGenerator.new({ :spec => spec, :appledoc_templates_path => templates_location, :source_download_location => download_location, :versions => versions, :library_settings => settings })
         appledoc_template.generate
 
-        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location })
+        generator = DocsetGenerator.new({ :spec => spec, :to => docset_location, :from => download_location, :readme_location => readme_location, :appledoc_templates_path => templates_location, :source_download_location => download_location, :library_settings => settings })
         generator.create_docset
 
         fixer.fix
