@@ -95,7 +95,7 @@ class StatsGenerator
     has_artifacts = false
     reference = @spec.source[:tag] || @spec.source[:commit]
     Dir.chdir(carthage_path) do
-      `rm -rf ~/Library/Caches/org.carthage.CarthageKit/dependencies/` if Dir.exist?(File.expand_path "~/Library/Caches/org.carthage.CarthageKit/dependencies/")
+      `rm -rf ~/Library/Caches/org.carthage.CarthageKit/dependencies/#{@spec.name}` if Dir.exist?(File.expand_path "~/Library/Caches/org.carthage.CarthageKit/dependencies/#{@spec.name}")
       `rm -rf Cartfile Cartfile.resolved Carthage` if File.exist?("Cartfile")
       `echo 'git "file://#{@download_location}" "#{reference}"' > Cartfile`
       command "carthage bootstrap"
