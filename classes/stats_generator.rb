@@ -21,7 +21,7 @@ class StatsGenerator
       :readme_complexity => readme_metadata[:complexity],
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
       :initial_commit_date => get_first_commit_date,
-      :download_size => generated_download_size,
+      :install_size => generated_install_size,
       :license_short_name => spec.or_license_name_and_url[:license],
       :license_canonical_url => spec.or_license_name_and_url[:url],
       :dominant_language => @cloc_top[:language],
@@ -67,8 +67,25 @@ class StatsGenerator
     end
   end
 
-  def generated_download_size
-    `du -sk #{ @download_location }`.split("\t")[0]
+  def generated_install_size
+    download_pathname = Pathname.new @download_location
+    platform_specs = group_subspecs_by_platform spec
+    cleaner = Pod::Sandbox::PodDirCleaner.new(download_pathname, platform_specs)
+    # this is private, but 'ya know.
+    used_file_paths = cleaner.send(:used_files)
+    size = `du -skc #{ used_file_paths.split.join " " }`
+    size.lines.last.split("\t").first
+  end
+
+  def group_subspecs_by_platform(spec)
+    specs_by_platform = {}
+    [spec, *spec.recursive_subspecs].each do |ss|
+      ss.available_platforms.each do |platform|
+        specs_by_platform[platform] ||= []
+        specs_by_platform[platform] << ss
+      end
+    end
+    specs_by_platform
   end
 
   def get_first_commit_date
