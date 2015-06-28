@@ -73,7 +73,7 @@ class StatsGenerator
     cleaner = Pod::Sandbox::PodDirCleaner.new(download_pathname, platform_specs)
     # this is private, but 'ya know.
     used_file_paths = cleaner.send(:used_files)
-    size = `du -skc #{ used_file_paths.split.join " " }`
+    size = `du -skc #{ used_file_paths.map(&:shellescape).join " " }`
     size.lines.last.split("\t").first
   end
 
