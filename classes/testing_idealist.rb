@@ -103,7 +103,9 @@ class TestingIdealist
       rescue
         next
       end
-  		product_type.end_with?('bundle.unit-test')
+      %w(bundle.ui-testing bundle.unit-test).any? do |testing_type|
+        product_type.end_with?(testing_type)
+      end
     end
   end
 
