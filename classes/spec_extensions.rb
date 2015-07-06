@@ -102,12 +102,12 @@ module Pod
         elsif license.scan(/netbsd/).count > 0
           return { license: "NetBSD", url: "http://www.netbsd.org/about/redistribution.html" }
 
+        elsif license.scan(/(Affero.*GPL|AGPL) v3/).count > 0
+          return { license: "AGPL 3", url: "http://opensource.org/licenses/AGPL-3.0" }
         elsif license.scan(/lgpl v3/).count > 0
           return { license: "LGPL 3", url: "http://opensource.org/licenses/lgpl-3.0.html" }
         elsif license.scan(/gpl v3/).count > 0
           return { license: "GPL 3", url: "http://opensource.org/licenses/gpl-3.0.html" }
-        elsif license.scan(/gpl v3/).count > 0
-          return { license: "GPL 3", url: "http://www.netbsd.org/about/redistribution.html" }
 
         elsif license.scan(/boost/).count > 0
           return { license: "Boost", url: "http://www.boost.org/users/license.html" }
