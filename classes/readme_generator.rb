@@ -34,16 +34,20 @@ class ReadmeGenerator
 
   def readme_path(spec)
     download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-    ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
-      potential_path = download_location + "/" + potential_name
-      if File.exist? potential_path
-        return potential_path
+    unzipped_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/#{spec.name}"
+    [download_location, unzipped_location].each do |location|
+      ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
+        potential_path = location + "/" + potential_name
+        if File.exist? potential_path
+          return potential_path
+        end
       end
     end
     nil
   end
 
   def generated_readme
+    vputs "Generating a README from the Podspec"
     download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/README.md"
 
     license = @spec.or_license_name_and_url
