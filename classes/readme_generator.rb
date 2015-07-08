@@ -33,17 +33,13 @@ class ReadmeGenerator
   end
 
   def readme_path(spec)
-    download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-    unzipped_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/#{spec.name}"
-    [download_location, unzipped_location].each do |location|
-      ["README.md", "README.markdown", "README.mdown"].each do |potential_name|
-        potential_path = location + "/" + potential_name
-        if File.exist? potential_path
-          return potential_path
-        end
-      end
-    end
-    nil
+    download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/"
+    local_files = Dir.glob(download_location + "*")
+    first_folders = Dir.glob(download_location + "*/*")
+    files = local_files + first_folders
+    files.select do |f|
+      f.end_with?("README.md") || f.end_with?("README.markdown") || f.end_with?("README.mdown")
+    end.first
   end
 
   def generated_readme

@@ -89,7 +89,7 @@ class StatsGenerator
   end
 
   def get_first_commit_date
-    return false unless @spec.source[:git]
+    return nil unless @spec.source[:git]
     Dir.chdir(File.join(@download_location)) do
       return `git rev-list --all|tail -n1|xargs git show|grep -v diff|head -n3|tail -1|cut -f2-8 -d' '`
     end
