@@ -25,7 +25,7 @@ class StatsGenerator
       :license_short_name => spec.or_license_name_and_url[:license],
       :license_canonical_url => spec.or_license_name_and_url[:url],
       :dominant_language => @cloc_top[:language],
-      :carthage_support => supports_carthage
+      :builds_independently => supports_carthage
     }
 
     vputs "Sending as a #{@cloc_top[:language]} project"
