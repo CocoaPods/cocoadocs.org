@@ -29,7 +29,8 @@ class StatsGenerator
       :builds_independently => supports_carthage
     }
 
-    vputs "Sending as a #{@cloc_top[:language]} project"
+    vputs "Sending as a #{@cloc_top[:language]} project, metrics:"
+    vputs data.to_s
 
     # send it to the db
     handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)

@@ -192,7 +192,7 @@ class CocoaDocs < Object
     vputs "Looking at #{updated_specs.lines.count}"
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
-      spec_filepath.gsub! /\n/, ''
+      spec_filepath.gsub!(/\n/, '')
       spec_path = $active_folder + "/" + $cocoadocs_specs_name + "/" + spec_filepath.strip
       p spec_path
       next unless spec_filepath.end_with? ".podspec.json" and File.exists? spec_path
@@ -226,7 +226,7 @@ class CocoaDocs < Object
   def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
-    
+
     if set
       set.specification.root
     end
