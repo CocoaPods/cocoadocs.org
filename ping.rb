@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'httparty'
-require 'timeout'
+gem 'nap'
+require 'rest'
 
 def send(number, metric_id)
   api_key = ENV['STATUS_IO_API_KEY']
@@ -14,12 +13,12 @@ def send(number, metric_id)
     :value => number.to_i
   }
 
-  HTTParty.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
+  REST.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
 end
 
 
 begin
-  number = HTTParty.get("http://localhost:4567/recent_pods_count").to_s
+  number = REST.get("http://localhost:4567/recent_pods_count").response.body
   puts "Sending #{number} pods to Status.io"
 
   # Send CocoaDocs stats
@@ -37,7 +36,7 @@ begin
   send(number, stats_metric_id)
 
   # Reset stats.cocoapods.org stats
-  REST.post(reset_url).response.body
+  REST.post(reset_url)
 
   sleep 1
 
