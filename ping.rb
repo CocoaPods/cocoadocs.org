@@ -2,7 +2,10 @@
 
 gem 'nap'
 require 'rest'
+require 'net/http'
 require 'json'
+require 'httparty'
+
 
 def send_stats(number, metric_id)
   api_key = ENV['STATUS_IO_API_KEY']
@@ -14,7 +17,8 @@ def send_stats(number, metric_id)
     :value => number.to_i
   }
 
-  REST.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json", { :data => dhash }.to_json, { 'Authorization' => "OAuth #{api_key}" } )
+  response = HTTParty.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
+  puts response.to_s
 end
 
 
