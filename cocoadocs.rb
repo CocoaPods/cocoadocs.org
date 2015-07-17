@@ -226,7 +226,7 @@ class CocoaDocs < Object
   def spec_with_name(name)
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
     set = source.search(Pod::Dependency.new(name))
-
+    
     if set
       set.specification.root
     end
@@ -509,6 +509,7 @@ class CocoaDocs < Object
   end
 
   def document_spec_at_path(spec_path)
+    vputs "Pod::Specification.from_file(#{spec_path})"
     spec = Pod::Specification.from_file(spec_path)
     document_spec(spec)
   end

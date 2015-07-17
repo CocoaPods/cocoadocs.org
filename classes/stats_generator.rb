@@ -25,6 +25,7 @@ class StatsGenerator
       :license_short_name => spec.or_license_name_and_url[:license],
       :license_canonical_url => spec.or_license_name_and_url[:url],
       :dominant_language => @cloc_top[:language],
+      :is_vendored_framework => is_vendored_framework(spec),
       :builds_independently => supports_carthage
     }
 
@@ -33,6 +34,19 @@ class StatsGenerator
     # send it to the db
     handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
     handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
+  end
+
+  def is_vendored_framework(spec)
+    declares_a_binary(spec) && get_summary_cloc[:lines_of_code] == 0
+  end
+
+  def declares_a_binary(spec)
+    # Merge all subspecs hashes into one big attributes hash
+    attributes = spec.attributes_hash.merge(spec.subspecs.map(&:attributes_hash).flatten.first )
+    attributes["vendored_libraries"]  ||
+    attributes["vendored_library"]    ||
+    attributes["vendored_frameworks"] ||
+    attributes["vendored_framework"]
   end
 
   def get_summary_cloc
