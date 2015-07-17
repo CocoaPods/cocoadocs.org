@@ -2,8 +2,9 @@
 
 gem 'nap'
 require 'rest'
+require 'json'
 
-def send(number, metric_id)
+def send_stats(number, metric_id)
   api_key = ENV['STATUS_IO_API_KEY']
   page_id = ENV['STATUS_IO_PAGE_ID']
   api_base = 'https://api.statuspage.io/v1'
@@ -13,28 +14,28 @@ def send(number, metric_id)
     :value => number.to_i
   }
 
-  REST.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json",  :headers => { 'Authorization' => "OAuth #{api_key}" }, :body => { :data => dhash } )
+  REST.post("#{api_base}/pages/#{page_id}/metrics/#{metric_id}/data.json", { :data => dhash }.to_json, { 'Authorization' => "OAuth #{api_key}" } )
 end
 
 
-number = REST.get("http://localhost:4567/recent_pods_count").response.body
+number = REST.get("http://localhost:4567/recent_pods_count").body
 puts "Sending #{number} pods to Status.io"
 
 # Send CocoaDocs stats
 cd_metric_id = ENV['STATUS_IO_METRIC_ID']
-send(number, cd_metric_id)
+send_stats(number, cd_metric_id)
 
 get_url = "http://stats.cocoapods.org/api/v1/recent_requests_count"
 reset_url = "http://stats.cocoapods.org/api/v1/reset_requests_count"
 
-number = REST.get(get_url).response.body
+number = REST.get(get_url).body
 puts "Sending #{number} of stats to Status.io"
 
 # Send stats.cocoapods.org stats
 stats_metric_id = ENV['STATUS_IO_STATS_METRIC_ID']
-send(number, stats_metric_id)
+send_stats(number, stats_metric_id)
 
 # Reset stats.cocoapods.org stats
-REST.post(reset_url)
+REST.post(reset_url, {}.to_json)
 
 sleep 1
