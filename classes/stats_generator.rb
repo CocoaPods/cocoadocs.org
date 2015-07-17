@@ -43,7 +43,8 @@ class StatsGenerator
 
   def declares_a_binary(spec)
     # Merge all subspecs hashes into one big attributes hash
-    attributes = spec.attributes_hash.merge(spec.subspecs.map(&:attributes_hash).flatten.first )
+    attributes = spec.attributes_hash
+    attributes.merge!(spec.subspecs.map(&:attributes_hash).flatten.first ) if spec.subspecs.length > 0
     attributes["vendored_libraries"]  ||
     attributes["vendored_library"]    ||
     attributes["vendored_frameworks"] ||
