@@ -4,7 +4,7 @@ require 'rest'
 
 class StatsGenerator
   include HashInit
-  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top
+  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :changelog_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top
 
   def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
@@ -12,6 +12,7 @@ class StatsGenerator
     cloc_sum = get_summary_cloc
     @cloc_top = get_top_cloc
 
+    has_changelog = File.exist? changelog_location
     data = {
       :total_files => cloc_sum[:files],
       :total_comments => cloc_sum[:comments],
@@ -20,6 +21,7 @@ class StatsGenerator
       :total_test_expectations => testing_estimate,
       :readme_complexity => readme_metadata[:complexity],
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
+      :changelog_url => has_changelog ? (spec.or_cocoadocs_url + "/CHANGELOG.html") : nil,
       :initial_commit_date => get_first_commit_date,
       :install_size => generated_install_size,
       :license_short_name => spec.or_license_name_and_url[:license],
@@ -34,7 +36,6 @@ class StatsGenerator
 
     # send it to the db
     handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
-    handle_request REST.post("https://cocoadocs-api-cocoapods-org.herokuapp.com/pods/#{spec.name}/cloc", @cloc_results.to_json)
   end
 
   def is_vendored_framework(spec)

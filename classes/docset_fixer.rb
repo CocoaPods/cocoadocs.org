@@ -4,7 +4,7 @@ require 'travis'
 
 class DocsetFixer
   include HashInit
-  attr_accessor :docset_path, :readme_path, :pod_root, :spec, :css_path, :doc_percent, :versions
+  attr_accessor :docset_path, :readme_path, :changelog_path, :pod_root, :spec, :css_path, :doc_percent, :versions
 
   def manipulator
     ReadmeManipulator.new({ :readme_path => @readme_path, :spec => @spec })
@@ -22,6 +22,7 @@ class DocsetFixer
     create_dash_data
     minify_html
     create_separate_readme
+    move_changelog_in
   end
 
   def fix_for_jazzy
@@ -30,6 +31,12 @@ class DocsetFixer
     create_dash_data
     minify_html
     create_separate_readme('article.main-content .section')
+    move_changelog_in
+  end
+
+  def move_changelog_in
+    destination = File.join(docset_path, "CHANGELOG.html")
+    FileUtils.copy(changelog_path, destination) if File.exist? changelog_path
   end
 
   def create_separate_readme(parent_selector = nil)
@@ -238,7 +245,7 @@ class DocsetFixer
     end
   end
 
-  def redirect_command(from, from_server, to)    
+  def redirect_command(from, from_server, to)
     return unless $upload_redirects_for_docsets
     command "touch #{from}"
 

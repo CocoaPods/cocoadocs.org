@@ -360,10 +360,8 @@ class CocoaDocs < Object
   # cleans up and removes modification notice to the diff
   def cleanup_git_logs diff_log
     diff_log.lines.map do |line|
-
       line.slice!(0).strip!
-      line.gsub! /\t/, ''
-
+      line.gsub!(/\t/, '')
     end.join
   end
 
@@ -380,12 +378,13 @@ class CocoaDocs < Object
     state = "failed"
 
     begin
-      download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
-      docset_location   = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
-      readme_location   = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
-      pod_root_location = $active_folder + "/docsets/#{spec.name}/"
+      download_location  = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}"
+      docset_location    = $active_folder + "/docsets/#{spec.name}/#{spec.version}/"
+      readme_location    = $active_folder + "/readme/#{spec.name}/#{spec.version}/index.html"
+      changelog_location = $active_folder + "/changelog/#{spec.name}/#{spec.version}/index.html"
+      pod_root_location  = $active_folder + "/docsets/#{spec.name}/"
       templates_location = $active_folder + "/template/#{spec.name}/"
-      api_json_location = $active_folder + "/docsets/#{spec.name}/#{spec.version}/stats.json"
+      api_json_location  = $active_folder + "/docsets/#{spec.name}/#{spec.version}/stats.json"
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
@@ -394,8 +393,9 @@ class CocoaDocs < Object
       end
 
       settings = CocoaDocsSettings.settings_at_location download_location
-      readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location })
+      readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :changelog_location => changelog_location })
       readme.create_readme
+      readme.create_changelog
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
@@ -403,7 +403,7 @@ class CocoaDocs < Object
       version_metadata = SpecMetadataGenerator.new(:spec => spec, :docset_path => docset_location)
       versions = version_metadata.generate
 
-      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
+      fixer = DocsetFixer.new({ :docset_path => docset_location, :readme_path => readme_location, :changelog_path => changelog_location, :pod_root => pod_root_location, :spec => spec, :versions => versions })
 
       documented = false
 
@@ -457,12 +457,20 @@ class CocoaDocs < Object
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
       cloc_results = cloc.generate
-      vputs cloc_results.to_s
 
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate
 
-      stats = StatsGenerator.new(:spec => spec, :api_json_path => api_json_location, :cloc_results => cloc_results, :readme_location => readme_location, :download_location => download_location, :doc_percent => percent_doc, :testing_estimate => testing_estimate, :docset_location => docset_location)
+      stats = StatsGenerator.new(
+        :spec => spec,
+        :api_json_path => api_json_location,
+        :cloc_results => cloc_results,
+        :readme_location => readme_location,
+        :changelog_location => changelog_location,
+        :download_location => download_location,
+        :doc_percent => percent_doc,
+        :testing_estimate => testing_estimate,
+        :docset_location => docset_location)
       stats.upload if $upload_stats
 
       SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate

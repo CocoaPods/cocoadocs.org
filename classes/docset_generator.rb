@@ -19,8 +19,6 @@ class DocsetGenerator
       guides = GuidesGenerator.new(spec: @spec, source_download_location: @source_download_location)
 
       verbosity = $verbose ? "5" : "1"
-
-      template_directory = File.join($current_dir, 'appledoc_templates')
       FileUtils.mkpath(to) if !File.directory?(to)
 
       docset_command = [
