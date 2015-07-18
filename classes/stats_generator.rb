@@ -21,7 +21,7 @@ class StatsGenerator
       :total_test_expectations => testing_estimate,
       :readme_complexity => readme_metadata[:complexity],
       :rendered_readme_url => spec.or_cocoadocs_url + "/README.html",
-      :changelog_url => has_changelog ? (spec.or_cocoadocs_url + "/CHANGELOG.html") : nil,
+      :rendered_changelog_url => has_changelog ? (spec.or_cocoadocs_url + "/CHANGELOG.html") : nil,
       :initial_commit_date => get_first_commit_date,
       :install_size => generated_install_size,
       :license_short_name => spec.or_license_name_and_url[:license],
