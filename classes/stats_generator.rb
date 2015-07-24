@@ -31,7 +31,7 @@ class StatsGenerator
       :builds_independently => supports_carthage
     }
 
-    vputs "Sending as a #{@cloc_top[:language]} project, metrics:"
+    vputs "Sending #{spec.name} as a #{@cloc_top[:language]} project, metrics:"
     vputs data.to_s
 
     # send it to the db
@@ -44,8 +44,9 @@ class StatsGenerator
 
   def declares_a_binary(spec)
     # Merge all subspecs hashes into one big attributes hash
-    attributes = spec.attributes_hash
-    attributes.merge!(spec.subspecs.map(&:attributes_hash).flatten.first ) if spec.subspecs.length > 0
+    attributes = spec.attributes_hash.dup
+    subspecs = spec.subspecs.dup
+    attributes.merge!(subspecs.map(&:attributes_hash).flatten.first ) if subspecs.length > 0
     attributes["vendored_libraries"]  ||
     attributes["vendored_library"]    ||
     attributes["vendored_frameworks"] ||
