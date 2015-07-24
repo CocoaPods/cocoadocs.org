@@ -35,6 +35,7 @@ class CocoaDocs < Object
     "     ./cocoadocs.rb cocoadocs doc [spec name or path]                         \n" +
     "     ./cocoadocs.rb cocoadocs days [days]                                     \n" +
     "     ./cocoadocs.rb cocoadocs url [json podspec url]                          \n" +
+    "     ./cocoadocs.rb cocoadocs all                                             \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
@@ -124,8 +125,8 @@ class CocoaDocs < Object
     update_specs_repo
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
-    source.all_specs.each do |spec|
-      document_spec(spec)
+    source.pod_sets.each do |spec_set|
+      document_spec_at_path(spec_set.highest_version_spec_path)
     end
   end
 
