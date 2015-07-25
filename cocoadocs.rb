@@ -35,7 +35,7 @@ class CocoaDocs < Object
     "     ./cocoadocs.rb cocoadocs doc [spec name or path]                         \n" +
     "     ./cocoadocs.rb cocoadocs days [days]                                     \n" +
     "     ./cocoadocs.rb cocoadocs url [json podspec url]                          \n" +
-    "     ./cocoadocs.rb cocoadocs all                                             \n" +
+    "     ./cocoadocs.rb cocoadocs all [starting_pod]                              \n" +
     "                                                                              \n" +
     "     Options:                                                                 \n" +
     "                                                                              \n" +
@@ -126,7 +126,16 @@ class CocoaDocs < Object
     source = Pod::Source.new(File.join($active_folder, $cocoadocs_specs_name))
 
     source.pod_sets.each do |spec_set|
-      document_spec_at_path(spec_set.highest_version_spec_path)
+      if @params[0]
+
+        # Allow skipping x amount of pods by using another argument
+        if spec_set.name && spec_set.name > @params[0]
+          document_spec_at_path(spec_set.highest_version_spec_path)
+        end
+
+      else
+       document_spec_at_path(spec_set.highest_version_spec_path)
+      end
     end
   end
 
