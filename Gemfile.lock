@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.1)
+    activesupport (4.2.3)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -13,27 +13,30 @@ GEM
       parser (>= 2.2.0.pre.3, < 3.0)
     backports (3.6.3)
     bacon (1.2.0)
-    claide (0.8.1)
-    cocoapods (0.37.2)
+    claide (0.9.1)
+    cocoapods (0.38.2)
       activesupport (>= 3.2.15)
-      claide (~> 0.8.1)
-      cocoapods-core (= 0.37.2)
-      cocoapods-downloader (~> 0.9.0)
+      claide (~> 0.9.1)
+      cocoapods-core (= 0.38.2)
+      cocoapods-downloader (~> 0.9.1)
       cocoapods-plugins (~> 0.4.2)
+      cocoapods-stats (~> 0.5.3)
       cocoapods-trunk (~> 0.6.1)
       cocoapods-try (~> 0.4.5)
       colored (~> 1.2)
       escape (~> 0.0.4)
-      molinillo (~> 0.2.3)
+      molinillo (~> 0.3.1)
       nap (~> 0.8)
-      xcodeproj (~> 0.24.2)
-    cocoapods-core (0.37.2)
+      xcodeproj (~> 0.26.3)
+    cocoapods-core (0.38.2)
       activesupport (>= 3.2.15)
       fuzzy_match (~> 2.0.4)
       nap (~> 0.8.0)
-    cocoapods-downloader (0.9.0)
+    cocoapods-downloader (0.9.1)
     cocoapods-plugins (0.4.2)
       nap
+    cocoapods-stats (0.5.3)
+      nap (~> 0.8)
     cocoapods-trunk (0.6.1)
       nap (>= 0.8)
       netrc (= 0.7.8)
@@ -70,17 +73,19 @@ GEM
       multi_json (~> 1.0)
       multi_xml
     i18n (0.7.0)
-    jazzy (0.2.1)
-      cocoapods (~> 0.37)
+    jazzy (0.2.3)
+      cocoapods (~> 0.38)
       mustache (~> 0.99)
       open4
       redcarpet (~> 3.2)
       rouge (~> 1.5)
       sass (~> 3.4)
       sqlite3 (~> 1.3)
-    json (1.8.2)
+      xcinvoke (~> 0.2.0)
+    json (1.8.3)
     launchy (2.4.2)
       addressable (~> 2.3)
+    liferaft (0.0.4)
     metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (1.25.1)
@@ -90,7 +95,7 @@ GEM
       metaclass (~> 0.0.1)
     mocha-on-bacon (0.2.2)
       mocha (>= 0.13.0)
-    molinillo (0.2.3)
+    molinillo (0.3.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -128,11 +133,11 @@ GEM
       octokit (>= 3.2.0)
       redcarpet (>= 3.1.0)
       unirest (>= 1.1.0)
-    redcarpet (3.2.3)
+    redcarpet (3.3.2)
     rest-client (1.6.8)
       mime-types (~> 1.16)
       rdoc (>= 2.4.2)
-    rouge (1.9.0)
+    rouge (1.9.1)
     rubocop (0.26.1)
       astrolabe (~> 1.3)
       parser (>= 2.2.0.pre.4, < 3.0)
@@ -140,7 +145,7 @@ GEM
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
     ruby-progressbar (1.6.0)
-    sass (3.4.14)
+    sass (3.4.16)
     sawyer (0.5.5)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -177,8 +182,11 @@ GEM
       json (~> 1.8.1)
       rest-client (~> 1.6.7)
     websocket (1.2.1)
-    xcodeproj (0.24.2)
+    xcinvoke (0.2.0)
+      liferaft (~> 0.0.4)
+    xcodeproj (0.26.3)
       activesupport (>= 3)
+      claide (~> 0.9.1)
       colored (~> 1.2)
 
 PLATFORMS
@@ -186,7 +194,7 @@ PLATFORMS
 
 DEPENDENCIES
   bacon
-  cocoapods (= 0.37.2)
+  cocoapods
   cocoapods-core
   cocoapods-downloader
   colored (~> 1.2)
@@ -212,4 +220,4 @@ DEPENDENCIES
   travis
 
 BUNDLED WITH
-   1.10.3
+   1.10.6

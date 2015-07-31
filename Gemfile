@@ -3,7 +3,7 @@ ruby '2.1.3'
 
 gem 'rake'
 
-gem "cocoapods", "0.37.2"
+gem "cocoapods"
 gem "cocoapods-core"
 gem "cocoapods-downloader"
 
