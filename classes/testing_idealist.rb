@@ -83,7 +83,7 @@ class TestingIdealist
       pbx_build_file.file_ref.real_path.to_s
       
     end.select do |path| 
-      path.end_with?(".m") || path.end_with?(".swift") 
+      path.end_with?(".m", ".mm", ".swift")
       
     end.select do |path| 
       File.exists? path
