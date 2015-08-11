@@ -61,12 +61,12 @@ class TestingIdealist
       return has_no_tests
     end
     
-    regexes = [/XCTAssert|XCTFail/,        # XCTest
-               /expect\(/,                 # Expecta, Nimble
-               /should\]|shouldNot\]/,     # Kiwi
-               /assertThat/,               # OCHamcrest
-               / should .*;| should_not /, # Cedar
-               /FBSnapshotVerify/          # FBSnapshotTestCase
+    regexes = [/XCTAssert|XCTFail/,                 # XCTest
+               /expect\(/,                          # Expecta, Nimble
+               /should\]|shouldNot\]/,              # Kiwi
+               /assertThat/,                        # OCHamcrest
+               / should .*;| should_not |expect\(/, # Cedar
+               /FBSnapshotVerify/                   # FBSnapshotTestCase
              ]
     
     expectation_count = regexes.map do |expectation_regex|

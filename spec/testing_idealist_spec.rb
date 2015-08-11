@@ -31,7 +31,7 @@ describe 'Counting test expectations' do
 
   it 'should properly count Cedar expectations' do
   	testingness = testingness_for "spec/fixtures/specs/CedarSpec.mm"
-    testingness.should.equal ({ has_tests: true,  expectations: 4 })
+    testingness.should.equal ({ has_tests: true,  expectations: 5 })
   end
 
   it 'should properly count OCHamcrest assertions' do
