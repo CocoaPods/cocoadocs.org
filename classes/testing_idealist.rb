@@ -106,9 +106,11 @@ class TestingIdealist
       rescue
         next
       end
-      %w(bundle.ui-testing bundle.unit-test).any? do |testing_type|
+      is_test_bundle = %w(bundle.ui-testing bundle.unit-test).any? do |testing_type|
         product_type.end_with?(testing_type)
       end
+
+      is_test_bundle || target.name.downcase.scan(/specs|tests/).length > 0
     end
   end
 
