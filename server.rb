@@ -22,14 +22,14 @@ post "/hooks/trunk/" + trunk_notification_path do
 end
 
 get "/error/:pod/:version" do
-  content_type "application/javascript"  
+  content_type :json
   # get error info for a pod
    error_json_path = "errors/#{params[:pod]}/#{params[:version]}/error.json"
    error_message_for_path error_json_path
 end
 
 get "/error/:pod" do
-  content_type "application/javascript"
+  content_type :json
   
   # get generic error info for a pod
    error_json_folder = "errors/#{params[:pod]}/"
@@ -43,25 +43,26 @@ get "/error/:pod" do
 end
 
 get "/redeploy/:pod/latest" do
-  content_type "application/javascript"
+  content_type :json
   begin
     trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod]).body
     versions = JSON.parse(trunk_spec)["versions"]
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 
     process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ versions[-1] }/#{ params[:pod] }.podspec.json"
-    return "{ parsing: true }"
+    return { :parsing => true }.to_json
 
   rescue Exception => e
     p e.message
-    return "{ parsing: false, error: "#{e.message}" }"
+    return { :parsing => false, :error => e.message }.to_json
   end
 end
 
 get "/redeploy/:pod/:version" do
+    content_type :json
     process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ params[:version] }/#{ params[:pod] }.podspec.json"
 
-   return "{ parsing: true }"
+   return { :parsing => true }.to_json
 end
 
 get "/recent_pods_count" do
