@@ -61,12 +61,12 @@ class TestingIdealist
       return has_no_tests
     end
     
-    regexes = [/XCTAssert|XCTFail/,        # XCTest
-               /expect\(/,                 # Expecta, Nimble
-               /should\]|shouldNot\]/,     # Kiwi
-               /assertThat/,               # OCHamcrest
-               / should .*;| should_not /, # Cedar
-               /FBSnapshotVerify/          # FBSnapshotTestCase
+    regexes = [/XCTAssert|XCTFail/,                 # XCTest
+               /expect\(/,                          # Expecta, Nimble
+               /should\]|shouldNot\]/,              # Kiwi
+               /assertThat/,                        # OCHamcrest
+               / should .*;| should_not |expect\(/, # Cedar
+               /FBSnapshotVerify/                   # FBSnapshotTestCase
              ]
     
     expectation_count = regexes.map do |expectation_regex|
@@ -83,7 +83,7 @@ class TestingIdealist
       pbx_build_file.file_ref.real_path.to_s
       
     end.select do |path| 
-      path.end_with?(".m") || path.end_with?(".swift") 
+      path.end_with?(".m", ".mm", ".swift")
       
     end.select do |path| 
       File.exists? path
@@ -106,9 +106,11 @@ class TestingIdealist
       rescue
         next
       end
-      %w(bundle.ui-testing bundle.unit-test).any? do |testing_type|
+      is_test_bundle = %w(bundle.ui-testing bundle.unit-test).any? do |testing_type|
         product_type.end_with?(testing_type)
       end
+
+      is_test_bundle || target.name.downcase.scan(/specs|tests/).length > 0
     end
   end
 

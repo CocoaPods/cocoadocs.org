@@ -11,6 +11,7 @@ describe(@"Cedar Expectations", ^{
         @"str" should contain(@"s"); // This line has a comment
         2 should_not equal(1);
         NO should_not be_truthy;
+        expect(@"cat").to_not(equal(@"dog")); // Alternate matcher syntax
     });
 });
 
