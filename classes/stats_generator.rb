@@ -28,6 +28,7 @@ class StatsGenerator
       :license_canonical_url => spec.or_license_name_and_url[:url],
       :dominant_language => @cloc_top[:language],
       :is_vendored_framework => is_vendored_framework(spec),
+      :rendered_summary => spec.or_summary_html,
       :builds_independently => supports_carthage
     }
 

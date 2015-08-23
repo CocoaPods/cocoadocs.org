@@ -1,3 +1,5 @@
+require 'redcarpet'
+
 module Pod
   class Specification
     def or_is_github?
@@ -16,7 +18,7 @@ module Pod
     def or_cocoadocs_url
       "http://cocoadocs.org/docsets/#{ name }/#{ version }"
     end
-    
+
     def or_git_ref
       source[:tag] || source[:commit] || source[:branch] || 'master'
     end
@@ -60,7 +62,7 @@ module Pod
       return license[:type] if license.is_a? Hash
       "Unknown License"
     end
-    
+
     def or_podfile_string
       if (version.to_s.match(/[^.0-9]/))
         "pod '#{name}', '#{version}'"
@@ -155,7 +157,7 @@ module Pod
       if social_media_url.include?("github.com")
         return "GH: " + social_media_url.split(".com/")[-1]
       end
-      
+
       if social_media_url.include?("linkedin.com")
         return "LI: " + social_media_url.split(".com/")[-1]
       end
@@ -165,6 +167,13 @@ module Pod
 
     def or_spec_is_deprecated?
       deprecated || deprecated_in_favor_of
+    end
+
+    def or_summary_html
+      original_text = description || summary
+      renderer = Redcarpet::Render::HTML.new(filter_html: true, safe_links_only: true)
+      markdown = Redcarpet::Markdown.new(renderer)
+      markdown.render(original_text).strip
     end
  end
 end

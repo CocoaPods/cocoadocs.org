@@ -41,7 +41,27 @@ module Pod
           @spec.or_license_name_and_url.should == { :license => 'WTFPL', :url => 'http://www.wtfpl.net'}
         end
       end
+
+      it 'should provide a html equivilent of the complex description' do
+        @spec.description = 'Hello.\n\n# Heading\n\nBunch of things\n\n* List of something.'
+        @spec.or_summary_html.should == '<p>Hello.\n\n# Heading\n\nBunch of things\n\n* List of something.</p>'
+      end
+
+      it 'doesnt add inline HTML in HTML equivilent of the summary' do
+        @spec.summary = 'Hello, there\n\n<img src="thing">\n\nOK'
+        @spec.or_summary_html.should == '<p>Hello, there\n\n\n\nOK</p>'
+      end
+
+      it 'should provide a HTML equivilent of the summary, with links' do
+        @spec.summary = 'Hello, there [world](#ok).'
+        @spec.or_summary_html.should == '<p>Hello, there <a href="#ok">world</a>.</p>'
+      end
+
+      it 'should provide a HTML equivilent of the summary' do
+        @spec.summary = 'Simple.'
+        @spec.or_summary_html.should == '<p>Simple.</p>'
+      end
+
     end
   end
 end
-
