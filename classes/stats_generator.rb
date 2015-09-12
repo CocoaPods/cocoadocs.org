@@ -126,6 +126,12 @@ class StatsGenerator
 
   def supports_carthage
     return false unless @spec.source[:git]
+
+    # Running carthage can lock CocoaDocs, so let's do
+    # it as little as possible.
+    readme = File.read(@readme_location)
+    return true if readme.downcase.include? "carthage"
+
     carthage_path = File.join $active_folder, "carthage"
     Dir.mkdir(carthage_path) unless File.exist?(carthage_path)
 
