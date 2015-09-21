@@ -1,11 +1,13 @@
 class ReadmeGenerator
+  POSSIBLE_CHANGELOG_NAMES = ['CHANGELOG', 'RELEASE_NOTES']
+
   include HashInit
   attr_accessor :spec, :readme_location, :changelog_location, :active_folder
 
   def create_changelog
     return if $skip_downloading_readme
 
-    spec_changelog_path = file_local_path("CHANGELOG", @spec)
+    spec_changelog_path = POSSIBLE_CHANGELOG_NAMES.map { |name| file_local_path(name, @spec) }.first { |path| !path.nil? }
     return unless spec_changelog_path
 
     markdown = github_render spec_changelog_path, @changelog_location
