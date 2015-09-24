@@ -129,7 +129,8 @@ class StatsGenerator
 
     # Running carthage can lock CocoaDocs, so let's do
     # it as little as possible.
-    readme = File.read(@readme_location)
+    
+    readme = File.read(@readme_location.sub(".", "_original."))
     return true if readme.downcase.include? "carthage"
 
     carthage_path = File.join $active_folder, "carthage"
