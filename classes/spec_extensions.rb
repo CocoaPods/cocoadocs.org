@@ -173,7 +173,7 @@ module Pod
       original_text = description || summary
       renderer = Redcarpet::Render::HTML.new(filter_html: true, safe_links_only: true)
       markdown = Redcarpet::Markdown.new(renderer)
-      markdown.render(original_text).strip
+      markdown.render(original_text.strip_heredoc.strip).strip
     end
  end
 end
