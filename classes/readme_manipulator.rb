@@ -20,7 +20,6 @@ class ReadmeManipulator
     return unless @spec.or_is_github?
     return unless File.exist? @readme_path
 
-    make_dupe
     fix_relative_links_in_gfm('article.main-content .section')
     remove_known_badges
     remove_named_header
@@ -29,7 +28,7 @@ class ReadmeManipulator
   end
 
   def make_dupe
-    FileUtils.cp @readme_path, @readme_path.sub(".", "_original.")
+    FileUtils.cp @readme_path, @readme_path.sub(".html", "_original.html")
   end
 
   def fix_relative_link(link_string)

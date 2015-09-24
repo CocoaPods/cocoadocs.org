@@ -189,10 +189,8 @@ class DocsetFixer
     from = @pod_root + "/index.html"
     server_location = "docsets/#{@spec.name}/index.html"
     to = "docsets/#{@spec.name}/#{latest_version}"
+    vputs "Will be redirecting to #{@spec.name}/#{latest_version}"
 
-    puts "-------------"
-    puts to
-    puts "-------------"
 
     File.open(from, 'w') do |f|
       f.write "<meta http-equiv='refresh' content='0; url=/#{to}'>"
