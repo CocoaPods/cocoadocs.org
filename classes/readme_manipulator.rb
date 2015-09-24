@@ -1,4 +1,4 @@
-# Takes a readme path and 
+# Takes a readme path and
 
 class ReadmeManipulator
   include HashInit
@@ -7,25 +7,31 @@ class ReadmeManipulator
   def run_for_cocoadocs
     return unless @spec.or_is_github?
     return unless File.exist? @readme_path
-    
+
+    make_dupe
     fix_relative_links_in_gfm
     remove_known_badges
     remove_named_header
     fix_header_anchors
     remove_dependency_manager_cues
   end
-  
+
   def run_for_jazzy
     return unless @spec.or_is_github?
     return unless File.exist? @readme_path
-    
+
+    make_dupe
     fix_relative_links_in_gfm('article.main-content .section')
     remove_known_badges
     remove_named_header
     fix_header_anchors
     remove_dependency_manager_cues('article.main-content .section')
   end
-  
+
+  def make_dupe
+    FileUtils.cp @readme_path, @readme_path.sub(".", "_original.")
+  end
+
   def fix_relative_link(link_string)
     if link_string.start_with? "#"
       return link_string
@@ -71,7 +77,7 @@ class ReadmeManipulator
     doc = Nokogiri::HTML(File.read @readme_path)
 
     # Nokogiri counts whitespace as a text node, so remove all of them for this case
-    real_elements = doc.xpath('/html/body/child::node()').select do |node| 
+    real_elements = doc.xpath('/html/body/child::node()').select do |node|
       node.type != Nokogiri::XML::Node::TEXT_NODE || node.content =~ /\S/
     end
 
@@ -82,13 +88,13 @@ class ReadmeManipulator
       header_anchor.remove
       header_anchor = real_elements[1]
     end
-    
+
     header_anchor.remove if header_anchor.text.strip == @spec.name
 
     `rm \"#{@readme_path}\"`
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
-  
+
   def remove_known_badges
     vputs "Fixing Travis links in markdown"
 
@@ -108,7 +114,9 @@ class ReadmeManipulator
                       'https://kiwiirc.com',
                       'https://badges.gitter.im',
                       'https://coveralls.io',
-                      'https://badge.waffle.io']
+                      'https://badge.waffle.io',
+                      'https://codecov.io/',
+                      'https://versioneye.com/']
     urls_to_delete.each do |selector|
       doc.css('img[data-canonical-src^="' + selector + '"]').each do |image|
         image.parent.remove
@@ -147,20 +155,20 @@ class ReadmeManipulator
     doc.css('a[href^="https://github.com/Carthage/Carthage"]').each do |link|
       link.replace(Nokogiri::XML::Text.new(link.text, doc))
     end
-    
+
     # replace all clickable CP links with just the text
     doc.css('a[href^="https://cocoapods.org"]').each do |link|
       link.replace(Nokogiri::XML::Text.new(link.text, doc))
     end
-  
+
     # replace sections beginning with a header
     main = remove_dependency_manager_section main, "carthage"
     main = remove_dependency_manager_section main, "cocoapods"
-        
+
     # look for just a paragraph then a pre with 'github "' or 'pod "
     main = remove_two_linked_paragraphs main, "carthage", 'github "'
     main = remove_two_linked_paragraphs main, "cocoapods", 'pod "'
-        
+
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
@@ -168,29 +176,29 @@ class ReadmeManipulator
     in_section = false
     main_element.children.each do |child|
       next if child.type == Nokogiri::XML::Node::TEXT_NODE
-      
+
       # This turns it on, but won't turn itself off
       in_section = true if child.name.start_with?("h") && child.text.downcase.include?(name)
 
-      # This turns it off when we reach a new header 
+      # This turns it off when we reach a new header
       in_section = false if child.name.start_with?("h") && !child.text.downcase.include?(name)
-      
+
       child.remove if in_section
     end
-    
+
     main_element
   end
 
   def remove_two_linked_paragraphs main_element, before, after
-    
+
     paragraph_node = nil
     nodes = main_element.children
     nodes.each do |child|
       next if child.type == Nokogiri::XML::Node::TEXT_NODE
-      
+
       paragraph_node = child if child.name == "p" && child.text.downcase.include?(before)
       pre_node = child if child.name == "pre" && child.text.downcase.include?(after)
-      
+
       if paragraph_node && pre_node
         index_difference = nodes.index(pre_node) - nodes.index(paragraph_node)
 
@@ -202,8 +210,8 @@ class ReadmeManipulator
         end
       end
     end
-    
+
     main_element
-  end 
+  end
 
 end
