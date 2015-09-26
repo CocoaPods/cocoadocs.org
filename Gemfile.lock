@@ -103,6 +103,9 @@ GEM
     nap (0.8.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
+    net-ssh (2.9.2)
+    net-ssh-shell (0.1.0)
+      net-ssh (>= 2.0.9)
     netrc (0.7.8)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -207,6 +210,8 @@ DEPENDENCIES
   mocha-on-bacon
   mustache
   nap
+  net-ssh
+  net-ssh-shell
   nokogiri
   octokit
   rake

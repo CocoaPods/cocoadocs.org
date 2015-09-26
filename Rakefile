@@ -9,6 +9,32 @@ begin
 
   require 'rubocop/rake_task'
 
+  desc 'runs ssh'
+  task :redeploy do
+    require 'net/ssh'
+    require 'net/ssh/shell'
+
+    puts "Connecting to api.cocoadocs.org:"
+    Net::SSH.start('api.cocoadocs.org', 'cocoadocs') do |ssh|
+      ssh.shell do |sh|
+        sh.execute "cd cocoadocs.org"
+        sh.execute "bundle exec rake ssh_update"
+      end
+    end
+  end
+
+  task :ssh_update do
+    # shut down old server
+    `killall "foreman: master`
+
+    # update server
+    `git pull`
+    `bundle install`
+
+    # boot up the server
+    `bundle exec foreman start &`
+  end
+
   desc 'Sets up installation of apps for cocoadocs'
   task :install_tools do
     if `which brew`.length == 0

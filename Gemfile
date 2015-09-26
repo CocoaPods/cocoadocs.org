@@ -27,6 +27,11 @@ gem 'rb-readline'
 gem 'foreman'
 gem 'httparty'
 
+group :deploying do
+  gem 'net-ssh'
+  gem 'net-ssh-shell'
+end
+
 group :development do
   gem 'bacon'
   gem 'mocha-on-bacon'
