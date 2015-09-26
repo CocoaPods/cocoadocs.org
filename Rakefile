@@ -8,31 +8,42 @@ begin
   Bundler.require
 
   require 'rubocop/rake_task'
+  require 'net/ssh'
+  require 'net/ssh/shell'
 
-  desc 'runs ssh'
-  task :redeploy do
-    require 'net/ssh'
-    require 'net/ssh/shell'
-
+  def run_ssh_commands commands
     puts "Connecting to api.cocoadocs.org:"
     Net::SSH.start('api.cocoadocs.org', 'cocoadocs') do |ssh|
       ssh.shell do |sh|
-        sh.execute "cd cocoadocs.org"
-        sh.execute "bundle exec rake ssh_update"
+        sh.execute 'cd cocoadocs.org'
+        commands.each do |command|
+          puts command.yellow
+          sh.execute command
+        end
+        sh.execute 'exit'
       end
     end
+
   end
 
-  task :ssh_update do
-    # shut down old server
-    `killall "foreman: master`
+  desc 'Updates the server via SSH'
+  task :deploy do
+    run_ssh_commands [
+      'killall "foreman: master"',
+      'git pull',
+      'bundle install',
+      'bundle exec foreman start &'
+    ]
+  end
 
-    # update server
-    `git pull`
-    `bundle install`
+  desc 'Re-runs documentation for a CocoaPod via SSH'
+  task :doc, :name do |t, args|
+    run_ssh_commands ["bundle exec ruby cocoadocs.rb cocoadocs doc #{args.name} --verbose"]
+  end
 
-    # boot up the server
-    `bundle exec foreman start &`
+  desc 'Run a command on the server via SSH'
+  task :exec, :command do |t, args|
+    run_ssh_commands [args.command]
   end
 
   desc 'Sets up installation of apps for cocoadocs'

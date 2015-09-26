@@ -6,9 +6,9 @@ CocoaDocs is essentially 2 tools, one is a script for generating complex appledo
 
 ### How it works for the 99% use cases:
 
-CocoaDocs receives webhook notifications from the [CocoaPods/Specs](https://github.com/CocoaPods/Specs) repo on GitHub whenever a CocoaPod is updated. 
+CocoaDocs receives webhook notifications from the [CocoaPods/Specs](https://github.com/CocoaPods/Specs) repo on GitHub whenever a CocoaPod is updated.
 
-This triggers a process that will generate documentation for _objective-c_ projects via [appledoc](http://gentlebytes.com/appledoc/) and host them for the community. This process can take around 15 minutes after your Podspec is published via trunk. 
+This triggers a process that will generate documentation for _objective-c_ projects via [appledoc](http://gentlebytes.com/appledoc/) and host them for the community. This process can take around 15 minutes after your Podspec is published via trunk.
 
 At the minute 404 errors are likely to occur at our end due to work on trying to move to a queuing system. Presuming your library is made out of objc.
 
@@ -31,12 +31,12 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
    alt-link-color: '#B7233F'
    warning-color: '#B80E3D'
    ```
-   
+
    All defaults are stored in this config file for you to overwite.
 
  - You can find an example of styling at [ARAnalytics's .cocoadocs.yml](https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml)
  - You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it.
- 
+
    ```yaml
    additional_guides:
      - https://github.com/magicalpanda/MagicalRecord/wiki/Installation
@@ -49,7 +49,7 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
 ##### Previewing my library in CocoaDocs
 
 
-First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` you will need a working copy of [appledoc](http://gentlebytes.com/appledoc) ( which you can get a binary version from their github releases page as compiling doesn't work in Xcode 5.1+. ) and [cloc](http://cloc.sourceforge.net) (use `brew install cloc`)
+First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` and then run `bundle exec rake install_tools` to get all pre-requisite apps set up.
 
 To preview your library run:
 
@@ -59,14 +59,15 @@ bundle exec ./cocoadocs.rb preview ARAnalytics
 
 This will get the _master_ version of your library and run it through CocoaDocs, then open the resulting folder, you can open the `index.html` in a web browser to preview locally.
 
-##### CocoaDocs admin use cases:
+##### CocoaDocs Admin
 
-You'll need to have a working copy of `s3cmd` installed, likely with `brew install`. 
+The CocoaPods' CocoaDocs server is hosted on [macminicolo.net](http://www.macminicolo.net/) provided by [Button](http://www.usebutton.com/). We use RSA public keys to log in. You'll have to get your `id_rsa.pub` to an existing admin ( currently [orta](/orta) /[segiddins](/segiddins) ) to get access.
 
-- Starting the webhook server is as simple as running `./server.rb`
-- Creating a doc and uploading to S3 for the most recent version of a pod: `./cocoadocs cocoadocs doc [pod_name or path_to_podspec]`
-- Reparsing & uploading _x_ amount of days worth of CocoaPods: `./cocoadocs cocoadocs days [days]`
+SSH access is automated via the `Rakefile`:
 
+* `bundle exec rake deploy` - will log in via SSH, stop the API server, update it and then bring the server back up.
+
+* `bundle exec rake doc["pod_name"]` - will log in via SSH, and run a re-doc for a pod. Similar to the redeploy API, but you can see the logs.
 
 ##### Thanks!
 
