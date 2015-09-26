@@ -168,6 +168,8 @@ class ReadmeManipulator
     main = remove_two_linked_paragraphs main, "carthage", 'github "'
     main = remove_two_linked_paragraphs main, "cocoapods", 'pod "'
 
+    # TODO: look for an empty installation section and remove the 'installation header'
+
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end
 
