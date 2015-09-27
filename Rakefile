@@ -32,8 +32,13 @@ begin
       'killall "foreman: master"',
       'git pull',
       'bundle install',
-      'bundle exec foreman start &'
+      'screen -d -m -S "cocoadocs" bundle exec foreman start'
     ]
+  end
+
+  desc 'Check out the logs on the live server'
+  task :logs do
+    run_ssh_commands ["screen -r cocoadocs"]
   end
 
   desc 'Re-runs documentation for a CocoaPod via SSH'
@@ -44,6 +49,11 @@ begin
   desc 'Run a command on the server via SSH'
   task :exec, :command do |t, args|
     run_ssh_commands [args.command]
+  end
+
+  desc 'Re-runs x days worth of documentation for a CocoaPod via SSH'
+  task :days, :number do |t, args|
+    run_ssh_commands ["bundle exec ruby cocoadocs.rb cocoadocs days #{args.number} --verbose"]
   end
 
   desc 'Sets up installation of apps for cocoadocs'
