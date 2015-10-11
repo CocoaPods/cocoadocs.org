@@ -34,6 +34,7 @@ end
 
 group :development do
   gem 'bacon'
+  gem 'prettybacon'
   gem 'mocha-on-bacon'
   gem 'mocha'
   gem 'rubocop'
