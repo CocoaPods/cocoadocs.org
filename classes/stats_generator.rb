@@ -32,11 +32,20 @@ class StatsGenerator
       :builds_independently => supports_carthage
     }
 
-    vputs "Sending #{spec.name} as a #{@cloc_top[:language]} project, metrics:"
-    vputs data.to_s
+    auth_token = ENV['COCOADOCS_TOKEN']
+    if auth_token
+      data[:token] = auth_token
 
-    # send it to the db
-    handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
+      vputs "Sending #{spec.name} as a #{@cloc_top[:language]} project, metrics:"
+      vputs data.to_s
+
+      # send it to the db
+      handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
+    else
+      puts "Not sending data - you're not the CocoaDocs server."
+      puts "Would have sent:"
+      puts data
+    end
   end
 
   def is_vendored_framework(spec)

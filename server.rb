@@ -10,6 +10,9 @@ trunk_notification_path = ENV['TRUNK_NOTIFICATION_PATH']
 trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
+auth_token = ENV['COCOADOCS_TOKEN']
+abort "You need to give a Trunk webhook URL" unless auth_token
+
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
@@ -30,7 +33,7 @@ end
 
 get "/error/:pod" do
   content_type :json
-  
+
   # get generic error info for a pod
    error_json_folder = "errors/#{params[:pod]}/"
    if File.directory? error_json_folder
@@ -38,7 +41,7 @@ get "/error/:pod" do
      error_json_path = Dir[error_json_folder + "/*/*.json"].first
      error_message_for_path error_json_path
    end
-   
+
    error_message_for_path "random_path"
 end
 
