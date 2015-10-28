@@ -43,7 +43,7 @@ begin
 
   desc 'Re-runs documentation for a CocoaPod via SSH'
   task :doc, :name do |t, args|
-    run_ssh_commands ["bundle exec ruby cocoadocs.rb cocoadocs doc #{args.name} --verbose"]
+    run_ssh_commands ["bundle exec foreman run ruby cocoadocs.rb cocoadocs doc #{args.name} --verbose"]
   end
 
   desc 'Run a command on the server via SSH'
@@ -53,7 +53,7 @@ begin
 
   desc 'Re-runs x days worth of documentation for a CocoaPod via SSH'
   task :days, :number do |t, args|
-    run_ssh_commands ["bundle exec ruby cocoadocs.rb cocoadocs days #{args.number} --verbose"]
+    run_ssh_commands ["bundle exec foreman run ruby cocoadocs.rb cocoadocs days #{args.number} --verbose"]
   end
 
   desc 'Sets up installation of apps for cocoadocs'
