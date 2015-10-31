@@ -433,6 +433,7 @@ class CocoaDocs < Object
           c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
           c.clean = true
+          c.swift_version = "2.1"
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
 
