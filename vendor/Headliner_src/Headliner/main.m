@@ -9,5 +9,22 @@
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, const char * argv[]) {
-    return NSApplicationMain(argc, argv);
+
+    NSArray *arguments = [[NSProcessInfo processInfo] arguments];
+    NSNib *nib = [[NSNib alloc] initWithNibNamed:@"HeadlineView" bundle:nil];
+
+    NSArray *views = nil;
+    [nib instantiateWithOwner:nil topLevelObjects:&views];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"className == %@", [NSView className]];
+    NSView *rootView = [[views filteredArrayUsingPredicate:predicate] firstObject];
+    NSView *actualView = [[rootView subviews] firstObject];
+
+    NSBitmapImageRep* rep = [actualView bitmapImageRepForCachingDisplayInRect:actualView.bounds];
+    [actualView cacheDisplayInRect:actualView.bounds toBitmapImageRep:rep];
+
+    NSData *data = [rep representationUsingType:NSPNGFileType properties:@{}];
+    [data writeToFile:arguments[8] atomically:YES];
+    exit(0);
+
 }

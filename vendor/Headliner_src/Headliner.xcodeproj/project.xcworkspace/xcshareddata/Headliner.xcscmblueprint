@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "75B84E5109E3AC2FAD355EED2FE4F82D25F7F690",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26" : 0,
+    "75B84E5109E3AC2FAD355EED2FE4F82D25F7F690" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7971B77D-4CB9-4B41-892A-0663BAD41E56",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26" : "",
+    "75B84E5109E3AC2FAD355EED2FE4F82D25F7F690" : "cocoadocs.org"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Headliner",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "vendor\/Headliner_src\/Headliner.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CocoaPods\/cocoadocs.org.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "75B84E5109E3AC2FAD355EED2FE4F82D25F7F690"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CocoaPods\/Strata.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FAD60D8D8B3678F54D1AC1E85D5E99B658B52D26"
+    }
+  ]
+}

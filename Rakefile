@@ -26,6 +26,15 @@ begin
 
   end
 
+  desc 'Starts the server via SSH'
+  desc 'Updates the server via SSH'
+  task :start do
+    run_ssh_commands [
+      'killall "foreman: master"',
+      'screen -d -m -S "cocoadocs" bundle exec foreman start'
+    ]
+  end
+
   desc 'Updates the server via SSH'
   task :deploy do
     run_ssh_commands [
