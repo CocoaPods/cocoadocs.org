@@ -39,12 +39,7 @@ class ReadmeGenerator
 
   def file_local_path(name, spec)
     download_location = $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/"
-    local_files = Dir.glob(download_location + "*")
-    first_folders = Dir.glob(download_location + "*/*")
-    files = local_files + first_folders
-    files.select do |f|
-      f.end_with?("#{name}.md") || f.end_with?("#{name}.markdown") || f.end_with?("#{name}.mdown") || f.end_with?(name)
-    end.first
+    Dir.glob("#{download_location}/{*,*/*}{.md,.markdown,.mdown,}", File::FNM_CASEFOLD).first
   end
 
   def generated_readme_path
