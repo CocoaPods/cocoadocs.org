@@ -172,7 +172,8 @@
                 <outlet property="four" destination="cSE-Sf-9Rr" id="ZYk-F3-pDu"/>
                 <outlet property="one" destination="2g6-EM-p7O" id="wmE-Cg-3cA"/>
                 <outlet property="podfile" destination="Av6-Ov-xHX" id="cZI-hM-qK3"/>
-                <outlet property="title" destination="pbZ-9m-TZo" id="9rd-b7-BY0"/>
+                <outlet property="three" destination="pbZ-9m-TZo" id="CJa-zb-9Q1"/>
+                <outlet property="title" destination="BvE-7k-OnE" id="FLU-pU-rZw"/>
                 <outlet property="two" destination="x8H-mx-PrL" id="cdG-gK-Nwg"/>
             </connections>
         </customObject>
