@@ -432,7 +432,6 @@ class CocoaDocs < Object
           c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
           c.clean = true
-          c.swift_version = "2.1"
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
 
@@ -446,6 +445,8 @@ class CocoaDocs < Object
           documented = true
         rescue => e
           vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
+          log_error(spec, e) if spec != nil
+
         end
       end
 
@@ -497,16 +498,7 @@ class CocoaDocs < Object
       state = "success"
 
     rescue Exception => e
-      if spec != nil
-        error_path = "errors/#{spec.name}/#{spec.version}/error.json"
-        FileUtils.mkdir_p(File.dirname(error_path))
-        FileUtils.rm(error_path) if File.exists? error_path
-
-        open(error_path, 'a'){ |f|
-          report = { "message" => e.message , "trace" => e.backtrace }
-          f.puts report.to_json.to_s
-        }
-      end
+      log_error(spec, e) if spec != nil
 
       open('error_log.txt', 'a') { |f|
         f.puts "\n\n\n --------------#{spec.defined_in_file}-------------"
@@ -546,6 +538,16 @@ class CocoaDocs < Object
     (public_methods - Object.public_methods).map(&:to_sym)
   end
 
+  def log_error spec, e
+    error_path = "errors/#{spec.name}/#{spec.version}/error.json"
+    FileUtils.mkdir_p(File.dirname(error_path))
+    FileUtils.rm(error_path) if File.exists? error_path
+
+    open(error_path, 'a'){ |f|
+      report = { "message" => e.message , "trace" => e.backtrace }
+      f.puts report.to_json.to_s
+    }
+  end
 end
 
 CocoaDocs.new(ARGV)
