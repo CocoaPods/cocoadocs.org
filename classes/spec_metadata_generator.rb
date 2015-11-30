@@ -24,6 +24,14 @@ class SpecMetadataGenerator
     File.open(json_filepath, "wb") { |f| f.write hash_string }
   end
 
+  def latest_version
+    versions.reverse_each.find { |v| !v.prerelease? } || versions.last
+  end
+
+  def latest_version?
+    latest_version == spec.version
+  end
+
   private
 
   # @return [Array<Pod::Version>] Returns all versions of the pod found in trunk

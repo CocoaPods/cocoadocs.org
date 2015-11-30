@@ -462,8 +462,8 @@ class CocoaDocs < Object
 
       version_metadata.save
 
-      fixer.add_index_redirect_to_latest_to_pod
-      fixer.add_docset_redirects if $upload_redirects_for_docsets
+      fixer.add_index_redirect_to_latest_to_pod(version_metadata.latest_version)
+      fixer.add_docset_redirects(version_metadata.latest_version) if $upload_redirects_for_docsets
       percent_doc ||= fixer.get_doc_percent
 
       cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
@@ -472,17 +472,19 @@ class CocoaDocs < Object
       tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
       testing_estimate = tester.testimate
 
-      stats = StatsGenerator.new(
-        :spec => spec,
-        :api_json_path => api_json_location,
-        :cloc_results => cloc_results,
-        :readme_location => readme_location,
-        :changelog_location => changelog_location,
-        :download_location => download_location,
-        :doc_percent => percent_doc,
-        :testing_estimate => testing_estimate,
-        :docset_location => docset_location)
-      stats.upload if $upload_stats
+      if version_metadata.latest_version?
+        stats = StatsGenerator.new(
+          :spec => spec,
+          :api_json_path => api_json_location,
+          :cloc_results => cloc_results,
+          :readme_location => readme_location,
+          :changelog_location => changelog_location,
+          :download_location => download_location,
+          :doc_percent => percent_doc,
+          :testing_estimate => testing_estimate,
+          :docset_location => docset_location)
+        stats.upload if $upload_stats
+      end
 
       SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
 
