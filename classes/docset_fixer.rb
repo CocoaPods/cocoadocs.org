@@ -181,10 +181,8 @@ class DocsetFixer
     end
   end
 
-  def add_index_redirect_to_latest_to_pod
+  def add_index_redirect_to_latest_to_pod(latest_version)
     vputs "Creating a redirect to move to the latest pod"
-
-    latest_version = versions.reverse_each.find { |v| v !~ /[a-zA-Z_-]/ } || versions.last
 
     from = @pod_root + "/index.html"
     server_location = "docsets/#{@spec.name}/index.html"
@@ -199,19 +197,19 @@ class DocsetFixer
     upload_file from, server_location
   end
 
-  def add_docset_redirects
+  def add_docset_redirects(latest_version)
     vputs "Adding redirects for the DocSets for Xcode & Dash"
 
     # this is a xar'd (???) version of the docset
     from = @pod_root + "/docset.xar"
     from_server = "docsets/#{@spec.name}/docset.xar"
-    to = "docsets/#{@spec.name}/#{@version}/publish/docset.xar"
+    to = "docsets/#{@spec.name}/#{latest_version}/publish/docset.xar"
     redirect_command from, from_server, to
 
     # this atom feed contains all the metadata for xcode
     from = @pod_root + "/xcode-docset.atom"
     from_server = "docsets/#{spec.name}/xcode-docset.atom"
-    to = "docsets/#{@spec.name}/#{@version}/publish/xcode-docset.atom"
+    to = "docsets/#{@spec.name}/#{latest_version}/publish/xcode-docset.atom"
     redirect_command from, from_server, to
 
     # this xml feed contains all the metadata for dash
@@ -221,9 +219,9 @@ class DocsetFixer
     redirect_command from, from_server, to
 
     # this is the tgz for dash
-    from = "#{@pod_root}/#{@version}/publish/#{@spec.name}.tgz"
+    from = "#{@pod_root}/#{latest_version}/publish/#{@spec.name}.tgz"
     from_server = "docsets/#{@spec.name}/#{@spec.name}.tgz"
-    to = "docsets/#{@spec.name}/#{@version}/publish/#{@spec.name}.tgz"
+    to = "docsets/#{@spec.name}/#{latest_version}/publish/#{@spec.name}.tgz"
     redirect_command from, from_server, to
   end
 
