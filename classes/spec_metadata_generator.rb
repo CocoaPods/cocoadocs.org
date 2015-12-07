@@ -2,7 +2,7 @@ class SpecMetadataGenerator
   include HashInit
   attr_accessor :spec, :docset_path, :versions
 
-  # @return [Array<String>] Returns all the versions
+  # @return [Array<String>] Returns all the versions from trunk
   def generate
     @versions = retrieve_versions_from_trunk.keep_if do |version|
       if version == @spec.version || documentation_for_version_exists?(version)
@@ -25,11 +25,11 @@ class SpecMetadataGenerator
   end
 
   def latest_version
-    versions.reverse_each.find { |v| !v.prerelease? } || versions.last
+    versions.reverse_each.find { |v| !Pod::Version.new(v).prerelease? } || versions.last
   end
 
   def latest_version?
-    latest_version == spec.version
+    latest_version == spec.version.version
   end
 
   private

@@ -473,6 +473,9 @@ class CocoaDocs < Object
       testing_estimate = tester.testimate
 
       if version_metadata.latest_version?
+        # These are things that are specific to the pod
+        # not the version, so it only works if it's latest
+
         stats = StatsGenerator.new(
           :spec => spec,
           :api_json_path => api_json_location,
@@ -484,9 +487,9 @@ class CocoaDocs < Object
           :testing_estimate => testing_estimate,
           :docset_location => docset_location)
         stats.upload if $upload_stats
-      end
 
-      SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
+        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
+      end
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
       $generator.upload_docset if $upload_docsets_to_s3
