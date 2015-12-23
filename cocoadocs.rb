@@ -439,6 +439,8 @@ class CocoaDocs < Object
           c.source_directory = Pathname(download_location)
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
+          c.module_name = spec.name
+          c.author_name = spec.or_contributors_to_spec
         end
 
         begin
