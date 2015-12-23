@@ -29,7 +29,8 @@ class StatsGenerator
       :dominant_language => @cloc_top[:language],
       :is_vendored_framework => is_vendored_framework(spec),
       :rendered_summary => spec.or_summary_html,
-      :builds_independently => supports_carthage
+      :builds_independently => supports_carthage,
+      :supports_spm => File.exist?(download_location + "/Package.swift")
     }
 
     auth_token = ENV['COCOADOCS_TOKEN']
