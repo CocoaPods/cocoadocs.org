@@ -454,7 +454,7 @@ class CocoaDocs < Object
         rescue => e
           vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
           log_error(spec, e) if spec != nil
-
+          percent_doc = -1
         end
       end
 
