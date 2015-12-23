@@ -74,8 +74,9 @@ SSH access is automated via the `Rakefile`:
 The creation of CocoaDocs v2 has been made possible with help from the following:
 
 * [Orta Therox](https://twitter.com/orta) - Design & Code
+* [Sam Giddins](https://twitter.com/segiddins) -Admin & Code
 * [Kyle Fuller](https://twitter.com/kylefuller) - Admin & Code
 * [Delisa Mason](https://twitter.com/kattrali) - Docstat gem
-* Clay Allsopp - Readme Complexity gem
+* Clay Allsopp - README Complexity gem
 * [Ash Furrow](https://twitter.com/AshFurrow) - Javascript & Ruby assistance
 * [Boris Bugling](https://twitter.com/NeoNacho) - Boring legwork on templates
