@@ -402,6 +402,8 @@ class CocoaDocs < Object
       end
 
       settings = CocoaDocsSettings.settings_at_location download_location
+      jazzy_config = CocoaDocsSettings.jazzy_config_at_location download_location
+
       readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :changelog_location => changelog_location })
       readme.create_readme
       readme.create_changelog
@@ -423,7 +425,11 @@ class CocoaDocs < Object
         vputs "Using jazzy to document Swift pod"
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
         File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
+
         config = Jazzy::Config.new.tap do |c|
+          c.config_file = Pathname(jazzy_config) if jazzy_config
+          c.parse_config_file
+
           c.podspec = Pathname(download_spec_path)
           c.output = Pathname(docset_location)
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
@@ -433,6 +439,8 @@ class CocoaDocs < Object
           c.source_directory = Pathname(download_location)
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
+          c.module_name = spec.name
+          c.author_name = spec.or_contributors_to_spec
         end
 
         begin
