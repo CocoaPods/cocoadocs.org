@@ -42,7 +42,7 @@ class StatsGenerator
 
       # send it to the db
       api = ENV["COCOADOCS_API"] || 'http://cocoadocs-api.cocoapods.org'
-      handle_request REST.post("/pods/#{spec.name}", data.to_json)
+      handle_request REST.post(api + "/pods/#{spec.name}", data.to_json)
     else
       puts "Not sending data - you're not the CocoaDocs server."
       puts "Would have sent:"
