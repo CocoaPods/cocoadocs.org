@@ -30,7 +30,7 @@ class StatsGenerator
       :is_vendored_framework => is_vendored_framework(spec),
       :rendered_summary => spec.or_summary_html,
       :builds_independently => supports_carthage,
-      :supports_spm => File.exist?(download_location + "/Package.swift")
+      :spm_support => File.exist?(download_location + "/Package.swift")
     }
 
     auth_token = ENV['COCOADOCS_TOKEN']
@@ -41,7 +41,8 @@ class StatsGenerator
       vputs data.to_s
 
       # send it to the db
-      handle_request REST.post("http://cocoadocs-api.cocoapods.org/pods/#{spec.name}", data.to_json)
+      api = ENV["COCOADOCS_API"] || 'http://cocoadocs-api.cocoapods.org'
+      handle_request REST.post("/pods/#{spec.name}", data.to_json)
     else
       puts "Not sending data - you're not the CocoaDocs server."
       puts "Would have sent:"
