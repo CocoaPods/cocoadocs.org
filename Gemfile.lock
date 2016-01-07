@@ -74,8 +74,8 @@ GEM
       multi_json (~> 1.0)
       multi_xml
     i18n (0.7.0)
-    jazzy (0.4.1)
-      cocoapods (~> 0.38)
+    jazzy (0.5.0)
+      cocoapods (~> 0.39)
       mustache (~> 0.99)
       open4
       redcarpet (~> 3.2)
@@ -96,7 +96,7 @@ GEM
       metaclass (~> 0.0.1)
     mocha-on-bacon (0.2.2)
       mocha (>= 0.13.0)
-    molinillo (0.4.0)
+    molinillo (0.4.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -139,7 +139,7 @@ GEM
       octokit (>= 3.2.0)
       redcarpet (>= 3.1.0)
       unirest (>= 1.1.0)
-    redcarpet (3.3.3)
+    redcarpet (3.3.4)
     rest-client (1.6.8)
       mime-types (~> 1.16)
       rdoc (>= 2.4.2)
@@ -229,4 +229,4 @@ DEPENDENCIES
   travis
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
