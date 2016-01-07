@@ -199,7 +199,7 @@ class CocoaDocs < Object
     update_specs_repo
 
     updated_specs = specs_for_days_ago_diff @params.first
-    vputs "Looking at #{updated_specs.lines.count}"
+    vputs "Looking at #{updated_specs.lines.count} specs"
 
     updated_specs.lines.each_with_index do |spec_filepath, index|
       spec_filepath.gsub!(/\n/, '')
@@ -555,7 +555,10 @@ class CocoaDocs < Object
     FileUtils.rm(error_path) if File.exists? error_path
 
     open(error_path, 'a'){ |f|
-      report = { "message" => e.message , "trace" => e.backtrace }
+      report = {
+        "message" => e.message.encode("utf-8", "binary", :undef => :replace),
+        "trace" => e.backtrace
+      }
       f.puts report.to_json.to_s
     }
   end
