@@ -430,7 +430,7 @@ class CocoaDocs < Object
           c.config_file = Pathname(jazzy_config) if jazzy_config
           c.parse_config_file
 
-          c.podspec = Pathname(download_spec_path)
+          c.podspec = Pod::Specification.from_file(download_spec_path)
           c.output = Pathname(docset_location)
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
           c.docset_icon = Pathname(__FILE__).parent + 'resources/docset_icon.png'
@@ -439,8 +439,6 @@ class CocoaDocs < Object
           c.source_directory = Pathname(download_location)
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
-          c.module_name = spec.name
-          c.author_name = spec.or_contributors_to_spec
         end
 
         begin
