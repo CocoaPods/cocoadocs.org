@@ -428,9 +428,15 @@ class CocoaDocs < Object
 
         config = Jazzy::Config.new.tap do |c|
           c.config_file = Pathname(jazzy_config) if jazzy_config
-          c.parse_config_file
+          begin
+            c.parse_config_file
+          rescue => e
+            vputs "Setting up jazzy config failed: #{e.message.red} - continuing"
+          end
 
           c.podspec = Pod::Specification.from_file(download_spec_path)
+          c.podspec_configured = true
+
           c.output = Pathname(docset_location)
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
           c.docset_icon = Pathname(__FILE__).parent + 'resources/docset_icon.png'
