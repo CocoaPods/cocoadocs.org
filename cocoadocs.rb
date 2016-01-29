@@ -297,7 +297,7 @@ class CocoaDocs < Object
       $fetch_specs = false
     end
 
-    if options.find_index("--skip-fetch") != nil
+    if options.find_index("--skip-cloc") != nil
       $skip_cloc = true
     end
 
@@ -421,7 +421,7 @@ class CocoaDocs < Object
       swift = cloc_results.find { |r| r[:language] == 'Swift' }
       header = cloc_results.find { |r| r[:language] == 'C/C++ Header' }
 
-      if swift && (!header || swift[:files] > header[:files])
+      if swift && (!header || swift[:files] >= header[:files])
         vputs "Using jazzy to document Swift pod"
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
         File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
