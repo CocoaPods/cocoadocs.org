@@ -36,6 +36,11 @@ module Pod
           @spec.or_license_name_and_url.should == { :license => 'MIT', :url => 'http://opensource.org/licenses/MIT'}
         end
 
+        it 'should detect the Apache 2 license' do
+          @spec.stubs(:license).returns({ :type => 'Apache 2' })
+          @spec.or_license_name_and_url.should == { :license => 'Apache 2', :url => 'https://www.apache.org/licenses/LICENSE-2.0.html'}
+        end
+
         it 'should detect the WTFPL license' do
           @spec.stubs(:license).returns({ :type => 'WTFPL' })
           @spec.or_license_name_and_url.should == { :license => 'WTFPL', :url => 'http://www.wtfpl.net'}
