@@ -79,7 +79,7 @@ module Pod
         if license.scan(/mit/).count > 0
           return { license: "MIT", url: "http://opensource.org/licenses/MIT" }
 
-        elsif license =~ /apache(?: license, version 2(\.0)?|\s*2(\.0)?)/i
+        elsif license =~ /apache ?(license, version )?2(\.0)?/i
           return { license: "Apache 2", url: "https://www.apache.org/licenses/LICENSE-2.0.html" }
 
         elsif license.scan(/bsd 3/).count > 0
