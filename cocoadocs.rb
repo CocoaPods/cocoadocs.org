@@ -94,19 +94,6 @@ class CocoaDocs < Object
 
   def initialize(args)
 
-    appledoc_version = `vendor/appledoc --version`.strip.gsub("appledoc version: ", "").split(" ")[0].to_f
-    if appledoc_version < 2.2
-      puts "You need an updated version of appledoc, grab the latest release: https://github.com/tomaz/appledoc/releases".red
-      exit
-    end
-
-    cloc_path = `which cloc`.strip.chomp
-    if cloc_path == ""
-      puts "You need an to install cloc".red
-      puts "run " + "brew install cloc".red
-      exit
-    end
-
     if ARGV.length > 0
       setup_options ARGV
 
@@ -443,6 +430,7 @@ class CocoaDocs < Object
           c.docset_path = "com.cocoadocs.#{spec.name.downcase}.#{spec.name}.docset"
           c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
+          c.module_name = spec.name
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
