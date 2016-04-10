@@ -430,7 +430,7 @@ class CocoaDocs < Object
           c.docset_path = "com.cocoadocs.#{spec.name.downcase}.#{spec.name}.docset"
           c.readme_path = Pathname(readme_location)
           c.source_directory = Pathname(download_location)
-          c.module_name = spec.name
+          c.module_name = spec.module_name
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
         end
