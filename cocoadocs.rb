@@ -340,7 +340,6 @@ class CocoaDocs < Object
     else
       if $fetch_specs
         vputs "Updating Specs Repo"
-        run_git_command_in_specs "stash"
         run_git_command_in_specs "pull origin master"
       end
     end
