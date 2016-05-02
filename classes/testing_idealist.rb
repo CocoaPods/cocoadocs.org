@@ -72,7 +72,8 @@ class TestingIdealist
                /should\]|shouldNot\]/,              # Kiwi
                /assertThat/,                        # OCHamcrest
                / should .*;| should_not |expect\(/, # Cedar
-               /FBSnapshotVerify/                   # FBSnapshotTestCase
+               /FBSnapshotVerify/,                  # FBSnapshotTestCase
+               /property\(/                         # SwiftCheck
              ]
 
     expectation_count = regexes.map do |expectation_regex|
