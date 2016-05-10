@@ -15,14 +15,9 @@ class TestingIdealist
 
 		get_projects_in_download.reduce(0) do |expectations, project_path|
       next 0 unless File.exist?(project_path)
-      project = nil
-      begin
-        # Sometimes we get weird characters in the plists
-        # that crash the idealist, see ATInternet-iOS-Swift-SDK v2.0.8.2
-        project = path_to_project project_path
-      rescue => e
-        next
-      end
+      # Sometimes we get weird characters in the plists
+      # that crash the idealist, see ATInternet-iOS-Swift-SDK v2.0.8.2
+      project = path_to_project project_path rescue next 0
       expectations + find_test_target(project).reduce(0) do |target_expectations, target|
         files = get_source_files_for_target target
 
