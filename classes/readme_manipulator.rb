@@ -113,6 +113,7 @@ class ReadmeManipulator
                       'https://kiwiirc.com',
                       'https://badges.gitter.im',
                       'https://coveralls.io',
+                      'https://landscape.io',
                       'https://badge.waffle.io',
                       'https://codecov.io/',
                       'https://versioneye.com/']
