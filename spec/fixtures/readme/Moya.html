@@ -1,0 +1,212 @@
+<p><a href="https://travis-ci.org/Moya/Moya"><img src="https://camo.githubusercontent.com/7f9d5513813514280ee97837c4b697280fb1d462/68747470733a2f2f7472617669732d63692e6f72672f4d6f79612f4d6f79612e7376673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/Moya/Moya.svg?branch=master" style="max-width:100%;"></a> <a href="https://codecov.io/github/Moya/Moya?branch=master"><img src="https://camo.githubusercontent.com/268e1e6bf9a95f7cce2e14ec13e49380e244d21f/68747470733a2f2f636f6465636f762e696f2f6769746875622f4d6f79612f4d6f79612f636f7665726167652e7376673f6272616e63683d6d6173746572" alt="codecov.io" data-canonical-src="https://codecov.io/github/Moya/Moya/coverage.svg?branch=master" style="max-width:100%;"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://camo.githubusercontent.com/3dc8a44a2c3f7ccd5418008d1295aae48466c141/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f43617274686167652d636f6d70617469626c652d3442433531442e7376673f7374796c653d666c6174" alt="Carthage compatible" data-canonical-src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" style="max-width:100%;"></a></p>
+
+<p><a href="web/moya_logo_github.png" target="_blank"><img src="web/moya_logo_github.png" alt="Moya Logo" style="max-width:100%;"></a></p>
+
+<p>You're a smart developer. You probably use <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> to abstract away access to
+NSURLSession and all those nasty details you don't really care about. But then,
+like lots of smart developers, you write ad hoc network abstraction layers. They
+are probably called "APIManager" or "NetworkModel", and they always end in tears.</p>
+
+<p><a href="web/diagram.png" target="_blank"><img src="web/diagram.png" alt="Moya Overview" style="max-width:100%;"></a></p>
+
+<p>Ad hoc network layers are common in iOS apps. They're bad for a few reasons:</p>
+
+<ul>
+<li>Makes it hard to write new apps ("where do I begin?")</li>
+<li>Makes it hard to maintain existing apps ("oh my god, this mess...")</li>
+<li>Makes it hard to write unit tests ("how do I do this again?")</li>
+</ul>
+
+<p>So the basic idea of Moya is that we want some network abstraction layer that
+sufficiently encapsulates actually calling Alamofire directly. It should be simple
+enough that common things are easy, but comprehensive enough that complicated things
+are also easy.</p>
+
+<blockquote>
+<p>If you use Alamofire to abstract away <code>NSURLSession</code>, why not use something
+to abstract away the nitty gritty of URLs, parameters, etc?</p>
+</blockquote>
+
+<p>Some awesome features of Moya:</p>
+
+<ul>
+<li>Compile-time checking for correct API endpoint accesses.</li>
+<li>Lets you define a clear usage of different endpoints with associated enum values.</li>
+<li>Treats test stubs as first-class citizens so unit testing is super-easy.</li>
+</ul>
+
+<h2>
+<a id="user-content-sample-project" class="anchor" href="#sample-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sample Project</h2>
+
+<p>There's a sample project in the Demo directory. Have fun!</p>
+
+<h2>
+<a id="user-content-project-status" class="anchor" href="#project-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Status</h2>
+
+<p>This project is actively under development, and is being used in <a href="https://github.com/Artsy/eidolon">Artsy's
+new auction app</a>. We consider it
+ready for production use.</p>
+
+<p>Currently, we support Xcode 7 and Swift 2.</p>
+
+<h2>
+<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="user-content-cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CocoaPods</h3>
+
+<p>Just add <code>pod 'Moya'</code> to your Podfile and go!</p>
+
+<p>In any file you'd like to use Moya in, don't forget to
+import the framework with <code>import Moya</code>.</p>
+
+<p>For RxSwift or ReactiveCocoa extensions, this project will include
+them as dependencies. You can do this via CocoaPods subspecs.</p>
+
+<div class="highlight highlight-source-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">'</span>Moya/RxSwift<span class="pl-pds">'</span></span>
+pod <span class="pl-s"><span class="pl-pds">'</span>Moya/ReactiveCocoa<span class="pl-pds">'</span></span></pre></div>
+
+<p>Then run <code>pod install</code>.</p>
+
+<h3>
+<a id="user-content-carthage" class="anchor" href="#carthage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Carthage</h3>
+
+<p>Carthage users can point to this repository and use whichever
+generated framework they'd like, <code>Moya</code>, <code>RxMoya</code>, or <code>ReactiveMoya</code>.
+The full Moya framework is bundled in each of those frameworks;
+importing more than one framework in a single file will result in
+ambiguous lookups at compile time.</p>
+
+<pre><code>github "Moya/Moya"
+</code></pre>
+
+<h2>
+<a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>After <a href="docs/Examples.md">some setup</a>, using Moya is really simple. You can access an API like this:</p>
+
+<div class="highlight highlight-source-swift"><pre>provider<span class="pl-k">.</span>request(<span class="pl-k">.</span>Zen) { result <span class="pl-k">in</span>
+    <span class="pl-k">switch</span> result {
+    <span class="pl-k">case</span> <span class="pl-k">let</span> <span class="pl-k">.</span>Success(moyaResponse):
+        <span class="pl-k">let</span> data <span class="pl-k">=</span> moyaResponse<span class="pl-k">.</span>data
+        <span class="pl-k">let</span> statusCode <span class="pl-k">=</span> moyaResponse<span class="pl-k">.</span>statusCode
+        <span class="pl-c">// do something with the response data or statusCode</span>
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Failure(error):
+        <span class="pl-c">// this means there was a network failure - either the request</span>
+        <span class="pl-c">// wasn't sent (connectivity), or no response was received (server</span>
+        <span class="pl-c">// timed out).  If the server responds with a 4xx or 5xx error, that</span>
+        <span class="pl-c">// will be sent as a ".Success"-ful response.</span>
+    }
+}</pre></div>
+
+<p>That's a basic example. Many API requests need parameters. Moya encodes these
+into the enum you use to access the endpoint, like this:</p>
+
+<div class="highlight highlight-source-swift"><pre>provider<span class="pl-k">.</span>request(<span class="pl-k">.</span>UserProfile(<span class="pl-s"><span class="pl-pds">"</span>ashfurrow<span class="pl-pds">"</span></span>)) { result <span class="pl-k">in</span>
+    <span class="pl-c">// do something with the result</span>
+}</pre></div>
+
+<p>No more typos in URLs. No more missing parameter values. No more messing with
+parameter encoding.</p>
+
+<p>For examples, see the <a href="docs/">documentation</a>.</p>
+
+<h2>
+<a id="user-content-reactive-extensions" class="anchor" href="#reactive-extensions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reactive Extensions</h2>
+
+<p>Even cooler are the reactive extensions. Moya provides reactive extensions for
+<a href="docs/ReactiveCocoa.md">ReactiveCocoa</a> and <a href="docs/RxSwift.md">RxSwift</a>.</p>
+
+<h2>
+<a id="user-content-reactivecocoa" class="anchor" href="#reactivecocoa" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ReactiveCocoa</h2>
+
+<p>For <code>ReactiveCocoa</code>, it immediately returns a <code>SignalProducer</code> (<code>RACSignal</code>
+is also available if needed) that you can start or bind or map or whatever
+you want to do. To handle errors, for instance, we could do the following:</p>
+
+<div class="highlight highlight-source-swift"><pre>provider<span class="pl-k">.</span>request(<span class="pl-k">.</span>UserProfile(<span class="pl-s"><span class="pl-pds">"</span>ashfurrow<span class="pl-pds">"</span></span>))<span class="pl-k">.</span><span class="pl-c1">start</span> { (event) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">switch</span> event {
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Next(<span class="pl-k">let</span> response):
+        image <span class="pl-k">=</span> UIImage(data: response<span class="pl-k">.</span>data)
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Failed(<span class="pl-k">let</span> error):
+        <span class="pl-c1">print</span>(error)
+    <span class="pl-k">default</span>:
+      <span class="pl-k">break</span>
+    }
+}</pre></div>
+
+<h2>
+<a id="user-content-rxswift" class="anchor" href="#rxswift" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RxSwift</h2>
+
+<p>For <code>RxSwift</code>, it immediately returns an <code>Observable</code> that you can subscribe to
+or bind or map or whatever you want to do. To handle errors, for instance,
+we could do the following:</p>
+
+<div class="highlight highlight-source-swift"><pre>provider<span class="pl-k">.</span>request(<span class="pl-k">.</span>UserProfile(<span class="pl-s"><span class="pl-pds">"</span>ashfurrow<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>subscribe { (event) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">switch</span> event {
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Next(<span class="pl-k">let</span> response):
+        image <span class="pl-k">=</span> UIImage(data: response<span class="pl-k">.</span>data)
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Error(<span class="pl-k">let</span> error):
+        <span class="pl-c1">print</span>(error)
+    <span class="pl-k">default</span>:
+        <span class="pl-k">break</span>
+    }
+}</pre></div>
+
+<hr>
+
+<p>In addition to the option of using signals instead of callback blocks, there are
+also a series of signal operators for RxSwift and ReactiveCocoa that will attempt
+to map the data received from the network response into either an image, some JSON,
+or a string, with <code>mapImage()</code>, <code>mapJSON()</code>, and <code>mapString()</code>, respectively. If the mapping is unsuccessful, you'll get an error on the signal. You also get handy methods
+for filtering out certain status codes. This means that you can place your code for
+handling API errors like 400's in the same places as code for handling invalid
+responses.</p>
+
+<h2>
+<a id="user-content-community-extensions" class="anchor" href="#community-extensions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Extensions</h2>
+
+<p>Moya has a great community around it and some people have created some very helpful extensions.</p>
+
+<ul>
+<li>
+<a href="https://github.com/ivanbruel/Moya-ObjectMapper">Moya-ObjectMapper</a> - ObjectMapper bindings for Moya for easier JSON serialization</li>
+<li>
+<a href="https://github.com/AvdLee/Moya-SwiftyJSONMapper">Moya-SwiftyJSONMapper</a> - SwiftyJSON bindings for Moya for easier JSON serialization</li>
+<li>
+<a href="https://github.com/wattson12/Moya-Argo">Moya-Argo</a> - Argo bindings for Moya for easier JSON serialization</li>
+<li>
+<a href="https://github.com/sunshinejr/Moya-ModelMapper">Moya-ModelMapper</a> - ModelMapper bindings for Moya for easier JSON serialization </li>
+</ul>
+
+<p>We appreciate all the work being done by the community around Moya. If you would like to have your extension featured in the list above, simply create a pull request adding your extensions to the list.</p>
+
+<h2>
+<a id="user-content-contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Hey! Like Moya? Awesome! We could actually really use your help!</p>
+
+<p>Open source isn't just writing code. Moya could use your help with any of the
+following:</p>
+
+<ul>
+<li>Finding (and reporting!) bugs.</li>
+<li>New feature suggestions.</li>
+<li>Answering questions on issues.</li>
+<li>Documentation improvements.</li>
+<li>Reviewing pull requests.</li>
+<li>Helping to manage issue priorities.</li>
+<li>Fixing bugs/new features.</li>
+</ul>
+
+<p>If any of that sounds cool to you, send a pull request! After a few
+contributions, we'll add you as an admin to the repo so you can merge pull
+requests and help steer the ship <g-emoji alias="ship" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a2.png">🚢</g-emoji></p>
+
+<p>Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by <a href="https://github.com/Moya/contributors/blob/master/Code%20of%20Conduct.md">its terms</a>.</p>
+
+<h2>
+<a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>Moya is released under an MIT license. See LICENSE for more information.</p>
