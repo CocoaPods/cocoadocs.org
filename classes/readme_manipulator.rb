@@ -169,7 +169,23 @@ class ReadmeManipulator
     main = remove_two_linked_paragraphs main, "carthage", 'github "'
     main = remove_two_linked_paragraphs main, "cocoapods", 'pod "'
 
-    # TODO: look for an empty installation section and remove the 'installation header'
+    # Look for an empty installation section and remove the 'installation' h2
+    install = doc.at('h2:contains("Install")')
+    if install
+      install_index = main.children.find_index install
+      first_sibling = nil
+
+      # Get first non-empty value
+      (install_index + 1..main.children.length).each do |index|
+        child = main.children[index]
+        next if child.text.strip.empty?
+
+        first_sibling = child
+        break
+      end
+
+      install.remove if first_sibling.name == "h2"
+    end
 
     File.open(@readme_path, 'w') { |f| f.write(doc) }
   end

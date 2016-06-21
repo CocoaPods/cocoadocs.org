@@ -119,3 +119,11 @@ describe 'with AWSS3' do
     end
   end
 end
+
+
+  describe 'with Moya' do
+    it 'should not have the installation section' do
+      readme_html = rendered_readme_for("Moya")
+      readme_html.should.not contain('Installation')
+    end
+  end
