@@ -13,6 +13,10 @@ class TestingIdealist
 
   def testimate
 
+    # People have crazy xcodeprojects that seem to regularly
+    # break this parsing, so if it fails, just return 0
+    begin
+
 		get_projects_in_download.reduce(0) do |expectations, project_path|
       next 0 unless File.exist?(project_path)
       # Sometimes we get weird characters in the plists
@@ -33,6 +37,10 @@ class TestingIdealist
 
         target_expectations + target_estimate
       end
+    end
+
+    rescue
+      0
     end
   end
 
