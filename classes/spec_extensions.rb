@@ -1,7 +1,12 @@
 require 'redcarpet'
+require 'uri'
 
 module Pod
   class Specification
+    def escaped_name
+      URI.escape(name)
+    end
+
     def or_is_github?
       homepage.include?("github.com") || (source[:git] && source[:git].include?("github.com"))
     end
@@ -12,11 +17,11 @@ module Pod
     end
 
     def or_podspec_url
-      "https://github.com/CocoaPods/Specs/blob/master/Specs/#{ name }/#{ version }/#{ name }.podspec.json"
+      "https://github.com/CocoaPods/Specs/blob/master/Specs/#{ escaped_name }/#{ version }/#{ escaped_name }.podspec.json"
     end
 
     def or_cocoadocs_url
-      "http://cocoadocs.org/docsets/#{ name }/#{ version }"
+      "http://cocoadocs.org/docsets/#{ escaped_name }/#{ version }"
     end
 
     def or_git_ref

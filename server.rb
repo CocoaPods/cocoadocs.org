@@ -91,6 +91,6 @@ end
 def process_url url
   set :pod_count, settings.pod_count + 1
   this_folder = File.expand_path(File.dirname(__FILE__))
-  pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", url, { :chdir => this_folder })
+  pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", escape_url(url), { :chdir => this_folder })
   Process.detach pid
 end

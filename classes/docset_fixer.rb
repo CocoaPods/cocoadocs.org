@@ -202,25 +202,25 @@ class DocsetFixer
 
     # this is a xar'd (???) version of the docset
     from = @pod_root + "/docset.xar"
-    from_server = "docsets/#{@spec.name}/docset.xar"
+    from_server = "docsets/#{@spec.escaped_name}/docset.xar"
     to = "docsets/#{@spec.name}/#{latest_version}/publish/docset.xar"
     redirect_command from, from_server, to
 
     # this atom feed contains all the metadata for xcode
     from = @pod_root + "/xcode-docset.atom"
-    from_server = "docsets/#{spec.name}/xcode-docset.atom"
+    from_server = "docsets/#{spec.escaped_name}/xcode-docset.atom"
     to = "docsets/#{@spec.name}/#{latest_version}/publish/xcode-docset.atom"
     redirect_command from, from_server, to
 
     # this xml feed contains all the metadata for dash
     from = "#{@pod_root}/#{@version}/publish/#{@spec.name}.xml"
-    from_server = "docsets/#{@spec.name}/#{@spec.name}.xml"
+    from_server = "docsets/#{@spec.escaped_name}/#{@spec.escaped_name}.xml"
     to = "docsets/#{@spec.name}/#{@version}/publish/#{@spec.name}.xml"
     redirect_command from, from_server, to
 
     # this is the tgz for dash
     from = "#{@pod_root}/#{latest_version}/publish/#{@spec.name}.tgz"
-    from_server = "docsets/#{@spec.name}/#{@spec.name}.tgz"
+    from_server = "docsets/#{@spec.escaped_name}/#{@spec.escaped_name}.tgz"
     to = "docsets/#{@spec.name}/#{latest_version}/publish/#{@spec.name}.tgz"
     redirect_command from, from_server, to
   end
