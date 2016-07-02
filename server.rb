@@ -48,7 +48,7 @@ end
 get "/redeploy/:pod/latest" do
   content_type :json
   begin
-    trunk_spec = REST.get("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod]).body
+    trunk_spec = REST.get(escape_url("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod])).body
     versions = JSON.parse(trunk_spec)["versions"]
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
 

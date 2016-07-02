@@ -1,3 +1,5 @@
+require 'uri'
+
 # allow logging of terminal commands
 
 def command(command_to_run)
@@ -8,8 +10,13 @@ def command(command_to_run)
   if !success && !command_to_run.strip.start_with?("vendor/appledoc")
     puts (command_to_run + " failed!").red
   end
-  
+
   success
+end
+
+# Escape a url
+def escape_url(url)
+  URI.escape(url)
 end
 
 # a nice puts
