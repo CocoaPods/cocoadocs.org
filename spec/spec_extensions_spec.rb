@@ -82,6 +82,16 @@ module Pod
         @spec.or_summary_html.should == '<p>Simple.</p>'
       end
 
+      describe 'escaped_name' do
+        it 'does not modify ascii only names' do
+          @spec.escaped_name.should == @spec.name
+        end
+
+        it 'escapes non-ascii parts of names' do
+          @spec.name = '🎉äöå'
+          @spec.escaped_name.should == '%F0%9F%8E%89%C3%A4%C3%B6%C3%A5'
+        end
+      end
     end
   end
 end
