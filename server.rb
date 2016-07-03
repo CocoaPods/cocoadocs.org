@@ -6,6 +6,8 @@ require 'cocoapods'
 gem 'nap'
 require 'rest'
 
+require_relative 'classes/_utils.rb'
+
 trunk_notification_path = ENV['TRUNK_NOTIFICATION_PATH']
 trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
