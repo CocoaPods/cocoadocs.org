@@ -146,7 +146,8 @@ class StatsGenerator
     # it as little as possible.
     if File.exists? original_readme
       readme = File.read original_readme
-      return true if readme.downcase.include? "carthage"
+      # Use a subset of the badge URL
+      return true if readme.downcase.include? "carthage-compatible"
     end
 
     carthage_path = File.join $active_folder, "carthage"
