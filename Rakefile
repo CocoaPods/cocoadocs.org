@@ -65,6 +65,14 @@ begin
     run_ssh_commands ["bundle exec foreman run ruby cocoadocs.rb cocoadocs days #{args.number} --verbose"]
   end
 
+  desc 'Delete all docs for a pod'
+  task :cocoadocs_rm_pod, :command do |t, args|
+    exit(1) if args.count != 1
+    exit(1) if args.first == "."
+    exit(1) if args.first == ".."
+    `s3cmd rm -r s3://cocoadocs.org/docsets/#{args.first}`
+  end
+
   desc 'Sets up installation of apps for cocoadocs'
   task :install_tools do
     if `which brew`.length == 0
