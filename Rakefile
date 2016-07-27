@@ -66,11 +66,19 @@ begin
   end
 
   desc 'Delete all docs for a pod'
-  task :cocoadocs_rm_pod, :command do |t, args|
+  task :cocoadocs_rm_pod, :pod do |t, args|
     exit(1) if args.count != 1
     exit(1) if args.first == "."
     exit(1) if args.first == ".."
-    `s3cmd rm -r s3://cocoadocs.org/docsets/#{args.first}`
+    system "s3cmd del -r s3://cocoadocs.org/docsets/#{args.pod}"
+  end
+
+  desc 'Delete docs for a pod versions'
+  task :cocoadocs_rm_pod_version, :pod, :version do |t, args|
+    exit(1) if args.count != 2
+    exit(1) if args.first == "."
+    exit(1) if args.first == ".."
+    system "s3cmd del -r s3://cocoadocs.org/docsets/#{args.pod}/#{args.version}"
   end
 
   desc 'Sets up installation of apps for cocoadocs'
