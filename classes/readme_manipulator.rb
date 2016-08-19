@@ -1,4 +1,5 @@
-# Takes a readme path and
+# Takes a readme path and makes some changes, then passes that
+# back to the system as a rendered version of the README
 
 class ReadmeManipulator
   include HashInit
@@ -173,18 +174,19 @@ class ReadmeManipulator
     install = doc.at('h2:contains("Install")')
     if install
       install_index = main.children.find_index install
-      first_sibling = nil
+      if install_index
+        first_sibling = nil
+        # Get first non-empty value
+        (install_index + 1..main.children.length).each do |index|
+          child = main.children[index]
+          next if child.text.strip.empty?
 
-      # Get first non-empty value
-      (install_index + 1..main.children.length).each do |index|
-        child = main.children[index]
-        next if child.text.strip.empty?
+          first_sibling = child
+          break
+        end
 
-        first_sibling = child
-        break
+        install.remove if first_sibling.name == "h2"
       end
-
-      install.remove if first_sibling.name == "h2"
     end
 
     File.open(@readme_path, 'w') { |f| f.write(doc) }
@@ -231,5 +233,4 @@ class ReadmeManipulator
 
     main_element
   end
-
 end
