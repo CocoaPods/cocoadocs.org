@@ -3,11 +3,11 @@ ruby '2.1.3'
 
 gem 'rake'
 
-gem "cocoapods"
-gem "cocoapods-core"
+gem "cocoapods", "1.1.0.rc.3"
 gem "cocoapods-downloader"
+# gem "xcodeproj", :git => "https://github.com/CocoaPods/Xcodeproj.git", :branch => "master"
 
-gem 'jazzy'
+gem 'jazzy',  :git => "https://github.com/orta/Jazzy.git", :branch => "rc"
 
 gem "docstat"
 
