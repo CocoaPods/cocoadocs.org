@@ -3,12 +3,10 @@ ruby '2.1.3'
 
 gem 'rake'
 
-gem "cocoapods", "1.1.0.rc.3"
+gem "cocoapods", "1.1.1"
 gem "cocoapods-downloader"
-# gem "xcodeproj", :git => "https://github.com/CocoaPods/Xcodeproj.git", :branch => "master"
 
-gem 'jazzy',  :git => "https://github.com/orta/Jazzy.git", :branch => "rc"
-
+gem 'jazzy',  :git => "https://github.com/realm/Jazzy.git", :branch => "master"
 gem "docstat"
 
 gem "octokit"
@@ -38,4 +36,5 @@ group :development do
   gem 'mocha-on-bacon'
   gem 'mocha'
   gem 'rubocop'
+  gem 'pry'
 end

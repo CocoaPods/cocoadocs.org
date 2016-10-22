@@ -280,7 +280,7 @@ class CocoaDocs < Object
       $log_all_terminal_commands = true
     end
 
-    if options.find_index("--skip-fetch-specs") != nil
+    if options.find_index("--no-repo-update") != nil
       $fetch_specs = false
     end
 
@@ -408,7 +408,7 @@ class CocoaDocs < Object
       swift = cloc_results.find { |r| r[:language] == 'Swift' }
       header = cloc_results.find { |r| r[:language] == 'C/C++ Header' }
 
-      if swift && (!header || swift[:files] >= header[:files])
+      if swift
         vputs "Using jazzy to document Swift pod"
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
         File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
@@ -423,6 +423,10 @@ class CocoaDocs < Object
 
           c.podspec = Pod::Specification.from_file(download_spec_path)
           c.podspec_configured = true
+
+          # Either use the version submitted to trunk, or try with 3.0 
+          trunk_swift_version = c.podspec.attributes_hash["pushed_with_swift_version"]
+          c.swift_version = trunk_swift_version.strip || "3.0"
 
           c.output = Pathname(docset_location)
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
@@ -441,7 +445,6 @@ class CocoaDocs < Object
           percent_doc = source_module.doc_coverage
           fixer.readme_path = docset_location + '/index.html'
           fixer.fix_for_jazzy
-
           documented = true
         rescue => e
           vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
