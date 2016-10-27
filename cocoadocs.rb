@@ -426,7 +426,7 @@ class CocoaDocs < Object
 
           # Either use the version submitted to trunk, or try with 3.0 
           trunk_swift_version = c.podspec.attributes_hash["pushed_with_swift_version"]
-          c.swift_version = trunk_swift_version.strip || "3.0"
+          c.swift_version = (trunk_swift_version && trunk_swift_version).strip || "3.0"
 
           c.output = Pathname(docset_location)
           c.min_acl = Jazzy::SourceDeclaration::AccessControlLevel.public
