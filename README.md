@@ -8,13 +8,13 @@ CocoaDocs is essentially 2 tools, one is a script for generating complex appledo
 
 CocoaDocs receives webhook notifications from the [CocoaPods/Specs](https://github.com/CocoaPods/Specs) repo on GitHub whenever a CocoaPod is updated.
 
-This triggers a process that will generate documentation for _objective-c_ projects via [appledoc](http://gentlebytes.com/appledoc/) and host them for the community. This process can take around 15 minutes after your Podspec is published via trunk.
+A Swift Pod will create documentation [using Jazzy](https://github.com/realm/jazzy/). If this fails, perhaps due to new Swift version support, than it will fall back to Objective-C.
+An *Objective-C* Pod will use Appledoc to parse your library.  
 
-At the minute 404 errors are likely to occur at our end due to work on trying to move to a queuing system. Presuming your library is made out of objc.
 
 ##### What control do I have over CocoaDocs as a library author?
 
- - You have the ability to edit the styling of CocoaDocs for your own libraries to give some personal branding. This is done by adding a `.cocoadocs.yml` file to the root of your library, which overwrite these properties:   
+ - For Objective-C projects, you have the ability to edit the styling of CocoaDocs for your own libraries to give some personal branding. This is done by adding a `.cocoadocs.yml` file to the root of your library, which overwrite these properties:   
    ``` yaml
    highlight-font: '"GT Walsheim", "gt_walsheim_regular", "Avant Garde Gothic ITCW01Dm", "Avant Garde", "Helvetica Neue", "Arial"'
 
@@ -45,6 +45,7 @@ At the minute 404 errors are likely to occur at our end due to work on trying to
    ```
 
  -  If you host your own documentation, and/or just prefer to not use CocoaDocs you can use the [documentation_url](https://guides.cocoapods.org/syntax/podspec.html#documentation_url) reference in your Podspec.
+
 
 ##### Previewing my library in CocoaDocs
 
