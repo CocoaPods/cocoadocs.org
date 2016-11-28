@@ -18,6 +18,8 @@ abort "You need to give a Trunk webhook URL" unless auth_token
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
+ specs_repo = Pod::Source::Metadata.new({prefix_lengths: [1,1,1]})
+
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
   puts "Got a webhook notification: " + data["type"] + " - " + data["action"]
@@ -53,8 +55,8 @@ get "/redeploy/:pod/latest" do
     trunk_spec = REST.get(escape_url("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod])).body
     versions = JSON.parse(trunk_spec)["versions"]
     versions = versions.map { |s| Pod::Version.new(s["name"]) }.sort.map { |semver| semver.version }
-
-    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ versions[-1] }/#{ params[:pod] }.podspec.json"
+    address = specs_repo.path_fragment(params[:pod], versions[-1])
+    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ address }/#{ params[:pod] }.podspec.json"
     return { :parsing => true }.to_json
 
   rescue Exception => e
@@ -65,7 +67,8 @@ end
 
 get "/redeploy/:pod/:version" do
     content_type :json
-    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{ params[:pod] }/#{ params[:version] }/#{ params[:pod] }.podspec.json"
+    address = specs_repo.path_fragment(params[:pod], params[:versions])
+    process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{address}/#{ params[:pod] }.podspec.json"
 
    return { :parsing => true }.to_json
 end
