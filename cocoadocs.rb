@@ -242,25 +242,13 @@ class CocoaDocs < Object
 
     update_specs_repo
 
-    spec_path = $active_folder + "/#{$cocoadocs_specs_name}/Specs/"
-    version = ""
+    $overwrite_existing_source_files = true
+    $delete_source_after_docset_creation = false
+    $force_branch = branch
 
-    if Dir.exists? spec_path  + name
-      version = Dir.entries(spec_path + name).last
-      spec_path = File.join("#{spec_path}","#{name}", "#{version}", "#{name}.podspec.json")
-
-      $overwrite_existing_source_files = true
-      $delete_source_after_docset_creation = false
-      $force_branch = branch
-
-
-      document_spec_at_path spec_path
-      command  "open \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
-      puts "Preview: \"#{ $active_folder }/docsets/#{ name }/#{ version }/\""
-    else
-      puts "Could not find spec at " + spec_path + name
-    end
-
+    document_spec_with_name(name)
+    command  "open \"#{ $active_folder }/docsets/#{ name }/\""
+    puts "Preview: \"#{ $active_folder }/docsets/#{ name }/\""
   end
 
   private
