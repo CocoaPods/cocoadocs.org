@@ -8,8 +8,9 @@ CocoaDocs is essentially 2 tools, one is a script for generating complex appledo
 
 CocoaDocs receives webhook notifications from the [CocoaPods/Specs](https://github.com/CocoaPods/Specs) repo on GitHub whenever a CocoaPod is updated.
 
-A Swift Pod will create documentation [using Jazzy](https://github.com/realm/jazzy/). If this fails, perhaps due to new Swift version support, than it will fall back to Objective-C.
-An *Objective-C* Pod will use Appledoc to parse your library.  
+A Swift Pod will create documentation [using Jazzy](https://github.com/realm/jazzy/). If this fails, perhaps due to new Swift version support, than it will fall back to Objective-C. An *Objective-C* Pod will use Appledoc to parse your library.  
+
+If you have a Swift library and it's only showing Objective-C classes (or no classes) then Jazzy has crashed on your library, we'd recommend testing that out locally.
 
 
 ##### What control do I have over CocoaDocs as a library author?
@@ -35,7 +36,8 @@ An *Objective-C* Pod will use Appledoc to parse your library.
    All defaults are stored in this config file for you to overwite.
 
  - You can find an example of styling at [ARAnalytics's .cocoadocs.yml](https://github.com/orta/ARAnalytics/blob/master/.cocoadocs.yml)
- - You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it.
+ - You can change the location of your readme with `readme: path/to/README.md` in your `.cocoadocs.yml`.
+ - You can add your own documentation guides, either from remote markdown files or from files locally inside the library. CocoaDocs will automatically convert github wiki pages to the markdown behind it. These only work on Objective-C codebases.
 
    ```yaml
    additional_guides:

@@ -379,7 +379,7 @@ class CocoaDocs < Object
       settings = CocoaDocsSettings.settings_at_location download_location
       jazzy_config = CocoaDocsSettings.jazzy_config_at_location download_location
 
-      readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :changelog_location => changelog_location })
+      readme = ReadmeGenerator.new ({ :spec => spec, :readme_location => readme_location, :changelog_location => changelog_location, :settings => settings })
       readme.create_readme
       readme.create_changelog
 

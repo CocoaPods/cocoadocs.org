@@ -1,0 +1,11 @@
+{
+  "search.exclude": {
+     "**/activity/docsets": true,
+     "**/activity/carthage": true,   
+     "**/activity/cocoadocs_specs": true,
+      "**/activity/download": true,
+      "**/activity/logs": true,
+      "**/activity/readme": true,  
+      "**/activity/template": true
+  }
+}
