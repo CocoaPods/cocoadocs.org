@@ -2,7 +2,7 @@ class ReadmeGenerator
   POSSIBLE_CHANGELOG_NAMES = ['CHANGELOG', 'RELEASE_NOTES']
 
   include HashInit
-  attr_accessor :spec, :readme_location, :changelog_location, :active_folder
+  attr_accessor :spec, :readme_location, :changelog_location, :active_folder, :settings
 
   def create_changelog
     return if $skip_downloading_readme
@@ -17,7 +17,7 @@ class ReadmeGenerator
   def create_readme
     return if $skip_downloading_readme
 
-    spec_readme_path = file_local_path("README", @spec)
+    spec_readme_path = find_spec_readme_path(@settings, "README", @spec)
     spec_readme_path = generated_readme_path unless spec_readme_path
 
     markdown = github_render spec_readme_path, @readme_location
@@ -35,6 +35,13 @@ class ReadmeGenerator
     Octokit.client_id = '52019dadd0bc010084c4'
     Octokit.client_secret = 'c529632d7aa3ceffe3d93b589d8d2599ca7733e8'
     Octokit.markdown(File.read(spec_readme_path), mode: "markdown", context: context)
+  end
+
+  def find_spec_readme_path(settings, name, spec)
+    return file_local_path("README", @spec) unless settings.key? "readme"
+
+    readme_loc = settings["readme"]
+    return $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/#{readme_loc}"
   end
 
   def file_local_path(name, spec)
