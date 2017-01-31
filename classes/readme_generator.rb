@@ -38,10 +38,15 @@ class ReadmeGenerator
   end
 
   def find_spec_readme_path(settings, name, spec)
-    return file_local_path("README", @spec) unless settings.key? "readme"
+    path = nil
+    if settings.key? "readme"
+      path = settings["readme"]
+    elsif spec.attributes_hash["readme"]
+      path = spec.attributes_hash["readme"]
+    end
 
-    readme_loc = settings["readme"]
-    return $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/#{readme_loc}"
+    return $active_folder + "/download/#{spec.name}/#{spec.version}/#{spec.name}/#{path}" if path
+    return file_local_path("README", @spec)
   end
 
   def file_local_path(name, spec)
