@@ -51,7 +51,6 @@ If you have a Swift library and it's only showing Objective-C classes (or no cla
 
 ##### Previewing my library in CocoaDocs
 
-
 First, clone this repo: `git clone https://github.com/CocoaPods/cocoadocs.org` then run `bundle install` and then run `bundle exec rake install_tools` to get all pre-requisite apps set up.
 
 To preview your library run:
