@@ -185,7 +185,7 @@ class ReadmeManipulator
           break
         end
 
-        install.remove if first_sibling.name == "h2"
+        install.remove if first_sibling && first_sibling.name == "h2"
       end
     end
 
