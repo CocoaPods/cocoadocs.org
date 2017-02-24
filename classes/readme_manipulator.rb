@@ -179,7 +179,7 @@ class ReadmeManipulator
         # Get first non-empty value
         (install_index + 1..main.children.length).each do |index|
           child = main.children[index]
-          next if child.text.strip.empty?
+          next if !child || !child.text || child.text.strip.empty?
 
           first_sibling = child
           break
