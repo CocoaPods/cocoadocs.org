@@ -476,7 +476,8 @@ class CocoaDocs < Object
           :download_location => download_location,
           :doc_percent => percent_doc,
           :testing_estimate => testing_estimate,
-          :docset_location => docset_location)
+          :docset_location => docset_location,
+          :test_carthage => true)
         stats.upload if $upload_stats
 
         SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
