@@ -29,7 +29,7 @@ class StatsGenerator
       :dominant_language => @cloc_top[:language],
       :is_vendored_framework => is_vendored_framework(spec),
       :rendered_summary => spec.or_summary_html,
-      :builds_independently =>  @test_carthage && supports_carthage,
+      :builds_independently => @test_carthage && supports_carthage,
       :spm_support => File.exist?(download_location + "/Package.swift")
     }
 
