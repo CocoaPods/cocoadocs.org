@@ -16,6 +16,7 @@ Dir[File.join(current_dir, 'classes/*.rb')].each do |file|
   require_relative(file)
 end
 
+# These all still need to be set, as the rest of the system basically relies on them :D
 $specs_repo = 'CocoaPods/Specs'
 $s3_bucket = 'cocoadocs.org'
 $website_home = 'http://cocoadocs.org/'

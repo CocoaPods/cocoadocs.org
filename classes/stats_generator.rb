@@ -4,7 +4,7 @@ require 'rest'
 
 class StatsGenerator
   include HashInit
-  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :changelog_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top, :test_carthage
+  attr_accessor :spec, :cloc_results, :readme_location, :changelog_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top, :test_carthage
 
   def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
