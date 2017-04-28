@@ -88,7 +88,6 @@ def run
     # Upload stats
     stats = StatsGenerator.new(
       spec: spec,
-      api_json_path: api_json_location,
       cloc_results: cloc_results,
       readme_location: readme_location,
       changelog_location: changelog_location,

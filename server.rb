@@ -13,12 +13,12 @@ trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
 auth_token = ENV['COCOADOCS_TOKEN']
-abort "You need to give a Trunk webhook URL" unless auth_token
+abort "You need to give a CocoaDocs auth token" unless auth_token
 
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
- specs_repo = Pod::Source::Metadata.new({prefix_lengths: [1,1,1]})
+specs_repo = Pod::Source::Metadata.new({prefix_lengths: [1,1,1]})
 
 post "/hooks/trunk/" + trunk_notification_path do
   data = JSON.parse(request.body.read)
