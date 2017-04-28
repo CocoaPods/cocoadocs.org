@@ -12,9 +12,6 @@ trunk_notification_path = ENV['TRUNK_NOTIFICATION_PATH']
 trunk_notification_path ||= ARGV[0]
 abort "You need to give a Trunk webhook URL" unless trunk_notification_path
 
-auth_token = ENV['COCOADOCS_TOKEN']
-abort "You need to give a CocoaDocs auth token" unless auth_token
-
 set :pod_count, 0
 set :bind, '0.0.0.0'
 
@@ -96,6 +93,14 @@ end
 def process_url url
   set :pod_count, settings.pod_count + 1
   this_folder = File.expand_path(File.dirname(__FILE__))
+
+  # Spawn off a CocoaDocs specific process (e.g. handle documentation)
   pid = Process.spawn(File.join(this_folder, "./cocoadocs.rb"), "cocoadocs", "url", escape_url(url), { :chdir => this_folder })
   Process.detach pid
+
+  if ENV['COCOADOCS_TOKEN']
+    # Spawn off a CocoaPods specific process (e.g. handle generating pod stats)
+    pid = Process.spawn(File.join(this_folder, "./cocoapods-simple.rb"), escape_url(url), { :chdir => this_folder })
+    Process.detach pid
+  end
 end
