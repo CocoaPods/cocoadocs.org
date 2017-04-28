@@ -39,6 +39,7 @@ def run
   # Verify we're working with a CP Spec
   unless url.start_with? 'https://raw.githubusercontent.com/CocoaPods/Specs'
     puts 'Not running non-CocoaPods Spec URL'
+    puts 'Needs to be: https://raw.githubusercontent.com/CocoaPods/Specs/XXX'
     return
   end
 
