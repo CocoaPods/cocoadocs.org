@@ -458,8 +458,10 @@ class CocoaDocs < Object
       if version_metadata.latest_version?
         # These are things that are specific to the pod
         # not the version, so it only works if it's latest
+        tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
+        testing_estimate = tester.testimate
 
-        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
+        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :doc_percent => fixer.get_doc_percent, :testing_estimate => testing_estimate, :language => cloc.get_top_cloc(cloc_results)[:language]).generate
       end
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)

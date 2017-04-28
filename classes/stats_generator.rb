@@ -10,7 +10,6 @@ class StatsGenerator
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = get_summary_cloc
-    @cloc_top = get_top_cloc
 
     has_changelog = File.exist? changelog_location
     data = {
@@ -76,16 +75,7 @@ class StatsGenerator
     cloc_sum
   end
 
-  def get_top_cloc
-    cloc_top = @cloc_results.reject do |cloc|
-      cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
-    end.sort_by { |cloc| cloc[:lines_of_code] }.last
-
-    if cloc_top == nil
-      cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
-    end
-    cloc_top
-  end
+  
 
   def handle_request response
     if response.ok?

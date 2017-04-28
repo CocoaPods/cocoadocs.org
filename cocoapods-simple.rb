@@ -89,6 +89,7 @@ def run
     stats = StatsGenerator.new(
       spec: spec,
       cloc_results: cloc_results,
+      cloc_top: cloc.get_top_cloc(cloc_results),
       readme_location: readme_location,
       changelog_location: changelog_location,
       download_location: download_location,
@@ -98,9 +99,6 @@ def run
       docset_location: docset_location
     )
     stats.upload
-
-    # Update the image for Slack
-    SocialImageGenerator.new(spec: spec, output_folder: docset_location, stats_generator: stats).generate
   end
 
   # Upload the files to S3

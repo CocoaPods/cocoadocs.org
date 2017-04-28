@@ -1,6 +1,6 @@
 class SocialImageGenerator
   include HashInit
-  attr_accessor :spec, :output_folder, :stats_generator
+  attr_accessor :spec, :output_folder, :doc_percent, :testing_estimate, :language
   
   def generate    
     image_command = [
@@ -10,7 +10,7 @@ class SocialImageGenerator
       quote_wrap(testing_quote),
       quote_wrap(doc_quote),
       quote_wrap(spec.or_license_name_and_url[:license]),
-      quote_wrap(@stats_generator.get_top_cloc[:language]),
+      quote_wrap(@language),
       @output_folder + "preview.png"
     ]
     
@@ -18,7 +18,7 @@ class SocialImageGenerator
   end
   
   def testing_quote 
-    case @stats_generator.testing_estimate
+    case @testing_estimate
     when -1..1 then "No Tests"
     when 2..10 then "Some Tests"
     when 11..30 then "Has Tests"
@@ -29,7 +29,7 @@ class SocialImageGenerator
   end
   
   def doc_quote 
-    case @stats_generator.doc_percent
+    case @doc_percent
     when -1..5 then "No Docs"
     when 6..20 then "Partial Docs"
     when 21..50 then "Documented"
@@ -41,5 +41,7 @@ class SocialImageGenerator
   def quote_wrap thing
     '"' + thing.gsub('"', "££").gsub("'", "@@") + '"'
   end
+
+
 
 end
