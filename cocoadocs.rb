@@ -491,7 +491,7 @@ class CocoaDocs < Object
 
     HistoryLogger.new(:spec => spec, :download_location => docset_location, :source_download_location => download_location).append_state state
 
-    puts "* - " + $website_home + "docsets/" + spec.name + "/" + spec.version.to_s  + "/"
+    puts "* [docs] - " + $website_home + "docsets/" + spec.name + "/" + spec.version.to_s  + "/"
   end
 
   def document_spec_at_path(spec_path)

@@ -110,7 +110,7 @@ def run
   generator.upload_folder "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html", "/#{server_folder}/#{spec.name}/", "put"
 
   # Give a clickable link
-  puts '* - ' + website_home + 'docsets/' + spec.name + '/' + spec.version.to_s + '/'
+  puts '* [pods] - ' + website_home + 'docsets/' + spec.name + '/' + spec.version.to_s + '/'
 
 rescue StandardError => e
   log_error(spec, e) unless spec.nil?
