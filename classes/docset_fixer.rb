@@ -57,7 +57,7 @@ class DocsetFixer
     Dir.glob(@docset_path + "**/*.html").each do |name|
       text = File.read(name)
 
-      replace = text.gsub("$$$DOC_PERCENT$$$", percent)
+      replace = text.gsub("$$$DOC_PERCENT$$$", "")
       replace = replace.gsub("$$$PROGRAMMING_GUIDES$$$", programming_guides)
 
       File.open(name, "w") { |file| file.puts replace }
