@@ -396,19 +396,26 @@ class CocoaDocs < Object
       header = cloc_results.find { |r| r[:language] == 'C/C++ Header' }
 
       if swift
-        vputs "Using jazzy to document Swift pod"
+        puts "Using jazzy to document Swift pod"
+
         download_spec_path = download_location + "/#{spec.name}.podspec.json"
         File.open(download_spec_path, 'w') { |f| f.write spec.to_json }
+        podspec = Pod::Specification.from_file(download_spec_path)
+
+        if podspec.dependencies && podspec.dependencies.length
+          puts "Updating the global CocoaPods specs repos, as this spec has dependencies."
+          `bundle exec pod repo update`
+        end
 
         config = Jazzy::Config.new.tap do |c|
           c.config_file = Pathname(jazzy_config) if jazzy_config
           begin
             c.parse_config_file
           rescue => e
-            vputs "Setting up jazzy config failed: #{e.message.red} - continuing"
+            puts "Setting up jazzy config failed: #{e.message.red} - continuing"
           end
 
-          c.podspec = Pod::Specification.from_file(download_spec_path)
+          c.podspec = podspec
           c.podspec_configured = true
 
           # Either use the version submitted to trunk, or try with 3.0 
