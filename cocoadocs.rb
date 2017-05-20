@@ -424,6 +424,7 @@ class CocoaDocs < Object
           c.module_name = spec.module_name
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
+          c.download_badge = false
         end
 
         begin
