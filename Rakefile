@@ -39,6 +39,7 @@ begin
   task :deploy do
     run_ssh_commands [
       'killall "foreman: master"',
+      'git stash',
       'git pull',
       'bundle install',
       'screen -d -m -S "cocoadocs" bundle exec foreman start'
