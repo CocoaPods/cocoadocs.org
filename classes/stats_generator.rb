@@ -116,7 +116,8 @@ class StatsGenerator
   end
 
   def readme_metadata
-    score = ReadmeScore::Document.new(File.read(@readme_location)).score
+    contents = File.open(@readme_location, "r:UTF-8", &:read)
+    score = ReadmeScore::Document.new(contents).score
     {
       has_gifs: score.metrics.has_gifs?,
       has_images: score.metrics.has_images?,
@@ -135,7 +136,7 @@ class StatsGenerator
     # Running carthage can lock CocoaDocs, so let's do
     # it as little as possible.
     if File.exists? original_readme
-      readme = File.read original_readme
+      readme = File.open(original_readme, "r:UTF-8", &:read)
       # Use a subset of the badge URL
       return true if readme.downcase.include? "carthage-compatible"
     end
