@@ -52,7 +52,6 @@ class DocsetFixer
   end
 
   def post_process
-    percent = get_doc_percent
     programming_guides = get_programming_guides
 
     Dir.glob(@docset_path + "**/*.html").each do |name|
@@ -76,20 +75,6 @@ class DocsetFixer
       list << "<li><a href='#{ guide }'>#{ guide.gsub(".html", "") }</a></li>"
     end
     list
-  end
-
-  def get_doc_percent
-    return @doc_percent if @doc_percent
-    vputs "Generating documentation stats for moving into docset"
-
-    docset = "com.cocoadocs.#{@spec.name.downcase}.#{@spec.name}.docset"
-    stats = DocStat.process(@docset_path + docset)
-    percent = (stats["ratio"] * 100).round(0).to_s
-
-    # How nice am I?!
-    percent = "100" if stats["ratio"] > 0.95
-    @doc_percent = percent
-    percent
   end
 
   def remove_html_folder

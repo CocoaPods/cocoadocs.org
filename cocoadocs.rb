@@ -427,16 +427,14 @@ class CocoaDocs < Object
         end
 
         begin
-          source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
-
-          percent_doc = source_module.doc_coverage
+          Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
           fixer.readme_path = docset_location + '/index.html'
           fixer.fix_for_jazzy
           documented = true
         rescue => e
-          vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
+          puts "Jazzy failed: #{e.message.red}"
+          vputs "\n#{e.backtrace.inspect.red}"
           log_error(spec, e) if spec != nil
-          percent_doc = -1
         end
       end
 
@@ -461,7 +459,7 @@ class CocoaDocs < Object
         tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
         testing_estimate = tester.testimate
 
-        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :doc_percent => fixer.get_doc_percent, :testing_estimate => testing_estimate, :language => cloc.get_top_cloc(cloc_results)[:language]).generate
+        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :doc_percent => 80, :testing_estimate => testing_estimate, :language => cloc.get_top_cloc(cloc_results)[:language]).generate
       end
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)
