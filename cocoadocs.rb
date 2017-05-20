@@ -368,7 +368,6 @@ class CocoaDocs < Object
       changelog_location = $active_folder + "/changelog/#{spec.name}/#{spec.version}/index.html"
       pod_root_location  = $active_folder + "/docsets/#{spec.name}/"
       templates_location = $active_folder + "/template/#{spec.name}/"
-      api_json_location  = $active_folder + "/docsets/#{spec.name}/#{spec.version}/stats.json"
 
       unless $skip_source_download
         downloader = SourceDownloader.new ({ :spec => spec, :download_location => download_location, :overwrite => $overwrite_existing_source_files })
@@ -428,16 +427,14 @@ class CocoaDocs < Object
         end
 
         begin
-          source_module = Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
-
-          percent_doc = source_module.doc_coverage
+          Jazzy::DocBuilder.build(Jazzy::Config.instance = config)
           fixer.readme_path = docset_location + '/index.html'
           fixer.fix_for_jazzy
           documented = true
         rescue => e
-          vputs "Jazzy failed: #{e.message.red}\n#{e.backtrace.inspect.red}"
+          puts "Jazzy failed: #{e.message.red}"
+          vputs "\n#{e.backtrace.inspect.red}"
           log_error(spec, e) if spec != nil
-          percent_doc = -1
         end
       end
 
@@ -455,31 +452,14 @@ class CocoaDocs < Object
 
       fixer.add_index_redirect_to_latest_to_pod(version_metadata.latest_version)
       fixer.add_docset_redirects(version_metadata.latest_version) if $upload_redirects_for_docsets
-      percent_doc ||= fixer.get_doc_percent
-
-      cloc = ClocStatsGenerator.new(:spec => spec, :source_download_location => download_location)
-      cloc_results = cloc.generate
-
-      tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
-      testing_estimate = tester.testimate
 
       if version_metadata.latest_version?
         # These are things that are specific to the pod
         # not the version, so it only works if it's latest
+        tester = TestingIdealist.new(:spec => spec, :download_location => download_location)
+        testing_estimate = tester.testimate
 
-        stats = StatsGenerator.new(
-          :spec => spec,
-          :api_json_path => api_json_location,
-          :cloc_results => cloc_results,
-          :readme_location => readme_location,
-          :changelog_location => changelog_location,
-          :download_location => download_location,
-          :doc_percent => percent_doc,
-          :testing_estimate => testing_estimate,
-          :docset_location => docset_location)
-        stats.upload if $upload_stats
-
-        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :stats_generator => stats).generate
+        SocialImageGenerator.new(:spec => spec, :output_folder => docset_location, :doc_percent => 80, :testing_estimate => testing_estimate, :language => cloc.get_top_cloc(cloc_results)[:language]).generate
       end
 
       $generator = WebsiteGenerator.new(:generate_json => $generate_docset_json, :spec => spec)

@@ -4,13 +4,12 @@ require 'rest'
 
 class StatsGenerator
   include HashInit
-  attr_accessor :spec, :api_json_path, :cloc_results, :readme_location, :changelog_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top
+  attr_accessor :spec, :cloc_results, :readme_location, :changelog_location, :doc_percent, :download_location, :docset_location, :testing_estimate, :cloc_top, :test_carthage
 
   def upload
     vputs "Generating the CocoaDocs stats for CP Metrics"
 
     cloc_sum = get_summary_cloc
-    @cloc_top = get_top_cloc
 
     has_changelog = File.exist? changelog_location
     data = {
@@ -29,7 +28,7 @@ class StatsGenerator
       :dominant_language => @cloc_top[:language],
       :is_vendored_framework => is_vendored_framework(spec),
       :rendered_summary => spec.or_summary_html,
-      :builds_independently => supports_carthage,
+      :builds_independently => @test_carthage && supports_carthage,
       :spm_support => File.exist?(download_location + "/Package.swift")
     }
 
@@ -76,16 +75,7 @@ class StatsGenerator
     cloc_sum
   end
 
-  def get_top_cloc
-    cloc_top = @cloc_results.reject do |cloc|
-      cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
-    end.sort_by { |cloc| cloc[:lines_of_code] }.last
-
-    if cloc_top == nil
-      cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
-    end
-    cloc_top
-  end
+  
 
   def handle_request response
     if response.ok?

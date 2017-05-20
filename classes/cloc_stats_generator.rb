@@ -49,6 +49,17 @@ class ClocStatsGenerator
     end
   end
 
+  def get_top_cloc(results)
+    cloc_top = results.reject do |cloc|
+      cloc[:language] == "C/C++ Header" ||  cloc[:language] == "SUM"
+    end.sort_by { |cloc| cloc[:lines_of_code] }.last
+
+    if cloc_top == nil
+      cloc_top = { :language => "Objective C", :files => 1, :comments => 1, :lines_of_code => 1 }
+    end
+    cloc_top
+  end
+
   class Results
     attr_accessor :language, :nFiles, :comment, :code
     def initialize(language, hash = {})
