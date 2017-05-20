@@ -34,7 +34,7 @@ class ReadmeGenerator
     # this is just an empty github app that does nothing
     Octokit.client_id = '52019dadd0bc010084c4'
     Octokit.client_secret = 'c529632d7aa3ceffe3d93b589d8d2599ca7733e8'
-    Octokit.markdown(File.read(spec_readme_path), mode: "markdown", context: context)
+    Octokit.markdown(File.read(spec_readme_path, "UTF-8"), mode: "markdown", context: context)
   end
 
   def find_spec_readme_path(settings, name, spec)
