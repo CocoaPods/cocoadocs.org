@@ -46,7 +46,7 @@ get "/error/:pod" do
    error_message_for_path "random_path"
 end
 
-get "/redeploy/:pod/latest" do
+post "/redeploy/:pod/latest" do
   content_type :json
   begin
     trunk_spec = REST.get(escape_url("https://trunk.cocoapods.org/api/v1/pods/" + params[:pod])).body
@@ -62,7 +62,7 @@ get "/redeploy/:pod/latest" do
   end
 end
 
-get "/redeploy/:pod/:version" do
+post "/redeploy/:pod/:version" do
     content_type :json
     address = specs_repo.path_fragment(params[:pod], params[:versions])
     process_url "https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/#{address}/#{ params[:pod] }.podspec.json"
