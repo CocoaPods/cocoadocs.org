@@ -231,11 +231,10 @@ class DocsetFixer
     command "touch #{from}"
 
     redirect_command = [
-      "s3cmd put",
-      "--acl-public",
-      "--no-check-md5",
-      "--verbose --human-readable-sizes --reduced-redundancy",
-      "--add-header='x-amz-website-redirect-location:/#{to}'",
+      "aws s3 cp",
+      "--acl public-read",
+      "--debug",
+      "--website-redirect #{to}",
       "#{from} s3://#{$s3_bucket}/#{from_server}"
     ]
 
@@ -246,10 +245,9 @@ class DocsetFixer
     return unless $upload_site_to_s3
 
     upload_command = [
-      "s3cmd put",
-      "--acl-public",
-      "--no-check-md5",
-      " --human-readable-sizes --reduced-redundancy",
+      "aws s3 cp",
+      "--debug",
+      "--acl public-read",
       "#{file} s3://#{ $s3_bucket }/#{to}"
     ]
 
