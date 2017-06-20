@@ -71,7 +71,7 @@ begin
     exit(1) if args.count != 1
     exit(1) if args.first == "."
     exit(1) if args.first == ".."
-    system "s3cmd del -r s3://cocoadocs.org/docsets/#{args.pod}"
+    system "aws s3 rm --recursive s3://buddybuild-cocoadocs/docsets/#{args.pod}"
   end
 
   desc 'Delete docs for a pod versions'
@@ -79,7 +79,7 @@ begin
     exit(1) if args.count != 2
     exit(1) if args.first == "."
     exit(1) if args.first == ".."
-    system "s3cmd del -r s3://cocoadocs.org/docsets/#{args.pod}/#{args.version}"
+    system "aws s3 rm --recursive s3://buddybuild-cocoadocs/docsets/#{args.pod}/#{args.version}"
   end
 
   desc 'Sets up installation of apps for cocoadocs'
@@ -92,9 +92,12 @@ begin
     end
 
     check_and_install "cloc"
-    check_and_install "s3cmd"
     check_and_install "appledoc"
     check_and_install "carthage"
+
+    # Install pip and AWS
+    `which pip || (curl https://bootstrap.pypa.io/get-pip.py | python)`
+    `sudo pip install awscli`
   end
 
   def check_and_install app
