@@ -94,10 +94,7 @@ begin
     check_and_install "cloc"
     check_and_install "appledoc"
     check_and_install "carthage"
-
-    # Install pip and AWS
-    `which pip || (curl https://bootstrap.pypa.io/get-pip.py | python)`
-    `sudo pip install awscli`
+    check_and_install "awscli"
   end
 
   def check_and_install app
