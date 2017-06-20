@@ -52,8 +52,6 @@ class WebsiteGenerator
     upload_command = [
       "aws s3 #{command}",
       "--recursive --acl public-read",
-    #   "--no-check-md5",
-    #   verbose + " --human-readable-sizes --reduced-redundancy",
       "#{ $active_folder }/#{from} s3://#{ $s3_bucket }#{to}"
     ]
 
