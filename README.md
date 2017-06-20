@@ -4,6 +4,20 @@
 
 CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.
 
+### Installation instructions
+
+1. git clone git@github.com:CocoaPods/cocoadocs.org.git
+2. cd cocoadocs.org
+3. bundle install
+4. bundle exec rake install_tools
+
+The `install_tools` tasks will install the additional tools required for cocoadocs to work:
+
+    * [cloc](https://github.com/AlDanial/cloc)
+    * [appledoc](https://github.com/tomaz/appledoc)
+    * [carthage](https://github.com/Carthage/Carthage)
+    * [AWS' official CLI tool](https://aws.amazon.com/cli/)
+
 ### How it works for the 99% use cases:
 
 CocoaDocs receives webhook notifications from the [CocoaPods/Specs](https://github.com/CocoaPods/Specs) repo on GitHub whenever a CocoaPod is updated.

@@ -20,13 +20,13 @@ class WebsiteGenerator
     vputs "Uploading docsets folder"
     server_folder = $beta ? "beta" : "docsets"
 
-    upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/#{server_folder}/#{@spec.name}/#{@spec.version}/", "put"
-    upload_folder "docsets/#{@spec.name}/metadata.json", "/#{server_folder}/#{@spec.name}/", "put"
+    upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/#{server_folder}/#{@spec.name}/#{@spec.version}/", "cp"
+    upload_folder "docsets/#{@spec.name}/metadata.json", "/#{server_folder}/#{@spec.name}/", "cp"
   end
 
   def upload_site
     vputs "Uploading site folder"
-    upload_folder "html/*", "/", "put"
+    upload_folder "html/*", "/", "cp"
   end
 
   def save_file(file, path)
@@ -50,10 +50,8 @@ class WebsiteGenerator
     verbose = $verbose ? "--verbose" : ""
 
     upload_command = [
-      "s3cmd #{command}",
-      "--recursive  --acl-public",
-      "--no-check-md5",
-      verbose + " --human-readable-sizes --reduced-redundancy",
+      "aws s3 #{command}",
+      "--recursive --acl public-read",
       "#{ $active_folder }/#{from} s3://#{ $s3_bucket }#{to}"
     ]
 

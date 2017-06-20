@@ -109,8 +109,8 @@ def run
   rendered_readme_path = "/readme/#{spec.name}/#{spec.version}/README.html"
   rendered_changelog_path = "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
 
-  generator.upload_folder rendered_readme_path, "/#{server_folder}/#{spec.name}/", "put" if File.exist? rendered_readme_path
-  generator.upload_folder rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "put" if File.exist? rendered_changelog_path
+  generator.upload_folder rendered_readme_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_readme_path
+  generator.upload_folder rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_changelog_path
 
   # Give a clickable link
   puts '* [pods] - ' + website_home + 'docsets/' + spec.name + '/' + spec.version.to_s + '/'

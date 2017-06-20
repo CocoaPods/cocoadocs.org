@@ -244,7 +244,7 @@ DEPENDENCIES
   travis
 
 RUBY VERSION
-   ruby 2.1.3p242
+   ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
