@@ -13,7 +13,7 @@ $(window).ready(function() {
 
     searchInput.keyup(function() {
         var input = $(this).val()
-        var url = 'http://search.cocoapods.org/api/v1/pods.flat.hash.json?query=' + input
+        var url = 'http://aws-search.cocoapods.org/api/v1/pods.flat.hash.json?query=' + input
 
         if (!input.length){
             $('#search form').removeClass("active");
