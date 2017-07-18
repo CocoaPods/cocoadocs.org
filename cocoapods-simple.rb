@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-# Usage: cocoadocs-simple [podspec_url]
+# Usage: cocoapods-simple [podspec_url]
+#    or: cocoapods-simple [pod name]
+
 # Will generate a README, CHANGELOG, and metrics for CocoaDocs
 
 require 'cocoapods-downloader'
@@ -36,6 +38,10 @@ def run
   url = ARGV[0]
   spec = nil
 
+  unless url.start_with? "http"
+    url = path_for_spec_with_name(url)
+  end
+  
   # Verify we're working with a CP Spec
   unless url.start_with? 'https://raw.githubusercontent.com/CocoaPods/Specs'
     puts 'Not running non-CocoaPods Spec URL'
@@ -144,5 +150,38 @@ def log_error(spec, e)
     f.puts report.to_json.to_s
   end
 end
+
+
+  def path_for_spec_with_name(name)
+    update_specs_repo
+    
+    specs = File.join($active_folder, $cocoadocs_specs_name)
+    source = Pod::Source.new(specs)
+    set = source.search(Pod::Dependency.new(name))
+
+    if set
+      absolute_path = set.highest_version_spec_path.to_s
+      path = absolute_path.split(specs).last
+      "https://raw.githubusercontent.com/CocoaPods/Specs" + path
+    end
+  end
+
+  def update_specs_repo
+    repo = File.join($active_folder, $cocoadocs_specs_name)
+    unless File.exists? repo
+      vputs "Creating Specs Repo for #{$specs_repo}"
+      unless repo.include? "://"
+        command "git clone git://github.com/#{$specs_repo}.git \"#{repo}\""
+      else
+        command "git clone \"#{$specs_repo}\" \"#{repo}\""
+      end
+    else
+      if $fetch_specs
+        vputs "Updating Specs Repo"
+        run_git_command_in_specs "pull origin master"
+        `pod repo update`
+      end
+    end
+  end
 
 run
