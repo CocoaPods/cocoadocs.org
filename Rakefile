@@ -58,7 +58,7 @@ begin
 
   desc 'Re-runs CP stuff for a CocoaPod via SSH'
   task :pod, :name do |t, args|
-    run_ssh_commands ["bundle exec foreman run ruby cocoapods-simple #{args.name} --verbose"]
+    run_ssh_commands ["bundle exec foreman run ruby cocoapods-simple.rb #{args.name} --verbose"]
   end
 
   desc 'Run a command on the server via SSH'

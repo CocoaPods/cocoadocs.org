@@ -23,7 +23,7 @@ $specs_repo = 'CocoaPods/Specs'
 $s3_bucket = 'cocoadocs.org'
 $website_home = 'http://cocoadocs.org/'
 $cocoadocs_specs_name = 'cocoadocs_specs'
-$active_folder = 'activity_pods'
+$active_folder = 'activity'
 
 def run
   specs_repo = 'CocoaPods/Specs'
@@ -115,11 +115,11 @@ def run
   rendered_readme_path = "/readme/#{spec.name}/#{spec.version}/README.html"
   rendered_changelog_path = "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
 
-  generator.upload_folder rendered_readme_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_readme_path
-  generator.upload_folder rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_changelog_path
+  generator.upload_file rendered_readme_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_readme_path
+  generator.upload_file rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_changelog_path
 
   # Give a clickable link
-  puts '* [pods] - ' + website_home + 'docsets/' + spec.name + '/' + spec.version.to_s + '/'
+  puts '* [pods] - ' + "http://cocoapods.org/pods/" + spec.name
 
 rescue StandardError => e
   log_error(spec, e) unless spec.nil?
@@ -151,37 +151,42 @@ def log_error(spec, e)
   end
 end
 
+def path_for_spec_with_name(name)
+  update_specs_repo
+  
+  specs = File.join($active_folder, $cocoadocs_specs_name)
+  source = Pod::Source.new(specs)
+  set = source.search(Pod::Dependency.new(name))
 
-  def path_for_spec_with_name(name)
-    update_specs_repo
-    
-    specs = File.join($active_folder, $cocoadocs_specs_name)
-    source = Pod::Source.new(specs)
-    set = source.search(Pod::Dependency.new(name))
-
-    if set
-      absolute_path = set.highest_version_spec_path.to_s
-      path = absolute_path.split(specs).last
-      "https://raw.githubusercontent.com/CocoaPods/Specs" + path
-    end
+  if set
+    absolute_path = set.highest_version_spec_path.to_s
+    path = absolute_path.split(specs).last
+    "https://raw.githubusercontent.com/CocoaPods/Specs" + path
   end
+end
 
-  def update_specs_repo
-    repo = File.join($active_folder, $cocoadocs_specs_name)
-    unless File.exists? repo
-      vputs "Creating Specs Repo for #{$specs_repo}"
-      unless repo.include? "://"
-        command "git clone git://github.com/#{$specs_repo}.git \"#{repo}\""
-      else
-        command "git clone \"#{$specs_repo}\" \"#{repo}\""
-      end
+def update_specs_repo
+  repo = File.join($active_folder, $cocoadocs_specs_name)
+  unless File.exists? repo
+    vputs "Creating Specs Repo for #{$specs_repo}"
+    unless repo.include? "://"
+      command "git clone git://github.com/#{$specs_repo}.git \"#{repo}\""
     else
-      if $fetch_specs
-        vputs "Updating Specs Repo"
-        run_git_command_in_specs "pull origin master"
-        `pod repo update`
-      end
+      command "git clone \"#{$specs_repo}\" \"#{repo}\""
     end
+  else
+    vputs "Updating Specs Repo"
+    run_git_command_in_specs "pull origin master"
+    `pod repo update`
   end
+end
+
+# We have to run commands from a different git root if we want to do anything in the Specs repo
+def run_git_command_in_specs git_command
+  Dir.chdir(File.join($active_folder, $cocoadocs_specs_name)) do
+    vputs "git #{git_command}"
+    system "git #{git_command}"
+  end
+end
 
 run

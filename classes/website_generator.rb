@@ -21,7 +21,7 @@ class WebsiteGenerator
     server_folder = $beta ? "beta" : "docsets"
 
     upload_folder "docsets/#{@spec.name}/#{@spec.version}/", "/#{server_folder}/#{@spec.name}/#{@spec.version}/", "cp"
-    upload_folder "docsets/#{@spec.name}/metadata.json", "/#{server_folder}/#{@spec.name}/", "cp"
+    upload_file "docsets/#{@spec.name}/metadata.json", "/#{server_folder}/#{@spec.name}/", "cp"
   end
 
   def upload_site
@@ -42,6 +42,20 @@ class WebsiteGenerator
 
     vputs "Writing slim_filepath"
     save_file html, to_filepath
+  end
+
+  # Upload a file to s3
+  def upload_folder(from, to, command)
+    vputs "Uploading #{from} with #{command} on s3"
+    verbose = $verbose ? "--verbose" : ""
+
+    upload_command = [
+      "aws s3 #{command}",
+      "--acl public-read",
+      "#{ $active_folder }/#{from} s3://#{ $s3_bucket }#{to}"
+    ]
+
+    command upload_command.join(' ')
   end
 
   # Upload the docsets folder to s3
