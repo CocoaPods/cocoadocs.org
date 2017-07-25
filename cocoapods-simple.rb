@@ -23,7 +23,7 @@ $specs_repo = 'CocoaPods/Specs'
 $s3_bucket = 'cocoadocs.org'
 $website_home = 'http://cocoadocs.org/'
 $cocoadocs_specs_name = 'cocoadocs_specs'
-$active_folder = 'activity'
+$active_folder = 'activity_pods'
 
 def run
   specs_repo = 'CocoaPods/Specs'
