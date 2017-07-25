@@ -45,7 +45,7 @@ class WebsiteGenerator
   end
 
   # Upload a file to s3
-  def upload_folder(from, to, command)
+  def upload_file(from, to, command)
     vputs "Uploading #{from} with #{command} on s3"
     verbose = $verbose ? "--verbose" : ""
 
