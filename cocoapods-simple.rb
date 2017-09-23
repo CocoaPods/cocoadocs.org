@@ -10,6 +10,7 @@ require 'cocoapods-core'
 require 'cocoapods'
 
 require 'open-uri'
+require "octokit"
 
 current_dir = File.dirname(File.expand_path(__FILE__))
 

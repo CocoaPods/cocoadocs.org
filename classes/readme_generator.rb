@@ -35,7 +35,7 @@ class ReadmeGenerator
     Octokit.client_id = '52019dadd0bc010084c4'
     Octokit.client_secret = 'c529632d7aa3ceffe3d93b589d8d2599ca7733e8'
     contents = File.open(spec_readme_path, "r:UTF-8", &:read)
-    Octokit.markdown(contents, mode: "markdown", context: context)
+    Octokit.markdown(contents, mode: "gfm", context: context)
   end
 
   def find_spec_readme_path(settings, name, spec)
