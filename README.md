@@ -2,6 +2,12 @@
 
 [![Build Status](http://img.shields.io/travis/CocoaPods/cocoadocs.org/master.svg?style=flat)](https://travis-ci.org/CocoaPods/cocoadocs.org)
 
+## Getting Help
+
+If you're wanting to debug your own library, please consult the [ISSUE_TEMPLATE.md](https://github.com/CocoaPods/cocoadocs.org/blob/master/.github/ISSUE_TEMPLATE.md).
+
+## What is CococaDocs
+
 CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.
 
 ### Installation instructions
@@ -11,7 +17,7 @@ CocoaDocs is essentially 2 tools, one is a script for generating complex appledo
 3. bundle install
 4. bundle exec rake install_tools
 
-The `install_tools` tasks will install the additional tools required for cocoadocs to work:
+The `install_tools` tasks will install the additional tools required for CocoaDocs to work:
 
     * [cloc](https://github.com/AlDanial/cloc)
     * [appledoc](https://github.com/tomaz/appledoc)
