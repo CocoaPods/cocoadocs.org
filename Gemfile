@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 
-gem "cocoapods", "1.1.1"
+gem "cocoapods", "1.3.1"
 gem "cocoapods-downloader"
 
 gem 'jazzy',  :git => "https://github.com/realm/Jazzy.git", :branch => "master"
