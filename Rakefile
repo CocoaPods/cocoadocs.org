@@ -1,3 +1,5 @@
+require 'xcinvoke'
+
 desc 'Bootstraps the app'
 task :bootstrap do
   sh "bundle install"
@@ -117,6 +119,13 @@ begin
   desc 'Runs all the specs'
   task :specs do
     sh "bundle exec bacon #{specs('**')}"
+  end
+
+  desc 'Dump all available versions of swift'
+  task :swift_versions do
+    XCInvoke::Xcode.all.each do |xc|
+      puts "#{xc.developer_dir} - Swift version #{xc.swift_version}"
+    end
   end
 
   RuboCop::RakeTask.new(:rubocop) do |task|
