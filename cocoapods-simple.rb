@@ -27,10 +27,6 @@ $cocoadocs_specs_name = 'cocoadocs_specs'
 $active_folder = 'activity_pods'
 
 def run
-  specs_repo = 'CocoaPods/Specs'
-  s3_bucket = 'cocoadocs.org'
-  website_home = 'http://cocoadocs.org/'
-
   active_folder_name = $active_folder
   current_dir = File.dirname(File.expand_path(__FILE__))
   active_folder = File.join(current_dir, active_folder_name)

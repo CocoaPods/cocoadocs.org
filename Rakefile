@@ -15,7 +15,7 @@ begin
 
   def run_ssh_commands commands
     puts "Connecting to api.cocoadocs.org:"
-    Net::SSH.start('api.cocoadocs.org', 'cocoadocs') do |ssh|
+    Net::SSH.start('199.19.84.242', 'cocoadocs') do |ssh|
       ssh.shell do |sh|
         sh.execute 'cd cocoadocs.org'
         commands.each do |command|
@@ -25,7 +25,6 @@ begin
         sh.execute 'exit'
       end
     end
-
   end
 
   desc 'Starts the server via SSH'
