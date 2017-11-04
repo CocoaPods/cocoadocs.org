@@ -110,10 +110,12 @@ def run
 
   server_folder = "docsets"
   rendered_readme_path = active_folder_name + "/readme/#{spec.name}/#{spec.version}/README.html"
+  server_readme_path = "/#{server_folder}/#{spec.name}/#{spec.version}/README.html"
   rendered_changelog_path = active_folder_name +"/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
+  server_changelog_path = "/#{server_folder}/#{spec.name}/#{spec.version}/README.html"
 
-  generator.upload_file rendered_readme_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_readme_path
-  generator.upload_file rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_changelog_path
+  generator.upload_file rendered_readme_path, server_readme_path, "cp" if File.exist? rendered_readme_path
+  generator.upload_file rendered_changelog_path, server_changelog_path, "cp" if File.exist? rendered_changelog_path
 
   # Give a clickable link
   puts '* [pods] - ' + "http://cocoapods.org/pods/" + spec.name
