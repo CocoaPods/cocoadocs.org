@@ -109,8 +109,8 @@ def run
   generator = WebsiteGenerator.new(generate_json: false, spec: spec)
 
   server_folder = "docsets"
-  rendered_readme_path = "/readme/#{spec.name}/#{spec.version}/README.html"
-  rendered_changelog_path = "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
+  rendered_readme_path = active_folder_name + "/readme/#{spec.name}/#{spec.version}/README.html"
+  rendered_changelog_path = active_folder_name +"/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
 
   generator.upload_file rendered_readme_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_readme_path
   generator.upload_file rendered_changelog_path, "/#{server_folder}/#{spec.name}/", "cp" if File.exist? rendered_changelog_path
