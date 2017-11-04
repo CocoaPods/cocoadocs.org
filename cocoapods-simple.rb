@@ -12,6 +12,8 @@ require 'cocoapods'
 require 'open-uri'
 require "octokit"
 
+require_relative "classes/_utils.rb"
+
 current_dir = File.dirname(File.expand_path(__FILE__))
 
 # Ensure all the class files exist in scope
@@ -25,6 +27,7 @@ $s3_bucket = 'cocoadocs.org'
 $website_home = 'http://cocoadocs.org/'
 $cocoadocs_specs_name = 'cocoadocs_specs'
 $active_folder = 'activity_pods'
+$verbose = true
 
 def run
   active_folder_name = $active_folder
@@ -38,7 +41,7 @@ def run
   unless url.start_with? "http"
     url = path_for_spec_with_name(url)
   end
-  
+
   # Verify we're working with a CP Spec
   unless url.start_with? 'https://raw.githubusercontent.com/CocoaPods/Specs'
     puts 'Not running non-CocoaPods Spec URL'
@@ -114,8 +117,9 @@ def run
   rendered_changelog_path = "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
   server_changelog_path = "/#{server_folder}/#{spec.name}/#{spec.version}/README.html"
 
-  generator.upload_file rendered_readme_path, server_readme_path, "cp" if File.exist? rendered_readme_path
-  generator.upload_file rendered_changelog_path, server_changelog_path, "cp" if File.exist? rendered_changelog_path
+  generator.upload_file rendered_readme_path, server_readme_path, "cp" if File.exist? (active_folder_name + rendered_readme_path)
+  
+  generator.upload_file rendered_changelog_path, server_changelog_path, "cp" if File.exist? (active_folder_name + rendered_changelog_path)
 
   # Give a clickable link
   puts '* [pods] - ' + "http://cocoapods.org/pods/" + spec.name
