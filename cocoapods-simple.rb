@@ -121,6 +121,8 @@ def run
   
   generator.upload_file rendered_changelog_path, server_changelog_path, "cp" if File.exist? (active_folder_name + rendered_changelog_path)
 
+  FileUtils.rm_rf download_location
+
   # Give a clickable link
   puts '* [pods] - ' + "http://cocoapods.org/pods/" + spec.name
 
