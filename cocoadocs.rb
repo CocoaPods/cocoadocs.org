@@ -418,7 +418,7 @@ class CocoaDocs < Object
           c.podspec = podspec
           c.podspec_configured = true
 
-          # Either use the version submitted to trunk, or try with 3.0 
+          # Either use the version submitted to trunk, or try with 3.0
           trunk_swift_version = c.podspec.attributes_hash["pushed_with_swift_version"]
           c.swift_version = (trunk_swift_version && trunk_swift_version.strip) || "3.0"
 
@@ -431,7 +431,6 @@ class CocoaDocs < Object
           c.module_name = spec.module_name
           c.clean = true
           c.dash_url = "#{$website_home}docsets/#{spec.name}/#{spec.name}.xml"
-          c.download_badge = false
         end
 
         begin
