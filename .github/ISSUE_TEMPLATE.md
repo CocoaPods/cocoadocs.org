@@ -2,7 +2,17 @@
 
 Then delete this template
 
-### Are you here to write a "my pod XXX" isn't showing?
+### Are you here to write a "my pod CHANGELOG/README" isn't updating on https://cocoapods.org/pod/[MyPod]?
+
+Try trigger a redeploy of your pod's cocoapods metadata by running:
+
+```sh
+curl http://199.19.84.242:4567/redeploy/[My Pod]/latest
+```
+
+If it doesn't say `{"parsing":true}` - raise an issue, if it does - give it 5-10 minutes to download your pod and generate the docs, then double check. If that doesn't do work, raise an issue.
+
+### Are you here to write a "my pod XXX" isn't showing on CocoaDocs?
 
 Here's some first steps:
 
