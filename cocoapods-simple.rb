@@ -115,7 +115,7 @@ def run
   rendered_readme_path = "/readme/#{spec.name}/#{spec.version}/README.html"
   server_readme_path = "/#{server_folder}/#{spec.name}/#{spec.version}/README.html"
   rendered_changelog_path = "/changelog/#{spec.name}/#{spec.version}/CHANGELOG.html"
-  server_changelog_path = "/#{server_folder}/#{spec.name}/#{spec.version}/README.html"
+  server_changelog_path = "/#{server_folder}/#{spec.name}/#{spec.version}/CHANGELOG.html"
 
   generator.upload_file rendered_readme_path, server_readme_path, "cp" if File.exist? (active_folder_name + rendered_readme_path)
   
