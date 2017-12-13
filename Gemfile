@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+ 'https://rubygems.org'
 # ruby '2.3.1'
 
 gem 'rake'
@@ -20,7 +20,7 @@ gem "sinatra", "1.3.1"
 gem "travis"
 gem "nap"
 gem 'mustache'
-gem 'readme-score', :git => "git@github.com:clayallsopp/readme-score.git", :branch => "master"
+gem 'readme-score', :git => "https://github.com/clayallsopp/readme-score.git", :branch => "master"
 gem 'rb-readline'
 gem 'foreman'
 gem 'httparty'
