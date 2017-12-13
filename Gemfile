@@ -20,7 +20,7 @@ gem "sinatra", "1.3.1"
 gem "travis"
 gem "nap"
 gem 'mustache'
-gem 'readme-score', '~> 0.0.2'
+gem 'readme-score', :git => "git@github.com:clayallsopp/readme-score.git", :branch => "master"
 gem 'rb-readline'
 gem 'foreman'
 gem 'httparty'
