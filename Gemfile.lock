@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:clayallsopp/readme-score.git
+  remote: https://github.com/clayallsopp/readme-score.git
   revision: 42b6a57b6bae10017dd6903aab6fba6ae2f5537e
   ref: 42b6a57b6bae10017dd6903aab6fba6ae2f5537e
   specs:
