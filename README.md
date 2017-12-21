@@ -6,7 +6,7 @@
 
 If you're wanting to debug your own library, please consult the [ISSUE_TEMPLATE.md](https://github.com/CocoaPods/cocoadocs.org/blob/master/.github/ISSUE_TEMPLATE.md).
 
-## What is CococaDocs
+## What is CocoaDocs
 
 CocoaDocs is essentially 2 tools, one is a script for generating complex appledoc templates and the other is a server aspect for reacting to webhook notifications.
 
