@@ -2,6 +2,10 @@
 
 [![Build Status](http://img.shields.io/travis/CocoaPods/cocoadocs.org/master.svg?style=flat)](https://travis-ci.org/CocoaPods/cocoadocs.org)
 
+## State of CocoaDocs
+
+CocoaDocs was deprecated back in [early 2015](http://blog.cocoapods.org/CocoaDocs-Documentation-Sunsetting/) and now has [a replacement](http://blog.cocoapods.org/CocoaPods-Metadata-Service/) for the CocoaPods-specific infrastructure. If you've come to get help about a CocoaDocs page, I'm afraid it doesn't exist anymore.
+
 ## Getting Help
 
 If you're wanting to debug your own library, please consult the [ISSUE_TEMPLATE.md](https://github.com/CocoaPods/cocoadocs.org/blob/master/.github/ISSUE_TEMPLATE.md).
